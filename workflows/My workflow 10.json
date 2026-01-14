@@ -1,0 +1,275 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [
+          {
+            "node": "Replace Me",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Replace Me": {
+      "main": [
+        []
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "If2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Remove a contact from a list": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If2": {
+      "main": [
+        [
+          {
+            "node": "Remove a contact from a list",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-11-03T14:52:35.910Z",
+  "id": "Jl95QkF2BWwhbHpm",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "My workflow 10",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "b4a35ac5-3fa4-4dc8-a2ca-c5b881feb9c7",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "149V2h8NYh25n8lMEwpqAr75jzk7C-wEZDbIUDxpmLAA",
+          "mode": "list",
+          "cachedResultName": "Planilha sem título",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/149V2h8NYh25n8lMEwpqAr75jzk7C-wEZDbIUDxpmLAA/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1514989283,
+          "mode": "list",
+          "cachedResultName": "Cópia de Alunos inadimplentes - Marcos.xlsx - Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/149V2h8NYh25n8lMEwpqAr75jzk7C-wEZDbIUDxpmLAA/edit#gid=1514989283"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        208,
+        0
+      ],
+      "id": "5bf6e949-228e-4321-92f6-89d4af175117",
+      "name": "Get row(s) in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "TVPRos8AAlC7U017",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        416,
+        0
+      ],
+      "id": "b02638ff-48d2-46cd-8775-07b85bddc113",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "name": "Replace Me",
+      "typeVersion": 1,
+      "position": [
+        624,
+        -192
+      ],
+      "id": "6e718b57-3107-4736-bfcb-26c8e49b1666"
+    },
+    {
+      "parameters": {
+        "resource": "contactList",
+        "operation": "remove",
+        "listId": 12,
+        "contactId": "={{ $item(\"0\").$node[\"HTTP Request1\"].json[\"contacts\"][\"0\"][\"id\"] }}"
+      },
+      "type": "n8n-nodes-base.activeCampaign",
+      "typeVersion": 1,
+      "position": [
+        1088,
+        176
+      ],
+      "id": "717be22f-b5fd-4013-9df5-6d6722eba200",
+      "name": "Remove a contact from a list",
+      "credentials": {
+        "activeCampaignApi": {
+          "id": "4EetjSxVIE3QPLxy",
+          "name": "ActiveCampaign - fabianatome"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "https://fabianatome.api-us1.com/api/3/contacts",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "email",
+              "value": "={{ $item(\"0\").$node[\"Loop Over Items\"].json[\"Cliente Email\"] }}"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Api-Token",
+              "value": "633f6e21dac84c73a548cdb3c300de08d58c0c61fd6e675b7a8bc93dc05cd831ac0d53c6"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "d87dcea8-ff31-45c5-b58d-16ff79a8fde4",
+      "name": "HTTP Request1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        672,
+        176
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "2130aa22-e19a-4662-8a2e-b43d36facf6d",
+              "leftValue": "={{ $json[\"contacts\"][\"0\"][\"id\"] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "afba42a3-635c-410f-bcc7-7f0349c64c02",
+      "name": "If2",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        880,
+        16
+      ]
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-11-03T14:52:35.910Z",
+      "createdAt": "2025-11-03T14:52:35.910Z",
+      "role": "workflow:owner",
+      "workflowId": "Jl95QkF2BWwhbHpm",
+      "projectId": "tP5lcLj6t4StcK5B"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-11-03T17:30:18.304Z",
+  "versionId": "88a77b2c-b6dc-4bb2-a81e-5d0ca3900700"
+}
