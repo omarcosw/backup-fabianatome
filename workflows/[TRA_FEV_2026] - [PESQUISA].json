@@ -1,0 +1,2439 @@
+{
+  "active": true,
+  "activeVersion": {
+    "updatedAt": "2026-01-09T19:26:09.412Z",
+    "createdAt": "2026-01-09T19:22:14.559Z",
+    "versionId": "2a7e4278-b4be-4ac8-af96-18ea85b6161f",
+    "workflowId": "CZn9LV71urghmfQU",
+    "nodes": [
+      {
+        "parameters": {
+          "httpMethod": "POST",
+          "path": "tra_jan_2026_pesquisa",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.webhook",
+        "typeVersion": 2,
+        "position": [
+          -16,
+          -16
+        ],
+        "id": "8ee2f5c8-9f41-4030-89e6-565e8f7767ff",
+        "name": "Webhook",
+        "webhookId": "363ba4f0-1357-4888-b2b5-8fd36546e852"
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "bb839055-124b-4671-99e9-d13293daa8c7",
+                "name": "Qual a sua faixa etária?",
+                "value": "={{ $json.body[\"Qual a sua faixa etária?  \"] }}",
+                "type": "string"
+              },
+              {
+                "id": "b5b5da8a-46c5-44bd-acb3-3f246b420a53",
+                "name": "Você já me acompanha há quanto tempo?",
+                "value": "={{ $item(\"0\").$node[\"formata_dados\"].json[\"body\"][\"Você já me acompanha há quanto tempo?  \"] }}",
+                "type": "string"
+              },
+              {
+                "id": "7b8ac769-0ee5-410d-849d-34385009029b",
+                "name": "No momento você é",
+                "value": "={{ $item(\"0\").$node[\"formata_dados\"].json[\"body\"][\"No momento você é ?\"] }}",
+                "type": "string"
+              },
+              {
+                "id": "406c5c3d-be5c-4dfa-a517-5854195431be",
+                "name": "Qual a sua experiência no Direito?",
+                "value": "={{ $item(\"0\").$node[\"formata_dados\"].json[\"body\"][\"Qual a sua experiência no Direito?\"] }}",
+                "type": "string"
+              },
+              {
+                "id": "1d0c0949-f472-4662-816b-e0eaf511f1b0",
+                "name": "Qual a faixa de renda familiar (somando todas as pessoas que vivem com você)?",
+                "value": "={{ $item(\"0\").$node[\"formata_dados\"].json[\"body\"][\"Qual a faixa de renda familiar (somando todas as pessoas que vivem com você)?\"] }}",
+                "type": "string"
+              },
+              {
+                "id": "39ac2ebc-5c00-4c88-80b4-862fb3df3a1b",
+                "name": "Qual sua situação atual em relação ao Tributário?",
+                "value": "={{ $item(\"0\").$node[\"formata_dados\"].json[\"body\"][\"Qual sua situação atual em relação ao Tributário?\"] }}",
+                "type": "string"
+              },
+              {
+                "id": "f329b60d-6c7f-4c54-9c56-c41fb2dacd6f",
+                "name": "O que fez você decidir participar da Semana da Prática Tributária? (Seja o mais específico possível)",
+                "value": "={{ $item(\"0\").$node[\"formata_dados\"].json[\"body\"][\"O que fez você decidir participar da Semana da Prática Tributária? (Seja o mais específico possível) \"] }}",
+                "type": "string"
+              },
+              {
+                "id": "90ea93b8-ef53-4800-a1d3-7e187eaebad1",
+                "name": "Quais são seus maiores medos e dúvidas sobre atuar no Tributário?",
+                "value": "={{ $item(\"0\").$node[\"formata_dados\"].json[\"body\"][\"Quais são seus maiores medos e dúvidas sobre atuar no Tributário?  \"] }}",
+                "type": "string"
+              },
+              {
+                "id": "6c45ba4f-737d-45f5-a1d7-4fa3449a0c7b",
+                "name": "E-mail",
+                "value": "={{ $item(\"0\").$node[\"formata_dados\"].json[\"body\"][\"E-mail\"] }}",
+                "type": "string"
+              },
+              {
+                "id": "6b94c43a-9dc7-4308-bc77-bd711252d268",
+                "name": "WhatsApp",
+                "value": "={{ $item(\"0\").$node[\"formata_dados\"].json[\"body\"][\"WhatsApp\"] }}",
+                "type": "string"
+              },
+              {
+                "id": "97373297-68f5-4393-9454-6dfc30b67aa1",
+                "name": "Evento",
+                "value": "[TRA_FEV_2026] [PESQUISA]",
+                "type": "string"
+              },
+              {
+                "id": "674adb7b-9388-4651-9c7f-b77bfa8082f4",
+                "name": "Qual é o seu maior objetivo profissional e pessoal?",
+                "value": "={{ $item(\"0\").$node[\"formata_dados\"].json[\"body\"][\"Qual é o seu maior objetivo profissional e pessoal?\"] }}",
+                "type": "string"
+              },
+              {
+                "id": "c4a81ec4-9aa3-4bb4-a541-487381941fd5",
+                "name": "Nome",
+                "value": "={{ $item(\"0\").$node[\"formata_dados\"].json[\"body\"][\"Nome\"] }}",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "ba96b85d-51ec-4b66-a199-a9014b4dc0f7",
+        "name": "dados",
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.3,
+        "position": [
+          464,
+          -16
+        ]
+      },
+      {
+        "parameters": {
+          "jsCode": "const body = $json.body || {};\nlet telefone = body[\"WhatsApp\"] || \"\";\n\n// Remove espaços, traços e parênteses\ntelefone = telefone.replace(/\\D/g, \"\");\n\n// Se não começa com \"55\", adiciona\nif (!telefone.startsWith(\"55\")) {\n  telefone = \"55\" + telefone;\n}\nbody[\"WhatsApp\"] = telefone;\n\n// Verifica e ajusta o campo \"No momento você é ?\"\nif ((body[\"No momento você é ?\"] || \"\").trim() === \"Outro\") {\n  const outraResposta = body[\"Outra (escreva aqui)\"] || \"\";\n  body[\"No momento você é ?\"] = outraResposta;\n}\n\n// Retorna o objeto ajustado\nreturn {\n  json: {\n    ...$json,\n    body\n  }\n};"
+        },
+        "id": "63932142-9f64-42ae-95c0-cc7071c12f69",
+        "name": "formata_dados",
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          240,
+          -16
+        ]
+      },
+      {
+        "parameters": {
+          "content": "# PESQUISA DO ELEMENTOR",
+          "height": 720,
+          "width": 1215
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "typeVersion": 1,
+        "position": [
+          -128,
+          -144
+        ],
+        "id": "0e88972e-1a6d-45e1-beea-7f96b5cf597b",
+        "name": "Sticky Note"
+      },
+      {
+        "parameters": {
+          "operation": "getAll",
+          "tableId": "users",
+          "limit": 1,
+          "matchType": "allFilters",
+          "filters": {
+            "conditions": [
+              {
+                "keyName": "telefone",
+                "condition": "eq",
+                "keyValue": "={{ $item(\"0\").$node[\"dados\"].json[\"WhatsApp\"] }}"
+              },
+              {
+                "keyName": "email",
+                "condition": "eq",
+                "keyValue": "={{ $item(\"0\").$node[\"dados\"].json[\"E-mail\"] }}"
+              }
+            ]
+          }
+        },
+        "id": "3e01245a-dc9b-4553-9ac7-5048a637bcf4",
+        "name": "pesquisa_user",
+        "type": "n8n-nodes-base.supabase",
+        "typeVersion": 1,
+        "position": [
+          672,
+          -16
+        ],
+        "alwaysOutputData": true,
+        "credentials": {
+          "supabaseApi": {
+            "id": "06funpVK0RasJnc4",
+            "name": "Supabase - Fabiana Tomé"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "tableId": "pesquisas",
+          "fieldsUi": {
+            "fieldValues": [
+              {
+                "fieldId": "id_user",
+                "fieldValue": "={{ $item(\"0\").$node[\"pesquisa_user\"].json[\"id\"] }}"
+              },
+              {
+                "fieldId": "nome",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"Nome\"] }}"
+              },
+              {
+                "fieldId": "sobrenome",
+                "fieldValue": "={{ $item(\"0\").$node[\"pesquisa_cadastro\"].json[\"sobrenome\"] }}"
+              },
+              {
+                "fieldId": "email",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"E-mail\"] }}"
+              },
+              {
+                "fieldId": "telefone",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"WhatsApp\"] }}"
+              },
+              {
+                "fieldId": "utm_source",
+                "fieldValue": "={{ $item(\"0\").$node[\"pesquisa_cadastro\"].json[\"utm_source\"] }}"
+              },
+              {
+                "fieldId": "utm_campaign",
+                "fieldValue": "={{ $item(\"0\").$node[\"pesquisa_cadastro\"].json[\"utm_campaign\"] }}"
+              },
+              {
+                "fieldId": "utm_term",
+                "fieldValue": "={{ $item(\"0\").$node[\"pesquisa_cadastro\"].json[\"utm_term\"] }}"
+              },
+              {
+                "fieldId": "utm_medium",
+                "fieldValue": "={{ $item(\"0\").$node[\"pesquisa_cadastro\"].json[\"utm_medium\"] }}"
+              },
+              {
+                "fieldId": "utm_content",
+                "fieldValue": "={{ $item(\"0\").$node[\"pesquisa_cadastro\"].json[\"utm_content\"] }}"
+              },
+              {
+                "fieldId": "evento",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"Evento\"] }}"
+              },
+              {
+                "fieldId": "pergunta1",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"Qual a sua faixa etária?\"] }}"
+              },
+              {
+                "fieldId": "pergunta2",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"Você já me acompanha há quanto tempo?\"] }}"
+              },
+              {
+                "fieldId": "pergunta3",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"No momento você é\"] }}"
+              },
+              {
+                "fieldId": "pergunta4",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"Qual a sua experiência no Direito?\"] }}"
+              },
+              {
+                "fieldId": "pergunta5",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"Qual a faixa de renda familiar (somando todas as pessoas que vivem com você)?\"] }}"
+              },
+              {
+                "fieldId": "pergunta6",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"Qual sua situação atual em relação ao Tributário?\"] }}"
+              },
+              {
+                "fieldId": "pergunta7",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"O que fez você decidir participar da Semana da Prática Tributária? (Seja o mais específico possível)\"] }}"
+              },
+              {
+                "fieldId": "pergunta8",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"Quais são seus maiores medos e dúvidas sobre atuar no Tributário?\"] }}"
+              },
+              {
+                "fieldId": "page",
+                "fieldValue": "={{ $item(\"0\").$node[\"pesquisa_cadastro\"].json[\"pagina\"] }}"
+              },
+              {
+                "fieldId": "data_pesquisa",
+                "fieldValue": "={{ new Date(new Date().toLocaleString(\"en-US\", { timeZone: \"America/Sao_Paulo\" })).toISOString().replace('T', ' ').substring(0, 19) }}"
+              },
+              {
+                "fieldId": "pergunta9",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"Qual é o seu maior objetivo profissional e pessoal?\"] }}"
+              },
+              {
+                "fieldId": "data_pesquisa",
+                "fieldValue": "={{ $now.setZone('America/Sao_Paulo') }}"
+              }
+            ]
+          }
+        },
+        "id": "75cb49e1-9898-4933-a3a1-7505fafd2172",
+        "name": "insere_cadastro",
+        "type": "n8n-nodes-base.supabase",
+        "typeVersion": 1,
+        "position": [
+          880,
+          368
+        ],
+        "credentials": {
+          "supabaseApi": {
+            "id": "06funpVK0RasJnc4",
+            "name": "Supabase - Fabiana Tomé"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "getAll",
+          "tableId": "pesquisas",
+          "limit": 1,
+          "matchType": "allFilters",
+          "filters": {
+            "conditions": [
+              {
+                "keyName": "id_user",
+                "condition": "eq",
+                "keyValue": "={{ $item(\"0\").$node[\"pesquisa_user\"].json[\"id\"] }}"
+              },
+              {
+                "keyName": "evento",
+                "condition": "eq",
+                "keyValue": "={{ $item(\"0\").$node[\"dados\"].json[\"Evento\"] }}"
+              }
+            ]
+          }
+        },
+        "id": "4f8ef8e5-a670-4b2b-98ab-44a9ac5748bc",
+        "name": "pesquisa_pesquisa",
+        "type": "n8n-nodes-base.supabase",
+        "typeVersion": 1,
+        "position": [
+          464,
+          272
+        ],
+        "executeOnce": false,
+        "alwaysOutputData": true,
+        "credentials": {
+          "supabaseApi": {
+            "id": "06funpVK0RasJnc4",
+            "name": "Supabase - Fabiana Tomé"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "f7c5f42f-d024-4e8a-8208-cf79ae590492",
+                "leftValue": "={{ $item(\"0\").$node[\"pesquisa_pesquisa\"].json[\"id\"] }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "number",
+                  "operation": "exists",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "id": "5d5e460f-c98d-4933-be7e-b766dc1ed0e5",
+        "name": "If",
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          688,
+          272
+        ]
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "e071ee3a-1fe1-4308-91a8-e1a2f6010cfe",
+                "leftValue": "={{ $item(\"0\").$node[\"pesquisa_user\"].json[\"id\"] }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "number",
+                  "operation": "exists",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          880,
+          -16
+        ],
+        "id": "0082f4d7-7b58-41ea-8819-766b6b8b7703",
+        "name": "If1"
+      },
+      {
+        "parameters": {
+          "operation": "getAll",
+          "tableId": "cadastros",
+          "limit": 1,
+          "matchType": "allFilters",
+          "filters": {
+            "conditions": [
+              {
+                "keyName": "email",
+                "condition": "eq",
+                "keyValue": "={{ $json[\"email\"] }}"
+              },
+              {
+                "keyName": "evento",
+                "condition": "eq",
+                "keyValue": "=[TRA_FEV_2026] [PESQUISA]"
+              }
+            ]
+          }
+        },
+        "id": "8e6c8d0f-1a3c-42b4-82a3-490452924d50",
+        "name": "pesquisa_cadastro",
+        "type": "n8n-nodes-base.supabase",
+        "typeVersion": 1,
+        "position": [
+          -16,
+          288
+        ],
+        "executeOnce": false,
+        "alwaysOutputData": true,
+        "credentials": {
+          "supabaseApi": {
+            "id": "06funpVK0RasJnc4",
+            "name": "Supabase - Fabiana Tomé"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "f7c5f42f-d024-4e8a-8208-cf79ae590492",
+                "leftValue": "={{ $item(\"0\").$node[\"pesquisa_cadastro\"].json[\"id\"] }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "number",
+                  "operation": "exists",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "id": "88be0636-ff4e-4870-89f1-19c220a555f3",
+        "name": "If2",
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          192,
+          288
+        ]
+      },
+      {
+        "parameters": {
+          "tableId": "users",
+          "fieldsUi": {
+            "fieldValues": [
+              {
+                "fieldId": "email",
+                "fieldValue": "={{ $node[\"dados\"].json[\"E-mail\"] }}"
+              },
+              {
+                "fieldId": "telefone",
+                "fieldValue": "={{ $node[\"dados\"].json[\"WhatsApp\"] }}"
+              }
+            ]
+          }
+        },
+        "type": "n8n-nodes-base.supabase",
+        "typeVersion": 1,
+        "position": [
+          1216,
+          0
+        ],
+        "id": "1cbc31f6-66fe-4f5c-ab4c-3d6e1e91433c",
+        "name": "Create a row",
+        "credentials": {
+          "supabaseApi": {
+            "id": "06funpVK0RasJnc4",
+            "name": "Supabase - Fabiana Tomé"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "amount": 1
+        },
+        "type": "n8n-nodes-base.wait",
+        "typeVersion": 1.1,
+        "position": [
+          1424,
+          0
+        ],
+        "id": "ec444d0c-02af-4c99-afc9-a0875dd5759d",
+        "name": "Wait",
+        "webhookId": "3bc553c6-86fb-4212-b14a-71cf79b13f34"
+      },
+      {
+        "parameters": {
+          "url": "https://fabianatome.api-us1.com/api/3/contacts",
+          "sendQuery": true,
+          "queryParameters": {
+            "parameters": [
+              {
+                "name": "email",
+                "value": "={{ $node[\"pesquisa_user\"].json[\"email\"] }}"
+              }
+            ]
+          },
+          "sendHeaders": true,
+          "headerParameters": {
+            "parameters": [
+              {
+                "name": "Api-Token",
+                "value": "633f6e21dac84c73a548cdb3c300de08d58c0c61fd6e675b7a8bc93dc05cd831ac0d53c6"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "d344715d-a26e-4a89-88ee-cc7753ac73f2",
+        "name": "HTTP Request1",
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [
+          1184,
+          304
+        ]
+      },
+      {
+        "parameters": {
+          "errorMessage": "An error ocurred!"
+        },
+        "id": "49623424-a53b-42e0-83be-f91b96c92913",
+        "name": "Stop and Error3",
+        "type": "n8n-nodes-base.stopAndError",
+        "typeVersion": 1,
+        "position": [
+          1952,
+          480
+        ]
+      },
+      {
+        "parameters": {
+          "errorMessage": "An error ocurred!"
+        },
+        "id": "ec1848a7-8c1c-4e6f-90c0-b075c7a6dfaf",
+        "name": "Stop and Error2",
+        "type": "n8n-nodes-base.stopAndError",
+        "typeVersion": 1,
+        "position": [
+          1952,
+          128
+        ]
+      },
+      {
+        "parameters": {
+          "operation": "update",
+          "contactId": "={{ $json[\"contacts\"][\"0\"][\"id\"] }}",
+          "updateFields": {
+            "email": "={{ $node[\"pesquisa_user\"].json[\"email\"] }}",
+            "firstName": "={{ $node[\"pesquisa_user\"].json[\"nome\"] }}",
+            "lastName": "={{ $node[\"pesquisa_user\"].json[\"sobrenome\"] }}",
+            "phone": "={{ $node[\"pesquisa_user\"].json[\"telefone\"] }}"
+          }
+        },
+        "id": "3c524786-ab79-4313-a427-027909bf39f0",
+        "name": "atualiza_contato_no_ac2",
+        "type": "n8n-nodes-base.activeCampaign",
+        "typeVersion": 1,
+        "position": [
+          1632,
+          160
+        ],
+        "credentials": {
+          "activeCampaignApi": {
+            "id": "4EetjSxVIE3QPLxy",
+            "name": "ActiveCampaign - fabianatome"
+          }
+        },
+        "onError": "continueErrorOutput"
+      },
+      {
+        "parameters": {
+          "email": "={{ $node[\"pesquisa_user\"].json[\"email\"] }}",
+          "updateIfExists": true,
+          "additionalFields": {
+            "firstName": "={{ $node[\"pesquisa_user\"].json[\"nome\"] }}",
+            "lastName": "={{ $node[\"pesquisa_user\"].json[\"sobrenome\"] }}",
+            "phone": "={{ $node[\"pesquisa_user\"].json[\"telefone\"] }}"
+          }
+        },
+        "id": "c7b7a3ae-09e3-457c-9aca-fbdfdb14e86c",
+        "name": "cria_contato_no_ac2",
+        "type": "n8n-nodes-base.activeCampaign",
+        "typeVersion": 1,
+        "position": [
+          1632,
+          448
+        ],
+        "credentials": {
+          "activeCampaignApi": {
+            "id": "4EetjSxVIE3QPLxy",
+            "name": "ActiveCampaign - fabianatome"
+          }
+        },
+        "onError": "continueErrorOutput"
+      },
+      {
+        "parameters": {
+          "resource": "contactTag",
+          "tagId": "778",
+          "contactId": "={{ $json[\"id\"] }}"
+        },
+        "id": "e7150eeb-852b-4469-a92c-6f9d28724f40",
+        "name": "tag_compra_aprovada12",
+        "type": "n8n-nodes-base.activeCampaign",
+        "typeVersion": 1,
+        "position": [
+          1952,
+          304
+        ],
+        "credentials": {
+          "activeCampaignApi": {
+            "id": "4EetjSxVIE3QPLxy",
+            "name": "ActiveCampaign - fabianatome"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict"
+            },
+            "conditions": [
+              {
+                "id": "2130aa22-e19a-4662-8a2e-b43d36facf6d",
+                "leftValue": "={{ $json[\"contacts\"][\"0\"][\"id\"] }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "string",
+                  "operation": "exists",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "id": "887c14a4-0455-4f67-a391-1ff91b952451",
+        "name": "If3",
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2,
+        "position": [
+          1392,
+          304
+        ]
+      },
+      {
+        "parameters": {
+          "operation": "appendOrUpdate",
+          "documentId": {
+            "__rl": true,
+            "value": "1JUibDob27CjV0lpQXOa0fVVWivCInYvaQ1lHxwNhAAc",
+            "mode": "list",
+            "cachedResultName": "TRA_FEV_2026 - Lançamento",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1JUibDob27CjV0lpQXOa0fVVWivCInYvaQ1lHxwNhAAc/edit?usp=drivesdk"
+          },
+          "sheetName": {
+            "__rl": true,
+            "value": 398217633,
+            "mode": "list",
+            "cachedResultName": "Respostas da Pesquisa",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1JUibDob27CjV0lpQXOa0fVVWivCInYvaQ1lHxwNhAAc/edit#gid=398217633"
+          },
+          "columns": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "Qual a sua faixa etária?": "={{ $item(\"0\").$node[\"insere_cadastro\"].json[\"pergunta1\"] }}",
+              "Você já me acompanha há quanto tempo?": "={{ $item(\"0\").$node[\"insere_cadastro\"].json[\"pergunta2\"] }}",
+              "No momento você é": "={{ $item(\"0\").$node[\"insere_cadastro\"].json[\"pergunta3\"] }}",
+              "Qual a sua experiência no Direito?": "={{ $item(\"0\").$node[\"insere_cadastro\"].json[\"pergunta4\"] }}",
+              "Qual a faixa de renda familiar (somando todas as pessoas que vivem com você)?": "={{ $item(\"0\").$node[\"insere_cadastro\"].json[\"pergunta5\"] }}",
+              "Qual sua situação atual em relação ao Tributário?": "={{ $item(\"0\").$node[\"insere_cadastro\"].json[\"pergunta6\"] }}",
+              "O que fez você decidir participar da Semana da Prática Tributária? (Seja o mais específico possível)": "={{ $item(\"0\").$node[\"insere_cadastro\"].json[\"pergunta7\"] }}",
+              "Quais são seus maiores medos e dúvidas sobre atuar no Tributário?": "={{ $item(\"0\").$node[\"insere_cadastro\"].json[\"pergunta8\"] }}",
+              "Qual é o seu maior objetivo profissional e pessoal?": "={{ $item(\"0\").$node[\"insere_cadastro\"].json[\"pergunta9\"] }}",
+              "nome": "={{ $item(\"0\").$node[\"insere_cadastro\"].json[\"nome\"] }}",
+              "email": "={{ $item(\"0\").$node[\"insere_cadastro\"].json[\"email\"] }}",
+              "utm_source": "={{ $item(\"0\").$node[\"insere_cadastro\"].json[\"utm_source\"] }}",
+              "utm_campaign": "={{ $item(\"0\").$node[\"insere_cadastro\"].json[\"utm_campaign\"] }}",
+              "utm_term": "={{ $item(\"0\").$node[\"insere_cadastro\"].json[\"utm_term\"] }}",
+              "utm_content": "={{ $item(\"0\").$node[\"insere_cadastro\"].json[\"utm_content\"] }}",
+              "utm_medium": "={{ $item(\"0\").$node[\"insere_cadastro\"].json[\"utm_medium\"] }}",
+              "page": "={{ $item(\"0\").$node[\"insere_cadastro\"].json[\"page\"] }}",
+              "evento": "={{ $item(\"0\").$node[\"insere_cadastro\"].json[\"evento\"] }}",
+              "data_pesquisa": "={{ $item(\"0\").$node[\"insere_cadastro\"].json[\"data_pesquisa\"] }}",
+              "telefone": "={{ $item(\"0\").$node[\"insere_cadastro\"].json[\"telefone\"] }}"
+            },
+            "matchingColumns": [
+              "data_pesquisa"
+            ],
+            "schema": [
+              {
+                "id": "data_pesquisa",
+                "displayName": "data_pesquisa",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": false
+              },
+              {
+                "id": "Qual a sua faixa etária?",
+                "displayName": "Qual a sua faixa etária?",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Você já me acompanha há quanto tempo?",
+                "displayName": "Você já me acompanha há quanto tempo?",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "No momento você é",
+                "displayName": "No momento você é",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Qual a sua experiência no Direito?",
+                "displayName": "Qual a sua experiência no Direito?",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Qual a faixa de renda familiar (somando todas as pessoas que vivem com você)?",
+                "displayName": "Qual a faixa de renda familiar (somando todas as pessoas que vivem com você)?",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Qual sua situação atual em relação ao Tributário?",
+                "displayName": "Qual sua situação atual em relação ao Tributário?",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "O que fez você decidir participar da Semana da Prática Tributária? (Seja o mais específico possível)",
+                "displayName": "O que fez você decidir participar da Semana da Prática Tributária? (Seja o mais específico possível)",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Quais são seus maiores medos e dúvidas sobre atuar no Tributário?",
+                "displayName": "Quais são seus maiores medos e dúvidas sobre atuar no Tributário?",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Qual é o seu maior objetivo profissional e pessoal?",
+                "displayName": "Qual é o seu maior objetivo profissional e pessoal?",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "nome",
+                "displayName": "nome",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "sobrenome",
+                "displayName": "sobrenome",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": true
+              },
+              {
+                "id": "email",
+                "displayName": "email",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "telefone",
+                "displayName": "telefone",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": false
+              },
+              {
+                "id": "utm_source",
+                "displayName": "utm_source",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "utm_campaign",
+                "displayName": "utm_campaign",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "utm_term",
+                "displayName": "utm_term",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "utm_content",
+                "displayName": "utm_content",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "utm_medium",
+                "displayName": "utm_medium",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "page",
+                "displayName": "page",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "evento",
+                "displayName": "evento",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "pergunta10",
+                "displayName": "pergunta10",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": true
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": false
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.googleSheets",
+        "typeVersion": 4.7,
+        "position": [
+          2208,
+          336
+        ],
+        "id": "67a737f7-f094-4dd5-8c95-e40d94f97674",
+        "name": "Append or update row in sheet",
+        "credentials": {
+          "googleSheetsOAuth2Api": {
+            "id": "TVPRos8AAlC7U017",
+            "name": "Google Sheets account 2"
+          }
+        }
+      }
+    ],
+    "connections": {
+      "dados": {
+        "main": [
+          [
+            {
+              "node": "pesquisa_user",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "formata_dados": {
+        "main": [
+          [
+            {
+              "node": "dados",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "pesquisa_user": {
+        "main": [
+          [
+            {
+              "node": "If1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "pesquisa_pesquisa": {
+        "main": [
+          [
+            {
+              "node": "If",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If": {
+        "main": [
+          [],
+          [
+            {
+              "node": "insere_cadastro",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Webhook": {
+        "main": [
+          [
+            {
+              "node": "formata_dados",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If1": {
+        "main": [
+          [
+            {
+              "node": "pesquisa_cadastro",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Create a row",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "pesquisa_cadastro": {
+        "main": [
+          [
+            {
+              "node": "If2",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If2": {
+        "main": [
+          [
+            {
+              "node": "pesquisa_pesquisa",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "pesquisa_pesquisa",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "insere_cadastro": {
+        "main": [
+          [
+            {
+              "node": "HTTP Request1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Create a row": {
+        "main": [
+          [
+            {
+              "node": "Wait",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Wait": {
+        "main": [
+          [
+            {
+              "node": "pesquisa_user",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "HTTP Request1": {
+        "main": [
+          [
+            {
+              "node": "If3",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "atualiza_contato_no_ac2": {
+        "main": [
+          [
+            {
+              "node": "tag_compra_aprovada12",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Stop and Error2",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "cria_contato_no_ac2": {
+        "main": [
+          [
+            {
+              "node": "tag_compra_aprovada12",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Stop and Error3",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If3": {
+        "main": [
+          [
+            {
+              "node": "atualiza_contato_no_ac2",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "cria_contato_no_ac2",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "tag_compra_aprovada12": {
+        "main": [
+          [
+            {
+              "node": "Append or update row in sheet",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "AuthLike ME",
+    "name": "Version 2a7e4278",
+    "description": "",
+    "autosaved": false
+  },
+  "activeVersionId": "2a7e4278-b4be-4ac8-af96-18ea85b6161f",
+  "connections": {
+    "dados": {
+      "main": [
+        [
+          {
+            "node": "pesquisa_user",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "formata_dados": {
+      "main": [
+        [
+          {
+            "node": "dados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "pesquisa_user": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "pesquisa_pesquisa": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [],
+        [
+          {
+            "node": "insere_cadastro",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "formata_dados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "pesquisa_cadastro",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Create a row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "pesquisa_cadastro": {
+      "main": [
+        [
+          {
+            "node": "If2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If2": {
+      "main": [
+        [
+          {
+            "node": "pesquisa_pesquisa",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "pesquisa_pesquisa",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "insere_cadastro": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a row": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "pesquisa_user",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "If3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "atualiza_contato_no_ac2": {
+      "main": [
+        [
+          {
+            "node": "tag_compra_aprovada12",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Stop and Error2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "cria_contato_no_ac2": {
+      "main": [
+        [
+          {
+            "node": "tag_compra_aprovada12",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Stop and Error3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If3": {
+      "main": [
+        [
+          {
+            "node": "atualiza_contato_no_ac2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "cria_contato_no_ac2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "tag_compra_aprovada12": {
+      "main": [
+        [
+          {
+            "node": "add pesquisa na planilha",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2026-01-02T21:25:59.670Z",
+  "id": "CZn9LV71urghmfQU",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "[TRA_FEV_2026] - [PESQUISA]",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "tra_jan_2026_pesquisa",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -16,
+        -16
+      ],
+      "id": "8ee2f5c8-9f41-4030-89e6-565e8f7767ff",
+      "name": "Webhook",
+      "webhookId": "363ba4f0-1357-4888-b2b5-8fd36546e852"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "bb839055-124b-4671-99e9-d13293daa8c7",
+              "name": "Qual a sua faixa etária?",
+              "value": "={{ $json.body[\"Qual a sua faixa etária?  \"] }}",
+              "type": "string"
+            },
+            {
+              "id": "b5b5da8a-46c5-44bd-acb3-3f246b420a53",
+              "name": "Você já me acompanha há quanto tempo?",
+              "value": "={{ $item(\"0\").$node[\"formata_dados\"].json[\"body\"][\"Você já me acompanha há quanto tempo?  \"] }}",
+              "type": "string"
+            },
+            {
+              "id": "7b8ac769-0ee5-410d-849d-34385009029b",
+              "name": "No momento você é",
+              "value": "={{ $item(\"0\").$node[\"formata_dados\"].json[\"body\"][\"No momento você é ?\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "406c5c3d-be5c-4dfa-a517-5854195431be",
+              "name": "Qual a sua experiência no Direito?",
+              "value": "={{ $item(\"0\").$node[\"formata_dados\"].json[\"body\"][\"Qual a sua experiência no Direito?\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "1d0c0949-f472-4662-816b-e0eaf511f1b0",
+              "name": "Qual a faixa de renda familiar (somando todas as pessoas que vivem com você)?",
+              "value": "={{ $item(\"0\").$node[\"formata_dados\"].json[\"body\"][\"Qual a faixa de renda familiar (somando todas as pessoas que vivem com você)?\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "39ac2ebc-5c00-4c88-80b4-862fb3df3a1b",
+              "name": "Qual sua situação atual em relação ao Tributário?",
+              "value": "={{ $item(\"0\").$node[\"formata_dados\"].json[\"body\"][\"Qual sua situação atual em relação ao Tributário?\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "f329b60d-6c7f-4c54-9c56-c41fb2dacd6f",
+              "name": "O que fez você decidir participar da Semana da Prática Tributária? (Seja o mais específico possível)",
+              "value": "={{ $item(\"0\").$node[\"formata_dados\"].json[\"body\"][\"O que fez você decidir participar da Semana da Prática Tributária? (Seja o mais específico possível) \"] }}",
+              "type": "string"
+            },
+            {
+              "id": "90ea93b8-ef53-4800-a1d3-7e187eaebad1",
+              "name": "Quais são seus maiores medos e dúvidas sobre atuar no Tributário?",
+              "value": "={{ $item(\"0\").$node[\"formata_dados\"].json[\"body\"][\"Quais são seus maiores medos e dúvidas sobre atuar no Tributário?  \"] }}",
+              "type": "string"
+            },
+            {
+              "id": "6c45ba4f-737d-45f5-a1d7-4fa3449a0c7b",
+              "name": "E-mail",
+              "value": "={{ $item(\"0\").$node[\"formata_dados\"].json[\"body\"][\"E-mail\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "6b94c43a-9dc7-4308-bc77-bd711252d268",
+              "name": "WhatsApp",
+              "value": "={{ $item(\"0\").$node[\"formata_dados\"].json[\"body\"][\"WhatsApp\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "97373297-68f5-4393-9454-6dfc30b67aa1",
+              "name": "Evento",
+              "value": "[TRA_FEV_2026] [PESQUISA]",
+              "type": "string"
+            },
+            {
+              "id": "674adb7b-9388-4651-9c7f-b77bfa8082f4",
+              "name": "Qual é o seu maior objetivo profissional e pessoal?",
+              "value": "={{ $item(\"0\").$node[\"formata_dados\"].json[\"body\"][\"Qual é o seu maior objetivo profissional e pessoal?\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "c4a81ec4-9aa3-4bb4-a541-487381941fd5",
+              "name": "Nome",
+              "value": "={{ $item(\"0\").$node[\"formata_dados\"].json[\"body\"][\"Nome\"] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "ba96b85d-51ec-4b66-a199-a9014b4dc0f7",
+      "name": "dados",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [
+        464,
+        -16
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const body = $json.body || {};\nlet telefone = body[\"WhatsApp\"] || \"\";\n\n// Remove espaços, traços e parênteses\ntelefone = telefone.replace(/\\D/g, \"\");\n\n// Se não começa com \"55\", adiciona\nif (!telefone.startsWith(\"55\")) {\n  telefone = \"55\" + telefone;\n}\nbody[\"WhatsApp\"] = telefone;\n\n// Verifica e ajusta o campo \"No momento você é ?\"\nif ((body[\"No momento você é ?\"] || \"\").trim() === \"Outro\") {\n  const outraResposta = body[\"Outra (escreva aqui)\"] || \"\";\n  body[\"No momento você é ?\"] = outraResposta;\n}\n\n// Retorna o objeto ajustado\nreturn {\n  json: {\n    ...$json,\n    body\n  }\n};"
+      },
+      "id": "63932142-9f64-42ae-95c0-cc7071c12f69",
+      "name": "formata_dados",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        240,
+        -16
+      ]
+    },
+    {
+      "parameters": {
+        "content": "# PESQUISA DO ELEMENTOR",
+        "height": 720,
+        "width": 1183
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -96,
+        -144
+      ],
+      "id": "0e88972e-1a6d-45e1-beea-7f96b5cf597b",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "users",
+        "limit": 1,
+        "matchType": "allFilters",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "telefone",
+              "condition": "eq",
+              "keyValue": "={{ $item(\"0\").$node[\"dados\"].json[\"WhatsApp\"] }}"
+            },
+            {
+              "keyName": "email",
+              "condition": "eq",
+              "keyValue": "={{ $item(\"0\").$node[\"dados\"].json[\"E-mail\"] }}"
+            }
+          ]
+        }
+      },
+      "id": "3e01245a-dc9b-4553-9ac7-5048a637bcf4",
+      "name": "pesquisa_user",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        672,
+        -16
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "supabaseApi": {
+          "id": "06funpVK0RasJnc4",
+          "name": "Supabase - Fabiana Tomé"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "tableId": "pesquisas",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "id_user",
+              "fieldValue": "={{ $item(\"0\").$node[\"pesquisa_user\"].json[\"id\"] }}"
+            },
+            {
+              "fieldId": "nome",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"Nome\"] }}"
+            },
+            {
+              "fieldId": "sobrenome",
+              "fieldValue": "={{ $item(\"0\").$node[\"pesquisa_cadastro\"].json[\"sobrenome\"] }}"
+            },
+            {
+              "fieldId": "email",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"E-mail\"] }}"
+            },
+            {
+              "fieldId": "telefone",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"WhatsApp\"] }}"
+            },
+            {
+              "fieldId": "utm_source",
+              "fieldValue": "={{ $item(\"0\").$node[\"pesquisa_cadastro\"].json[\"utm_source\"] }}"
+            },
+            {
+              "fieldId": "utm_campaign",
+              "fieldValue": "={{ $item(\"0\").$node[\"pesquisa_cadastro\"].json[\"utm_campaign\"] }}"
+            },
+            {
+              "fieldId": "utm_term",
+              "fieldValue": "={{ $item(\"0\").$node[\"pesquisa_cadastro\"].json[\"utm_term\"] }}"
+            },
+            {
+              "fieldId": "utm_medium",
+              "fieldValue": "={{ $item(\"0\").$node[\"pesquisa_cadastro\"].json[\"utm_medium\"] }}"
+            },
+            {
+              "fieldId": "utm_content",
+              "fieldValue": "={{ $item(\"0\").$node[\"pesquisa_cadastro\"].json[\"utm_content\"] }}"
+            },
+            {
+              "fieldId": "evento",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"Evento\"] }}"
+            },
+            {
+              "fieldId": "pergunta1",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"Qual a sua faixa etária?\"] }}"
+            },
+            {
+              "fieldId": "pergunta2",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"Você já me acompanha há quanto tempo?\"] }}"
+            },
+            {
+              "fieldId": "pergunta3",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"No momento você é\"] }}"
+            },
+            {
+              "fieldId": "pergunta4",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"Qual a sua experiência no Direito?\"] }}"
+            },
+            {
+              "fieldId": "pergunta5",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"Qual a faixa de renda familiar (somando todas as pessoas que vivem com você)?\"] }}"
+            },
+            {
+              "fieldId": "pergunta6",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"Qual sua situação atual em relação ao Tributário?\"] }}"
+            },
+            {
+              "fieldId": "pergunta7",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"O que fez você decidir participar da Semana da Prática Tributária? (Seja o mais específico possível)\"] }}"
+            },
+            {
+              "fieldId": "pergunta8",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"Quais são seus maiores medos e dúvidas sobre atuar no Tributário?\"] }}"
+            },
+            {
+              "fieldId": "page",
+              "fieldValue": "={{ $item(\"0\").$node[\"pesquisa_cadastro\"].json[\"pagina\"] }}"
+            },
+            {
+              "fieldId": "data_pesquisa",
+              "fieldValue": "={{ new Date(new Date().toLocaleString(\"en-US\", { timeZone: \"America/Sao_Paulo\" })).toISOString().replace('T', ' ').substring(0, 19) }}"
+            },
+            {
+              "fieldId": "pergunta9",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"Qual é o seu maior objetivo profissional e pessoal?\"] }}"
+            },
+            {
+              "fieldId": "data_pesquisa",
+              "fieldValue": "={{ $now.setZone('America/Sao_Paulo') }}"
+            }
+          ]
+        }
+      },
+      "id": "75cb49e1-9898-4933-a3a1-7505fafd2172",
+      "name": "insere_cadastro",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        880,
+        368
+      ],
+      "credentials": {
+        "supabaseApi": {
+          "id": "06funpVK0RasJnc4",
+          "name": "Supabase - Fabiana Tomé"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "pesquisas",
+        "limit": 1,
+        "matchType": "allFilters",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "id_user",
+              "condition": "eq",
+              "keyValue": "={{ $item(\"0\").$node[\"pesquisa_user\"].json[\"id\"] }}"
+            },
+            {
+              "keyName": "evento",
+              "condition": "eq",
+              "keyValue": "={{ $item(\"0\").$node[\"dados\"].json[\"Evento\"] }}"
+            }
+          ]
+        }
+      },
+      "id": "4f8ef8e5-a670-4b2b-98ab-44a9ac5748bc",
+      "name": "pesquisa_pesquisa",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        464,
+        272
+      ],
+      "executeOnce": false,
+      "alwaysOutputData": true,
+      "credentials": {
+        "supabaseApi": {
+          "id": "06funpVK0RasJnc4",
+          "name": "Supabase - Fabiana Tomé"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "f7c5f42f-d024-4e8a-8208-cf79ae590492",
+              "leftValue": "={{ $item(\"0\").$node[\"pesquisa_pesquisa\"].json[\"id\"] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "number",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "5d5e460f-c98d-4933-be7e-b766dc1ed0e5",
+      "name": "If",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        688,
+        272
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "e071ee3a-1fe1-4308-91a8-e1a2f6010cfe",
+              "leftValue": "={{ $item(\"0\").$node[\"pesquisa_user\"].json[\"id\"] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "number",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        880,
+        -16
+      ],
+      "id": "0082f4d7-7b58-41ea-8819-766b6b8b7703",
+      "name": "If1"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "cadastros",
+        "limit": 1,
+        "matchType": "allFilters",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "email",
+              "condition": "eq",
+              "keyValue": "={{ $json[\"email\"] }}"
+            },
+            {
+              "keyName": "evento",
+              "condition": "eq",
+              "keyValue": "=[TRA_FEV_2026] [PESQUISA]"
+            }
+          ]
+        }
+      },
+      "id": "8e6c8d0f-1a3c-42b4-82a3-490452924d50",
+      "name": "pesquisa_cadastro",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        -16,
+        288
+      ],
+      "executeOnce": false,
+      "alwaysOutputData": true,
+      "credentials": {
+        "supabaseApi": {
+          "id": "06funpVK0RasJnc4",
+          "name": "Supabase - Fabiana Tomé"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "f7c5f42f-d024-4e8a-8208-cf79ae590492",
+              "leftValue": "={{ $item(\"0\").$node[\"pesquisa_cadastro\"].json[\"id\"] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "number",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "88be0636-ff4e-4870-89f1-19c220a555f3",
+      "name": "If2",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        192,
+        288
+      ]
+    },
+    {
+      "parameters": {
+        "tableId": "users",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "email",
+              "fieldValue": "={{ $node[\"dados\"].json[\"E-mail\"] }}"
+            },
+            {
+              "fieldId": "telefone",
+              "fieldValue": "={{ $node[\"dados\"].json[\"WhatsApp\"] }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        1216,
+        0
+      ],
+      "id": "1cbc31f6-66fe-4f5c-ab4c-3d6e1e91433c",
+      "name": "Create a row",
+      "credentials": {
+        "supabaseApi": {
+          "id": "06funpVK0RasJnc4",
+          "name": "Supabase - Fabiana Tomé"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 1
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1424,
+        0
+      ],
+      "id": "ec444d0c-02af-4c99-afc9-a0875dd5759d",
+      "name": "Wait",
+      "webhookId": "3bc553c6-86fb-4212-b14a-71cf79b13f34"
+    },
+    {
+      "parameters": {
+        "url": "https://fabianatome.api-us1.com/api/3/contacts",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "email",
+              "value": "={{ $node[\"pesquisa_user\"].json[\"email\"] }}"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Api-Token",
+              "value": "633f6e21dac84c73a548cdb3c300de08d58c0c61fd6e675b7a8bc93dc05cd831ac0d53c6"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "d344715d-a26e-4a89-88ee-cc7753ac73f2",
+      "name": "HTTP Request1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1184,
+        304
+      ]
+    },
+    {
+      "parameters": {
+        "errorMessage": "An error ocurred!"
+      },
+      "id": "49623424-a53b-42e0-83be-f91b96c92913",
+      "name": "Stop and Error3",
+      "type": "n8n-nodes-base.stopAndError",
+      "typeVersion": 1,
+      "position": [
+        1952,
+        480
+      ]
+    },
+    {
+      "parameters": {
+        "errorMessage": "An error ocurred!"
+      },
+      "id": "ec1848a7-8c1c-4e6f-90c0-b075c7a6dfaf",
+      "name": "Stop and Error2",
+      "type": "n8n-nodes-base.stopAndError",
+      "typeVersion": 1,
+      "position": [
+        1952,
+        128
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "contactId": "={{ $json[\"contacts\"][\"0\"][\"id\"] }}",
+        "updateFields": {
+          "email": "={{ $node[\"pesquisa_user\"].json[\"email\"] }}",
+          "firstName": "={{ $node[\"pesquisa_user\"].json[\"nome\"] }}",
+          "lastName": "={{ $node[\"pesquisa_user\"].json[\"sobrenome\"] }}",
+          "phone": "={{ $node[\"pesquisa_user\"].json[\"telefone\"] }}"
+        }
+      },
+      "id": "3c524786-ab79-4313-a427-027909bf39f0",
+      "name": "atualiza_contato_no_ac2",
+      "type": "n8n-nodes-base.activeCampaign",
+      "typeVersion": 1,
+      "position": [
+        1632,
+        160
+      ],
+      "credentials": {
+        "activeCampaignApi": {
+          "id": "4EetjSxVIE3QPLxy",
+          "name": "ActiveCampaign - fabianatome"
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "email": "={{ $node[\"pesquisa_user\"].json[\"email\"] }}",
+        "updateIfExists": true,
+        "additionalFields": {
+          "firstName": "={{ $node[\"pesquisa_user\"].json[\"nome\"] }}",
+          "lastName": "={{ $node[\"pesquisa_user\"].json[\"sobrenome\"] }}",
+          "phone": "={{ $node[\"pesquisa_user\"].json[\"telefone\"] }}"
+        }
+      },
+      "id": "c7b7a3ae-09e3-457c-9aca-fbdfdb14e86c",
+      "name": "cria_contato_no_ac2",
+      "type": "n8n-nodes-base.activeCampaign",
+      "typeVersion": 1,
+      "position": [
+        1632,
+        448
+      ],
+      "credentials": {
+        "activeCampaignApi": {
+          "id": "4EetjSxVIE3QPLxy",
+          "name": "ActiveCampaign - fabianatome"
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "resource": "contactTag",
+        "tagId": "778",
+        "contactId": "={{ $json[\"id\"] }}"
+      },
+      "id": "e7150eeb-852b-4469-a92c-6f9d28724f40",
+      "name": "tag_compra_aprovada12",
+      "type": "n8n-nodes-base.activeCampaign",
+      "typeVersion": 1,
+      "position": [
+        1952,
+        304
+      ],
+      "credentials": {
+        "activeCampaignApi": {
+          "id": "4EetjSxVIE3QPLxy",
+          "name": "ActiveCampaign - fabianatome"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "2130aa22-e19a-4662-8a2e-b43d36facf6d",
+              "leftValue": "={{ $json[\"contacts\"][\"0\"][\"id\"] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "887c14a4-0455-4f67-a391-1ff91b952451",
+      "name": "If3",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        1392,
+        304
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1JUibDob27CjV0lpQXOa0fVVWivCInYvaQ1lHxwNhAAc",
+          "mode": "list",
+          "cachedResultName": "TRA_FEV_2026 - Lançamento",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1JUibDob27CjV0lpQXOa0fVVWivCInYvaQ1lHxwNhAAc/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 398217633,
+          "mode": "list",
+          "cachedResultName": "Respostas da Pesquisa",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1JUibDob27CjV0lpQXOa0fVVWivCInYvaQ1lHxwNhAAc/edit#gid=398217633"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Qual a sua faixa etária?": "={{ $item(\"0\").$node[\"insere_cadastro\"].json[\"pergunta1\"] }}",
+            "Você já me acompanha há quanto tempo?": "={{ $item(\"0\").$node[\"insere_cadastro\"].json[\"pergunta2\"] }}",
+            "No momento você é": "={{ $item(\"0\").$node[\"insere_cadastro\"].json[\"pergunta3\"] }}",
+            "Qual a sua experiência no Direito?": "={{ $item(\"0\").$node[\"insere_cadastro\"].json[\"pergunta4\"] }}",
+            "Qual a faixa de renda familiar (somando todas as pessoas que vivem com você)?": "={{ $item(\"0\").$node[\"insere_cadastro\"].json[\"pergunta5\"] }}",
+            "Qual sua situação atual em relação ao Tributário?": "={{ $item(\"0\").$node[\"insere_cadastro\"].json[\"pergunta6\"] }}",
+            "O que fez você decidir participar da Semana da Prática Tributária? (Seja o mais específico possível)": "={{ $item(\"0\").$node[\"insere_cadastro\"].json[\"pergunta7\"] }}",
+            "Quais são seus maiores medos e dúvidas sobre atuar no Tributário?": "={{ $item(\"0\").$node[\"insere_cadastro\"].json[\"pergunta8\"] }}",
+            "Qual é o seu maior objetivo profissional e pessoal?": "={{ $item(\"0\").$node[\"insere_cadastro\"].json[\"pergunta9\"] }}",
+            "nome": "={{ $item(\"0\").$node[\"insere_cadastro\"].json[\"nome\"] }}",
+            "email": "={{ $item(\"0\").$node[\"insere_cadastro\"].json[\"email\"] }}",
+            "utm_source": "={{ $item(\"0\").$node[\"insere_cadastro\"].json[\"utm_source\"] }}",
+            "utm_campaign": "={{ $item(\"0\").$node[\"insere_cadastro\"].json[\"utm_campaign\"] }}",
+            "utm_term": "={{ $item(\"0\").$node[\"insere_cadastro\"].json[\"utm_term\"] }}",
+            "utm_content": "={{ $item(\"0\").$node[\"insere_cadastro\"].json[\"utm_content\"] }}",
+            "utm_medium": "={{ $item(\"0\").$node[\"insere_cadastro\"].json[\"utm_medium\"] }}",
+            "page": "={{ $item(\"0\").$node[\"insere_cadastro\"].json[\"page\"] }}",
+            "evento": "={{ $item(\"0\").$node[\"insere_cadastro\"].json[\"evento\"] }}",
+            "data_pesquisa": "={{ $item(\"0\").$node[\"insere_cadastro\"].json[\"data_pesquisa\"] }}",
+            "telefone": "={{ $item(\"0\").$node[\"insere_cadastro\"].json[\"telefone\"] }}"
+          },
+          "matchingColumns": [
+            "data_pesquisa"
+          ],
+          "schema": [
+            {
+              "id": "data_pesquisa",
+              "displayName": "data_pesquisa",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Qual a sua faixa etária?",
+              "displayName": "Qual a sua faixa etária?",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Você já me acompanha há quanto tempo?",
+              "displayName": "Você já me acompanha há quanto tempo?",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "No momento você é",
+              "displayName": "No momento você é",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Qual a sua experiência no Direito?",
+              "displayName": "Qual a sua experiência no Direito?",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Qual a faixa de renda familiar (somando todas as pessoas que vivem com você)?",
+              "displayName": "Qual a faixa de renda familiar (somando todas as pessoas que vivem com você)?",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Qual sua situação atual em relação ao Tributário?",
+              "displayName": "Qual sua situação atual em relação ao Tributário?",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "O que fez você decidir participar da Semana da Prática Tributária? (Seja o mais específico possível)",
+              "displayName": "O que fez você decidir participar da Semana da Prática Tributária? (Seja o mais específico possível)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Quais são seus maiores medos e dúvidas sobre atuar no Tributário?",
+              "displayName": "Quais são seus maiores medos e dúvidas sobre atuar no Tributário?",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Qual é o seu maior objetivo profissional e pessoal?",
+              "displayName": "Qual é o seu maior objetivo profissional e pessoal?",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "nome",
+              "displayName": "nome",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "sobrenome",
+              "displayName": "sobrenome",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "email",
+              "displayName": "email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "telefone",
+              "displayName": "telefone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "utm_source",
+              "displayName": "utm_source",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "utm_campaign",
+              "displayName": "utm_campaign",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "utm_term",
+              "displayName": "utm_term",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "utm_content",
+              "displayName": "utm_content",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "utm_medium",
+              "displayName": "utm_medium",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "page",
+              "displayName": "page",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "evento",
+              "displayName": "evento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "pergunta10",
+              "displayName": "pergunta10",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        2192,
+        304
+      ],
+      "id": "67a737f7-f094-4dd5-8c95-e40d94f97674",
+      "name": "add pesquisa na planilha",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "TVPRos8AAlC7U017",
+          "name": "Google Sheets account 2"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "webhook.fabianatome.com.br",
+            "user-agent": "WordPress/6.6.2; https://tributaristaemacao.com.br",
+            "content-length": "1048",
+            "accept": "*/*",
+            "accept-encoding": "deflate, gzip, br",
+            "content-type": "application/x-www-form-urlencoded",
+            "x-forwarded-for": "186.209.113.102",
+            "x-forwarded-host": "webhook.fabianatome.com.br",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "1783e14eebf4",
+            "x-real-ip": "186.209.113.102"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "ETAPA01": "",
+            "Qual a sua faixa etária?  ": "36 a 45 anos",
+            "ETAPA02": "",
+            "Você já me acompanha há quanto tempo?  ": "Conheci agora",
+            "ETAPA03": "",
+            "No momento você é ?": "Contador",
+            "Outra (escreva aqui)": "",
+            "ETAPA04": "",
+            "Qual a sua experiência no Direito?": "Menos de 1 ano",
+            "ETAPA05": "",
+            "Qual a faixa de renda familiar (somando todas as pessoas que vivem com você)?": "Entre R$ 2.001 a R$ 4.000",
+            "ETAPA06": "",
+            "Qual sua situação atual em relação ao Tributário?": "É um desejo para o futuro, sem pressa",
+            "ETAPA07": "",
+            "O que fez você decidir participar da Semana da Prática Tributária? (Seja o mais específico possível) ": "Ampliar conhecimentos",
+            "ETAPA08": "",
+            "Quais são seus maiores medos e dúvidas sobre atuar no Tributário?  ": "Entendimento das Leis",
+            "ETAPA09": "",
+            "Qual é o seu maior objetivo profissional e pessoal?": "Crescimento profissional e pessoal",
+            "ETAPA10": "",
+            "E-mail": "cdgza27@gmail.com",
+            "WhatsApp": "55919825827",
+            "Nome": "Claudia Gonzaga",
+            "form_id": "7f16f1c",
+            "form_name": "STP5_FORM_PESQUISA_FEV26"
+          },
+          "webhookUrl": "https://webhook.fabianatome.com.br/webhook/tra_jan_2026_pesquisa",
+          "executionMode": "production"
+        }
+      }
+    ]
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2026-01-02T21:25:59.670Z",
+      "createdAt": "2026-01-02T21:25:59.670Z",
+      "role": "workflow:owner",
+      "workflowId": "CZn9LV71urghmfQU",
+      "projectId": "tP5lcLj6t4StcK5B"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2026-01-12T15:53:45.424Z",
+  "versionId": "8bca39be-1b8d-467b-913b-8f942eda3f21"
+}
