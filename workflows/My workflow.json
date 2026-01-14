@@ -1,0 +1,47 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {},
+  "createdAt": "2025-06-21T03:45:04.030Z",
+  "id": "6BDibAw6Cuv9hK2D",
+  "isArchived": true,
+  "meta": null,
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "jun25-captacao",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "2bac2709-93db-4689-b3ee-76791a109c57",
+      "name": "Webhook",
+      "webhookId": "e588b8da-67e1-4470-9edf-f6121d540f25"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-06-21T03:45:04.030Z",
+      "createdAt": "2025-06-21T03:45:04.030Z",
+      "role": "workflow:owner",
+      "workflowId": "6BDibAw6Cuv9hK2D",
+      "projectId": "tP5lcLj6t4StcK5B"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2025-06-23T13:24:26.863Z",
+  "versionId": "c6e870e6-2ea6-48c5-8860-70979ccdb846"
+}
