@@ -1,0 +1,576 @@
+{
+  "active": true,
+  "activeVersion": {
+    "updatedAt": "2025-12-03T22:27:37.573Z",
+    "createdAt": "2025-12-03T22:27:37.573Z",
+    "versionId": "a1f06ba9-a25d-4b73-b3dc-7ff5203e717a",
+    "workflowId": "ya3Jda7aHfbD9c6m",
+    "nodes": [
+      {
+        "parameters": {
+          "httpMethod": "POST",
+          "path": "gettelegram",
+          "responseMode": "responseNode",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.webhook",
+        "typeVersion": 2,
+        "position": [
+          -688,
+          160
+        ],
+        "id": "f5778a06-4758-493b-8b52-cc5673fbda9c",
+        "name": "Webhook",
+        "webhookId": "bfcba2c9-e0f0-475b-94dc-fcefd9fe62c0"
+      },
+      {
+        "parameters": {},
+        "id": "b8071851-6a91-4c7d-abf9-4044a7012add",
+        "name": "NOP1",
+        "type": "n8n-nodes-base.noOp",
+        "typeVersion": 1,
+        "position": [
+          0,
+          0
+        ]
+      },
+      {
+        "parameters": {
+          "operation": "getAll",
+          "tableId": "conversoes",
+          "returnAll": true,
+          "filters": {
+            "conditions": [
+              {
+                "keyName": "email",
+                "condition": "eq",
+                "keyValue": "={{ $json.body.email }}"
+              }
+            ]
+          }
+        },
+        "id": "79bffbe0-336b-42f8-8482-a565a6d2ed9f",
+        "name": "getClient",
+        "type": "n8n-nodes-base.supabase",
+        "typeVersion": 1,
+        "position": [
+          -480,
+          160
+        ],
+        "alwaysOutputData": true,
+        "credentials": {
+          "supabaseApi": {
+            "id": "06funpVK0RasJnc4",
+            "name": "Supabase - Fabiana Tomé"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "9113a78a-fafc-4b02-a76f-02904e4cce51",
+                "leftValue": "={{ $('getClient').item.json.email }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "string",
+                  "operation": "exists",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "id": "650dd7be-34ed-482c-9222-7a17b5c7a372",
+        "name": "verifica_email",
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          -288,
+          160
+        ]
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "2d4bd146-1854-4b3e-80b7-93c3e9fe9121",
+                "name": "status",
+                "value": "Email não encontrado, peça email correto utilizado no momento da compra. (NÃO CONTINUE O ATENDIMENTO SEM UM EMAIL VALIDO)",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          240,
+          320
+        ],
+        "id": "6d9422fb-4a75-4ef1-98fb-c461afb14421",
+        "name": "Mensagem de erro 1"
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "2d4bd146-1854-4b3e-80b7-93c3e9fe9121",
+                "name": "status",
+                "value": "=Verificação feita com sucesso!",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          240,
+          0
+        ],
+        "id": "bc882ab0-45f4-4ca3-85d2-fef15a8ce02d",
+        "name": "Mensagem de Sucesso"
+      },
+      {
+        "parameters": {
+          "respondWith": "allIncomingItems",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.respondToWebhook",
+        "typeVersion": 1.4,
+        "position": [
+          544,
+          128
+        ],
+        "id": "8da8c2f9-1bfd-4a67-83a1-e99a87d89fc6",
+        "name": "Respond to Webhook"
+      },
+      {
+        "parameters": {},
+        "id": "05f6aad0-ecea-45c1-85b1-82595664a84e",
+        "name": "NOP",
+        "type": "n8n-nodes-base.noOp",
+        "typeVersion": 1,
+        "position": [
+          0,
+          320
+        ]
+      }
+    ],
+    "connections": {
+      "getClient": {
+        "main": [
+          [
+            {
+              "node": "verifica_email",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Webhook": {
+        "main": [
+          [
+            {
+              "node": "getClient",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "NOP1": {
+        "main": [
+          [
+            {
+              "node": "Mensagem de Sucesso",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "verifica_email": {
+        "main": [
+          [
+            {
+              "node": "NOP1",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "NOP",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Mensagem de erro 1": {
+        "main": [
+          [
+            {
+              "node": "Respond to Webhook",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Mensagem de Sucesso": {
+        "main": [
+          [
+            {
+              "node": "Respond to Webhook",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "NOP": {
+        "main": [
+          [
+            {
+              "node": "Mensagem de erro 1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "system migration",
+    "name": null,
+    "description": null,
+    "autosaved": false
+  },
+  "activeVersionId": "a1f06ba9-a25d-4b73-b3dc-7ff5203e717a",
+  "connections": {
+    "getClient": {
+      "main": [
+        [
+          {
+            "node": "verifica_email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "getClient",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "NOP1": {
+      "main": [
+        [
+          {
+            "node": "Mensagem de Sucesso",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "verifica_email": {
+      "main": [
+        [
+          {
+            "node": "NOP1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "NOP",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mensagem de erro 1": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mensagem de Sucesso": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "NOP": {
+      "main": [
+        [
+          {
+            "node": "Mensagem de erro 1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-09-09T22:36:57.967Z",
+  "id": "ya3Jda7aHfbD9c6m",
+  "isArchived": false,
+  "meta": null,
+  "name": "Verifica telegram",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "gettelegram",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -688,
+        160
+      ],
+      "id": "f5778a06-4758-493b-8b52-cc5673fbda9c",
+      "name": "Webhook",
+      "webhookId": "bfcba2c9-e0f0-475b-94dc-fcefd9fe62c0"
+    },
+    {
+      "parameters": {},
+      "id": "b8071851-6a91-4c7d-abf9-4044a7012add",
+      "name": "NOP1",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "conversoes",
+        "returnAll": true,
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "email",
+              "condition": "eq",
+              "keyValue": "={{ $json.body.email }}"
+            }
+          ]
+        }
+      },
+      "id": "79bffbe0-336b-42f8-8482-a565a6d2ed9f",
+      "name": "getClient",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        -480,
+        160
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "supabaseApi": {
+          "id": "06funpVK0RasJnc4",
+          "name": "Supabase - Fabiana Tomé"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "9113a78a-fafc-4b02-a76f-02904e4cce51",
+              "leftValue": "={{ $('getClient').item.json.email }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "650dd7be-34ed-482c-9222-7a17b5c7a372",
+      "name": "verifica_email",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -288,
+        160
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "2d4bd146-1854-4b3e-80b7-93c3e9fe9121",
+              "name": "status",
+              "value": "Email não encontrado, peça email correto utilizado no momento da compra. (NÃO CONTINUE O ATENDIMENTO SEM UM EMAIL VALIDO)",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        240,
+        320
+      ],
+      "id": "6d9422fb-4a75-4ef1-98fb-c461afb14421",
+      "name": "Mensagem de erro 1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "2d4bd146-1854-4b3e-80b7-93c3e9fe9121",
+              "name": "status",
+              "value": "=Verificação feita com sucesso!",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        240,
+        0
+      ],
+      "id": "bc882ab0-45f4-4ca3-85d2-fef15a8ce02d",
+      "name": "Mensagem de Sucesso"
+    },
+    {
+      "parameters": {
+        "respondWith": "allIncomingItems",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        544,
+        128
+      ],
+      "id": "8da8c2f9-1bfd-4a67-83a1-e99a87d89fc6",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {},
+      "id": "05f6aad0-ecea-45c1-85b1-82595664a84e",
+      "name": "NOP",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        0,
+        320
+      ]
+    }
+  ],
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "webhook.fabianatome.com.br",
+            "user-agent": "axios/1.8.3",
+            "content-length": "30",
+            "accept": "application/json,text/html,application/xhtml+xml,application/xml,text/*;q=0.9, image/*;q=0.8, */*;q=0.7",
+            "accept-encoding": "gzip, compress, deflate, br",
+            "content-type": "application/json",
+            "x-forwarded-for": "172.18.0.1",
+            "x-forwarded-host": "webhook.fabianatome.com.br",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "3e4b5a65d457",
+            "x-real-ip": "172.18.0.1"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "email": "higor@authlike.com"
+          },
+          "webhookUrl": "https://webhook.fabianatome.com.br/webhook/gettelegram",
+          "executionMode": "production"
+        }
+      }
+    ]
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-09-09T22:36:57.967Z",
+      "createdAt": "2025-09-09T22:36:57.967Z",
+      "role": "workflow:owner",
+      "workflowId": "ya3Jda7aHfbD9c6m",
+      "projectId": "tP5lcLj6t4StcK5B"
+    }
+  ],
+  "staticData": null,
+  "tags": [
+    {
+      "updatedAt": "2025-07-28T18:41:54.989Z",
+      "createdAt": "2025-07-28T18:41:54.989Z",
+      "id": "s9jXAqhzQwOBMWYM",
+      "name": "Suporte"
+    }
+  ],
+  "triggerCount": 1,
+  "updatedAt": "2025-09-09T23:12:06.710Z",
+  "versionId": "a1f06ba9-a25d-4b73-b3dc-7ff5203e717a"
+}
