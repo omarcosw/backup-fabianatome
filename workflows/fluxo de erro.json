@@ -1,0 +1,79 @@
+{
+  "active": true,
+  "activeVersion": {
+    "updatedAt": "2026-01-14T14:37:43.980Z",
+    "createdAt": "2026-01-14T14:37:42.385Z",
+    "versionId": "44a6d6ca-70d5-4c51-aeab-028b388382e6",
+    "workflowId": "zpAWZYSZedxOSIsE",
+    "nodes": [
+      {
+        "parameters": {
+          "inputSource": "passthrough"
+        },
+        "type": "n8n-nodes-base.executeWorkflowTrigger",
+        "typeVersion": 1.1,
+        "position": [
+          0,
+          0
+        ],
+        "id": "36d36d33-acb1-443a-ae30-4515653f2917",
+        "name": "When Executed by Another Workflow"
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.errorTrigger",
+        "typeVersion": 1,
+        "position": [
+          0,
+          224
+        ],
+        "id": "53bad90f-4a8d-4c29-a102-d6c724823d2e",
+        "name": "Error Trigger"
+      }
+    ],
+    "connections": {},
+    "authors": "AuthLike ME",
+    "name": "Version 44a6d6ca",
+    "description": "",
+    "autosaved": false
+  },
+  "activeVersionId": "44a6d6ca-70d5-4c51-aeab-028b388382e6",
+  "connections": {},
+  "createdAt": "2026-01-14T14:37:05.725Z",
+  "id": "zpAWZYSZedxOSIsE",
+  "isArchived": false,
+  "meta": null,
+  "name": "fluxo de erro",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        224
+      ],
+      "id": "53bad90f-4a8d-4c29-a102-d6c724823d2e",
+      "name": "Error Trigger"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "shared": [
+    {
+      "updatedAt": "2026-01-14T14:37:05.725Z",
+      "createdAt": "2026-01-14T14:37:05.725Z",
+      "role": "workflow:owner",
+      "workflowId": "zpAWZYSZedxOSIsE",
+      "projectId": "tP5lcLj6t4StcK5B"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2026-01-14T14:38:08.618Z",
+  "versionId": "62c5994d-9661-4638-9543-baa700360a1f"
+}
