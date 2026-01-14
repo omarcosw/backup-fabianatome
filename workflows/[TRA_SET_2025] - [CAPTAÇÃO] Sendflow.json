@@ -213,12 +213,34 @@
           }
         ]
       ]
+    },
+    "pesquisa_cadastro": {
+      "main": [
+        []
+      ]
+    },
+    "Edit Fields4": {
+      "main": [
+        []
+      ]
+    },
+    "pesquisa_cadastro1": {
+      "main": [
+        []
+      ]
+    },
+    "Edit Fields3": {
+      "main": [
+        []
+      ]
     }
   },
-  "createdAt": "2025-08-18T15:31:22.857Z",
-  "id": "UN6kNQajWzmOhAyE",
+  "createdAt": "2025-08-18T15:07:55.634Z",
+  "id": "HmGegKqKGB2NKRl0",
   "isArchived": true,
-  "meta": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
   "name": "[TRA_SET_2025] - [CAPTAÇÃO] Sendflow",
   "nodes": [
     {
@@ -236,13 +258,13 @@
           ]
         }
       },
-      "id": "9325fb1e-75db-46f9-9cc9-df8dc8dac7dd",
+      "id": "25de3d42-47c4-4ec7-9e0a-2263cfe092f1",
       "name": "pesquisa_grupo",
       "type": "n8n-nodes-base.supabase",
       "typeVersion": 1,
       "position": [
-        1376,
-        832
+        864,
+        1360
       ],
       "alwaysOutputData": true,
       "credentials": {
@@ -268,13 +290,13 @@
           ]
         }
       },
-      "id": "c45b44fe-7f45-45a1-a742-ceccf083cda8",
+      "id": "7c76240f-06c9-4feb-a20c-620988d6341e",
       "name": "cria_grupo",
       "type": "n8n-nodes-base.supabase",
       "typeVersion": 1,
       "position": [
-        1568,
-        992
+        1056,
+        1520
       ],
       "credentials": {
         "supabaseApi": {
@@ -295,13 +317,13 @@
           ]
         }
       },
-      "id": "c463341d-555d-4d64-9005-9f5e4daf1287",
+      "id": "605d9769-6882-4bc0-b8f9-82d7bd19de06",
       "name": "cria_user",
       "type": "n8n-nodes-base.supabase",
       "typeVersion": 1,
       "position": [
-        2272,
-        928
+        1760,
+        1456
       ],
       "credentials": {
         "supabaseApi": {
@@ -366,13 +388,13 @@
         },
         "options": {}
       },
-      "id": "74a46989-6b63-4417-841b-fe5088942bab",
+      "id": "f258760c-38b1-4d62-bd20-ed693d70473e",
       "name": "Edit Fields1",
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1152,
-        832
+        640,
+        1360
       ]
     },
     {
@@ -400,13 +422,13 @@
         },
         "options": {}
       },
-      "id": "a4a14035-e897-4dac-b059-a976a2d213eb",
+      "id": "4309ee98-277c-41ce-92fa-53723131218e",
       "name": "encontrou_user1",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2,
       "position": [
-        2048,
-        816
+        1536,
+        1344
       ]
     },
     {
@@ -434,13 +456,13 @@
         },
         "options": {}
       },
-      "id": "44ecbec5-295c-41eb-a4e2-0c078568d311",
+      "id": "58b25243-b48b-48ed-8014-f4fbf0ce2cf4",
       "name": "encontrou_lead_no_grupo1",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2,
       "position": [
-        2672,
-        784
+        2160,
+        1312
       ]
     },
     {
@@ -468,13 +490,13 @@
         },
         "options": {}
       },
-      "id": "755e6db3-a4e7-4f13-bb07-a0f027c9d708",
+      "id": "aed8df39-d188-4b27-91a5-bb84d69b850e",
       "name": "entrou_no_grupo2",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2,
       "position": [
-        2832,
-        576
+        2320,
+        1104
       ]
     },
     {
@@ -502,13 +524,13 @@
         },
         "options": {}
       },
-      "id": "c189de4a-7c55-427d-8d76-7df36085f00d",
+      "id": "b32efdb0-3b72-4a11-b892-2096ccfc6425",
       "name": "entrou_no_grupo3",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2,
       "position": [
-        2832,
-        944
+        2320,
+        1472
       ]
     },
     {
@@ -536,13 +558,13 @@
         },
         "options": {}
       },
-      "id": "e032b746-a303-4029-91e6-c0bb5343402e",
+      "id": "258eab63-9e2c-46c3-a043-798bedd7544c",
       "name": "encontrou_grupo",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2,
       "position": [
-        1568,
-        832
+        1056,
+        1360
       ]
     },
     {
@@ -577,44 +599,44 @@
         },
         "options": {}
       },
-      "id": "21c1b3c8-eacd-4b94-83cc-7b9bf48c3e95",
+      "id": "5d78129e-6a3a-422f-b9b2-a4d1dee19ff1",
       "name": "Edit Fields3",
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        3536,
-        848
+        3024,
+        1376
       ]
     },
     {
       "parameters": {
         "content": "# CADASTRA CONTATO QUE ENTROU OU SAIU DOS GRUPOS NO BANCO DE DADOS",
-        "height": 831,
-        "width": 3118,
+        "height": 1007,
+        "width": 3854,
         "color": 3
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        848,
-        432
+        0,
+        832
       ],
       "typeVersion": 1,
-      "id": "1902367f-bc1c-4245-8f47-7c73e53e6f84",
+      "id": "af356dfd-398f-4b23-99cc-8ae4895a7ce7",
       "name": "Sticky Note"
     },
     {
       "parameters": {
         "httpMethod": "POST",
-        "path": "tra_set_2025_send123",
+        "path": "tra_set_2025_send",
         "options": {}
       },
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2,
       "position": [
-        928,
-        832
+        416,
+        1360
       ],
-      "id": "bd1312bf-6491-4b10-bb69-298ffcf176d3",
+      "id": "095f80da-40df-4ba3-9fc8-d12943e5d95d",
       "name": "Webhook1",
       "webhookId": "f2f7821e-c7ca-4c00-b25d-2fd951f1c622"
     },
@@ -633,13 +655,13 @@
           ]
         }
       },
-      "id": "5a85c4ac-6297-4021-9fa0-7b595f2f1488",
+      "id": "8a299785-96e1-4004-82a2-49d7fc065b8b",
       "name": "pesquisa_user1",
       "type": "n8n-nodes-base.supabase",
       "typeVersion": 1,
       "position": [
-        1856,
-        816
+        1344,
+        1344
       ],
       "alwaysOutputData": true,
       "credentials": {
@@ -683,13 +705,13 @@
           ]
         }
       },
-      "id": "0bba4dee-af40-4b15-bca4-c08db8cd0375",
+      "id": "173eb3fe-221e-4a3f-9fb0-17c1da606250",
       "name": "update_entrou_no_grupo1",
       "type": "n8n-nodes-base.supabase",
       "typeVersion": 1,
       "position": [
-        3056,
-        464
+        2544,
+        992
       ],
       "credentials": {
         "supabaseApi": {
@@ -732,13 +754,13 @@
           ]
         }
       },
-      "id": "5b1eba0e-1aae-4713-9b3f-8fccbe17ad4e",
+      "id": "eb51c744-e9b2-4ee6-91ff-cca283cabeff",
       "name": "update_saiu_do_grupo1",
       "type": "n8n-nodes-base.supabase",
       "typeVersion": 1,
       "position": [
-        3072,
-        656
+        2560,
+        1184
       ],
       "credentials": {
         "supabaseApi": {
@@ -768,13 +790,13 @@
           ]
         }
       },
-      "id": "d00b1f50-7791-4619-a238-53935751d564",
+      "id": "73e65b3f-160b-43c2-8b68-00f03b3c4e5f",
       "name": "pesquisa_lead_nos_grupos1",
       "type": "n8n-nodes-base.supabase",
       "typeVersion": 1,
       "position": [
-        2480,
-        784
+        1968,
+        1312
       ],
       "alwaysOutputData": true,
       "credentials": {
@@ -820,13 +842,13 @@
           ]
         }
       },
-      "id": "535dcc90-c094-4f5c-92d6-8e2027907e46",
+      "id": "ad1cfbbd-dc1b-43ef-b516-3ad1e5a2a206",
       "name": "insere_lead_na_tabela_leads_nos_grupos2",
       "type": "n8n-nodes-base.supabase",
       "typeVersion": 1,
       "position": [
-        3088,
-        832
+        2576,
+        1360
       ],
       "credentials": {
         "supabaseApi": {
@@ -871,13 +893,13 @@
           ]
         }
       },
-      "id": "dcc47a4e-30a5-4590-ad6e-6a62c1b21578",
+      "id": "5de39836-df04-487e-9882-136525d038fa",
       "name": "insere_lead_na_tabela_leads_nos_grupos3",
       "type": "n8n-nodes-base.supabase",
       "typeVersion": 1,
       "position": [
-        3120,
-        1056
+        2608,
+        1584
       ],
       "credentials": {
         "supabaseApi": {
@@ -918,13 +940,13 @@
         },
         "options": {}
       },
-      "id": "1f63fa9d-3331-439a-9d7b-c1f983e51506",
+      "id": "e21b4885-a480-45a0-89df-2b4b71c5bcba",
       "name": "Edit Fields4",
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        3536,
-        544
+        3024,
+        1072
       ]
     },
     {
@@ -943,13 +965,13 @@
           ]
         }
       },
-      "id": "1a6bd8a7-a050-462c-b1a7-339c8cf2a948",
+      "id": "83e2e8fa-09f1-4604-8d26-0f65869dd836",
       "name": "pesquisa_cadastro",
       "type": "n8n-nodes-base.supabase",
       "typeVersion": 1,
       "position": [
-        3728,
-        544
+        3216,
+        1072
       ],
       "executeOnce": false,
       "alwaysOutputData": true,
@@ -976,13 +998,13 @@
           ]
         }
       },
-      "id": "27e3db7a-8f47-4677-9466-c77db495e1ba",
+      "id": "fbd4dba5-0a41-4cff-bebb-5ba30c14876b",
       "name": "pesquisa_cadastro1",
       "type": "n8n-nodes-base.supabase",
       "typeVersion": 1,
       "position": [
-        3712,
-        864
+        3200,
+        1392
       ],
       "executeOnce": false,
       "alwaysOutputData": true,
@@ -1040,16 +1062,16 @@
   },
   "shared": [
     {
-      "updatedAt": "2025-08-18T15:31:22.857Z",
-      "createdAt": "2025-08-18T15:31:22.857Z",
+      "updatedAt": "2025-08-18T15:07:55.634Z",
+      "createdAt": "2025-08-18T15:07:55.634Z",
       "role": "workflow:owner",
-      "workflowId": "UN6kNQajWzmOhAyE",
+      "workflowId": "HmGegKqKGB2NKRl0",
       "projectId": "tP5lcLj6t4StcK5B"
     }
   ],
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-08-18T19:45:05.742Z",
-  "versionId": "bb29b556-035c-4010-a885-9194dada7f34"
+  "updatedAt": "2025-08-18T15:31:21.215Z",
+  "versionId": "29190d11-f997-4104-9678-2f88424d023c"
 }
