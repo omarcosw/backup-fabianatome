@@ -1,0 +1,178 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "formata_dados": {
+      "main": [
+        [
+          {
+            "node": "dados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "formata_dados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-09-15T04:37:19.270Z",
+  "id": "VjhvNUIpDp607clD",
+  "isArchived": false,
+  "meta": null,
+  "name": "My workflow 7",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "tra_set_25_checkout_abandonado",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -64,
+        0
+      ],
+      "id": "1e424aba-7049-4fa6-b06c-0b55385985bb",
+      "name": "Webhook",
+      "webhookId": "f23d7cb4-28a5-4590-9a8c-0a7ef874a803"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "79edcf9f-8602-409f-8d04-ced41c06d16f",
+              "name": "email",
+              "value": "={{ $item(\"0\").$node[\"formata_dados\"].json[\"Email\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "4750507c-f44a-45d5-b5ce-2a681d5a5581",
+              "name": "utm_source",
+              "value": "={{ $item(\"0\").$node[\"formata_dados\"].json[\"utm_source\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "a68b8a08-b2d1-4352-affb-0a6f4045cf4a",
+              "name": "utm_campaign",
+              "value": "={{ $item(\"0\").$node[\"formata_dados\"].json[\"utm_campaign\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "71c74ec7-51b3-422e-a2d5-ae7bbf3bd1b0",
+              "name": "utm_term",
+              "value": "={{ $item(\"0\").$node[\"formata_dados\"].json[\"utm_term\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "57aa10ae-6631-4352-8925-35138b1c9b7a",
+              "name": "utm_medium",
+              "value": "={{ $item(\"0\").$node[\"formata_dados\"].json[\"utm_medium\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "4e84ee54-3122-48e4-92d9-1f9db59e0b94",
+              "name": "utm_content",
+              "value": "={{ $item(\"0\").$node[\"formata_dados\"].json[\"utm_content\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "66f8191a-dd73-4773-b3f7-a63076f8686b",
+              "name": "form_id",
+              "value": "={{ $item(\"0\").$node[\"Webhook1\"].json[\"body\"][\"form_id\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "bb839055-124b-4671-99e9-d13293daa8c7",
+              "name": "page",
+              "value": "={{ $item(\"0\").$node[\"formata_dados\"].json[\"url_pagina\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "b5b5da8a-46c5-44bd-acb3-3f246b420a53",
+              "name": "Evento",
+              "value": "[TRA_SET_2025] - [CAPTAÇÃO]",
+              "type": "string"
+            },
+            {
+              "id": "271ee5fa-6031-4a09-b53d-b1da2acf56a9",
+              "name": "nome",
+              "value": "={{ $item(\"0\").$node[\"formata_dados\"].json[\"primeiro_nome\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "a973ea01-7ccc-4b7b-aa43-4237223690c7",
+              "name": "sobrenome",
+              "value": "={{ $item(\"0\").$node[\"formata_dados\"].json[\"sobrenome\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "7b8ac769-0ee5-410d-849d-34385009029b",
+              "name": "telefone",
+              "value": "={{ $item(\"0\").$node[\"formata_dados\"].json[\"WhatsApp\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "61ea21d5-244f-4120-955b-400c8e11cd5e",
+              "name": "No momento você é",
+              "value": "={{ $node[\"Webhook1\"].json[\"body\"][\"No momento você é \"] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "fea8c828-ce94-46c8-8b69-6ef0b8443bb0",
+      "name": "dados",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [
+        432,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "return (() => {\n  const data = $json.body;\n\n  // Lista oficial de DDDs válidos no Brasil\n  const dddsValidos = [\n    \"11\",\"12\",\"13\",\"14\",\"15\",\"16\",\"17\",\"18\",\"19\",\n    \"21\",\"22\",\"24\",\"27\",\"28\",\n    \"31\",\"32\",\"33\",\"34\",\"35\",\"37\",\"38\",\n    \"41\",\"42\",\"43\",\"44\",\"45\",\"46\",\n    \"47\",\"48\",\"49\",\n    \"51\",\"53\",\"54\",\"55\",\n    \"61\",\"62\",\"63\",\"64\",\"65\",\"66\",\"67\",\n    \"68\",\"69\",\n    \"71\",\"73\",\"74\",\"75\",\"77\",\"79\",\n    \"81\",\"82\",\"83\",\"84\",\"85\",\"86\",\"87\",\"88\",\"89\",\n    \"91\",\"92\",\"93\",\"94\",\"95\",\"96\",\"97\",\"98\",\"99\"\n  ];\n\n  // Separa nome completo em primeiro nome e sobrenome\n  function formatarNome(Name) {\n    const partes = (Name || \"\").trim().split(\" \");\n    const primeiro_nome = partes.shift();\n    const sobrenome = partes.length > 0 ? partes.join(\" \") : \"\";\n    return { primeiro_nome, sobrenome };\n  }\n\n  // Formata número de WhatsApp (inclui fallback para DDD \"98\" se ausente)\n  function formatarWhatsapp(WhatsApp) {\n    let numero = (WhatsApp || \"\").replace(/\\D/g, \"\");\n\n    // Adiciona DDI do Brasil se não tiver\n    if (!numero.startsWith(\"55\")) {\n      numero = \"55\" + numero;\n    }\n\n    let numeroNacional = numero.slice(2); // Remove \"55\"\n\n    // Se vier sem DDD (8 ou 9 dígitos), assume \"98\"\n    if (numeroNacional.length === 8 || numeroNacional.length === 9) {\n      numeroNacional = \"98\" + numeroNacional;\n    }\n\n    const ddd = numeroNacional.slice(0, 2);\n    let restante = numeroNacional.slice(2);\n\n    // Verifica DDD válido\n    if (!dddsValidos.includes(ddd)) {\n      console.log(\"❌ DDD inválido:\", ddd);\n      return null;\n    }\n\n    // Corrige erro de digitação (9999 → 999)\n    if (/^9999/.test(restante)) {\n      restante = restante.replace(/^9999/, '999');\n      numeroNacional = ddd + restante;\n    }\n\n    // Validação final (deve ter 10 ou 11 dígitos)\n    if (numeroNacional.length !== 10 && numeroNacional.length !== 11) {\n      console.log(\"❌ Número inválido:\", numeroNacional);\n      return null;\n    }\n\n    const resultado = '55' + numeroNacional;\n\n    console.log({ input: WhatsApp, resultado });\n\n    return resultado;\n  }\n\n  // Dados principais do formulário\n  const nome = data.Nome;\n  const telefone = data.WhatsApp;\n  const email = data[\"E-mail\"];\n  const pagina = data.pagina || \"\";\n\n  // Parâmetros UTM\n  const utm_source = data.utm_source || \"\";\n  const utm_medium = data.utm_medium || \"\";\n  const utm_content = data.utm_content || \"\";\n  const utm_term = data.utm_term || \"\";\n  const utm_campaign = data.utm_campaign || \"\";\n\n  const nomeFormatado = formatarNome(nome);\n\n  // Retorna no formato esperado pelo Code node\n  return [\n    {\n      json: {\n        primeiro_nome: nomeFormatado.primeiro_nome,\n        sobrenome: nomeFormatado.sobrenome,\n        WhatsApp: formatarWhatsapp(telefone),\n        Email: (email || \"\").toLowerCase(),\n        data_hora: null,\n        url_pagina: pagina,\n        utm_source,\n        utm_medium,\n        utm_content,\n        utm_term,\n        utm_campaign\n      }\n    }\n  ];\n})();"
+      },
+      "id": "0cc75953-113b-4e7b-bb14-39b12612d512",
+      "name": "formata_dados",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        192,
+        0
+      ]
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-09-15T04:37:19.270Z",
+      "createdAt": "2025-09-15T04:37:19.270Z",
+      "role": "workflow:owner",
+      "workflowId": "VjhvNUIpDp607clD",
+      "projectId": "tP5lcLj6t4StcK5B"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-09-15T04:37:19.270Z",
+  "versionId": "348bbd75-3c2f-400d-9dea-f74ac627e528"
+}
