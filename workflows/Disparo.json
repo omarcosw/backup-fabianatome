@@ -1,0 +1,554 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "Loop Over Items": {
+      "main": [
+        [
+          {
+            "node": "Replace Me",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Limita quantidade de disparo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "update_mensagem",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "armazena_mensagem",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "get_numero",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get_numero": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "armazena_mensagem": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "update_mensagem": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limita quantidade de disparo": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Replace Me1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    }
+  },
+  "createdAt": "2025-08-12T21:42:52.998Z",
+  "id": "fH3HJEDYeUTU1xCn",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Disparo",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        688,
+        416
+      ],
+      "id": "0d128b0c-fb94-4d7e-82a3-0531af1d5b23",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "name": "Replace Me",
+      "typeVersion": 1,
+      "position": [
+        880,
+        272
+      ],
+      "id": "1ebee4fe-b1d8-443c-a2a6-3e6139a2eb8d"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Este código deve estar dentro de um Node de tipo \"Code\" versão 2\n\n// Itera por todos os itens de entrada\nreturn items.map(item => {\n  const nomeCompleto = item.json.Nome || \"\";\n  const partes = nomeCompleto.trim().split(\" \");\n  const primeiroNome = partes[0] || \"\";\n  const sobrenome = partes.slice(1).join(\" \") || \"\";\n\n  return {\n    json: {\n      ...item.json, // mantém os dados anteriores\n      nome: primeiroNome,\n      sobrenome: sobrenome\n    }\n  };\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1296,
+        480
+      ],
+      "id": "db5dc111-93bb-4e15-a28b-66c21cb9b85b",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "1a0e1610-d1fb-4b9f-8b88-34a67f009d77",
+              "leftValue": "={{ $item(\"0\").$node[\"get_numero\"].json[\"mensagem\"] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1968,
+        480
+      ],
+      "id": "d43eb275-9190-4b72-acd3-030aff196a15",
+      "name": "If1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "025e6878-612d-4c76-94d7-19f6a9e74418",
+              "name": "output.numero",
+              "value": "={{ $item(\"0\").$node[\"Code\"].json[\"Número\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "4786db0a-53f1-4e4e-87ac-c9cedc8e62ab",
+              "name": "output.nam",
+              "value": "={{ $item(\"0\").$node[\"Code\"].json[\"nome\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "1cb10e92-b441-4c8d-971c-4e23a0efd512",
+              "name": "mensagem",
+              "value": "=🚨 COMUNICADO URGENTE 🚨  Sou a Professora Fabiana Tomé e estou passando para te dar um último aviso: hoje é o derradeiro prazo para garantir sua vaga no Tributarista em Ação com a melhor condição da história!  🔥 Somente nas próximas horas vamos manter o benefício especial da última turma:  ✅ 2 anos de acesso pelo valor de apenas 1 – incluindo todas as aulas, bônus, suporte e plantões de dúvidas quinzenais.  ⏳ Mas atenção: essa oportunidade expira muito em breve. 🎯 Toque no botão abaixo agora e garanta a sua matrícula antes que acabe.  Vem fazer parte do #TRIBU e transformar sua carreira!  💬 Me responde aqui e eu mesma te explico como aproveitar essa condição antes que o prazo encerre.",
+              "type": "string"
+            },
+            {
+              "id": "a9925528-1b2c-4c6e-85fa-499ee4b90881",
+              "name": "linkPreview",
+              "value": false,
+              "type": "boolean"
+            },
+            {
+              "id": "2b2b6094-b11d-482f-9022-27ce0f643b7c",
+              "name": "delay",
+              "value": "1200",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1584,
+        480
+      ],
+      "id": "1dae5012-e3e0-4baf-adb9-b38bac94da73",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "tableId": "disparo_mensagem_ia_vendas",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "telefone",
+              "keyValue": "={{ $item(\"0\").$node[\"Edit Fields\"].json[\"output\"][\"numero\"] }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        1776,
+        480
+      ],
+      "id": "aca2c133-7bf7-4796-a76c-111ea4c2e0b1",
+      "name": "get_numero",
+      "alwaysOutputData": true,
+      "credentials": {
+        "supabaseApi": {
+          "id": "06funpVK0RasJnc4",
+          "name": "Supabase - Fabiana Tomé"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "tableId": "disparo_mensagem_ia_vendas",
+        "matchType": "allFilters",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "telefone",
+              "condition": "eq",
+              "keyValue": "={{ $item(\"0\").$node[\"Edit Fields\"].json[\"output\"][\"numero\"] }}"
+            }
+          ]
+        },
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "mensagem",
+              "fieldValue": "={{ $item(\"0\").$node[\"Edit Fields\"].json[\"mensagem\"] }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        2160,
+        368
+      ],
+      "id": "32ae7353-0323-4506-be1f-bb4def036d98",
+      "name": "update_mensagem",
+      "credentials": {
+        "supabaseApi": {
+          "id": "06funpVK0RasJnc4",
+          "name": "Supabase - Fabiana Tomé"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "tableId": "disparo_mensagem_ia_vendas",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "telefone",
+              "fieldValue": "={{ $item(\"0\").$node[\"Edit Fields\"].json[\"output\"][\"numero\"] }}"
+            },
+            {
+              "fieldId": "mensagem",
+              "fieldValue": "={{ $item(\"0\").$node[\"Edit Fields\"].json[\"mensagem\"] }}"
+            },
+            {
+              "fieldId": "created_at",
+              "fieldValue": "={{ $now }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        2192,
+        592
+      ],
+      "id": "b0dc1a9e-af5e-4e02-bbe5-4f3b390b8a5e",
+      "name": "armazena_mensagem",
+      "credentials": {
+        "supabaseApi": {
+          "id": "06funpVK0RasJnc4",
+          "name": "Supabase - Fabiana Tomé"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "height": 740,
+        "width": 2760
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        48,
+        224
+      ],
+      "id": "40ed7ce1-aae4-4b8a-a5aa-eb6916f0da34",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## 7:10 AM",
+        "height": 1180,
+        "width": 2860,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "367606b4-b7a7-44f0-a32e-f92226df675f",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 7,
+              "triggerAtMinute": 10
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        224,
+        416
+      ],
+      "id": "f82e6e93-7b24-492a-9e8b-21658ce3a910",
+      "name": "Schedule Trigger",
+      "disabled": true
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "name": "Replace Me1",
+      "typeVersion": 1,
+      "position": [
+        1104,
+        672
+      ],
+      "id": "e059870e-3e1f-4e5f-b796-5fc719c02e00"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "890bf9ac-e0fc-410a-9171-8d6241a6f2f6",
+              "leftValue": "={{ $json.row_number }}",
+              "rightValue": 500,
+              "operator": {
+                "type": "number",
+                "operation": "lt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        896,
+        496
+      ],
+      "id": "01cdb5ef-7c81-4d29-800b-7e32696ba4ee",
+      "name": "Limita quantidade de disparo"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/17luEfNl3AI3it4pC_xv6y4tfPOFdLh-f3EdRGDiZmEg/edit?gid=434060379#gid=434060379",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 434060379,
+          "mode": "list",
+          "cachedResultName": "SendFlow - Leads da Campanha (2)",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/17luEfNl3AI3it4pC_xv6y4tfPOFdLh-f3EdRGDiZmEg/edit#gid=434060379"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        448,
+        416
+      ],
+      "id": "9112a440-404f-48f9-b8b7-d06818b1d529",
+      "name": "Get row(s) in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "TVPRos8AAlC7U017",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://unnichat.com.br/a/start/YABXY7zFDzWduJ0K6hI8",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"nome\": \"{{ $item(\"0\").$node[\"Edit Fields\"].json[\"output\"][\"nam\"] }}\",\n  \"telefone\": \"{{ $item(\"0\").$node[\"Edit Fields\"].json[\"output\"][\"numero\"] }}\",\n  \"type\": \"message\",\n  \"text\": {\n    \"body\": \"recuperacao\"\n  }\n} ",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2416,
+        480
+      ],
+      "id": "95276c0e-d1b8-416a-996f-922375da666a",
+      "name": "HTTP Request",
+      "retryOnFail": false,
+      "onError": "continueRegularOutput"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-08-12T21:42:52.998Z",
+      "createdAt": "2025-08-12T21:42:52.998Z",
+      "role": "workflow:owner",
+      "workflowId": "fH3HJEDYeUTU1xCn",
+      "projectId": "tP5lcLj6t4StcK5B"
+    }
+  ],
+  "staticData": {
+    "node:Schedule Trigger": {
+      "recurrenceRules": []
+    }
+  },
+  "tags": [
+    {
+      "updatedAt": "2025-08-12T21:42:50.035Z",
+      "createdAt": "2025-08-12T21:42:50.035Z",
+      "id": "LiSc0ntr8YmsAq1n",
+      "name": "API NÃO OFICIAL"
+    }
+  ],
+  "triggerCount": 1,
+  "updatedAt": "2025-08-13T13:00:15.625Z",
+  "versionId": "7a18d1d5-8feb-44d8-a802-194eaae44d72"
+}
