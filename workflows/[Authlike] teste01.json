@@ -1,0 +1,697 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "IA PROSPECÇÃO",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items1": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Get a row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Responde texto1": {
+      "main": [
+        [
+          {
+            "node": "Create a row",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Delete rows or columns from sheet2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Delete rows or columns from sheet": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a row": {
+      "main": [
+        [
+          {
+            "node": "Delete rows or columns from sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "Postgres Chat Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "IA PROSPECÇÃO",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IA PROSPECÇÃO": {
+      "main": [
+        [
+          {
+            "node": "Responde texto1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get a row": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Delete rows or columns from sheet1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "IA PROSPECÇÃO",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Delete rows or columns from sheet1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Delete rows or columns from sheet2": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-12-02T01:00:47.054Z",
+  "id": "HkEZreRL2ELThpOR",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "[Authlike] teste01",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 9,
+              "triggerAtMinute": 10
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -496,
+        -432
+      ],
+      "id": "6af58323-bfc4-450a-8f4b-7ea82fd172c0",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6f98c767-66ed-4271-9d07-9381a793f9c2",
+              "name": "nome",
+              "value": "={{ $json.nome }}",
+              "type": "string"
+            },
+            {
+              "id": "db0da704-2898-447c-9c98-d8097c49c16a",
+              "name": "telefone",
+              "value": "={{ $json.telefone }}",
+              "type": "string"
+            },
+            {
+              "id": "41952b54-7490-44ea-9c73-f2fdab360274",
+              "name": "row_number",
+              "value": "={{ $json.row_number }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        176,
+        -448
+      ],
+      "id": "ce0bef7a-e00b-4c4b-b7d4-aba024ffa657",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "amount": "={{ Math.floor(Math.random() * (1000 - 300 + 1)) + 300 }}"
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        2432,
+        -400
+      ],
+      "id": "cf625272-878d-4116-93c4-bf68cbe869c6",
+      "name": "Wait",
+      "webhookId": "83267e10-56e0-497c-9e9f-ec98c9b6c091"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://evolution.fabianatome.com.br/message/sendText/testemarcos",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "=4CD6960BD8E2-4899-A24C-BC73EDA99976"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "number",
+              "value": "={{ $item(\"0\").$node[\"Loop Over Items1\"].json[\"telefone\"] }}"
+            },
+            {
+              "name": "text",
+              "value": "={{ $item(\"0\").$node[\"IA PROSPECÇÃO\"].json[\"output\"] }}"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "id": "cd15e419-77a7-4ff5-a60e-555ea15a5f9b",
+      "name": "Responde texto1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1696,
+        -400
+      ],
+      "retryOnFail": true,
+      "waitBetweenTries": 5000,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        1232,
+        -352
+      ],
+      "id": "1a072932-fd9b-4b9f-93fa-99ebf3bfdb02",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "FWqn0IMXX1HmDrEh",
+          "name": "IA SUPORTE"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        432,
+        -448
+      ],
+      "id": "b4f42993-26cb-42f3-a0c7-c43dd89ef0b1",
+      "name": "Loop Over Items1"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1DNvv-hubQSyAM0W_UjjGB6KZYU1dytoX-hkt3sXQ14E",
+          "mode": "list",
+          "cachedResultName": "lista adv sorocaba",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1DNvv-hubQSyAM0W_UjjGB6KZYU1dytoX-hkt3sXQ14E/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1023456651,
+          "mode": "list",
+          "cachedResultName": "aba1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1DNvv-hubQSyAM0W_UjjGB6KZYU1dytoX-hkt3sXQ14E/edit#gid=1023456651"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -32,
+        -448
+      ],
+      "id": "e21b6369-0602-4c14-8b29-631c6a492584",
+      "name": "Get row(s) in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "7Goe4M9R60j6PEhl",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "documentId": {
+          "__rl": true,
+          "value": "1DNvv-hubQSyAM0W_UjjGB6KZYU1dytoX-hkt3sXQ14E",
+          "mode": "list",
+          "cachedResultName": "lista adv sorocaba",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1DNvv-hubQSyAM0W_UjjGB6KZYU1dytoX-hkt3sXQ14E/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1023456651,
+          "mode": "list",
+          "cachedResultName": "aba1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1DNvv-hubQSyAM0W_UjjGB6KZYU1dytoX-hkt3sXQ14E/edit#gid=1023456651"
+        },
+        "startIndex": "={{ $('Loop Over Items1').item.json.row_number }}"
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        2256,
+        -400
+      ],
+      "id": "03011aee-8a4b-4c73-a862-b3fd0ef72b08",
+      "name": "Delete rows or columns from sheet",
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "7Goe4M9R60j6PEhl",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "476683d0-98d9-4c9b-9fba-aae7dbb0ef89",
+              "leftValue": "={{ $now.toISO() }}",
+              "rightValue": "={{ $now.set({ hour: 8, minute: 0, second: 0 }).toISO() }}",
+              "operator": {
+                "type": "dateTime",
+                "operation": "after"
+              }
+            },
+            {
+              "id": "e6cb4d8a-a624-4563-80b0-9f93d7231053",
+              "leftValue": "={{ $now.toISO() }}",
+              "rightValue": "={{ $now.set({ hour: 19, minute: 0, second: 0 }).toISO() }}",
+              "operator": {
+                "type": "dateTime",
+                "operation": "before"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -256,
+        -432
+      ],
+      "id": "a4fadf13-a4d2-451f-9f57-4d3e0e144147",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "tableId": "authlike",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "nome",
+              "fieldValue": "={{ $('Loop Over Items1').item.json.nome }}"
+            },
+            {
+              "fieldId": "telefone",
+              "fieldValue": "={{ $('Loop Over Items1').item.json.telefone }}"
+            },
+            {
+              "fieldId": "horario_envio",
+              "fieldValue": "={{ $now }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        1984,
+        -400
+      ],
+      "id": "c585124b-5be6-4d62-9829-9a851097f97d",
+      "name": "Create a row",
+      "credentials": {
+        "supabaseApi": {
+          "id": "06funpVK0RasJnc4",
+          "name": "Supabase - Fabiana Tomé"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('Loop Over Items1').item.json.telefone }}",
+        "tableName": "authlike",
+        "contextWindowLength": 3
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
+      "typeVersion": 1.3,
+      "position": [
+        1376,
+        -352
+      ],
+      "id": "3666f8ee-e32a-413c-b3ce-f7ce4c375427",
+      "name": "Postgres Chat Memory",
+      "credentials": {
+        "postgres": {
+          "id": "FmEJummnUui6Zrj2",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "agent": "conversationalAgent",
+        "promptType": "define",
+        "text": "=Crie uma mensagem EXTREMAMENTE curta e direta que OBRIGUE uma resposta do destinatário.\n\nCONTEXTO:\n- Nome completo: {{ $item(\"0\").$node[\"Loop Over Items1\"].json[\"nome\"] }}\n- Primeiro nome: {{ $item(\"0\").$node[\"Loop Over Items1\"].json[\"nome\"].split(' ')[0] }}\n- Número da iteração: {{ $itemIndex }}\n\nPASSO 1 - IDENTIFICAÇÃO OBRIGATÓRIA:\n\nAnalise o nome completo: \"{{ $item(\"0\").$node[\"Loop Over Items1\"].json[\"nome\"] }}\"\n\nÉ ESCRITÓRIO se contiver QUALQUER uma destas palavras:\n\"Advocacia\", \"Advogados\", \"Advogadas\", \"Sociedade\", \"Associados\", \"Associadas\", \"Escritório\", \"&\", \"Law\", \"Jurídico\", \"Jurídica\", \"Consultoria\", \"Firma\", \"Office\", \"Grupo\"\n\nÉ PESSOA se NÃO contiver nenhuma dessas palavras.\n\nPASSO 2 - SE FOR PESSOA, identifique o gênero pelo PRIMEIRO NOME:\n\nMASCULINO (use \"Dr. [primeiro nome]\"):\nDaniel, Paulo, Rafael, Marcos, Carlos, José, João, Pedro, Lucas, Felipe, Bruno, André, Ricardo, Roberto, Fernando, Gustavo, Diego, Thiago, Rodrigo, Eduardo, Fábio, Vinícius, Leonardo, Marcelo, Alexandre, Wagner, Anderson, Hélio, Romulo, Wellington, Nicolas, Delano, Davi, Hugo, Márcio, Henrique, Helano, Sávio, Rogério, Adailton, Armando, Cleto, Matheus, Iagê, Benjamim, Hiury, Vicente, Julio, Filipe, Ramon, Breno, Diego, Gustavo\n\nFEMININO (use \"Dra. [primeiro nome]\"):\nMaria, Ana, Julia, Juliana, Bruna, Caroline, Adriana, Eliane, Patrícia, Raquel, Silvia, Priscila, Gisele, Michele, Liana, Larissa, Luma, Erika, Tissia, Andrezza, Tíssia, França\n\nREGRAS OBRIGATÓRIAS:\n\n1. SAUDAÇÕES (escolha baseado em {{ $itemIndex }} % 5):\n   0. \"Olá\"\n   1. \"Oi\"\n   2. \"{{ new Date().getHours() < 12 ? 'Bom dia' : (new Date().getHours() < 18 ? 'Boa tarde' : 'Boa noite') }}\"\n   3. \"Como vai\"\n   4. \"Tudo bem\"\n\n2. SE FOR PESSOA - COMPLEMENTOS (escolha baseado em Math.floor({{ $itemIndex }} / 5) % 4):\n   0. \", Dr./Dra. [primeiro nome]?\"\n   1. \", Dr./Dra. [primeiro nome], tudo bem?\"\n   2. \" Dr./Dra. [primeiro nome], como vai?\"\n   3. \", Dr./Dra. [primeiro nome], pode me ajudar?\"\n\n3. SE FOR ESCRITÓRIO - COMPLEMENTOS (escolha baseado em Math.floor({{ $itemIndex }} / 5) % 5):\n   0. \", tudo bem?\"\n   1. \", como posso falar com alguém?\"\n   2. \", podem me ajudar?\"\n   3. \", alguém pode me atender?\"\n   4. \", gostaria de falar com alguém?\"\n\nEXEMPLOS PRÁTICOS:\n\nNOME: \"Andrezza Ribeiro\" (PESSOA FEMININA)\n✓ CORRETO: \"Olá, Dra. Andrezza?\"\n✓ CORRETO: \"Oi, Dra. Andrezza, tudo bem?\"\n✓ CORRETO: \"Bom dia, Dra. Andrezza, como vai?\"\n✗ ERRADO: \"Olá, tudo bem?\" (faltou Dr./Dra.)\n\nNOME: \"Daniel Maia\" (PESSOA MASCULINA)\n✓ CORRETO: \"Olá, Dr. Daniel?\"\n✓ CORRETO: \"Oi, Dr. Daniel, tudo bem?\"\n✗ ERRADO: \"Olá, tudo bem?\" (faltou Dr./Dra.)\n\nNOME: \"Daniel Maia Advocacia\" (ESCRITÓRIO - contém \"Advocacia\")\n✓ CORRETO: \"Olá, tudo bem?\"\n✓ CORRETO: \"Oi, podem me ajudar?\"\n✗ ERRADO: \"Olá, Dr. Daniel?\" (não deve usar Dr./Dra.)\n\nNOME: \"França & Gimenes Advocacia e Consultoria\" (ESCRITÓRIO - contém \"&\" e \"Advocacia\")\n✓ CORRETO: \"Olá, tudo bem?\"\n✓ CORRETO: \"Oi, como posso falar com alguém?\"\n✗ ERRADO: \"Olá, Dra. França?\" (não deve usar Dr./Dra.)\n\nNOME: \"Bruna Pereira\" (PESSOA FEMININA)\n✓ CORRETO: \"Olá, Dra. Bruna?\"\n✓ CORRETO: \"Oi, Dra. Bruna, tudo bem?\"\n✗ ERRADO: \"Olá, tudo bem?\" (faltou Dr./Dra.)\n\nVALIDAÇÃO ANTES DE GERAR:\n1. Verifique: O nome completo contém \"Advocacia\", \"Advogados\", \"&\", etc?\n   - SIM → É ESCRITÓRIO → NÃO use Dr./Dra.\n   - NÃO → É PESSOA → SEMPRE use Dr./Dra.\n\n2. Se for PESSOA, qual o gênero do primeiro nome?\n   - Masculino → Use \"Dr.\"\n   - Feminino → Use \"Dra.\"\n\n3. Aplique a rotação baseada em {{ $itemIndex }}\n\nPROIBIDO:\n- Omitir \"Dr.\" ou \"Dra.\" quando for PESSOA\n- Usar \"Dr.\" ou \"Dra.\" quando for ESCRITÓRIO\n- Adicionar texto além de [SAUDAÇÃO] + [COMPLEMENTO]\n- Usar mais de uma linha\n- Repetir a mesma combinação consecutivamente\n\nIMPORTANTE: \n- Responda APENAS com a mensagem final\n- Para PESSOA: OBRIGATÓRIO usar \"Dr.\" ou \"Dra.\" + primeiro nome\n- Para ESCRITÓRIO: NUNCA usar \"Dr.\" ou \"Dra.\"\n- A mensagem DEVE terminar com \"?\"",
+        "options": {}
+      },
+      "id": "0205df32-d52b-46be-987d-a86e8a5374b7",
+      "name": "IA PROSPECÇÃO",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        1280,
+        -528
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "tableId": "authlike",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "telefone",
+              "keyValue": "={{ $('Loop Over Items1').item.json.telefone }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        736,
+        -432
+      ],
+      "id": "1c78dc4d-d9ad-44f8-9113-b1493dd227f2",
+      "name": "Get a row",
+      "alwaysOutputData": true,
+      "credentials": {
+        "supabaseApi": {
+          "id": "06funpVK0RasJnc4",
+          "name": "Supabase - Fabiana Tomé"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "97d7bcd7-3ce7-4034-b361-ab2dea080cf9",
+              "leftValue": "={{ $json.telefone }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        928,
+        -416
+      ],
+      "id": "da920af5-93a2-4a08-92af-6317e3ad76da",
+      "name": "If1"
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "documentId": {
+          "__rl": true,
+          "value": "1DNvv-hubQSyAM0W_UjjGB6KZYU1dytoX-hkt3sXQ14E",
+          "mode": "list",
+          "cachedResultName": "lista adv sorocaba",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1DNvv-hubQSyAM0W_UjjGB6KZYU1dytoX-hkt3sXQ14E/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1023456651,
+          "mode": "list",
+          "cachedResultName": "aba1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1DNvv-hubQSyAM0W_UjjGB6KZYU1dytoX-hkt3sXQ14E/edit#gid=1023456651"
+        },
+        "startIndex": "={{ $('Loop Over Items1').item.json.row_number }}"
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1248,
+        -128
+      ],
+      "id": "b0009f53-4ad3-48a2-aed9-89d6a2f8761c",
+      "name": "Delete rows or columns from sheet1",
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "7Goe4M9R60j6PEhl",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "documentId": {
+          "__rl": true,
+          "value": "1DNvv-hubQSyAM0W_UjjGB6KZYU1dytoX-hkt3sXQ14E",
+          "mode": "list",
+          "cachedResultName": "lista adv sorocaba",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1DNvv-hubQSyAM0W_UjjGB6KZYU1dytoX-hkt3sXQ14E/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1023456651,
+          "mode": "list",
+          "cachedResultName": "aba1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1DNvv-hubQSyAM0W_UjjGB6KZYU1dytoX-hkt3sXQ14E/edit#gid=1023456651"
+        },
+        "startIndex": "={{ $('Loop Over Items1').item.json.row_number }}"
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        2080,
+        -192
+      ],
+      "id": "c1871917-4ddd-48d5-9e29-cc0d368be10b",
+      "name": "Delete rows or columns from sheet2",
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "7Goe4M9R60j6PEhl",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-12-02T01:00:47.054Z",
+      "createdAt": "2025-12-02T01:00:47.054Z",
+      "role": "workflow:owner",
+      "workflowId": "HkEZreRL2ELThpOR",
+      "projectId": "tP5lcLj6t4StcK5B"
+    }
+  ],
+  "staticData": {
+    "node:Schedule Trigger": {
+      "recurrenceRules": []
+    }
+  },
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2025-12-10T00:44:21.302Z",
+  "versionId": "8e78a1f4-ba1f-403b-9275-7be68a65c442"
+}
