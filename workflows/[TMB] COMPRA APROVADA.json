@@ -1,0 +1,3469 @@
+{
+  "active": true,
+  "activeVersion": {
+    "updatedAt": "2025-12-03T22:27:37.573Z",
+    "createdAt": "2025-12-03T22:27:37.573Z",
+    "versionId": "49fae9ca-f9b7-45df-a540-9f1e8f030914",
+    "workflowId": "NPXBi3ZCozIQ9I5x",
+    "nodes": [
+      {
+        "parameters": {
+          "httpMethod": "POST",
+          "path": "compraaprovada-tmb-geral",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.webhook",
+        "typeVersion": 2,
+        "position": [
+          128,
+          -2448
+        ],
+        "id": "4e6208c4-34bb-424a-81a1-b7552911a09b",
+        "name": "Webhook",
+        "webhookId": "49370696-2931-486e-8b95-633b90f9d97e"
+      },
+      {
+        "parameters": {
+          "jsCode": "return items.map(item => {\n  const data = item.json.body;\n\n  // 1. Telefone — normalizado com DDI\n  let telefone = data.telefone_ativo || data.telefones || \"\";\n  telefone = telefone.replace(/\\D/g, \"\");\n  if (!telefone.startsWith(\"55\")) {\n    telefone = \"55\" + telefone;\n  }\n\n  // 2. Email\n  const email = (data.email || \"\").toLowerCase();\n\n  // 3. Endereço\n  const endereco = {\n    pais: data.endereco_pais || null,\n    cep: data.endereco_cep || null,\n    estado: data.endereco_estado || null,\n    cidade: data.endereco_cidade || null,\n    bairro: data.endereco_bairro || null,\n    logradouro: data.endereco_logradouro || null,\n    numero: data.endereco_numero || null,\n    complemento: data.endereco_complemento || null\n  };\n  const enderecoCompleto = data.endereco_completo || \"\";\n\n  // 4. UTMs\n  const utms = {\n    utm_source: data.utm_source || null,\n    utm_medium: data.utm_medium || null,\n    utm_term: null,\n    utm_content: data.utm_content || null,\n    utm_campaign: data.utm_campaign || null,\n    utm_last_source: data.utm_last_source || null,\n    utm_last_medium: data.utm_last_medium || null,\n    utm_last_content: data.utm_last_content || null,\n    utm_last_campaign: data.utm_last_campaign || null\n  };\n\n  // 5. Nome e sobrenome\n  const nomeCompleto = data.cliente || \"\";\n  const partes = nomeCompleto.trim().split(\" \");\n  const nome = partes.shift() || \"\";\n  const sobrenome = partes.join(\" \");\n\n  // 6. Documento e nascimento\n  const documento = data.documento || null;\n  const nascimento = data.nascimento || null;\n\n  // 7. Valores monetários\n  const valorTotal = parseFloat(data.valor_total || 0);\n  const valorParcela = parseFloat(data.valor_parcela || 0);\n  const valorEntrada = parseFloat(data.valor_entrada || 0);\n  const taxaAdministracao = parseFloat(data.taxa_administracao || 0);\n\n  // 8. Informações do produto e pagamento\n  const produto = {\n    nome_produto: data.titulo || null,\n    nome_lancamento: data.lancamento || null,\n    produtor: data.produtor || null,\n    produtor_id: data.produtor_id || null,\n    id_transacao: data.id || null,\n    id_pedido: data.pedido || null,\n    id_externo: data.id_externo || null,\n    lancamento_id: data.lancamento_id || null,\n    code: data.code || null,\n    parcelas: data.parcelas || null,\n    melhor_dia_pagamento: data.melhor_dia_pagamento || null,\n    status_pedido: data.status_pedido || null,\n    status_financeiro: data.status_financeiro || null,\n    criado_em: data.criado_em || null,\n    data_efetivado: data.data_efetivado || null,\n    provedor_negociado: data.provedor_negociado || null\n  };\n\n  // 9. Comissão (não presente no input — assumido como 0 ou nulo)\n  const comissao = parseFloat(data.comissao_produtor || 0); // Adapte aqui se esse campo for adicionado depois\n  const taxaPlataforma = valorTotal - comissao;\n\n  return {\n    json: {\n      // Cliente\n      nome,\n      sobrenome,\n      email,\n      telefone,\n      documento,\n      nascimento,\n\n      // Endereço\n      enderecoSeparado: endereco,\n      enderecoCompleto,\n\n      // Produto e transação\n      produto,\n\n      // UTM\n      utms,\n\n      // Valores\n      valorTotal: parseFloat(valorTotal.toFixed(2)),\n      valorParcela: parseFloat(valorParcela.toFixed(2)),\n      valorEntrada: parseFloat(valorEntrada.toFixed(2)),\n      taxaAdministracao: parseFloat(taxaAdministracao.toFixed(2)),\n      comissao: parseFloat(comissao.toFixed(2)),\n      taxaPlataforma: parseFloat(taxaPlataforma.toFixed(2)),\n\n      valorTotal_formatado: `R$ ${valorTotal.toFixed(2)}`,\n      valorParcela_formatada: `R$ ${valorParcela.toFixed(2)}`,\n      valorEntrada_formatada: `R$ ${valorEntrada.toFixed(2)}`,\n      taxaAdministracao_formatada: `R$ ${taxaAdministracao.toFixed(2)}`,\n      comissao_formatada: `R$ ${comissao.toFixed(2)}`,\n      taxaPlataforma_formatada: `R$ ${taxaPlataforma.toFixed(2)}`\n    }\n  };\n});\n"
+        },
+        "id": "4c782301-e566-487e-8fc4-da9690fc0eb7",
+        "name": "trata_dados",
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 1,
+        "position": [
+          352,
+          -2448
+        ]
+      },
+      {
+        "parameters": {
+          "keepOnlySet": true,
+          "values": {
+            "string": [
+              {
+                "name": "nome",
+                "value": "={{ $json[\"nome\"] }}"
+              },
+              {
+                "name": "email",
+                "value": "={{ $json[\"email\"] }}"
+              },
+              {
+                "name": "cpf/cnpj",
+                "value": "={{ $item(\"0\").$node[\"trata_dados\"].json[\"documento\"] }}"
+              },
+              {
+                "name": "nome_produto",
+                "value": "={{ $item(\"0\").$node[\"trata_dados\"].json[\"produto\"][\"nome_lancamento\"] }}"
+              },
+              {
+                "name": "transaction_id",
+                "value": "={{ $item(\"0\").$node[\"trata_dados\"].json[\"produto\"][\"id_transacao\"] }}"
+              },
+              {
+                "name": "product_id",
+                "value": "={{ $item(\"0\").$node[\"trata_dados\"].json[\"produto\"][\"produtor_id\"] }}"
+              },
+              {
+                "name": "preco",
+                "value": "={{ $item(\"0\").$node[\"trata_dados\"].json[\"valorTotal\"] }}"
+              },
+              {
+                "name": "payment_method",
+                "value": "={{ $item(\"0\").$node[\"trata_dados\"].json[\"produto\"][\"provedor_negociado\"] }}"
+              },
+              {
+                "name": "trans_status",
+                "value": "={{ $item(\"0\").$node[\"trata_dados\"].json[\"produto\"][\"status_pedido\"] }}"
+              },
+              {
+                "name": "data_compra",
+                "value": "={{ $now.format('yyyy-MM-dd HH:mm') }}"
+              },
+              {
+                "name": "utm_source",
+                "value": "={{ $json[\"utms\"][\"utm_source\"] }}"
+              },
+              {
+                "name": "utm_medium",
+                "value": "={{ $json[\"utms\"][\"utm_medium\"] }}"
+              },
+              {
+                "name": "utm_term",
+                "value": "={{ $json[\"utms\"][\"utm_term\"] }}"
+              },
+              {
+                "name": "utm_content",
+                "value": "={{ $json[\"utms\"][\"utm_content\"] }}"
+              },
+              {
+                "name": "utm_campaign",
+                "value": "={{ $json[\"utms\"][\"utm_campaign\"] }}"
+              },
+              {
+                "name": "telefone",
+                "value": "={{ $json[\"telefone\"] }}"
+              },
+              {
+                "name": "sobrenome",
+                "value": "={{ $json[\"sobrenome\"] }}"
+              },
+              {
+                "name": "comissao_produtor",
+                "value": "={{ $item(\"0\").$node[\"trata_dados\"].json[\"taxaAdministracao\"] }}"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "3450335c-fa2f-4429-bedf-bbb069db1c68",
+        "name": "dados_da_compra",
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 2,
+        "position": [
+          592,
+          -2448
+        ]
+      },
+      {
+        "parameters": {
+          "content": "# PARTE 1",
+          "height": 347,
+          "width": 833,
+          "color": 3
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "position": [
+          80,
+          -2544
+        ],
+        "typeVersion": 1,
+        "id": "ccd46e27-f17d-44a2-96c6-7992366a0e8e",
+        "name": "Sticky Note6"
+      },
+      {
+        "parameters": {
+          "url": "=https://{{ $node[\"Set\"].json[\"url_api_activecampaign\"] }}.api-us1.com/api/3/tags?limit=1000&search={{ $node[\"Set\"].json[\"tag_procurada\"] }}",
+          "options": {},
+          "headerParametersUi": {
+            "parameter": [
+              {
+                "name": "Api-Token",
+                "value": "={{ $node[\"Set\"].json[\"Api-Token\"] }}"
+              },
+              {
+                "name": "accept",
+                "value": "application/json"
+              },
+              {
+                "name": "content-type",
+                "value": "application/json"
+              }
+            ]
+          }
+        },
+        "name": "Listar Tags da Conta",
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 2,
+        "position": [
+          592,
+          -2000
+        ],
+        "id": "572a8ab0-c446-4fe7-be42-ff81f4e44454"
+      },
+      {
+        "parameters": {
+          "content": "## Para consulta\n \nUtilize os Nodes Abaixo para consultar os IDs dos Campos e Tags no ActiveCampaign",
+          "height": 407.6377565498652,
+          "width": 747.0856205721786
+        },
+        "id": "5d7b2107-24fc-4a08-8926-db057f6a899b",
+        "name": "Sticky Note",
+        "type": "n8n-nodes-base.stickyNote",
+        "typeVersion": 1,
+        "position": [
+          80,
+          -2160
+        ]
+      },
+      {
+        "parameters": {
+          "url": "=https://{{ $json[\"url_api_activecampaign\"] }}.api-us1.com/api/3/fields?limit=1000",
+          "options": {},
+          "headerParametersUi": {
+            "parameter": [
+              {
+                "name": "Api-Token",
+                "value": "={{ $node[\"Set\"].json[\"Api-Token\"] }}"
+              },
+              {
+                "name": "content-type",
+                "value": "application/json"
+              },
+              {
+                "name": "accept",
+                "value": "application/json"
+              }
+            ]
+          }
+        },
+        "name": "Listar Campos Personalizados de Contatos da Conta",
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 2,
+        "position": [
+          384,
+          -2000
+        ],
+        "id": "5a3382cb-1f39-42fb-b373-9fc52880d6f4"
+      },
+      {
+        "parameters": {
+          "values": {
+            "string": [
+              {
+                "name": "Api-Token",
+                "value": "3696e725bdca0e3ce53536c4ba23c8ecee77def78a7a229c5a44780b59bc088e2be9edb5"
+              },
+              {
+                "name": "url_api_activecampaign",
+                "value": "infomakers98413"
+              },
+              {
+                "name": "tag_procurada",
+                "value": "compra aprovada"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "57de2e4c-395d-4d81-8f2a-ca5acce3db55",
+        "name": "Set",
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 2,
+        "position": [
+          192,
+          -2000
+        ]
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 1
+            },
+            "conditions": [
+              {
+                "id": "dd359e72-da78-43bb-84a7-1b0911d82aa5",
+                "leftValue": "={{ $node[\"pesquisa_user\"].json[\"id\"] }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "number",
+                  "operation": "exists",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "id": "7d0853f4-dbd5-4208-ac17-90c96a0482e4",
+        "name": "encontrou_user1",
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2,
+        "position": [
+          384,
+          -1440
+        ]
+      },
+      {
+        "parameters": {
+          "tableId": "users",
+          "fieldsUi": {
+            "fieldValues": [
+              {
+                "fieldId": "nome",
+                "fieldValue": "={{ $node[\"dados_da_compra\"].json[\"nome\"] }}"
+              },
+              {
+                "fieldId": "sobrenome",
+                "fieldValue": "={{ $node[\"dados_da_compra\"].json[\"sobrenome\"] }}"
+              },
+              {
+                "fieldId": "email",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados_da_compra\"].json[\"email\"] }}"
+              },
+              {
+                "fieldId": "telefone",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados_da_compra\"].json[\"telefone\"] }}"
+              }
+            ]
+          }
+        },
+        "id": "8e8b8bb9-e756-4eff-88ac-f82151895f99",
+        "name": "Supabase",
+        "type": "n8n-nodes-base.supabase",
+        "typeVersion": 1,
+        "position": [
+          608,
+          -1280
+        ],
+        "alwaysOutputData": true,
+        "credentials": {
+          "supabaseApi": {
+            "id": "06funpVK0RasJnc4",
+            "name": "Supabase - Fabiana Tomé"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 1
+            },
+            "conditions": [
+              {
+                "id": "dd359e72-da78-43bb-84a7-1b0911d82aa5",
+                "leftValue": "={{ $node[\"pesquisa_user\"].json[\"email\"] }}",
+                "rightValue": "={{ $item(\"0\").$node[\"dados_da_compra\"].json[\"email\"] }}",
+                "operator": {
+                  "type": "string",
+                  "operation": "equals"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "id": "f9d0eb4a-0536-4286-bfdf-8fb06f8cc14c",
+        "name": "email_igual1",
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2,
+        "position": [
+          608,
+          -1504
+        ]
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 1
+            },
+            "conditions": [
+              {
+                "id": "dd359e72-da78-43bb-84a7-1b0911d82aa5",
+                "leftValue": "={{ $node[\"pesquisa_user\"].json[\"telefone\"] }}",
+                "rightValue": "={{ $item(\"0\").$node[\"dados_da_compra\"].json[\"telefone\"] }}",
+                "operator": {
+                  "type": "string",
+                  "operation": "equals"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "id": "21a311de-560b-4f1a-91e3-bae08c3a89b1",
+        "name": "telefone_igual1",
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2,
+        "position": [
+          1248,
+          -1520
+        ]
+      },
+      {
+        "parameters": {
+          "operation": "update",
+          "tableId": "users",
+          "matchType": "allFilters",
+          "filters": {
+            "conditions": [
+              {
+                "keyName": "id",
+                "condition": "eq",
+                "keyValue": "={{ $item(\"0\").$node[\"pesquisa_user\"].json[\"id\"] }}"
+              }
+            ]
+          },
+          "fieldsUi": {
+            "fieldValues": [
+              {
+                "fieldId": "nome",
+                "fieldValue": "={{ $node[\"dados_da_compra\"].json[\"nome\"] }}"
+              },
+              {
+                "fieldId": "sobrenome",
+                "fieldValue": "={{ $node[\"dados_da_compra\"].json[\"sobrenome\"] }}"
+              },
+              {
+                "fieldId": "email",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados_da_compra\"].json[\"email\"] }}"
+              },
+              {
+                "fieldId": "telefone",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados_da_compra\"].json[\"telefone\"] }}"
+              }
+            ]
+          }
+        },
+        "id": "b506825c-ad4c-42f4-9c9f-41c4d35ae9ae",
+        "name": "atualiza_email",
+        "type": "n8n-nodes-base.supabase",
+        "typeVersion": 1,
+        "position": [
+          1040,
+          -1424
+        ],
+        "alwaysOutputData": true,
+        "credentials": {
+          "supabaseApi": {
+            "id": "06funpVK0RasJnc4",
+            "name": "Supabase - Fabiana Tomé"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "update",
+          "tableId": "users",
+          "filters": {
+            "conditions": [
+              {
+                "keyName": "id",
+                "condition": "eq",
+                "keyValue": "={{ $item(\"0\").$node[\"pesquisa_user\"].json[\"id\"] }}"
+              }
+            ]
+          },
+          "fieldsUi": {
+            "fieldValues": [
+              {
+                "fieldId": "nome",
+                "fieldValue": "={{ $node[\"dados_da_compra\"].json[\"nome\"] }}"
+              },
+              {
+                "fieldId": "sobrenome",
+                "fieldValue": "={{ $node[\"dados_da_compra\"].json[\"sobrenome\"] }}"
+              },
+              {
+                "fieldId": "email",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados_da_compra\"].json[\"email\"] }}"
+              },
+              {
+                "fieldId": "telefone",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados_da_compra\"].json[\"telefone\"] }}"
+              }
+            ]
+          }
+        },
+        "id": "6affd374-c96c-4bf1-b99f-d56ef472143d",
+        "name": "atualiza_telefone",
+        "type": "n8n-nodes-base.supabase",
+        "typeVersion": 1,
+        "position": [
+          1408,
+          -1440
+        ],
+        "alwaysOutputData": true,
+        "credentials": {
+          "supabaseApi": {
+            "id": "06funpVK0RasJnc4",
+            "name": "Supabase - Fabiana Tomé"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "getAll",
+          "tableId": "produtos",
+          "limit": 1,
+          "filters": {
+            "conditions": [
+              {
+                "keyName": "nome",
+                "condition": "eq",
+                "keyValue": "={{ $item(\"0\").$node[\"dados_da_compra\"].json[\"nome_produto\"] }}"
+              },
+              {
+                "keyName": "id_checkout",
+                "condition": "eq",
+                "keyValue": "={{ $item(\"0\").$node[\"dados_da_compra\"].json[\"product_id\"] }}"
+              }
+            ]
+          }
+        },
+        "id": "43508707-0073-49c4-8233-f1b541a07a84",
+        "name": "pesquisa_produto",
+        "type": "n8n-nodes-base.supabase",
+        "typeVersion": 1,
+        "position": [
+          1248,
+          -1248
+        ],
+        "alwaysOutputData": true,
+        "credentials": {
+          "supabaseApi": {
+            "id": "06funpVK0RasJnc4",
+            "name": "Supabase - Fabiana Tomé"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 1
+            },
+            "conditions": [
+              {
+                "id": "dd359e72-da78-43bb-84a7-1b0911d82aa5",
+                "leftValue": "={{ $node[\"pesquisa_produto\"].json[\"id\"] }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "number",
+                  "operation": "exists",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "id": "b9747888-d4f7-4840-a74f-1d3b404e589f",
+        "name": "encontrou_produto",
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2,
+        "position": [
+          1472,
+          -1248
+        ]
+      },
+      {
+        "parameters": {
+          "tableId": "produtos",
+          "fieldsUi": {
+            "fieldValues": [
+              {
+                "fieldId": "nome",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados_da_compra\"].json[\"nome_produto\"] }}"
+              },
+              {
+                "fieldId": "id_checkout",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados_da_compra\"].json[\"product_id\"] }}"
+              }
+            ]
+          }
+        },
+        "id": "ad88fffc-de9e-409c-9a44-038e6341a61e",
+        "name": "cria_produto",
+        "type": "n8n-nodes-base.supabase",
+        "typeVersion": 1,
+        "position": [
+          1712,
+          -1168
+        ],
+        "credentials": {
+          "supabaseApi": {
+            "id": "06funpVK0RasJnc4",
+            "name": "Supabase - Fabiana Tomé"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 1
+            },
+            "conditions": [
+              {
+                "id": "dd359e72-da78-43bb-84a7-1b0911d82aa5",
+                "leftValue": "={{ $node[\"pesquisa_conversao\"].json[\"id\"] }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "number",
+                  "operation": "exists",
+                  "singleValue": true
+                }
+              },
+              {
+                "id": "a7c39671-fc0f-4767-a529-f0f2767fc1b9",
+                "leftValue": "={{ $json[\"id_transacao\"].toString() }}\n",
+                "rightValue": "={{ $item(0).$node[\"dados_da_compra\"].json[\"transaction_id\"].toString() }}\n",
+                "operator": {
+                  "type": "string",
+                  "operation": "equals"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "id": "db3ba630-b016-4b8d-a7b6-9cb7b4d510f2",
+        "name": "encontrou_conversao",
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2,
+        "position": [
+          2128,
+          -1264
+        ]
+      },
+      {
+        "parameters": {
+          "operation": "getAll",
+          "tableId": "conversoes",
+          "limit": 1,
+          "matchType": "allFilters",
+          "filters": {
+            "conditions": [
+              {
+                "keyName": "id_transacao",
+                "condition": "eq",
+                "keyValue": "={{ $item(\"0\").$node[\"dados_da_compra\"].json[\"transaction_id\"] }}"
+              },
+              {
+                "keyName": "produto",
+                "condition": "eq",
+                "keyValue": "={{ $item(\"0\").$node[\"dados_da_compra\"].json[\"nome_produto\"] }}"
+              }
+            ]
+          }
+        },
+        "id": "f9bb9084-f753-4d64-a76e-2c50724d8a5a",
+        "name": "pesquisa_conversao",
+        "type": "n8n-nodes-base.supabase",
+        "typeVersion": 1,
+        "position": [
+          1904,
+          -1264
+        ],
+        "alwaysOutputData": true,
+        "credentials": {
+          "supabaseApi": {
+            "id": "06funpVK0RasJnc4",
+            "name": "Supabase - Fabiana Tomé"
+          }
+        }
+      },
+      {
+        "parameters": {},
+        "id": "18f928ea-7e31-45d1-a778-d641a5fdc4a5",
+        "name": "No Operation, do nothing1",
+        "type": "n8n-nodes-base.noOp",
+        "typeVersion": 1,
+        "position": [
+          2800,
+          -1280
+        ]
+      },
+      {
+        "parameters": {
+          "tableId": "conversoes",
+          "fieldsUi": {
+            "fieldValues": [
+              {
+                "fieldId": "id_user",
+                "fieldValue": "={{ $item(\"0\").$node[\"pesquisa_user\"].json[\"id\"] }}"
+              },
+              {
+                "fieldId": "nome",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados_da_compra\"].json[\"nome\"] }}"
+              },
+              {
+                "fieldId": "sobrenome",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados_da_compra\"].json[\"sobrenome\"] }}"
+              },
+              {
+                "fieldId": "email",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados_da_compra\"].json[\"email\"] }}"
+              },
+              {
+                "fieldId": "telefone",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados_da_compra\"].json[\"telefone\"] }}"
+              },
+              {
+                "fieldId": "data_conversao",
+                "fieldValue": "={{ $now }}"
+              },
+              {
+                "fieldId": "produto",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados_da_compra\"].json[\"nome_produto\"] }}"
+              },
+              {
+                "fieldId": "id_produto",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados_da_compra\"].json[\"product_id\"] }}"
+              },
+              {
+                "fieldId": "preco",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados_da_compra\"].json[\"preco\"] }}"
+              },
+              {
+                "fieldId": "parcelas",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados_da_compra\"].json[\"parcelas\"] }}"
+              },
+              {
+                "fieldId": "oferta",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados_da_compra\"].json[\"oferta\"] }}"
+              },
+              {
+                "fieldId": "id_transacao",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados_da_compra\"].json[\"transaction_id\"] }}"
+              },
+              {
+                "fieldId": "comissao_gateway",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados_da_compra\"].json[\"gateway_comission\"] }}"
+              },
+              {
+                "fieldId": "comissao_produtor",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados_da_compra\"].json[\"comissao_produtor\"] }}"
+              },
+              {
+                "fieldId": "moeda",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados_da_compra\"].json[\"currency\"] }}"
+              },
+              {
+                "fieldId": "forma_de_pagamento",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados_da_compra\"].json[\"payment_method\"] }}"
+              },
+              {
+                "fieldId": "status",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados_da_compra\"].json[\"trans_status\"] }}"
+              },
+              {
+                "fieldId": "utm_source",
+                "fieldValue": "={{ $item(\"0\").$node[\"Supabase1\"].json[\"utm_source\"] }}"
+              },
+              {
+                "fieldId": "utm_campaign",
+                "fieldValue": "={{ $item(\"0\").$node[\"Supabase1\"].json[\"utm_campaign\"] }}"
+              },
+              {
+                "fieldId": "utm_term",
+                "fieldValue": "={{ $item(\"0\").$node[\"Supabase1\"].json[\"utm_term\"] }}"
+              },
+              {
+                "fieldId": "utm_medium",
+                "fieldValue": "={{ $item(\"0\").$node[\"Supabase1\"].json[\"utm_medium\"] }}"
+              },
+              {
+                "fieldId": "utm_content",
+                "fieldValue": "={{ $item(\"0\").$node[\"Supabase1\"].json[\"utm_content\"] }}"
+              },
+              {
+                "fieldId": "documento",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados_da_compra\"].json[\"cpf/cnpj\"] }}"
+              }
+            ]
+          }
+        },
+        "id": "ab5c9ea1-3d15-4524-9cdb-a7d998667439",
+        "name": "insere_conversao",
+        "type": "n8n-nodes-base.supabase",
+        "typeVersion": 1,
+        "position": [
+          2560,
+          -1168
+        ],
+        "alwaysOutputData": true,
+        "credentials": {
+          "supabaseApi": {
+            "id": "06funpVK0RasJnc4",
+            "name": "Supabase - Fabiana Tomé"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "getAll",
+          "tableId": "users",
+          "limit": 1,
+          "filters": {
+            "conditions": [
+              {
+                "keyName": "telefone",
+                "condition": "eq",
+                "keyValue": "={{ $item(\"0\").$node[\"dados_da_compra\"].json[\"telefone\"] }}"
+              }
+            ]
+          }
+        },
+        "id": "9d19ccea-d9c3-427f-b8c4-f0aafb8cffd4",
+        "name": "pesquisa_user",
+        "type": "n8n-nodes-base.supabase",
+        "typeVersion": 1,
+        "position": [
+          192,
+          -1440
+        ],
+        "alwaysOutputData": true,
+        "credentials": {
+          "supabaseApi": {
+            "id": "06funpVK0RasJnc4",
+            "name": "Supabase - Fabiana Tomé"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "getAll",
+          "tableId": "cadastros",
+          "limit": 1,
+          "matchType": "allFilters",
+          "filters": {
+            "conditions": [
+              {
+                "keyName": "id_user",
+                "condition": "eq",
+                "keyValue": "={{ $item(\"0\").$node[\"pesquisa_user\"].json[\"id\"] }}"
+              },
+              {
+                "keyName": "telefone",
+                "condition": "eq",
+                "keyValue": "={{ $item(\"0\").$node[\"dados_da_compra\"].json[\"telefone\"] }}"
+              },
+              {
+                "keyName": "evento",
+                "condition": "eq",
+                "keyValue": "[SPT0825] - [CAPTAÇÃO]"
+              }
+            ]
+          }
+        },
+        "id": "aa6827d2-e32d-43f5-8c58-c85aa0c80460",
+        "name": "Supabase1",
+        "type": "n8n-nodes-base.supabase",
+        "typeVersion": 1,
+        "position": [
+          2368,
+          -1168
+        ],
+        "alwaysOutputData": true,
+        "credentials": {
+          "supabaseApi": {
+            "id": "06funpVK0RasJnc4",
+            "name": "Supabase - Fabiana Tomé"
+          }
+        },
+        "onError": "continueRegularOutput"
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "https://services.leadconnectorhq.com/contacts/",
+          "sendHeaders": true,
+          "headerParameters": {
+            "parameters": [
+              {
+                "name": "Authorization",
+                "value": "Bearer"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "8451cdb3-c64e-47b4-ba48-61f2759d6f4f",
+        "name": "HTTP Request",
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [
+          1152,
+          -2048
+        ],
+        "disabled": true
+      },
+      {
+        "parameters": {
+          "content": "# PARTE 2",
+          "height": 830,
+          "width": 3571
+        },
+        "id": "e9320cb8-90e8-41ed-b2bf-6ad79029cda1",
+        "name": "Sticky Note1",
+        "type": "n8n-nodes-base.stickyNote",
+        "typeVersion": 1,
+        "position": [
+          80,
+          -1728
+        ]
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "https://evolution.fabianatome.com.br/message/sendText/suporteoperacional\n",
+          "sendHeaders": true,
+          "headerParameters": {
+            "parameters": [
+              {
+                "name": "apikey",
+                "value": "CEE974AEB8D8-4A4A-93DB-2D792A42EC82"
+              }
+            ]
+          },
+          "sendBody": true,
+          "bodyParameters": {
+            "parameters": [
+              {
+                "name": "number",
+                "value": "={{ $item(\"0\").$node[\"No Operation, do nothing1\"].json[\"telefone\"] }}"
+              },
+              {
+                "name": "text",
+                "value": "={{ $item(\"0\").$node[\"mensagem\"].json[\"mensagem\"] }}"
+              }
+            ]
+          },
+          "options": {
+            "redirect": {
+              "redirect": {}
+            }
+          }
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [
+          3424,
+          -1904
+        ],
+        "id": "de4b822e-35bb-4019-8015-4cc7452793d6",
+        "name": "Envia mensagem1",
+        "disabled": true
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "6f64d600-7ff3-49c3-9825-fd75c61f8ea3",
+                "leftValue": "={{ $item(\"0\").$node[\"dados_da_compra\"].json[\"trans_status\"] }}",
+                "rightValue": "Efetivado",
+                "operator": {
+                  "type": "string",
+                  "operation": "equals",
+                  "name": "filter.operator.equals"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          800,
+          -2448
+        ],
+        "id": "5b97a6e9-e2d4-4997-a6b8-7d66fea22aa0",
+        "name": "If"
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "https://unnichat.com.br/a/start/2ftbsuK0aSSeuu2Kdhhp",
+          "sendBody": true,
+          "specifyBody": "json",
+          "jsonBody": "={\n  \"nome\": \"{{ $node[\"No Operation, do nothing1\"].json[\"nome\"] }}\",\n  \"telefone\": \"{{ $node[\"No Operation, do nothing1\"].json[\"telefone\"] }}\",\n  \"type\": \"mensagem\",\n  \"text\": {\n    \"body\": \"viroucliente\"\n  }\n} ",
+          "options": {
+            "redirect": {
+              "redirect": {}
+            }
+          }
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [
+          3728,
+          -1920
+        ],
+        "id": "2fea6f8e-8bf4-44a8-b0ef-c2f943fae856",
+        "name": "add tag virou_aluno",
+        "disabled": true,
+        "onError": "continueRegularOutput"
+      },
+      {
+        "parameters": {
+          "errorMessage": "An error ocurred!"
+        },
+        "id": "7d6199be-049e-4c49-8848-5043bc84edcf",
+        "name": "Stop and Error3",
+        "type": "n8n-nodes-base.stopAndError",
+        "typeVersion": 1,
+        "position": [
+          4608,
+          -1136
+        ]
+      },
+      {
+        "parameters": {
+          "errorMessage": "An error ocurred!"
+        },
+        "id": "57710ef2-7cd7-447d-ab12-fce63a87581e",
+        "name": "Stop and Error2",
+        "type": "n8n-nodes-base.stopAndError",
+        "typeVersion": 1,
+        "position": [
+          4608,
+          -1488
+        ]
+      },
+      {
+        "parameters": {
+          "operation": "update",
+          "contactId": "={{ $json[\"contacts\"][\"0\"][\"id\"] }}",
+          "updateFields": {
+            "fieldValues": {
+              "property": [
+                {
+                  "field": "71",
+                  "value": "={{ $now.format('dd/MM/yyyy') }}"
+                }
+              ]
+            },
+            "email": "={{ $item(\"0\").$node[\"dados_da_compra\"].json[\"email\"] }}",
+            "firstName": "={{ $item(\"0\").$node[\"dados_da_compra\"].json[\"nome\"] }}",
+            "lastName": "={{ $item(\"0\").$node[\"dados_da_compra\"].json[\"sobrenome\"] }}",
+            "phone": "={{ $item(\"0\").$node[\"dados_da_compra\"].json[\"telefone\"] }}"
+          }
+        },
+        "id": "775d85da-a928-462c-a3ad-08d7fc81443a",
+        "name": "atualiza_contato_no_ac2",
+        "type": "n8n-nodes-base.activeCampaign",
+        "typeVersion": 1,
+        "position": [
+          4288,
+          -1456
+        ],
+        "credentials": {
+          "activeCampaignApi": {
+            "id": "4EetjSxVIE3QPLxy",
+            "name": "ActiveCampaign - fabianatome"
+          }
+        },
+        "onError": "continueErrorOutput"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 1
+            },
+            "conditions": [
+              {
+                "id": "2130aa22-e19a-4662-8a2e-b43d36facf6d",
+                "leftValue": "={{ $json[\"contacts\"][\"0\"][\"id\"] }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "string",
+                  "operation": "exists",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "id": "5b45ac9e-44ed-4087-bffa-eb212ddbe7e1",
+        "name": "If2",
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2,
+        "position": [
+          4048,
+          -1312
+        ]
+      },
+      {
+        "parameters": {
+          "email": "={{ $item(\"0\").$node[\"dados_da_compra\"].json[\"email\"] }}",
+          "updateIfExists": true,
+          "additionalFields": {
+            "fieldValues": {
+              "property": [
+                {
+                  "field": "71",
+                  "value": "={{ $now.format('dd/MM/yyyy') }}"
+                }
+              ]
+            },
+            "firstName": "={{ $item(\"0\").$node[\"dados_da_compra\"].json[\"nome\"] }}",
+            "lastName": "={{ $item(\"0\").$node[\"dados_da_compra\"].json[\"sobrenome\"] }}",
+            "phone": "={{ $item(\"0\").$node[\"dados_da_compra\"].json[\"telefone\"] }}"
+          }
+        },
+        "id": "03fd3d78-f5d1-4ecb-8e77-d39364eb3114",
+        "name": "cria_contato_no_ac2",
+        "type": "n8n-nodes-base.activeCampaign",
+        "typeVersion": 1,
+        "position": [
+          4288,
+          -1168
+        ],
+        "credentials": {
+          "activeCampaignApi": {
+            "id": "4EetjSxVIE3QPLxy",
+            "name": "ActiveCampaign - fabianatome"
+          }
+        },
+        "onError": "continueErrorOutput"
+      },
+      {
+        "parameters": {
+          "resource": "contactTag",
+          "tagId": "752",
+          "contactId": "={{ $json[\"id\"] }}"
+        },
+        "id": "dba71368-6306-40b6-83cf-e5a8e42d1aea",
+        "name": "tag_compra_aprovada12",
+        "type": "n8n-nodes-base.activeCampaign",
+        "typeVersion": 1,
+        "position": [
+          4608,
+          -1312
+        ],
+        "credentials": {
+          "activeCampaignApi": {
+            "id": "4EetjSxVIE3QPLxy",
+            "name": "ActiveCampaign - fabianatome"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "content": "# [ADD TAG ACT] COMPRA APROVADA",
+          "height": 600,
+          "width": 1876,
+          "color": 3
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "position": [
+          3712,
+          -1552
+        ],
+        "typeVersion": 1,
+        "id": "13fc1ba2-88e6-4a61-b47b-2d41eeec3ac0",
+        "name": "Sticky Note2"
+      },
+      {
+        "parameters": {
+          "url": "https://fabianatome.api-us1.com/api/3/contacts",
+          "sendQuery": true,
+          "queryParameters": {
+            "parameters": [
+              {
+                "name": "email",
+                "value": "={{ $item(\"0\").$node[\"dados_da_compra\"].json[\"email\"] }}"
+              }
+            ]
+          },
+          "sendHeaders": true,
+          "headerParameters": {
+            "parameters": [
+              {
+                "name": "Api-Token",
+                "value": "633f6e21dac84c73a548cdb3c300de08d58c0c61fd6e675b7a8bc93dc05cd831ac0d53c6"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "375a56bf-52e2-42ff-9f20-4db653d95f3a",
+        "name": "HTTP Request2",
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [
+          3792,
+          -1296
+        ]
+      },
+      {
+        "parameters": {
+          "resource": "contactTag",
+          "tagId": "644",
+          "contactId": "={{ $node[\"atualiza_contato_no_ac2\"].json[\"id\"] }}"
+        },
+        "id": "646e3bd8-b405-4f86-be17-9a242a698a58",
+        "name": "tag_compra_aprovada1",
+        "type": "n8n-nodes-base.activeCampaign",
+        "typeVersion": 1,
+        "position": [
+          5088,
+          -1312
+        ],
+        "credentials": {
+          "activeCampaignApi": {
+            "id": "4EetjSxVIE3QPLxy",
+            "name": "ActiveCampaign - fabianatome"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "https://unnichat.com.br/a/start/2ftbsuK0aSSeuu2Kdhhp",
+          "sendBody": true,
+          "specifyBody": "json",
+          "jsonBody": "={\n  \"nome\": \"{{ $node[\"No Operation, do nothing1\"].json[\"nome\"] }}\",\n  \"telefone\": \"{{ $node[\"No Operation, do nothing1\"].json[\"telefone\"] }}\",\n  \"type\": \"mensagem\",\n  \"text\": {\n    \"body\": \"viroucliente\"\n  }\n} ",
+          "options": {
+            "redirect": {
+              "redirect": {}
+            }
+          }
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [
+          5344,
+          -1312
+        ],
+        "id": "a394d364-e9d4-45bb-a460-87e52b99f06c",
+        "name": "add tag virou_aluno1",
+        "onError": "continueRegularOutput"
+      },
+      {
+        "parameters": {
+          "resource": "contactTag",
+          "tagId": "753",
+          "contactId": "={{ $node[\"atualiza_contato_no_ac2\"].json[\"id\"] }}"
+        },
+        "id": "ea93ecb6-6a52-47c1-b782-76c0de2c827e",
+        "name": "tag_compra_aprovada2",
+        "type": "n8n-nodes-base.activeCampaign",
+        "typeVersion": 1,
+        "position": [
+          4864,
+          -1312
+        ],
+        "credentials": {
+          "activeCampaignApi": {
+            "id": "4EetjSxVIE3QPLxy",
+            "name": "ActiveCampaign - fabianatome"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "dd8c70d4-3806-45bb-a5ee-bc8e0bfff264",
+                "name": "mensagem",
+                "value": "=Olá 🤗\n\nEm nome da Professora Fabiana queremos dar as boas-vindas ao curso TRIBUTARISTA EM AÇÃO acesso vitalício!\n\nTemos 3 RECADOS e pedimos que leia com atenção\n\n1️⃣ Você deve ter recebido um e-mail automático com o seu acesso à plataforma do curso. Procure no campo de busca por \"Hotmart\" e favorite o e-mail. De qualquer maneira, estamos enviando o link da plataforma de aulas:\n\n👉 Plataforma de aulas: https://hotmart.com/pt-BR/club/tributarista-em-acao/products/4699753\n\n👉 O seu login é o e-mail que você cadastrou no momento da compra\n\n2️⃣ Para ter acesso ao curso e a nossa comunidade, é preciso preencher a ficha de cadastro do aluno. \n\n3️⃣ Sempre que precisar de *suporte técnico ou financeiro*, entre em contato com a gente da equipe do suporte:\nwhatsapp: wa.me/5584986233705\nE-mail: suporte@fabianatome.com.br.\n\nSe for um caso de dúvida sobre o conteúdo do curso, você pode enviar sua pergunta diretamente na plataforma de aulas.\n\nNosso atendimento é das 9h às 18h de segunda a sexta. \n\nSe a sua dúvida for sobre um caso concreto, então você poderá tirá-la ao vivo nos plantões de dúvidas com o nosso time de professores e seus colegas. Eles acontecem 2x por mês.\n\nAbraços,\nEquipe de Suporte\n\n",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          3008,
+          -1904
+        ],
+        "id": "28b76fe5-970d-4531-bd3b-a81fe3388eb9",
+        "name": "mensagem"
+      }
+    ],
+    "connections": {
+      "trata_dados": {
+        "main": [
+          [
+            {
+              "node": "dados_da_compra",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "dados_da_compra": {
+        "main": [
+          [
+            {
+              "node": "If",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Listar Campos Personalizados de Contatos da Conta": {
+        "main": [
+          [
+            {
+              "node": "Listar Tags da Conta",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Set": {
+        "main": [
+          [
+            {
+              "node": "Listar Campos Personalizados de Contatos da Conta",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "encontrou_user1": {
+        "main": [
+          [
+            {
+              "node": "email_igual1",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Supabase",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Supabase": {
+        "main": [
+          [
+            {
+              "node": "pesquisa_user",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "email_igual1": {
+        "main": [
+          [
+            {
+              "node": "telefone_igual1",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "atualiza_email",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "telefone_igual1": {
+        "main": [
+          [
+            {
+              "node": "pesquisa_produto",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "atualiza_telefone",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "atualiza_email": {
+        "main": [
+          [
+            {
+              "node": "telefone_igual1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "atualiza_telefone": {
+        "main": [
+          [
+            {
+              "node": "pesquisa_produto",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "pesquisa_produto": {
+        "main": [
+          [
+            {
+              "node": "encontrou_produto",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "encontrou_produto": {
+        "main": [
+          [
+            {
+              "node": "pesquisa_conversao",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "cria_produto",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "cria_produto": {
+        "main": [
+          [
+            {
+              "node": "pesquisa_produto",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "encontrou_conversao": {
+        "main": [
+          [
+            {
+              "node": "No Operation, do nothing1",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Supabase1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "pesquisa_conversao": {
+        "main": [
+          [
+            {
+              "node": "encontrou_conversao",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "pesquisa_user": {
+        "main": [
+          [
+            {
+              "node": "encontrou_user1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Supabase1": {
+        "main": [
+          [
+            {
+              "node": "insere_conversao",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "insere_conversao": {
+        "main": [
+          [
+            {
+              "node": "No Operation, do nothing1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "No Operation, do nothing1": {
+        "main": [
+          [
+            {
+              "node": "HTTP Request2",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Webhook": {
+        "main": [
+          [
+            {
+              "node": "trata_dados",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Envia mensagem1": {
+        "main": [
+          []
+        ]
+      },
+      "If": {
+        "main": [
+          [
+            {
+              "node": "pesquisa_user",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "atualiza_contato_no_ac2": {
+        "main": [
+          [
+            {
+              "node": "tag_compra_aprovada12",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Stop and Error2",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If2": {
+        "main": [
+          [
+            {
+              "node": "atualiza_contato_no_ac2",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "cria_contato_no_ac2",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "cria_contato_no_ac2": {
+        "main": [
+          [
+            {
+              "node": "tag_compra_aprovada12",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Stop and Error3",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "tag_compra_aprovada12": {
+        "main": [
+          [
+            {
+              "node": "tag_compra_aprovada2",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "HTTP Request2": {
+        "main": [
+          [
+            {
+              "node": "If2",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "tag_compra_aprovada1": {
+        "main": [
+          [
+            {
+              "node": "add tag virou_aluno1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "tag_compra_aprovada2": {
+        "main": [
+          [
+            {
+              "node": "tag_compra_aprovada1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "mensagem": {
+        "main": [
+          []
+        ]
+      }
+    },
+    "authors": "system migration",
+    "name": null,
+    "description": null,
+    "autosaved": false
+  },
+  "activeVersionId": "49fae9ca-f9b7-45df-a540-9f1e8f030914",
+  "connections": {
+    "trata_dados": {
+      "main": [
+        [
+          {
+            "node": "dados_da_compra",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "dados_da_compra": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Listar Campos Personalizados de Contatos da Conta": {
+      "main": [
+        [
+          {
+            "node": "Listar Tags da Conta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set": {
+      "main": [
+        [
+          {
+            "node": "Listar Campos Personalizados de Contatos da Conta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "encontrou_user1": {
+      "main": [
+        [
+          {
+            "node": "email_igual1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Supabase",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Supabase": {
+      "main": [
+        [
+          {
+            "node": "pesquisa_user",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "email_igual1": {
+      "main": [
+        [
+          {
+            "node": "telefone_igual1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "atualiza_email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "telefone_igual1": {
+      "main": [
+        [
+          {
+            "node": "pesquisa_produto",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "atualiza_telefone",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "atualiza_email": {
+      "main": [
+        [
+          {
+            "node": "telefone_igual1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "atualiza_telefone": {
+      "main": [
+        [
+          {
+            "node": "pesquisa_produto",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "pesquisa_produto": {
+      "main": [
+        [
+          {
+            "node": "encontrou_produto",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "encontrou_produto": {
+      "main": [
+        [
+          {
+            "node": "pesquisa_conversao",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "cria_produto",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "cria_produto": {
+      "main": [
+        [
+          {
+            "node": "pesquisa_produto",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "encontrou_conversao": {
+      "main": [
+        [
+          {
+            "node": "No Operation, do nothing1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Supabase1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "pesquisa_conversao": {
+      "main": [
+        [
+          {
+            "node": "encontrou_conversao",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "pesquisa_user": {
+      "main": [
+        [
+          {
+            "node": "encontrou_user1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Supabase1": {
+      "main": [
+        [
+          {
+            "node": "insere_conversao",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "insere_conversao": {
+      "main": [
+        [
+          {
+            "node": "No Operation, do nothing1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "No Operation, do nothing1": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "trata_dados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Envia mensagem1": {
+      "main": [
+        []
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "pesquisa_user",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "atualiza_contato_no_ac2": {
+      "main": [
+        [
+          {
+            "node": "tag_compra_aprovada12",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Stop and Error2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If2": {
+      "main": [
+        [
+          {
+            "node": "atualiza_contato_no_ac2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "cria_contato_no_ac2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "cria_contato_no_ac2": {
+      "main": [
+        [
+          {
+            "node": "tag_compra_aprovada12",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Stop and Error3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "tag_compra_aprovada12": {
+      "main": [
+        [
+          {
+            "node": "tag_compra_aprovada2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request2": {
+      "main": [
+        [
+          {
+            "node": "If2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "tag_compra_aprovada1": {
+      "main": [
+        [
+          {
+            "node": "add tag virou_aluno1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "tag_compra_aprovada2": {
+      "main": [
+        [
+          {
+            "node": "tag_compra_aprovada1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "mensagem": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "createdAt": "2025-08-01T20:30:42.496Z",
+  "id": "NPXBi3ZCozIQ9I5x",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "[TMB] COMPRA APROVADA",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "compraaprovada-tmb-geral",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        128,
+        -2448
+      ],
+      "id": "4e6208c4-34bb-424a-81a1-b7552911a09b",
+      "name": "Webhook",
+      "webhookId": "49370696-2931-486e-8b95-633b90f9d97e"
+    },
+    {
+      "parameters": {
+        "jsCode": "return items.map(item => {\n  const data = item.json.body;\n\n  // 1. Telefone — normalizado com DDI\n  let telefone = data.telefone_ativo || data.telefones || \"\";\n  telefone = telefone.replace(/\\D/g, \"\");\n  if (!telefone.startsWith(\"55\")) {\n    telefone = \"55\" + telefone;\n  }\n\n  // 2. Email\n  const email = (data.email || \"\").toLowerCase();\n\n  // 3. Endereço\n  const endereco = {\n    pais: data.endereco_pais || null,\n    cep: data.endereco_cep || null,\n    estado: data.endereco_estado || null,\n    cidade: data.endereco_cidade || null,\n    bairro: data.endereco_bairro || null,\n    logradouro: data.endereco_logradouro || null,\n    numero: data.endereco_numero || null,\n    complemento: data.endereco_complemento || null\n  };\n  const enderecoCompleto = data.endereco_completo || \"\";\n\n  // 4. UTMs\n  const utms = {\n    utm_source: data.utm_source || null,\n    utm_medium: data.utm_medium || null,\n    utm_term: null,\n    utm_content: data.utm_content || null,\n    utm_campaign: data.utm_campaign || null,\n    utm_last_source: data.utm_last_source || null,\n    utm_last_medium: data.utm_last_medium || null,\n    utm_last_content: data.utm_last_content || null,\n    utm_last_campaign: data.utm_last_campaign || null\n  };\n\n  // 5. Nome e sobrenome\n  const nomeCompleto = data.cliente || \"\";\n  const partes = nomeCompleto.trim().split(\" \");\n  const nome = partes.shift() || \"\";\n  const sobrenome = partes.join(\" \");\n\n  // 6. Documento e nascimento\n  const documento = data.documento || null;\n  const nascimento = data.nascimento || null;\n\n  // 7. Valores monetários\n  const valorTotal = parseFloat(data.valor_total || 0);\n  const valorParcela = parseFloat(data.valor_parcela || 0);\n  const valorEntrada = parseFloat(data.valor_entrada || 0);\n  const taxaAdministracao = parseFloat(data.taxa_administracao || 0);\n\n  // 8. Informações do produto e pagamento\n  const produto = {\n    nome_produto: data.titulo || null,\n    nome_lancamento: data.lancamento || null,\n    produtor: data.produtor || null,\n    produtor_id: data.produtor_id || null,\n    id_transacao: data.id || null,\n    id_pedido: data.pedido || null,\n    id_externo: data.id_externo || null,\n    lancamento_id: data.lancamento_id || null,\n    code: data.code || null,\n    parcelas: data.parcelas || null,\n    melhor_dia_pagamento: data.melhor_dia_pagamento || null,\n    status_pedido: data.status_pedido || null,\n    status_financeiro: data.status_financeiro || null,\n    criado_em: data.criado_em || null,\n    data_efetivado: data.data_efetivado || null,\n    provedor_negociado: data.provedor_negociado || null\n  };\n\n  // 9. Comissão (não presente no input — assumido como 0 ou nulo)\n  const comissao = parseFloat(data.comissao_produtor || 0); // Adapte aqui se esse campo for adicionado depois\n  const taxaPlataforma = valorTotal - comissao;\n\n  return {\n    json: {\n      // Cliente\n      nome,\n      sobrenome,\n      email,\n      telefone,\n      documento,\n      nascimento,\n\n      // Endereço\n      enderecoSeparado: endereco,\n      enderecoCompleto,\n\n      // Produto e transação\n      produto,\n\n      // UTM\n      utms,\n\n      // Valores\n      valorTotal: parseFloat(valorTotal.toFixed(2)),\n      valorParcela: parseFloat(valorParcela.toFixed(2)),\n      valorEntrada: parseFloat(valorEntrada.toFixed(2)),\n      taxaAdministracao: parseFloat(taxaAdministracao.toFixed(2)),\n      comissao: parseFloat(comissao.toFixed(2)),\n      taxaPlataforma: parseFloat(taxaPlataforma.toFixed(2)),\n\n      valorTotal_formatado: `R$ ${valorTotal.toFixed(2)}`,\n      valorParcela_formatada: `R$ ${valorParcela.toFixed(2)}`,\n      valorEntrada_formatada: `R$ ${valorEntrada.toFixed(2)}`,\n      taxaAdministracao_formatada: `R$ ${taxaAdministracao.toFixed(2)}`,\n      comissao_formatada: `R$ ${comissao.toFixed(2)}`,\n      taxaPlataforma_formatada: `R$ ${taxaPlataforma.toFixed(2)}`\n    }\n  };\n});\n"
+      },
+      "id": "4c782301-e566-487e-8fc4-da9690fc0eb7",
+      "name": "trata_dados",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        352,
+        -2448
+      ]
+    },
+    {
+      "parameters": {
+        "keepOnlySet": true,
+        "values": {
+          "string": [
+            {
+              "name": "nome",
+              "value": "={{ $json[\"nome\"] }}"
+            },
+            {
+              "name": "email",
+              "value": "={{ $json[\"email\"] }}"
+            },
+            {
+              "name": "cpf/cnpj",
+              "value": "={{ $item(\"0\").$node[\"trata_dados\"].json[\"documento\"] }}"
+            },
+            {
+              "name": "nome_produto",
+              "value": "={{ $item(\"0\").$node[\"trata_dados\"].json[\"produto\"][\"nome_lancamento\"] }}"
+            },
+            {
+              "name": "transaction_id",
+              "value": "={{ $item(\"0\").$node[\"trata_dados\"].json[\"produto\"][\"id_transacao\"] }}"
+            },
+            {
+              "name": "product_id",
+              "value": "={{ $item(\"0\").$node[\"trata_dados\"].json[\"produto\"][\"produtor_id\"] }}"
+            },
+            {
+              "name": "preco",
+              "value": "={{ $item(\"0\").$node[\"trata_dados\"].json[\"valorTotal\"] }}"
+            },
+            {
+              "name": "payment_method",
+              "value": "={{ $item(\"0\").$node[\"trata_dados\"].json[\"produto\"][\"provedor_negociado\"] }}"
+            },
+            {
+              "name": "trans_status",
+              "value": "={{ $item(\"0\").$node[\"trata_dados\"].json[\"produto\"][\"status_pedido\"] }}"
+            },
+            {
+              "name": "data_compra",
+              "value": "={{ $now.format('yyyy-MM-dd HH:mm') }}"
+            },
+            {
+              "name": "utm_source",
+              "value": "={{ $json[\"utms\"][\"utm_source\"] }}"
+            },
+            {
+              "name": "utm_medium",
+              "value": "={{ $json[\"utms\"][\"utm_medium\"] }}"
+            },
+            {
+              "name": "utm_term",
+              "value": "={{ $json[\"utms\"][\"utm_term\"] }}"
+            },
+            {
+              "name": "utm_content",
+              "value": "={{ $json[\"utms\"][\"utm_content\"] }}"
+            },
+            {
+              "name": "utm_campaign",
+              "value": "={{ $json[\"utms\"][\"utm_campaign\"] }}"
+            },
+            {
+              "name": "telefone",
+              "value": "={{ $json[\"telefone\"] }}"
+            },
+            {
+              "name": "sobrenome",
+              "value": "={{ $json[\"sobrenome\"] }}"
+            },
+            {
+              "name": "comissao_produtor",
+              "value": "={{ $item(\"0\").$node[\"trata_dados\"].json[\"taxaAdministracao\"] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "3450335c-fa2f-4429-bedf-bbb069db1c68",
+      "name": "dados_da_compra",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 2,
+      "position": [
+        592,
+        -2448
+      ]
+    },
+    {
+      "parameters": {
+        "content": "# PARTE 1",
+        "height": 347,
+        "width": 833,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        80,
+        -2544
+      ],
+      "typeVersion": 1,
+      "id": "ccd46e27-f17d-44a2-96c6-7992366a0e8e",
+      "name": "Sticky Note6"
+    },
+    {
+      "parameters": {
+        "url": "=https://{{ $node[\"Set\"].json[\"url_api_activecampaign\"] }}.api-us1.com/api/3/tags?limit=1000&search={{ $node[\"Set\"].json[\"tag_procurada\"] }}",
+        "options": {},
+        "headerParametersUi": {
+          "parameter": [
+            {
+              "name": "Api-Token",
+              "value": "={{ $node[\"Set\"].json[\"Api-Token\"] }}"
+            },
+            {
+              "name": "accept",
+              "value": "application/json"
+            },
+            {
+              "name": "content-type",
+              "value": "application/json"
+            }
+          ]
+        }
+      },
+      "name": "Listar Tags da Conta",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 2,
+      "position": [
+        592,
+        -2000
+      ],
+      "id": "572a8ab0-c446-4fe7-be42-ff81f4e44454"
+    },
+    {
+      "parameters": {
+        "content": "## Para consulta\n \nUtilize os Nodes Abaixo para consultar os IDs dos Campos e Tags no ActiveCampaign",
+        "height": 407.6377565498652,
+        "width": 747.0856205721786
+      },
+      "id": "5d7b2107-24fc-4a08-8926-db057f6a899b",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        80,
+        -2160
+      ]
+    },
+    {
+      "parameters": {
+        "url": "=https://{{ $json[\"url_api_activecampaign\"] }}.api-us1.com/api/3/fields?limit=1000",
+        "options": {},
+        "headerParametersUi": {
+          "parameter": [
+            {
+              "name": "Api-Token",
+              "value": "={{ $node[\"Set\"].json[\"Api-Token\"] }}"
+            },
+            {
+              "name": "content-type",
+              "value": "application/json"
+            },
+            {
+              "name": "accept",
+              "value": "application/json"
+            }
+          ]
+        }
+      },
+      "name": "Listar Campos Personalizados de Contatos da Conta",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 2,
+      "position": [
+        384,
+        -2000
+      ],
+      "id": "5a3382cb-1f39-42fb-b373-9fc52880d6f4"
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "Api-Token",
+              "value": "3696e725bdca0e3ce53536c4ba23c8ecee77def78a7a229c5a44780b59bc088e2be9edb5"
+            },
+            {
+              "name": "url_api_activecampaign",
+              "value": "infomakers98413"
+            },
+            {
+              "name": "tag_procurada",
+              "value": "compra aprovada"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "57de2e4c-395d-4d81-8f2a-ca5acce3db55",
+      "name": "Set",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 2,
+      "position": [
+        192,
+        -2000
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "dd359e72-da78-43bb-84a7-1b0911d82aa5",
+              "leftValue": "={{ $node[\"pesquisa_user\"].json[\"id\"] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "number",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "7d0853f4-dbd5-4208-ac17-90c96a0482e4",
+      "name": "encontrou_user1",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        384,
+        -1440
+      ]
+    },
+    {
+      "parameters": {
+        "tableId": "users",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "nome",
+              "fieldValue": "={{ $node[\"dados_da_compra\"].json[\"nome\"] }}"
+            },
+            {
+              "fieldId": "sobrenome",
+              "fieldValue": "={{ $node[\"dados_da_compra\"].json[\"sobrenome\"] }}"
+            },
+            {
+              "fieldId": "email",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados_da_compra\"].json[\"email\"] }}"
+            },
+            {
+              "fieldId": "telefone",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados_da_compra\"].json[\"telefone\"] }}"
+            }
+          ]
+        }
+      },
+      "id": "8e8b8bb9-e756-4eff-88ac-f82151895f99",
+      "name": "Supabase",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        608,
+        -1280
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "supabaseApi": {
+          "id": "06funpVK0RasJnc4",
+          "name": "Supabase - Fabiana Tomé"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "dd359e72-da78-43bb-84a7-1b0911d82aa5",
+              "leftValue": "={{ $node[\"pesquisa_user\"].json[\"email\"] }}",
+              "rightValue": "={{ $item(\"0\").$node[\"dados_da_compra\"].json[\"email\"] }}",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "f9d0eb4a-0536-4286-bfdf-8fb06f8cc14c",
+      "name": "email_igual1",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        608,
+        -1504
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "dd359e72-da78-43bb-84a7-1b0911d82aa5",
+              "leftValue": "={{ $node[\"pesquisa_user\"].json[\"telefone\"] }}",
+              "rightValue": "={{ $item(\"0\").$node[\"dados_da_compra\"].json[\"telefone\"] }}",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "21a311de-560b-4f1a-91e3-bae08c3a89b1",
+      "name": "telefone_igual1",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        1248,
+        -1520
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "tableId": "users",
+        "matchType": "allFilters",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "id",
+              "condition": "eq",
+              "keyValue": "={{ $item(\"0\").$node[\"pesquisa_user\"].json[\"id\"] }}"
+            }
+          ]
+        },
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "nome",
+              "fieldValue": "={{ $node[\"dados_da_compra\"].json[\"nome\"] }}"
+            },
+            {
+              "fieldId": "sobrenome",
+              "fieldValue": "={{ $node[\"dados_da_compra\"].json[\"sobrenome\"] }}"
+            },
+            {
+              "fieldId": "email",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados_da_compra\"].json[\"email\"] }}"
+            },
+            {
+              "fieldId": "telefone",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados_da_compra\"].json[\"telefone\"] }}"
+            }
+          ]
+        }
+      },
+      "id": "b506825c-ad4c-42f4-9c9f-41c4d35ae9ae",
+      "name": "atualiza_email",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        1040,
+        -1424
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "supabaseApi": {
+          "id": "06funpVK0RasJnc4",
+          "name": "Supabase - Fabiana Tomé"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "tableId": "users",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "id",
+              "condition": "eq",
+              "keyValue": "={{ $item(\"0\").$node[\"pesquisa_user\"].json[\"id\"] }}"
+            }
+          ]
+        },
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "nome",
+              "fieldValue": "={{ $node[\"dados_da_compra\"].json[\"nome\"] }}"
+            },
+            {
+              "fieldId": "sobrenome",
+              "fieldValue": "={{ $node[\"dados_da_compra\"].json[\"sobrenome\"] }}"
+            },
+            {
+              "fieldId": "email",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados_da_compra\"].json[\"email\"] }}"
+            },
+            {
+              "fieldId": "telefone",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados_da_compra\"].json[\"telefone\"] }}"
+            }
+          ]
+        }
+      },
+      "id": "6affd374-c96c-4bf1-b99f-d56ef472143d",
+      "name": "atualiza_telefone",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        1408,
+        -1440
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "supabaseApi": {
+          "id": "06funpVK0RasJnc4",
+          "name": "Supabase - Fabiana Tomé"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "produtos",
+        "limit": 1,
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "nome",
+              "condition": "eq",
+              "keyValue": "={{ $item(\"0\").$node[\"dados_da_compra\"].json[\"nome_produto\"] }}"
+            },
+            {
+              "keyName": "id_checkout",
+              "condition": "eq",
+              "keyValue": "={{ $item(\"0\").$node[\"dados_da_compra\"].json[\"product_id\"] }}"
+            }
+          ]
+        }
+      },
+      "id": "43508707-0073-49c4-8233-f1b541a07a84",
+      "name": "pesquisa_produto",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        1248,
+        -1248
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "supabaseApi": {
+          "id": "06funpVK0RasJnc4",
+          "name": "Supabase - Fabiana Tomé"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "dd359e72-da78-43bb-84a7-1b0911d82aa5",
+              "leftValue": "={{ $node[\"pesquisa_produto\"].json[\"id\"] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "number",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "b9747888-d4f7-4840-a74f-1d3b404e589f",
+      "name": "encontrou_produto",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        1472,
+        -1248
+      ]
+    },
+    {
+      "parameters": {
+        "tableId": "produtos",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "nome",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados_da_compra\"].json[\"nome_produto\"] }}"
+            },
+            {
+              "fieldId": "id_checkout",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados_da_compra\"].json[\"product_id\"] }}"
+            }
+          ]
+        }
+      },
+      "id": "ad88fffc-de9e-409c-9a44-038e6341a61e",
+      "name": "cria_produto",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        1712,
+        -1168
+      ],
+      "credentials": {
+        "supabaseApi": {
+          "id": "06funpVK0RasJnc4",
+          "name": "Supabase - Fabiana Tomé"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "dd359e72-da78-43bb-84a7-1b0911d82aa5",
+              "leftValue": "={{ $node[\"pesquisa_conversao\"].json[\"id\"] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "number",
+                "operation": "exists",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "a7c39671-fc0f-4767-a529-f0f2767fc1b9",
+              "leftValue": "={{ $json[\"id_transacao\"].toString() }}\n",
+              "rightValue": "={{ $item(0).$node[\"dados_da_compra\"].json[\"transaction_id\"].toString() }}\n",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "db3ba630-b016-4b8d-a7b6-9cb7b4d510f2",
+      "name": "encontrou_conversao",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        2128,
+        -1264
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "conversoes",
+        "limit": 1,
+        "matchType": "allFilters",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "id_transacao",
+              "condition": "eq",
+              "keyValue": "={{ $item(\"0\").$node[\"dados_da_compra\"].json[\"transaction_id\"] }}"
+            },
+            {
+              "keyName": "produto",
+              "condition": "eq",
+              "keyValue": "={{ $item(\"0\").$node[\"dados_da_compra\"].json[\"nome_produto\"] }}"
+            }
+          ]
+        }
+      },
+      "id": "f9bb9084-f753-4d64-a76e-2c50724d8a5a",
+      "name": "pesquisa_conversao",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        1904,
+        -1264
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "supabaseApi": {
+          "id": "06funpVK0RasJnc4",
+          "name": "Supabase - Fabiana Tomé"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "id": "18f928ea-7e31-45d1-a778-d641a5fdc4a5",
+      "name": "No Operation, do nothing1",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        2800,
+        -1280
+      ]
+    },
+    {
+      "parameters": {
+        "tableId": "conversoes",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "id_user",
+              "fieldValue": "={{ $item(\"0\").$node[\"pesquisa_user\"].json[\"id\"] }}"
+            },
+            {
+              "fieldId": "nome",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados_da_compra\"].json[\"nome\"] }}"
+            },
+            {
+              "fieldId": "sobrenome",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados_da_compra\"].json[\"sobrenome\"] }}"
+            },
+            {
+              "fieldId": "email",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados_da_compra\"].json[\"email\"] }}"
+            },
+            {
+              "fieldId": "telefone",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados_da_compra\"].json[\"telefone\"] }}"
+            },
+            {
+              "fieldId": "data_conversao",
+              "fieldValue": "={{ $now }}"
+            },
+            {
+              "fieldId": "produto",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados_da_compra\"].json[\"nome_produto\"] }}"
+            },
+            {
+              "fieldId": "id_produto",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados_da_compra\"].json[\"product_id\"] }}"
+            },
+            {
+              "fieldId": "preco",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados_da_compra\"].json[\"preco\"] }}"
+            },
+            {
+              "fieldId": "parcelas",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados_da_compra\"].json[\"parcelas\"] }}"
+            },
+            {
+              "fieldId": "oferta",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados_da_compra\"].json[\"oferta\"] }}"
+            },
+            {
+              "fieldId": "id_transacao",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados_da_compra\"].json[\"transaction_id\"] }}"
+            },
+            {
+              "fieldId": "comissao_gateway",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados_da_compra\"].json[\"gateway_comission\"] }}"
+            },
+            {
+              "fieldId": "comissao_produtor",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados_da_compra\"].json[\"comissao_produtor\"] }}"
+            },
+            {
+              "fieldId": "moeda",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados_da_compra\"].json[\"currency\"] }}"
+            },
+            {
+              "fieldId": "forma_de_pagamento",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados_da_compra\"].json[\"payment_method\"] }}"
+            },
+            {
+              "fieldId": "status",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados_da_compra\"].json[\"trans_status\"] }}"
+            },
+            {
+              "fieldId": "utm_source",
+              "fieldValue": "={{ $item(\"0\").$node[\"Supabase1\"].json[\"utm_source\"] }}"
+            },
+            {
+              "fieldId": "utm_campaign",
+              "fieldValue": "={{ $item(\"0\").$node[\"Supabase1\"].json[\"utm_campaign\"] }}"
+            },
+            {
+              "fieldId": "utm_term",
+              "fieldValue": "={{ $item(\"0\").$node[\"Supabase1\"].json[\"utm_term\"] }}"
+            },
+            {
+              "fieldId": "utm_medium",
+              "fieldValue": "={{ $item(\"0\").$node[\"Supabase1\"].json[\"utm_medium\"] }}"
+            },
+            {
+              "fieldId": "utm_content",
+              "fieldValue": "={{ $item(\"0\").$node[\"Supabase1\"].json[\"utm_content\"] }}"
+            },
+            {
+              "fieldId": "documento",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados_da_compra\"].json[\"cpf/cnpj\"] }}"
+            }
+          ]
+        }
+      },
+      "id": "ab5c9ea1-3d15-4524-9cdb-a7d998667439",
+      "name": "insere_conversao",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        2560,
+        -1168
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "supabaseApi": {
+          "id": "06funpVK0RasJnc4",
+          "name": "Supabase - Fabiana Tomé"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "users",
+        "limit": 1,
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "telefone",
+              "condition": "eq",
+              "keyValue": "={{ $item(\"0\").$node[\"dados_da_compra\"].json[\"telefone\"] }}"
+            }
+          ]
+        }
+      },
+      "id": "9d19ccea-d9c3-427f-b8c4-f0aafb8cffd4",
+      "name": "pesquisa_user",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        192,
+        -1440
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "supabaseApi": {
+          "id": "06funpVK0RasJnc4",
+          "name": "Supabase - Fabiana Tomé"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "cadastros",
+        "limit": 1,
+        "matchType": "allFilters",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "id_user",
+              "condition": "eq",
+              "keyValue": "={{ $item(\"0\").$node[\"pesquisa_user\"].json[\"id\"] }}"
+            },
+            {
+              "keyName": "telefone",
+              "condition": "eq",
+              "keyValue": "={{ $item(\"0\").$node[\"dados_da_compra\"].json[\"telefone\"] }}"
+            },
+            {
+              "keyName": "evento",
+              "condition": "eq",
+              "keyValue": "[SPT0825] - [CAPTAÇÃO]"
+            }
+          ]
+        }
+      },
+      "id": "aa6827d2-e32d-43f5-8c58-c85aa0c80460",
+      "name": "Supabase1",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        2368,
+        -1168
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "supabaseApi": {
+          "id": "06funpVK0RasJnc4",
+          "name": "Supabase - Fabiana Tomé"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://services.leadconnectorhq.com/contacts/",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "8451cdb3-c64e-47b4-ba48-61f2759d6f4f",
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1152,
+        -2048
+      ],
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "content": "# PARTE 2",
+        "height": 830,
+        "width": 3571
+      },
+      "id": "e9320cb8-90e8-41ed-b2bf-6ad79029cda1",
+      "name": "Sticky Note1",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        80,
+        -1728
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://evolution.fabianatome.com.br/message/sendText/suporteoperacional\n",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "CEE974AEB8D8-4A4A-93DB-2D792A42EC82"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "number",
+              "value": "={{ $item(\"0\").$node[\"No Operation, do nothing1\"].json[\"telefone\"] }}"
+            },
+            {
+              "name": "text",
+              "value": "={{ $item(\"0\").$node[\"mensagem\"].json[\"mensagem\"] }}"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        3424,
+        -1904
+      ],
+      "id": "de4b822e-35bb-4019-8015-4cc7452793d6",
+      "name": "Envia mensagem1",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "6f64d600-7ff3-49c3-9825-fd75c61f8ea3",
+              "leftValue": "={{ $item(\"0\").$node[\"dados_da_compra\"].json[\"trans_status\"] }}",
+              "rightValue": "Efetivado",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        800,
+        -2448
+      ],
+      "id": "5b97a6e9-e2d4-4997-a6b8-7d66fea22aa0",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://unnichat.com.br/a/start/2ftbsuK0aSSeuu2Kdhhp",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"nome\": \"{{ $node[\"No Operation, do nothing1\"].json[\"nome\"] }}\",\n  \"telefone\": \"{{ $node[\"No Operation, do nothing1\"].json[\"telefone\"] }}\",\n  \"type\": \"mensagem\",\n  \"text\": {\n    \"body\": \"viroucliente\"\n  }\n} ",
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        3728,
+        -1920
+      ],
+      "id": "2fea6f8e-8bf4-44a8-b0ef-c2f943fae856",
+      "name": "add tag virou_aluno",
+      "disabled": true,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "errorMessage": "An error ocurred!"
+      },
+      "id": "7d6199be-049e-4c49-8848-5043bc84edcf",
+      "name": "Stop and Error3",
+      "type": "n8n-nodes-base.stopAndError",
+      "typeVersion": 1,
+      "position": [
+        4608,
+        -1136
+      ]
+    },
+    {
+      "parameters": {
+        "errorMessage": "An error ocurred!"
+      },
+      "id": "57710ef2-7cd7-447d-ab12-fce63a87581e",
+      "name": "Stop and Error2",
+      "type": "n8n-nodes-base.stopAndError",
+      "typeVersion": 1,
+      "position": [
+        4608,
+        -1488
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "contactId": "={{ $json[\"contacts\"][\"0\"][\"id\"] }}",
+        "updateFields": {
+          "fieldValues": {
+            "property": [
+              {
+                "field": "71",
+                "value": "={{ $now.format('dd/MM/yyyy') }}"
+              }
+            ]
+          },
+          "email": "={{ $item(\"0\").$node[\"dados_da_compra\"].json[\"email\"] }}",
+          "firstName": "={{ $item(\"0\").$node[\"dados_da_compra\"].json[\"nome\"] }}",
+          "lastName": "={{ $item(\"0\").$node[\"dados_da_compra\"].json[\"sobrenome\"] }}",
+          "phone": "={{ $item(\"0\").$node[\"dados_da_compra\"].json[\"telefone\"] }}"
+        }
+      },
+      "id": "775d85da-a928-462c-a3ad-08d7fc81443a",
+      "name": "atualiza_contato_no_ac2",
+      "type": "n8n-nodes-base.activeCampaign",
+      "typeVersion": 1,
+      "position": [
+        4288,
+        -1456
+      ],
+      "credentials": {
+        "activeCampaignApi": {
+          "id": "4EetjSxVIE3QPLxy",
+          "name": "ActiveCampaign - fabianatome"
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "2130aa22-e19a-4662-8a2e-b43d36facf6d",
+              "leftValue": "={{ $json[\"contacts\"][\"0\"][\"id\"] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "5b45ac9e-44ed-4087-bffa-eb212ddbe7e1",
+      "name": "If2",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        4048,
+        -1312
+      ]
+    },
+    {
+      "parameters": {
+        "email": "={{ $item(\"0\").$node[\"dados_da_compra\"].json[\"email\"] }}",
+        "updateIfExists": true,
+        "additionalFields": {
+          "fieldValues": {
+            "property": [
+              {
+                "field": "71",
+                "value": "={{ $now.format('dd/MM/yyyy') }}"
+              }
+            ]
+          },
+          "firstName": "={{ $item(\"0\").$node[\"dados_da_compra\"].json[\"nome\"] }}",
+          "lastName": "={{ $item(\"0\").$node[\"dados_da_compra\"].json[\"sobrenome\"] }}",
+          "phone": "={{ $item(\"0\").$node[\"dados_da_compra\"].json[\"telefone\"] }}"
+        }
+      },
+      "id": "03fd3d78-f5d1-4ecb-8e77-d39364eb3114",
+      "name": "cria_contato_no_ac2",
+      "type": "n8n-nodes-base.activeCampaign",
+      "typeVersion": 1,
+      "position": [
+        4288,
+        -1168
+      ],
+      "credentials": {
+        "activeCampaignApi": {
+          "id": "4EetjSxVIE3QPLxy",
+          "name": "ActiveCampaign - fabianatome"
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "resource": "contactTag",
+        "tagId": "752",
+        "contactId": "={{ $json[\"id\"] }}"
+      },
+      "id": "dba71368-6306-40b6-83cf-e5a8e42d1aea",
+      "name": "tag_compra_aprovada12",
+      "type": "n8n-nodes-base.activeCampaign",
+      "typeVersion": 1,
+      "position": [
+        4608,
+        -1312
+      ],
+      "credentials": {
+        "activeCampaignApi": {
+          "id": "4EetjSxVIE3QPLxy",
+          "name": "ActiveCampaign - fabianatome"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "# [ADD TAG ACT] COMPRA APROVADA",
+        "height": 600,
+        "width": 1876,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        3712,
+        -1552
+      ],
+      "typeVersion": 1,
+      "id": "13fc1ba2-88e6-4a61-b47b-2d41eeec3ac0",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "url": "https://fabianatome.api-us1.com/api/3/contacts",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "email",
+              "value": "={{ $item(\"0\").$node[\"dados_da_compra\"].json[\"email\"] }}"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Api-Token",
+              "value": "633f6e21dac84c73a548cdb3c300de08d58c0c61fd6e675b7a8bc93dc05cd831ac0d53c6"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "375a56bf-52e2-42ff-9f20-4db653d95f3a",
+      "name": "HTTP Request2",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        3792,
+        -1296
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "contactTag",
+        "tagId": "644",
+        "contactId": "={{ $node[\"atualiza_contato_no_ac2\"].json[\"id\"] }}"
+      },
+      "id": "646e3bd8-b405-4f86-be17-9a242a698a58",
+      "name": "tag_compra_aprovada1",
+      "type": "n8n-nodes-base.activeCampaign",
+      "typeVersion": 1,
+      "position": [
+        5088,
+        -1312
+      ],
+      "credentials": {
+        "activeCampaignApi": {
+          "id": "4EetjSxVIE3QPLxy",
+          "name": "ActiveCampaign - fabianatome"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://unnichat.com.br/a/start/2ftbsuK0aSSeuu2Kdhhp",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"nome\": \"{{ $node[\"No Operation, do nothing1\"].json[\"nome\"] }}\",\n  \"telefone\": \"{{ $node[\"No Operation, do nothing1\"].json[\"telefone\"] }}\",\n  \"type\": \"mensagem\",\n  \"text\": {\n    \"body\": \"viroucliente\"\n  }\n} ",
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        5344,
+        -1312
+      ],
+      "id": "a394d364-e9d4-45bb-a460-87e52b99f06c",
+      "name": "add tag virou_aluno1",
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "resource": "contactTag",
+        "tagId": "753",
+        "contactId": "={{ $node[\"atualiza_contato_no_ac2\"].json[\"id\"] }}"
+      },
+      "id": "ea93ecb6-6a52-47c1-b782-76c0de2c827e",
+      "name": "tag_compra_aprovada2",
+      "type": "n8n-nodes-base.activeCampaign",
+      "typeVersion": 1,
+      "position": [
+        4864,
+        -1312
+      ],
+      "credentials": {
+        "activeCampaignApi": {
+          "id": "4EetjSxVIE3QPLxy",
+          "name": "ActiveCampaign - fabianatome"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "dd8c70d4-3806-45bb-a5ee-bc8e0bfff264",
+              "name": "mensagem",
+              "value": "=Olá 🤗\n\nEm nome da Professora Fabiana queremos dar as boas-vindas ao curso TRIBUTARISTA EM AÇÃO acesso vitalício!\n\nTemos 3 RECADOS e pedimos que leia com atenção\n\n1️⃣ Você deve ter recebido um e-mail automático com o seu acesso à plataforma do curso. Procure no campo de busca por \"Hotmart\" e favorite o e-mail. De qualquer maneira, estamos enviando o link da plataforma de aulas:\n\n👉 Plataforma de aulas: https://hotmart.com/pt-BR/club/tributarista-em-acao/products/4699753\n\n👉 O seu login é o e-mail que você cadastrou no momento da compra\n\n2️⃣ Para ter acesso ao curso e a nossa comunidade, é preciso preencher a ficha de cadastro do aluno. \n\n3️⃣ Sempre que precisar de *suporte técnico ou financeiro*, entre em contato com a gente da equipe do suporte:\nwhatsapp: wa.me/5584986233705\nE-mail: suporte@fabianatome.com.br.\n\nSe for um caso de dúvida sobre o conteúdo do curso, você pode enviar sua pergunta diretamente na plataforma de aulas.\n\nNosso atendimento é das 9h às 18h de segunda a sexta. \n\nSe a sua dúvida for sobre um caso concreto, então você poderá tirá-la ao vivo nos plantões de dúvidas com o nosso time de professores e seus colegas. Eles acontecem 2x por mês.\n\nAbraços,\nEquipe de Suporte\n\n",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3008,
+        -1904
+      ],
+      "id": "28b76fe5-970d-4531-bd3b-a81fe3388eb9",
+      "name": "mensagem"
+    }
+  ],
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "webhook.fabianatome.com.br",
+            "user-agent": "TMB Webhook",
+            "content-length": "1924",
+            "accept": "application/json, text/json, text/x-json, text/javascript, application/xml, text/xml",
+            "accept-encoding": "gzip, deflate",
+            "cache-control": "no-cache",
+            "content-type": "application/json",
+            "request-context": "appId=cid-v1:37110701-0fcd-4560-a4d1-2e4ffb42e807",
+            "request-id": "|690bf378000000003b09d09e79186557.6adac41c383393c2.",
+            "traceparent": "00-690bf378000000003b09d09e79186557-6adac41c383393c2-00",
+            "x-forwarded-for": "40.77.105.187",
+            "x-forwarded-host": "webhook.fabianatome.com.br",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "55c61d0068b6",
+            "x-real-ip": "40.77.105.187"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "produtor": "Fabiana Del Padre Tome IBATRI",
+            "lancamento": "Tributarista em Ação - acesso vitalício 2025",
+            "provedor_negociado": "TMB",
+            "pedido": 1812587,
+            "status_pedido": "Efetivado",
+            "cliente": "Ylla Guimarães de Sant Ana",
+            "documento": "67208509549",
+            "email": "yllaadv@gmail.com",
+            "valor_principal": 2590,
+            "parcelas": 5,
+            "valor_entrada": 431.67,
+            "valor_parcela": 431.67,
+            "valor_total": 2590,
+            "taxa_administracao": 4,
+            "criado_em": "2025-11-05T00:00:00",
+            "data_efetivado": "2025-11-05T22:01:45.070195",
+            "titulo": "[NÃO ALUNO] LOTE ESPECIAL - YLLA",
+            "code": "V6V130704A4",
+            "endereco_completo": "Rua Doutor Augusto Lopes Pontes, 395 Apto 901 - Salvador/BA CEP:41760-035 BR",
+            "telefones": "+5571992093739",
+            "telefone_ativo": "+5571992093739",
+            "lancamento_id": 25801,
+            "id_externo": null,
+            "risco_compartilhado_em": "2025-11-05T16:01:32.149006-03:00",
+            "avalista_nome": null,
+            "avalista_telefone": null,
+            "avalista_email": null,
+            "avalista_documento": null,
+            "avalista_data_nascimento": null,
+            "nascimento": "1974-07-27T00:00:00",
+            "id": 1812587,
+            "produtor_id": 5259,
+            "status_financeiro": "Adimplente",
+            "utm_source": "VendedorPriscilla",
+            "utm_medium": "VendedorPriscilla",
+            "utm_content": "VendedorPriscilla",
+            "utm_campaign": "TRA_NOV_BF_2025",
+            "melhor_dia_pagamento": 10,
+            "utm_last_source": "VendedorPriscilla2",
+            "utm_last_medium": "VendedorPriscilla2",
+            "utm_last_content": "VendedorPriscilla2",
+            "utm_last_campaign": "TRA_NOV_BF_2025",
+            "endereco_pais": "BR",
+            "endereco_cep": "41760-035",
+            "endereco_estado": "BA",
+            "endereco_cidade": "Salvador",
+            "endereco_bairro": "Costa Azul",
+            "endereco_logradouro": "Rua Doutor Augusto Lopes Pontes",
+            "endereco_numero": "395",
+            "endereco_complemento": "Apto 901",
+            "produtor_eduzz_id": null,
+            "produto_eduzz_id": null,
+            "checkout_eduzz_id": null,
+            "valor_parcela_com_juros": null
+          },
+          "webhookUrl": "https://webhook.fabianatome.com.br/webhook/compraaprovada-tmb-geral",
+          "executionMode": "production"
+        }
+      }
+    ]
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-08-01T20:30:42.496Z",
+      "createdAt": "2025-08-01T20:30:42.496Z",
+      "role": "workflow:owner",
+      "workflowId": "NPXBi3ZCozIQ9I5x",
+      "projectId": "tP5lcLj6t4StcK5B"
+    }
+  ],
+  "staticData": null,
+  "tags": [
+    {
+      "updatedAt": "2025-08-12T22:55:31.236Z",
+      "createdAt": "2025-08-12T22:55:31.236Z",
+      "id": "aTDowSXZuPPnfLSY",
+      "name": "COMPRA APROVADA"
+    },
+    {
+      "updatedAt": "2025-08-12T22:57:48.855Z",
+      "createdAt": "2025-08-12T22:57:48.855Z",
+      "id": "HuNb9yEX60oBTjdv",
+      "name": "TMB"
+    }
+  ],
+  "triggerCount": 1,
+  "updatedAt": "2025-11-06T19:02:43.535Z",
+  "versionId": "49fae9ca-f9b7-45df-a540-9f1e8f030914"
+}
