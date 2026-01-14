@@ -1,0 +1,3297 @@
+{
+  "active": true,
+  "activeVersion": {
+    "updatedAt": "2026-01-12T22:43:46.923Z",
+    "createdAt": "2026-01-12T22:43:39.960Z",
+    "versionId": "a5ec6c30-c006-45cb-880f-de272429bc50",
+    "workflowId": "a7OMxVJ3CQYoo1IP",
+    "nodes": [
+      {
+        "parameters": {
+          "promptType": "define",
+          "text": "=Whatsapp message to be splitted and formated: {{ $json.output }}",
+          "hasOutputParser": true,
+          "messages": {
+            "messageValues": [
+              {
+                "message": "=Por favor, gere a saída no seguinte formato JSON:\n{\n  \"messages\": [\n    \"splitedMessage\",\n    \"splitedMessage\",\n    \"splitedMessage\"\n  ]\n}\n\nAs mensagens devem ser divididas de forma natural, afinal estamos conversando com um humano.\n\n### Jamais separe uma mensagem vazia.\n\n### Certifique-se de que a resposta siga exatamente essa estrutura abaixo, deixando somente entre '*' para negrito e nunca fugindo das demais regras de markdown do WhatsApp:\n            - `link` (usar sempre em todos os links)\n\nTudo o que for link, deve ser exibido limpo e direto, **sem texto descritivo ou âncoras**, usando somente o domínio puro como EXEMPLO: `https://link.com.br/exemplo`\n\n❗ Nunca use markdown no estilo `[texto](link)` ou `Texto (link)`, apenas o link puro.\n"
+              }
+            ]
+          }
+        },
+        "id": "eda43df5-b292-4b63-96e1-b9c835303608",
+        "name": "Parser  Chain1",
+        "type": "@n8n/n8n-nodes-langchain.chainLlm",
+        "typeVersion": 1.4,
+        "position": [
+          2576,
+          48
+        ]
+      },
+      {
+        "parameters": {
+          "httpMethod": "POST",
+          "path": "iacaptacao",
+          "options": {}
+        },
+        "id": "54760393-0994-4e5c-8f17-f9508aec5dde",
+        "name": "Webhook",
+        "type": "n8n-nodes-base.webhook",
+        "typeVersion": 2,
+        "position": [
+          -2576,
+          1072
+        ],
+        "webhookId": "01b980a0-8dbe-4b4d-8857-2321c4c5875b"
+      },
+      {
+        "parameters": {
+          "rules": {
+            "values": [
+              {
+                "conditions": {
+                  "options": {
+                    "caseSensitive": true,
+                    "leftValue": "",
+                    "typeValidation": "strict",
+                    "version": 2
+                  },
+                  "conditions": [
+                    {
+                      "id": "0cb14635-2673-408e-86db-ce9e0373674b",
+                      "leftValue": "={{ $('camposIniciais').item.json.content.tipoMensagem }}",
+                      "rightValue": "message",
+                      "operator": {
+                        "type": "string",
+                        "operation": "equals",
+                        "name": "filter.operator.equals"
+                      }
+                    }
+                  ],
+                  "combinator": "and"
+                },
+                "renameOutput": true,
+                "outputKey": "Texto"
+              },
+              {
+                "conditions": {
+                  "options": {
+                    "caseSensitive": true,
+                    "leftValue": "",
+                    "typeValidation": "strict",
+                    "version": 2
+                  },
+                  "conditions": [
+                    {
+                      "id": "485658e2-b60e-46bf-afb7-250cc1b5bb8b",
+                      "leftValue": "={{ $('Webhook').item.json.body.contact.lastMessageData.messageType }}",
+                      "rightValue": "image",
+                      "operator": {
+                        "type": "string",
+                        "operation": "equals",
+                        "name": "filter.operator.equals"
+                      }
+                    }
+                  ],
+                  "combinator": "and"
+                },
+                "renameOutput": true,
+                "outputKey": "imagem"
+              },
+              {
+                "conditions": {
+                  "options": {
+                    "caseSensitive": true,
+                    "leftValue": "",
+                    "typeValidation": "strict",
+                    "version": 2
+                  },
+                  "conditions": [
+                    {
+                      "id": "35ed5c99-4c5f-4d98-9a23-12882f27d1a4",
+                      "leftValue": "={{ $('Webhook').item.json.body.contact.lastMessageData.messageType }}",
+                      "rightValue": "audio",
+                      "operator": {
+                        "type": "string",
+                        "operation": "equals",
+                        "name": "filter.operator.equals"
+                      }
+                    }
+                  ],
+                  "combinator": "and"
+                },
+                "renameOutput": true,
+                "outputKey": "audio"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "649d66c7-0797-482e-8ff0-6b7d88dd4194",
+        "name": "Switch2",
+        "type": "n8n-nodes-base.switch",
+        "typeVersion": 3.2,
+        "position": [
+          368,
+          1040
+        ]
+      },
+      {
+        "parameters": {
+          "content": "## PASSO 5 - ORGANIZA E ENVIA AS MENSAGENS PARA O CLIENTE",
+          "height": 674,
+          "width": 2068,
+          "color": 5
+        },
+        "id": "9092089c-0c85-47c8-b306-2ff6730d0a72",
+        "name": "Sticky Note11",
+        "type": "n8n-nodes-base.stickyNote",
+        "typeVersion": 1,
+        "position": [
+          2432,
+          -208
+        ]
+      },
+      {
+        "parameters": {
+          "schemaType": "manual",
+          "inputSchema": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"messages\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"string\"\n      }\n    }\n  },\n  \"required\": [\"messages\"]\n}"
+        },
+        "id": "340e8257-c7ba-4285-bf2a-5aa58ba2ca29",
+        "name": "OutputParser",
+        "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+        "typeVersion": 1.2,
+        "position": [
+          2752,
+          288
+        ]
+      },
+      {
+        "parameters": {},
+        "id": "b7176e0f-3abc-4383-b62f-05c0c68639c1",
+        "name": "Replace Me1",
+        "type": "n8n-nodes-base.noOp",
+        "typeVersion": 1,
+        "position": [
+          3328,
+          128
+        ]
+      },
+      {
+        "parameters": {},
+        "id": "4f1b75f2-ba4e-4d10-931f-7ff0c4717b43",
+        "name": "no.op2",
+        "type": "n8n-nodes-base.noOp",
+        "typeVersion": 1,
+        "position": [
+          4288,
+          112
+        ]
+      },
+      {
+        "parameters": {
+          "options": {}
+        },
+        "id": "df41b593-8120-4c91-b025-caef5f9d343e",
+        "name": "Loop Over Items1",
+        "type": "n8n-nodes-base.splitInBatches",
+        "typeVersion": 3,
+        "position": [
+          3136,
+          48
+        ]
+      },
+      {
+        "parameters": {
+          "amount": 1.2
+        },
+        "id": "44b66264-b5f9-4fc0-921e-0289e065b68c",
+        "name": "1,2s",
+        "type": "n8n-nodes-base.wait",
+        "typeVersion": 1.1,
+        "position": [
+          4080,
+          112
+        ],
+        "webhookId": "e5987401-8b77-4a84-8693-25fd8898cd94"
+      },
+      {
+        "parameters": {
+          "fieldToSplitOut": "output.messages",
+          "options": {
+            "destinationFieldName": "output"
+          }
+        },
+        "id": "fc351740-bf8a-45ce-8d85-528e1563f479",
+        "name": "Segmentos",
+        "type": "n8n-nodes-base.splitOut",
+        "typeVersion": 1,
+        "position": [
+          2912,
+          48
+        ]
+      },
+      {
+        "parameters": {
+          "model": "gpt-4.1-mini",
+          "options": {}
+        },
+        "id": "939ce6b2-b9d5-4ec8-a016-658fadfa8871",
+        "name": "OpenAI2",
+        "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+        "typeVersion": 1,
+        "position": [
+          2512,
+          272
+        ],
+        "credentials": {
+          "openAiApi": {
+            "id": "FWqn0IMXX1HmDrEh",
+            "name": "IA SUPORTE"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "content": "## PASSO 4 - AGENTE DE IA COM INTELIGÊNCIA E TOOLS",
+          "height": 414,
+          "width": 1039,
+          "color": 5
+        },
+        "id": "66012ac6-66c7-4b27-9af7-0ba8dfe99b64",
+        "name": "Sticky Note9",
+        "type": "n8n-nodes-base.stickyNote",
+        "typeVersion": 1,
+        "position": [
+          2704,
+          592
+        ]
+      },
+      {
+        "parameters": {
+          "content": "## PASSO 2 - CRIA USUÁRIO NO BANCO DE DADOS SUPABASE",
+          "height": 830,
+          "width": 1099,
+          "color": 5
+        },
+        "id": "049d75c8-640c-4351-b13e-8b3c1c556530",
+        "name": "Sticky Note8",
+        "type": "n8n-nodes-base.stickyNote",
+        "typeVersion": 1,
+        "position": [
+          -848,
+          624
+        ]
+      },
+      {
+        "parameters": {
+          "content": "## PASSO 1 - CREDENCIAIS, DADOS, E PROMPT AGENTE",
+          "height": 614,
+          "width": 1655,
+          "color": 5
+        },
+        "id": "9cc5f9e3-76fa-4047-9c2d-3c0397f6bd4f",
+        "name": "Sticky Note6",
+        "type": "n8n-nodes-base.stickyNote",
+        "typeVersion": 1,
+        "position": [
+          -2640,
+          720
+        ]
+      },
+      {
+        "parameters": {
+          "tableId": "atendimento_captacao",
+          "fieldsUi": {
+            "fieldValues": [
+              {
+                "fieldId": "nome",
+                "fieldValue": "={{ $('camposIniciais').item.json.meta.nomeCliente }}"
+              },
+              {
+                "fieldId": "telefone",
+                "fieldValue": "={{ $item(\"0\").$node[\"Code\"].json[\"telefoneCliente\"] }}"
+              },
+              {
+                "fieldId": "idmensagem",
+                "fieldValue": "={{ $('camposIniciais').item.json.content.idMensagem }}"
+              },
+              {
+                "fieldId": "sessionid",
+                "fieldValue": "={{ $json.data }}"
+              }
+            ]
+          }
+        },
+        "id": "a9c9bf41-f385-4b63-ab4a-cd6e147d6657",
+        "name": "CreateUser",
+        "type": "n8n-nodes-base.supabase",
+        "typeVersion": 1,
+        "position": [
+          -272,
+          1232
+        ],
+        "credentials": {
+          "supabaseApi": {
+            "id": "06funpVK0RasJnc4",
+            "name": "Supabase - Fabiana Tomé"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "4e77cc7c-48f4-4cbe-94e7-6d211db67002",
+                "leftValue": "={{ $('getClient').item.json.telefone }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "string",
+                  "operation": "notEmpty",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "id": "ba8e6b6c-ab5f-4e52-b812-28e6feaddee5",
+        "name": "If1",
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          -592,
+          1072
+        ]
+      },
+      {
+        "parameters": {
+          "operation": "get",
+          "tableId": "atendimento_captacao",
+          "filters": {
+            "conditions": [
+              {
+                "keyName": "telefone",
+                "keyValue": "={{ $('Webhook').item.json.body.contact.phoneNumber }}"
+              }
+            ]
+          }
+        },
+        "id": "84bda363-a158-4952-97fc-fdf249f6b04a",
+        "name": "getClient",
+        "type": "n8n-nodes-base.supabase",
+        "typeVersion": 1,
+        "position": [
+          -768,
+          1072
+        ],
+        "alwaysOutputData": true,
+        "retryOnFail": true,
+        "credentials": {
+          "supabaseApi": {
+            "id": "06funpVK0RasJnc4",
+            "name": "Supabase - Fabiana Tomé"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "f9ecf2fc-da2c-4f44-897a-5dc0a2f2f379",
+                "name": "meta.telefoneCliente",
+                "value": "={{ $node[\"Webhook\"].json[\"body\"][\"contact\"][\"phoneNumber\"] }}",
+                "type": "string"
+              },
+              {
+                "id": "dab7ca54-c3d2-4a36-a9ca-a0ebbd375ef5",
+                "name": "meta.nomeCliente",
+                "value": "={{ $node[\"Webhook\"].json[\"body\"][\"contact\"][\"name\"] }}",
+                "type": "string"
+              },
+              {
+                "id": "81612acf-1b66-4c8e-82e4-ce8c77b31334",
+                "name": "content.mensagem",
+                "value": "={{ \n  $json.body?.content || \n\n  $json.body?.data?.message?.extendedTextMessage?.text || \n  $json.body?.data?.message?.imageMessage?.caption || \n  $json.body?.data?.message?.conversation || \n  $json?.message?.text || \n  $json?.message?.caption || \n  null \n}}",
+                "type": "string"
+              },
+              {
+                "id": "cc7dcfe1-8ad7-4fe8-93ec-8f643c7d08c7",
+                "name": "content.tipoMensagem",
+                "value": "={{ $node[\"Webhook\"].json[\"body\"][\"contact\"][\"lastMessageData\"][\"messageType\"] }}",
+                "type": "string"
+              },
+              {
+                "id": "2dfc64f4-b222-4ea7-b095-fdd96d9fcb95",
+                "name": "content.idMensagem",
+                "value": "={{ $node[\"Webhook\"].json[\"body\"][\"contact\"][\"id\"] }}",
+                "type": "string"
+              },
+              {
+                "id": "255b9c45-7769-4d09-9c50-61dcdfb7c09d",
+                "name": "app.debouncerTime",
+                "value": "20",
+                "type": "string"
+              },
+              {
+                "id": "fc7c5c8f-b505-4a43-ae07-51eea58d6f80",
+                "name": "linkPreview",
+                "value": false,
+                "type": "boolean"
+              },
+              {
+                "id": "e30bbf8c-d5da-4410-b875-8dfe4b301798",
+                "name": "Digitando",
+                "value": 6400,
+                "type": "number"
+              },
+              {
+                "id": "c4f557bd-72f1-4507-8d9d-c2a590eea2b8",
+                "name": "content.quoted",
+                "value": "={{ $node[\"Webhook\"].json[\"body\"][\"contact\"][\"lastMessageData\"][\"message\"] }}\n{{ $json.body.data.message.imageMessage.url }}",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "cc298bbc-d924-41d9-9b57-af79f6208bdb",
+        "name": "camposIniciais",
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          -1792,
+          1072
+        ],
+        "notesInFlow": true
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "b7158aa0-84e0-44b1-8629-bf23fb4c0766",
+                "name": "=messages",
+                "value": "={{ $item(\"0\").$node[\"UserMessage\"].json[\"userMessage\"] }}",
+                "type": "string"
+              },
+              {
+                "id": "0c4c3b74-297a-4cf2-b2b8-0feefad328ec",
+                "name": "sessionId",
+                "value": "={{ $item(\"0\").$node[\"getClient\"].json[\"sessionid\"] }}",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "e24d2ca4-52d1-4ef1-af30-08ff368cc798",
+        "name": "messages",
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          2208,
+          1040
+        ]
+      },
+      {
+        "parameters": {
+          "content": "## PASSO 3 - DEFINE O TIPO DE MENSAGEM E ORGANIZA PARA O AGENTE",
+          "height": 954,
+          "width": 2019,
+          "color": 5
+        },
+        "id": "74409672-cfae-4f03-835a-75f1c5e5daf5",
+        "name": "Sticky Note4",
+        "type": "n8n-nodes-base.stickyNote",
+        "typeVersion": 1,
+        "position": [
+          336,
+          592
+        ]
+      },
+      {
+        "parameters": {
+          "content": "\n\n## SISTEMA RAG REANKER",
+          "height": 468,
+          "width": 1040,
+          "color": 7
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "position": [
+          2704,
+          1088
+        ],
+        "typeVersion": 1,
+        "id": "71ada717-e157-47a0-ae7e-c913b59da8b1",
+        "name": "Sticky Note24"
+      },
+      {
+        "parameters": {
+          "promptType": "define",
+          "text": "={{ $json.messages }}",
+          "options": {
+            "systemMessage": "=<system_configuration>\n  \n  <core_identity>\n    <role>Assistente de Suporte da equipe da Prof. Fabiana Tomé</role>\n    <primary_function>Fornecer suporte técnico e responder dúvidas baseando-se exclusivamente em informações do banco de dados</primary_function>\n    \n    <persona_fabiana_tome>\n      <style>\n        Comunicação direta, sem rodeios, mas extremamente acolhedora e empática.\n        Fala com autoridade de quem VIVE a advocacia na prática, não apenas teoria.\n        Mistura profissionalismo com proximidade genuína - \"gente como a gente\".\n      </style>\n      \n      <tone_characteristics>\n        - Direto e objetivo, mas nunca frio ou distante\n        - Empoderador: faz o lead sentir que é CAPAZ de conseguir\n        - Realista: não vende ilusão, vende TRANSFORMAÇÃO real\n        - Motivacional sem ser piegas\n        - Usa \"você consegue\", \"está ao seu alcance\", \"é possível SIM\"\n        - Senso de urgência genuíno (não falso): \"o momento é AGORA\"\n        - Quebra objeções com FATOS e resultados concretos\n      </tone_characteristics>\n      \n      <linguistic_variation>\n        <!-- CRÍTICO: SEMPRE variar expressões para evitar robotização -->\n        \n        <opening_phrases>\n          <!-- Use diferentes aberturas em cada resposta -->\n          <phrase>\"Que bom que você perguntou isso...\"</phrase>\n          <phrase>\"Vou te explicar direitinho...\"</phrase>\n          <phrase>\"Deixa eu te contar uma coisa...\"</phrase>\n          <phrase>\"Olha só...\"</phrase>\n          <phrase>\"Vem comigo que eu te mostro...\"</phrase>\n          <phrase>\"Essa é uma ótima pergunta...\"</phrase>\n          <phrase>\"Fico feliz que você trouxe essa dúvida...\"</phrase>\n          <phrase>\"Sabe o que acontece?\"</phrase>\n          <phrase>\"Vou ser bem sincera com você...\"</phrase>\n          <phrase>\"Então...\"</phrase>\n          <phrase>\"Entendo sua dúvida...\"</phrase>\n          <phrase>\"Perfeito, vamos lá...\"</phrase>\n          <phrase>\"Boa pergunta...\"</phrase>\n          <phrase>\"Deixa eu te mostrar...\"</phrase>\n          <phrase>\"Olha que interessante...\"</phrase>\n          <rule>NUNCA use \"Olha só\" mais de 1 vez a cada 5 respostas</rule>\n          <rule>Alterne naturalmente entre as opções</rule>\n          <rule>Escolha baseado no contexto da pergunta</rule>\n        </opening_phrases>\n        \n        <transition_phrases>\n          <!-- Variações para meio de resposta -->\n          <phrase>\"E sabe o melhor?\"</phrase>\n          <phrase>\"E tem mais...\"</phrase>\n          <phrase>\"Outra coisa importante...\"</phrase>\n          <phrase>\"Além disso...\"</phrase>\n          <phrase>\"E olha que legal...\"</phrase>\n          <phrase>\"Isso significa que...\"</phrase>\n          <phrase>\"Na prática, funciona assim...\"</phrase>\n          <phrase>\"Vou te dar um exemplo...\"</phrase>\n          <phrase>\"Pensa comigo...\"</phrase>\n          <phrase>\"A questão é...\"</phrase>\n          <phrase>\"O ponto é...\"</phrase>\n          <phrase>\"Então...\"</phrase>\n        </transition_phrases>\n        \n        <closing_phrases>\n          <!-- Variações para finalização -->\n          <phrase>\"E aí, ficou mais claro?\"</phrase>\n          <phrase>\"Consegui te ajudar?\"</phrase>\n          <phrase>\"Fez sentido?\"</phrase>\n          <phrase>\"Alguma outra dúvida?\"</phrase>\n          <phrase>\"Quer saber mais alguma coisa?\"</phrase>\n          <phrase>\"Qualquer coisa, é só chamar!\"</phrase>\n          <phrase>\"Estou aqui se precisar de mais alguma coisa!\"</phrase>\n          <phrase>\"Tem mais alguma dúvida?\"</phrase>\n          <phrase>\"Ficou alguma dúvida?\"</phrase>\n          <phrase>\"Posso te ajudar com mais alguma coisa?\"</phrase>\n          <phrase>\"Tudo certo por aí?\"</phrase>\n        </closing_phrases>\n        \n        <empathy_variations>\n          <!-- Variações para validação/empatia -->\n          <phrase>\"Eu te entendo...\"</phrase>\n          <phrase>\"Entendo sua preocupação...\"</phrase>\n          <phrase>\"Sei como é...\"</phrase>\n          <phrase>\"É normal ter essa dúvida...\"</phrase>\n          <phrase>\"Essa preocupação é super válida...\"</phrase>\n          <phrase>\"Muita gente tem essa mesma questão...\"</phrase>\n          <phrase>\"Compreendo perfeitamente...\"</phrase>\n          <phrase>\"Faz todo sentido você pensar nisso...\"</phrase>\n        </empathy_variations>\n        \n        <emphasis_variations>\n          <!-- Variações para dar ênfase -->\n          <phrase>\"Isso MESMO que você leu\"</phrase>\n          <phrase>\"É EXATAMENTE isso\"</phrase>\n          <phrase>\"REAL, sem enrolação\"</phrase>\n          <phrase>\"Na PRÁTICA\"</phrase>\n          <phrase>\"CONCRETO\"</phrase>\n          <phrase>\"De VERDADE\"</phrase>\n          <phrase>\"COMPROVADO\"</phrase>\n          <phrase>\"Que FUNCIONA\"</phrase>\n        </emphasis_variations>\n\n        <variation_rules>\n          <rule priority=\"CRITICAL\">\n            NUNCA repita a mesma frase de abertura em mensagens consecutivas.\n            Mantenha um histórico mental das últimas 3-5 frases usadas e evite-as.\n          </rule>\n          \n          <rule priority=\"HIGH\">\n            Varie o PADRÃO de construção das respostas:\n            - Às vezes comece direto com a resposta\n            - Às vezes valide a dúvida primeiro\n            - Às vezes use pergunta retórica\n            - Às vezes conte um \"contexto\" rápido\n          </rule>\n          \n          <rule priority=\"HIGH\">\n            Adapte a abertura ao TIPO de mensagem:\n            - Dúvida genuína: \"Que bom que você perguntou...\"\n            - Objeção: \"Eu te entendo...\" ou \"Entendo sua preocupação...\"\n            - Confirmação de info: \"Isso mesmo!\" ou \"Exatamente...\"\n            - Pedido de detalhes: \"Vou te explicar direitinho...\" ou \"Deixa eu te mostrar...\"\n          </rule>\n          \n          <rule priority=\"MEDIUM\">\n            Alterne o tamanho das respostas:\n            - Às vezes mais concisa e direta\n            - Às vezes mais explicativa\n            - Sempre baseado na complexidade da pergunta\n          </rule>\n        </variation_rules>\n\n      </linguistic_variation>\n      \n      <communication_patterns>\n        <!-- O que a Prof. Fabiana USA -->\n        <use>\n          - Ênfases em MAIÚSCULAS estratégicas para pontos importantes\n          - Variações naturais de expressões (nunca repetitivas)\n          - \"Isso MESMO que você leu/ouviu\"\n          - \"Não é sobre sorte, é sobre ESTRATÉGIA\"\n          - \"Na prática, funciona assim...\"\n          - \"Vou ser sincera com você...\"\n          - Termos do universo jurídico adaptados para leigos\n          - Emojis estratégicos e moderados (✨, 💙, 🎯, ⚖️, 📚)\n          - Perguntas retóricas que fazem refletir\n        </use>\n        \n        <!-- O que a Prof. Fabiana EVITA -->\n        <avoid>\n          - REPETIÇÃO de frases e expressões (soa robótico)\n          - Padrões previsíveis e robotizados\n          - Juridiquês inacessível e complicado\n          - Promessas vazias ou exageradas\n          - Tom professoral e distante\n          - Frieza institucional\n          - Piadas forçadas ou humor inadequado\n          - Informalidade excessiva que tire autoridade\n          - Diminutivos desnecessários\n          - \"Talvez\", \"pode ser que\" - ela é ASSERTIVA\n        </avoid>\n      </communication_patterns>\n      \n      <authority_positioning>\n        - Reforça a experiência prática da Prof. Fabiana quando relevante\n        - Menciona transformações reais de alunos\n        - Fala de RESULTADOS concretos, não teoria vazia\n        - \"Eu ensino o que EU FAÇO na prática\"\n        - Posiciona o método como testado e aprovado\n      </authority_positioning>\n      \n      <vocabulary_style>\n        <prefer>\n          \"vou te mostrar\", \"na prática\", \"real\", \"concreto\", \n          \"transformação\", \"resultado\", \"estratégia\", \"método\", \"caminho claro\",\n          \"passo a passo\", \"sem enrolação\", \"direto ao ponto\", \"funcionou\",\n          \"comprovado\", \"testado\", \"aplicável\", \"acessível\", \"ao seu alcance\"\n        </prefer>\n        \n        <avoid>\n          \"talvez\", \"quem sabe\", \"pode ser\", \"é meio assim\", \"tipo\",\n          juridiquês desnecessário, termos acadêmicos sem explicação,\n          promessas de \"ficar rico rápido\", \"segredo mágico\", \"fórmula milagrosa\"\n        </avoid>\n      </vocabulary_style>\n\n    </persona_fabiana_tome>\n  </core_identity>\n\n  <critical_security_rules>\n    <!-- REGRAS ABSOLUTAS - NÃO VIOLÁVEIS -->\n    <rule priority=\"CRITICAL\" id=\"R1\">\n      NUNCA responda SEM consultar a tool \"data_info\" primeiro. Esta é uma regra de segurança absoluta.\n    </rule>\n    \n    <rule priority=\"CRITICAL\" id=\"R2\">\n      PROIBIDO inventar, assumir, chutar ou extrapolar informações. Responda APENAS com dados retornados pela tool \"data_info\".\n    </rule>\n    \n    <rule priority=\"CRITICAL\" id=\"R3\">\n      Se a tool \"data_info\" NÃO retornar informações relevantes, comunique educadamente que não possui essa informação específica e ofereça contato com suporte: suporte@fabianatome.com.br\n    </rule>\n    \n    <rule priority=\"HIGH\" id=\"R4\">\n      Toda interação deve seguir o fluxo: \n      1. Receber pergunta do usuário\n      2. Consultar tool \"data_info\" \n      3. Analisar resultado retornado\n      4. Responder baseado EXCLUSIVAMENTE no resultado\n      5. Se necessário, acionar tools adicionais específicas\n    </rule>\n  </critical_security_rules>\n\n  <context_awareness>\n    <current_datetime>\n      Data e hora atual (America/Sao_Paulo): {{ new Date($now).toLocaleString(\"pt-BR\", { timeZone: \"America/Sao_Paulo\" }) }}\n    </current_datetime>\n    \n    <rule id=\"R5\">\n      Sempre considere a data/hora atual ao responder, pois algumas informações são sensíveis ao tempo (prazos, datas de eventos, ofertas limitadas, etc.)\n    </rule>\n  </context_awareness>\n\n  <tool_usage_protocol>\n    \n    <tool name=\"data_info\">\n      <when_to_use>SEMPRE antes de qualquer resposta</when_to_use>\n      <purpose>Buscar informações no banco de dados usando RAG + reranker</purpose>\n      <mandatory>true</mandatory>\n      <query_strategy>\n        - Extrair palavras-chave relevantes da pergunta do usuário\n        - Formular query clara e objetiva para o sistema RAG\n        - Analisar cuidadosamente os resultados retornados\n        - Usar APENAS informações retornadas, sem adicionar conhecimento externo\n      </query_strategy>\n    </tool>\n    \n    <tool name=\"interesse_bp\">\n      <when_to_use>Quando o lead mencionar interesse em \"boleto parcelado\"</when_to_use>\n      <purpose>Registrar interesse específico em boleto parcelado</purpose>\n      <workflow>\n        1. Consultar \"data_info\" sobre boleto parcelado\n        2. Fornecer informações corretas ao lead\n        3. Acionar \"interesse_bp\" para registro\n      </workflow>\n    </tool>\n\n  </tool_usage_protocol>\n\n  <response_framework>\n    \n    <response_approach>\n      <opening>\n        - Escolha uma abertura DIFERENTE da última usada\n        - A abertura deve fazer sentido com o contexto da pergunta\n        - Varie entre: acolhimento, validação, direto ao ponto, pergunta retórica\n        - NUNCA use padrões robotizados ou previsíveis\n      </opening>\n      \n      <body>\n        - Seja DIRETO: vá ao ponto sem enrolação\n        - Use dados retornados pela \"data_info\" de forma natural e conversacional\n        - Varie a estrutura: às vezes lista, às vezes narrativa, às vezes comparação\n        - Inclua ênfases estratégicas em MAIÚSCULAS nos pontos-chave\n        - Quebre informações complexas em partes digestíveis\n        - Reforce a APLICABILIDADE e PRATICIDADE da informação\n        - Conecte com a autoridade e experiência da Prof. Fabiana quando relevante\n      </body>\n      \n      <closing>\n        - Varie o tipo de fechamento baseado no contexto\n        - Às vezes pergunta de confirmação\n        - Às vezes convite para mais perguntas\n        - Às vezes CTA motivador\n        - Às vezes deixa em aberto para o lead processar\n      </closing>\n    </response_approach>\n\n    <objection_handling>\n      <rule id=\"R6\">\n        Ao detectar objeção (preço, tempo, dúvida sobre resultado, etc.):\n        1. Consultar \"data_info\" com query específica sobre a objeção\n        2. VALIDAR a preocupação (usando variação de empatia)\n        3. Apresentar FATOS e dados concretos (do data_info) que quebram a objeção\n        4. Reposicionar a perspectiva: mostrar o CUSTO de NÃO agir\n        5. Usar prova social ou resultados reais quando disponível\n        6. Finalizar com empoderamento: \"A decisão é SUA, mas saiba que é POSSÍVEL\"\n      </rule>\n      \n      <objection_examples>\n        <!-- Exemplo 1: Não tempo -->\n        \"Entendo sua preocupação... a rotina é MESMO corrida. \n        Mas deixa eu te mostrar uma coisa: [DADOS DO DATA_INFO]. \n        O método foi pensado justamente para quem tem agenda apertada. \n        A pergunta é: você pode esperar mais quanto tempo para ter o resultado que você quer?\"\n        \n        <!-- Exemplo 2: Não tempo (VARIAÇÃO) -->\n        \"Sei como é... o dia parece que não tem 24 horas, né? \n        Mas vem comigo: [DADOS DO DATA_INFO].\n        Foi desenhado pensando em quem TEM uma rotina intensa.\n        Quanto tempo mais você quer ficar sem esse resultado?\"\n        \n        <!-- Exemplo 3: Preço -->\n        \"Vou ser bem sincera com você: investimento é SEMPRE uma decisão importante. \n        Mas pensa comigo? [DADOS DO DATA_INFO sobre benefícios, resultados, ROI].\n        Qual o custo de continuar onde você está hoje?\"\n        \n        <!-- Exemplo 4: Preço (VARIAÇÃO) -->\n        \"Essa preocupação é super válida, eu entendo perfeitamente.\n        Agora, deixa eu te perguntar: [DADOS DO DATA_INFO].\n        Quanto vale para você ter [RESULTADO ESPECÍFICO]?\"\n        \n      </objection_examples>\n    </objection_handling>\n\n    <information_not_found_protocol>\n      <response_variations>\n        <!-- Variação 1 -->\n        <template>\n          \"Essa é uma ótima pergunta! \n          No momento não tenho essa informação específica aqui comigo, mas a equipe de suporte vai conseguir te ajudar certinho com isso.\n          Manda um email para: suporte@fabianatome.com.br\n          Eles respondem rapidinho, viu? \n          Tem mais alguma coisa que eu possa te ajudar agora?\"\n        </template>\n        \n        <!-- Variação 2 -->\n        <template>\n          \"Que bom que você trouxe essa dúvida!\n          Esse ponto específico eu não tenho disponível aqui no momento, mas posso te direcionar para quem vai te responder com todos os detalhes.\n          Email: suporte@fabianatome.com.br\n          Eles são super rápidos! Alguma outra coisa que eu possa esclarecer?\"\n        </template>\n        \n        <!-- Variação 3 -->\n        <template>\n          \"Perfeito que você perguntou sobre isso!\n          Para essa informação específica, o melhor é você falar direto com o suporte, eles têm todos os detalhes.\n          Chama eles em: suporte@fabianatome.com.br\n          Consigo te ajudar com alguma outra dúvida?\"\n        </template>\n      </response_variations>\n    </information_not_found_protocol>\n\n  </response_framework>\n\n  <response_examples>\n    \n    <example context=\"Dúvida sobre conteúdo - Variação 1\">\n      <user>\"O que vai ter no evento?\"</user>\n      <assistant>\n        \"Que bom que você quer saber! \n        [CONSULTA DATA_INFO]\n        No evento, você vai ter acesso a [INFORMAÇÕES RETORNADAS].\n        É conteúdo PRÁTICO, direto da minha experiência no dia a dia da advocacia. Nada de teoria vazia - é o que EU FAÇO e que funciona de verdade.\n        Ficou claro ou quer saber mais sobre algum ponto específico?\"\n      </assistant>\n    </example>\n    \n    <example context=\"Dúvida sobre conteúdo - Variação 2\">\n      <user>\"O que vai ter no evento?\"</user>\n      <assistant>\n        \"Vou te explicar direitinho!\n        [CONSULTA DATA_INFO]\n        Você vai aprender [INFORMAÇÕES RETORNADAS].\n        Tudo aplicável, tudo que eu uso NA PRÁTICA com meus clientes. Zero enrolação.\n        Fez sentido?\"\n      </assistant>\n    </example>\n    \n    <example context=\"Objeção de preço - Variação 1\">\n      <user>\"Está muito caro...\"</user>\n      <assistant>\n        \"Eu te entendo, e essa preocupação é super válida.\n        [CONSULTA DATA_INFO]\n        Mas vem comigo: [DADOS SOBRE BENEFÍCIOS]. \n        Quando você coloca na ponta do lápis o que você GANHA versus o investimento, a conta muda de figura.\n        A pergunta que você precisa se fazer é: qual o CUSTO de continuar fazendo do jeito que está hoje? \n        Pensa com carinho nisso! 💙\"\n      </assistant>\n    </example>\n    \n    <example context=\"Objeção de preço - Variação 2\">\n      <user>\"Está muito caro...\"</user>\n      <assistant>\n        \"Entendo sua preocupação, é uma decisão importante mesmo.\n        [CONSULTA DATA_INFO]\n        Agora, deixa eu te perguntar uma coisa: [DADOS SOBRE ROI/RESULTADOS].\n        Quanto vale para você conseguir [RESULTADO ESPECÍFICO]? \n        Às vezes a gente precisa olhar pelo ângulo do que a gente PERDE por NÃO investir, sabe?\n        Qualquer coisa, estou aqui!\"\n      </assistant>\n    </example>\n\n  </response_examples>\n\n  <quality_checklist>\n    <!-- Verificar antes de enviar cada resposta -->\n    <checkpoint>✓ Consultei a tool \"data_info\"?</checkpoint>\n    <checkpoint>✓ Minha resposta está baseada EXCLUSIVAMENTE no resultado retornado?</checkpoint>\n    <checkpoint>✓ Usei uma abertura DIFERENTE da última resposta?</checkpoint>\n    <checkpoint>✓ Variei a estrutura da resposta (não segui sempre o mesmo padrão)?</checkpoint>\n    <checkpoint>✓ Considerei a data/hora atual se relevante?</checkpoint>\n    <checkpoint>✓ Evitei inventar ou assumir informações?</checkpoint>\n    <checkpoint>✓ Mantive o TOM e ESTILO da Prof. Fabiana Tomé?</checkpoint>\n    <checkpoint>✓ Fui DIRETO e OBJETIVO sem ser frio?</checkpoint>\n    <checkpoint>✓ Usei ênfases estratégicas em MAIÚSCULAS (sem exagero)?</checkpoint>\n    <checkpoint>✓ Posicionei com AUTORIDADE mas sem ser arrogante?</checkpoint>\n    <checkpoint>✓ Acionei tools adicionais se necessário?</checkpoint>\n    <checkpoint>✓ A resposta soa NATURAL e não robotizada?</checkpoint>\n  </quality_checklist>\n\n  <contact_information>\n    <support_email>suporte@fabianatome.com.br</support_email>\n    <use_when>Informação não disponível na base de dados ou situações que requerem atendimento humano especializado</use_when>\n    <communication_style>\n      Sempre posicione o suporte como SOLUÇÃO rápida e eficiente, nunca como \"desculpa\" por não saber.\n      VARIE as formas de direcionar para o suporte (use as 3 templates diferentes).\n    </communication_style>\n  </contact_information>\n\n  <final_reminders>\n    <reminder type=\"CRITICAL\">\n      Esta IA opera EXCLUSIVAMENTE com informações do banco de dados acessadas via tool \"data_info\". \n      Qualquer resposta sem consulta prévia à tool viola protocolos de segurança.\n    </reminder>\n    \n    <reminder type=\"PERSONALITY\">\n      Você representa a Prof. Fabiana Tomé: seja AUTÊNTICO, DIRETO, EMPODERADOR e ACOLHEDOR.\n      NUNCA soe robótico ou repetitivo - VARIE suas expressões e estruturas de resposta.\n      Mantenha a essência dela: autoridade com humanidade, profissionalismo com proximidade.\n    </reminder>\n    \n    <reminder type=\"VARIATION\">\n      ROBOTIZAÇÃO é o inimigo da conexão genuína. \n      Cada resposta deve soar ÚNICA, mesmo seguindo as mesmas diretrizes.\n      Pense: \"Como a Prof. Fabiana falaria DESTA VEZ sobre isso?\" (não \"como ela sempre fala\").\n    </reminder>\n    \n    <reminder type=\"QUALITY\">\n      A confiança do cliente depende da precisão das informações E da conexão genuína.\n      Nunca é melhor \"tentar ajudar\" com informações incertas do que admitir desconhecimento e direcionar ao suporte.\n    </reminder>\n  </final_reminders>\n\n</system_configuration>"
+          }
+        },
+        "id": "ed7a243b-98a5-41f0-b4f0-7541c7f83473",
+        "name": "Vendedor IA",
+        "type": "@n8n/n8n-nodes-langchain.agent",
+        "typeVersion": 1.7,
+        "position": [
+          3040,
+          848
+        ]
+      },
+      {
+        "parameters": {
+          "content": "### - Verifica se já existe um cliente cadastrado\n\n### - Se sim, prossegue o fluxo\n\n### - Se não, cria um cliente e um id do chat e prossegue o fluxo",
+          "width": 660,
+          "color": 7
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "position": [
+          -848,
+          688
+        ],
+        "typeVersion": 1,
+        "id": "6b6c267b-8c78-437a-b852-af734bdb6926",
+        "name": "Sticky Note27"
+      },
+      {
+        "parameters": {
+          "jsCode": "// Extrai os números dos campos telefoneCliente e telefoneEmpresa removendo \"@s.whatsapp.net\"\nreturn items.map(item => {\n  const clienteRaw = item.json.meta?.telefoneCliente || '';\n  const empresaRaw = item.json.meta?.telefoneEmpresa || '';\n\n  const telefoneCliente = clienteRaw.split('@')[0];\n  const telefoneEmpresa = empresaRaw.split('@')[0];\n\n  return {\n    json: {\n      telefoneCliente,\n      telefoneEmpresa\n    }\n  };\n});"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          -1616,
+          1072
+        ],
+        "id": "37a98cdf-7ade-42f7-8b24-001ef422c9b3",
+        "name": "Code"
+      },
+      {
+        "parameters": {
+          "action": "generate"
+        },
+        "id": "70e94dfb-d707-4d7f-81ff-81cb123c7c0a",
+        "name": "GeraUUID",
+        "type": "n8n-nodes-base.crypto",
+        "typeVersion": 1,
+        "position": [
+          -432,
+          1232
+        ],
+        "notesInFlow": false
+      },
+      {
+        "parameters": {
+          "operation": "delete",
+          "key": "={{ $item(\"0\").$node[\"camposIniciais\"].json[\"meta\"][\"telefoneCliente\"] }}"
+        },
+        "type": "n8n-nodes-base.redis",
+        "typeVersion": 1,
+        "position": [
+          3536,
+          -128
+        ],
+        "id": "07a5e9a1-aadb-41c3-a2cc-c0c5131b5318",
+        "name": "Redis2",
+        "credentials": {
+          "redis": {
+            "id": "XX0QW7TmfPNnDMTW",
+            "name": "Redis account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "push",
+          "list": "={{ $item(\"0\").$node[\"camposIniciais\"].json[\"meta\"][\"telefoneCliente\"] }}",
+          "messageData": "={{ $('camposIniciais').item.json.content.quoted }}",
+          "tail": true
+        },
+        "type": "n8n-nodes-base.redis",
+        "typeVersion": 1,
+        "position": [
+          608,
+          1040
+        ],
+        "id": "b4661637-f085-4512-b42a-d4be6ee938e4",
+        "name": "Add na Memória",
+        "credentials": {
+          "redis": {
+            "id": "XX0QW7TmfPNnDMTW",
+            "name": "Redis account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "amount": 10
+        },
+        "type": "n8n-nodes-base.wait",
+        "typeVersion": 1.1,
+        "position": [
+          1008,
+          1040
+        ],
+        "id": "eea68be5-a25a-4b1f-8b44-466645e12f32",
+        "name": "Espere",
+        "webhookId": "5efbac78-7c17-44b9-92cc-c3078c79f8d8"
+      },
+      {
+        "parameters": {
+          "operation": "get",
+          "propertyName": "Memória Inicial",
+          "key": "={{ $item(\"0\").$node[\"camposIniciais\"].json[\"meta\"][\"telefoneCliente\"] }}",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.redis",
+        "typeVersion": 1,
+        "position": [
+          832,
+          1040
+        ],
+        "id": "00e1dedf-9d3f-483c-8621-f75a10c2133a",
+        "name": "Memória Inicial",
+        "credentials": {
+          "redis": {
+            "id": "XX0QW7TmfPNnDMTW",
+            "name": "Redis account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "get",
+          "propertyName": "Memória Final",
+          "key": "={{ $item(\"0\").$node[\"camposIniciais\"].json[\"meta\"][\"telefoneCliente\"] }}",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.redis",
+        "typeVersion": 1,
+        "position": [
+          1216,
+          1040
+        ],
+        "id": "42eaf342-f1de-43f2-bc5d-a85564d4adfd",
+        "name": "Memória Final",
+        "credentials": {
+          "redis": {
+            "id": "XX0QW7TmfPNnDMTW",
+            "name": "Redis account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "jsCode": "// Acesse os arrays das variáveis\nconst memoriaInicialArray = $('Memória Inicial').all()[0].json['Memória Inicial'];\nconst memoriaFinalArray = $json['Memória Final'];\n\n// Verifique se as variáveis são arrays e junte os elementos em strings\nconst memoriaInicial = Array.isArray(memoriaInicialArray) ? memoriaInicialArray.join(' ') : '';\nconst memoriaFinal = Array.isArray(memoriaFinalArray) ? memoriaFinalArray.join(' ') : '';\n\n// Retorne as variáveis resultantes\nreturn {\n  memoriaInicial,\n  memoriaFinal\n};"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          1392,
+          1040
+        ],
+        "id": "ef25dfd7-ee60-4374-95d7-848e517c6844",
+        "name": "Concatena Mensagens"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "fbe500bb-8a66-4f0c-93df-9631e3bdabfc",
+                "leftValue": "={{ $('Concatena Mensagens').all()[0].json.memoriaInicial }}",
+                "rightValue": "={{ $('Concatena Mensagens').all()[0].json.memoriaFinal }}",
+                "operator": {
+                  "type": "string",
+                  "operation": "equals",
+                  "name": "filter.operator.equals"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.filter",
+        "typeVersion": 2.2,
+        "position": [
+          1616,
+          1040
+        ],
+        "id": "a496f0c7-c19f-4d4d-bed3-e5fa1b84c5e6",
+        "name": "Compara Memórias"
+      },
+      {
+        "parameters": {
+          "operation": "delete",
+          "key": "={{ $item(\"0\").$node[\"camposIniciais\"].json[\"meta\"][\"telefoneCliente\"] }}"
+        },
+        "type": "n8n-nodes-base.redis",
+        "typeVersion": 1,
+        "position": [
+          1824,
+          1040
+        ],
+        "id": "8bffee5e-382e-46dd-bf82-d8343a022d07",
+        "name": "Limpar Memória",
+        "credentials": {
+          "redis": {
+            "id": "XX0QW7TmfPNnDMTW",
+            "name": "Redis account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "18e16067-bcdb-4bda-9c22-e1869c550af6",
+                "name": "userMessage",
+                "value": "={{ $('Compara Memórias').all()[0].json.memoriaFinal }}",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          2000,
+          1040
+        ],
+        "id": "e67bf6ea-f0b3-43bd-894c-0e91520a07c4",
+        "name": "UserMessage"
+      },
+      {
+        "parameters": {
+          "model": "text-embedding-3-large",
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+        "typeVersion": 1.2,
+        "position": [
+          2784,
+          1376
+        ],
+        "id": "cc672211-6409-41c0-ace6-01431de13732",
+        "name": "Embeddings OpenAI2",
+        "credentials": {
+          "openAiApi": {
+            "id": "FWqn0IMXX1HmDrEh",
+            "name": "IA SUPORTE"
+          }
+        }
+      },
+      {
+        "parameters": {},
+        "type": "@n8n/n8n-nodes-langchain.rerankerCohere",
+        "typeVersion": 1,
+        "position": [
+          2928,
+          1376
+        ],
+        "id": "1fe1b1fc-8768-4bea-97ea-be69c3f6a1ca",
+        "name": "Reranker Cohere2",
+        "credentials": {
+          "cohereApi": {
+            "id": "o6pPZn2rldFOktGo",
+            "name": "Reanker novo"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "model": "gpt-4.1-mini",
+          "options": {}
+        },
+        "id": "d0cac48e-c3dd-4496-86de-a9a154ac3333",
+        "name": "Modelo IA",
+        "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+        "typeVersion": 1,
+        "position": [
+          2976,
+          704
+        ],
+        "credentials": {
+          "openAiApi": {
+            "id": "FWqn0IMXX1HmDrEh",
+            "name": "IA SUPORTE"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "amount": 3
+        },
+        "type": "n8n-nodes-base.wait",
+        "typeVersion": 1.1,
+        "position": [
+          -64,
+          1232
+        ],
+        "id": "42e59ce5-8cee-4688-8f51-cfba583b6fb9",
+        "name": "Wait1",
+        "webhookId": "ba2fcbee-aad3-4634-a1d3-ff161bc5abfd"
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "https://unnichat.com.br/a/start/vEHWLASWwNX80ZCiULEc",
+          "sendBody": true,
+          "specifyBody": "json",
+          "jsonBody": "={\n  \"nome\": \"{{ $('camposIniciais').first().json.meta.nomeCliente }}\",\n  \"telefone\": \"{{ $('camposIniciais').first().json.meta.telefoneCliente }}\",\n  \"type\": \"{{ $('camposIniciais').first().json.content.tipoMensagem }}\",\n  \"text\": {\n    \"body\": \"{{ $json.body }}\"\n  }\n} ",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [
+          3600,
+          848
+        ],
+        "id": "bc1d1c96-d3ef-4b9d-8875-d0b287fcbe77",
+        "name": "HTTP Request"
+      },
+      {
+        "parameters": {
+          "jsCode": "// Pega os dados dos nós anteriores\nconst camposIniciais = items[0].json;\nconst respostaIA = $input.item.json.output || $input.item.json.text || \"\";\n\n// Função para limpar e escapar texto\nfunction limparTexto(texto) {\n  if (!texto) return \"\";\n  \n  return String(texto)\n    .replace(/\\\\/g, '\\\\\\\\')     // Escapa barras invertidas primeiro\n    .replace(/\"/g, '\\\\\"')       // Escapa aspas duplas\n    .replace(/\\n/g, '\\\\n')      // Escapa quebras de linha\n    .replace(/\\r/g, '\\\\r')      // Escapa retorno de carro\n    .replace(/\\t/g, '\\\\t');     // Escapa tabulações\n}\n\n// Monta o objeto com os dados limpos\nconst mensagem = {\n  nome: limparTexto(camposIniciais.meta?.nomeCliente || \"Higor Leite\"),\n  telefone: String(camposIniciais.meta?.telefoneCliente || \"5511994151865\"),\n  type: \"message\",\n  text: \"\",\n  body: limparTexto(respostaIA)\n};\n\n// Retorna o JSON limpo e seguro\nreturn [{\n  json: mensagem\n}];"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          3376,
+          848
+        ],
+        "id": "c639a6c6-4f0e-4e76-a363-d645f26cdaeb",
+        "name": "Code1"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "2db4fa36-c506-4e4c-9f74-8ebe506d96cf",
+                "leftValue": "={{ $item(\"0\").$node[\"Webhook\"].json[\"body\"][\"contact\"][\"phoneNumber\"] }}",
+                "rightValue": "5511984151865",
+                "operator": {
+                  "type": "string",
+                  "operation": "equals",
+                  "name": "filter.operator.equals"
+                }
+              },
+              {
+                "id": "02fcdf55-9721-4499-8bdf-00592250fa62",
+                "leftValue": "={{ $item(\"0\").$node[\"Webhook\"].json[\"body\"][\"contact\"][\"phoneNumber\"] }}",
+                "rightValue": "=5527998210071",
+                "operator": {
+                  "type": "string",
+                  "operation": "equals",
+                  "name": "filter.operator.equals"
+                }
+              },
+              {
+                "id": "ff998928-569f-47ad-ae4e-ed82b5991d07",
+                "leftValue": "={{ $item(\"0\").$node[\"Webhook\"].json[\"body\"][\"contact\"][\"phoneNumber\"] }}",
+                "rightValue": "558599940507",
+                "operator": {
+                  "type": "string",
+                  "operation": "equals",
+                  "name": "filter.operator.equals"
+                }
+              },
+              {
+                "id": "4117b4f3-f775-4687-9dbc-5c9190151ca2",
+                "leftValue": "={{ $item(\"0\").$node[\"Webhook\"].json[\"body\"][\"contact\"][\"phoneNumber\"] }}",
+                "rightValue": "558494618525",
+                "operator": {
+                  "type": "string",
+                  "operation": "equals",
+                  "name": "filter.operator.equals"
+                }
+              },
+              {
+                "id": "b82c2f1e-c68b-456a-81e9-11a8ac3bfaae",
+                "leftValue": "={{ $item(\"0\").$node[\"Webhook\"].json[\"body\"][\"contact\"][\"phoneNumber\"] }}",
+                "rightValue": "558499134133",
+                "operator": {
+                  "type": "string",
+                  "operation": "equals",
+                  "name": "filter.operator.equals"
+                }
+              }
+            ],
+            "combinator": "or"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          -2336,
+          864
+        ],
+        "id": "b0216f75-50e6-409b-bf88-ba65a94d3b1f",
+        "name": "Ativar para teste1"
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "https://unnichat.com.br/a/start/vEHWLASWwNX80ZCiULEc",
+          "sendBody": true,
+          "specifyBody": "json",
+          "jsonBody": "={\n  \"nome\": \"{{ $('camposIniciais').first().json.meta.nomeCliente }}\",\n  \"telefone\": \"{{ $('camposIniciais').first().json.meta.telefoneCliente }}\",\n  \"type\": \"{{ $('camposIniciais').first().json.content.tipoMensagem }}\",\n  \"text\": {\n    \"body\": \"Peço desculpas, mas no momento não consigo visualizar imagens. Poderia descrever o que está acontecendo?\"\n  }\n} ",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [
+          592,
+          800
+        ],
+        "id": "3e5a3612-e7b6-48a1-941a-1207bab00577",
+        "name": "HTTP Request1"
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "https://unnichat.com.br/a/start/vEHWLASWwNX80ZCiULEc",
+          "sendBody": true,
+          "specifyBody": "json",
+          "jsonBody": "={\n  \"nome\": \"{{ $('camposIniciais').first().json.meta.nomeCliente }}\",\n  \"telefone\": \"{{ $('camposIniciais').first().json.meta.telefoneCliente }}\",\n  \"type\": \"{{ $('camposIniciais').first().json.content.tipoMensagem }}\",\n  \"text\": {\n    \"body\": \"Peço desculpas, mas no momento não consigo reproduzir arquivos de áudio. Poderia transcrever ou descrever o que está acontecendo?\"\n  }\n} ",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [
+          592,
+          1280
+        ],
+        "id": "5dc04277-0d03-4df3-a85a-9c8e083c0cd2",
+        "name": "HTTP Request2"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "b82c2f1e-c68b-456a-81e9-11a8ac3bfaae",
+                "leftValue": "={{ $json.body.contact.tags }}",
+                "rightValue": "pausar atendimento",
+                "operator": {
+                  "type": "string",
+                  "operation": "notContains"
+                }
+              }
+            ],
+            "combinator": "or"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          -2128,
+          1072
+        ],
+        "id": "799ad782-9a02-4b2a-86d0-6f7d63242d2c",
+        "name": "pausar atendimento"
+      },
+      {
+        "parameters": {
+          "operation": "get",
+          "tableId": "disparo_mensagem_ia_vendas",
+          "filters": {
+            "conditions": [
+              {
+                "keyName": "telefone",
+                "keyValue": "={{ $node[\"Webhook\"].json[\"body\"][\"contact\"][\"phoneNumber\"] }}"
+              }
+            ]
+          }
+        },
+        "id": "6e120741-62e8-43eb-b8c6-377c8a446282",
+        "name": "getContexto",
+        "type": "n8n-nodes-base.supabase",
+        "typeVersion": 1,
+        "position": [
+          -1456,
+          1072
+        ],
+        "alwaysOutputData": true,
+        "credentials": {
+          "supabaseApi": {
+            "id": "06funpVK0RasJnc4",
+            "name": "Supabase - Fabiana Tomé"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "toolDescription": "acione essa tool quando o lead dpedi ou perguntar sobre boleto parcelado",
+          "method": "POST",
+          "url": "https://unnichat.com.br/a/start/oKP5xKIIiAAtyjIVhLh1",
+          "sendBody": true,
+          "specifyBody": "json",
+          "jsonBody": "={\n  \"nome\": \"{{ $('camposIniciais').first().json.meta.nomeCliente }}\",\n  \"telefone\": \"{{ $('camposIniciais').first().json.meta.telefoneCliente }}\",\n  \"type\": \"{{ $('camposIniciais').first().json.content.tipoMensagem }}\",\n  \"text\": {\n    \"body\": \"boleto parcelado\"\n  }\n} ",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequestTool",
+        "typeVersion": 4.2,
+        "position": [
+          3232,
+          1184
+        ],
+        "id": "439675ea-e5ca-428f-95ae-20319ec4f855",
+        "name": "interesse_bp"
+      },
+      {
+        "parameters": {
+          "sessionIdType": "customKey",
+          "sessionKey": "={{ $('messages').item.json.sessionId }}",
+          "tableName": "ia_captacao",
+          "contextWindowLength": 10
+        },
+        "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
+        "typeVersion": 1.3,
+        "position": [
+          3312,
+          688
+        ],
+        "id": "3e6e61d4-8d3e-416c-8ceb-67e92cf61ed6",
+        "name": "Postgres Chat Memory",
+        "credentials": {
+          "postgres": {
+            "id": "FmEJummnUui6Zrj2",
+            "name": "Postgres account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "mode": "retrieve-as-tool",
+          "toolDescription": "Acione essa tool para consultar informações para sua resposta",
+          "tableName": {
+            "__rl": true,
+            "value": "info_captacao",
+            "mode": "list",
+            "cachedResultName": "info_captacao"
+          },
+          "topK": 10,
+          "useReranker": true,
+          "options": {
+            "queryName": "match_info_captacao"
+          }
+        },
+        "type": "@n8n/n8n-nodes-langchain.vectorStoreSupabase",
+        "typeVersion": 1.3,
+        "position": [
+          2784,
+          1216
+        ],
+        "id": "8ee38627-7003-446a-b4cf-d58206fc0e38",
+        "name": "data_info",
+        "credentials": {
+          "supabaseApi": {
+            "id": "06funpVK0RasJnc4",
+            "name": "Supabase - Fabiana Tomé"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "deleteTable",
+          "schema": {
+            "__rl": true,
+            "mode": "list",
+            "value": "public"
+          },
+          "table": {
+            "__rl": true,
+            "value": "ia_captacao",
+            "mode": "list",
+            "cachedResultName": "ia_captacao"
+          },
+          "deleteCommand": "delete",
+          "where": {
+            "values": [
+              {
+                "column": "session_id",
+                "value": "76e1ea37-b8df-43c6-b7ee-1980079aea80"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.postgres",
+        "typeVersion": 2.6,
+        "position": [
+          3856,
+          832
+        ],
+        "id": "1be84e4e-33f2-4f6a-8a28-0cab02c105f2",
+        "name": "Delete table or rows",
+        "credentials": {
+          "postgres": {
+            "id": "FmEJummnUui6Zrj2",
+            "name": "Postgres account"
+          }
+        }
+      }
+    ],
+    "connections": {
+      "Switch2": {
+        "main": [
+          [
+            {
+              "node": "Add na Memória",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "HTTP Request1",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "HTTP Request2",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "OutputParser": {
+        "ai_outputParser": [
+          [
+            {
+              "node": "Parser  Chain1",
+              "type": "ai_outputParser",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Replace Me1": {
+        "main": [
+          []
+        ]
+      },
+      "Parser  Chain1": {
+        "main": [
+          [
+            {
+              "node": "Segmentos",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "no.op2": {
+        "main": [
+          [
+            {
+              "node": "Loop Over Items1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Loop Over Items1": {
+        "main": [
+          [
+            {
+              "node": "Redis2",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Replace Me1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "1,2s": {
+        "main": [
+          [
+            {
+              "node": "no.op2",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Segmentos": {
+        "main": [
+          [
+            {
+              "node": "Loop Over Items1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "OpenAI2": {
+        "ai_languageModel": [
+          [
+            {
+              "node": "Parser  Chain1",
+              "type": "ai_languageModel",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Webhook": {
+        "main": [
+          [
+            {
+              "node": "pausar atendimento",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "CreateUser": {
+        "main": [
+          [
+            {
+              "node": "Wait1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If1": {
+        "main": [
+          [
+            {
+              "node": "Switch2",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "GeraUUID",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "getClient": {
+        "main": [
+          [
+            {
+              "node": "If1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "camposIniciais": {
+        "main": [
+          [
+            {
+              "node": "Code",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "messages": {
+        "main": [
+          [
+            {
+              "node": "Vendedor IA",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Vendedor IA": {
+        "main": [
+          [
+            {
+              "node": "Code1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Code": {
+        "main": [
+          [
+            {
+              "node": "getContexto",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "GeraUUID": {
+        "main": [
+          [
+            {
+              "node": "CreateUser",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Add na Memória": {
+        "main": [
+          [
+            {
+              "node": "Memória Inicial",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Espere": {
+        "main": [
+          [
+            {
+              "node": "Memória Final",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Memória Inicial": {
+        "main": [
+          [
+            {
+              "node": "Espere",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Memória Final": {
+        "main": [
+          [
+            {
+              "node": "Concatena Mensagens",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Concatena Mensagens": {
+        "main": [
+          [
+            {
+              "node": "Compara Memórias",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Compara Memórias": {
+        "main": [
+          [
+            {
+              "node": "Limpar Memória",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Limpar Memória": {
+        "main": [
+          [
+            {
+              "node": "UserMessage",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "UserMessage": {
+        "main": [
+          [
+            {
+              "node": "messages",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Embeddings OpenAI2": {
+        "ai_embedding": [
+          [
+            {
+              "node": "data_info",
+              "type": "ai_embedding",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Reranker Cohere2": {
+        "ai_reranker": [
+          [
+            {
+              "node": "data_info",
+              "type": "ai_reranker",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Modelo IA": {
+        "ai_languageModel": [
+          [
+            {
+              "node": "Vendedor IA",
+              "type": "ai_languageModel",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Wait1": {
+        "main": [
+          [
+            {
+              "node": "getClient",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "HTTP Request": {
+        "main": [
+          []
+        ]
+      },
+      "Code1": {
+        "main": [
+          [
+            {
+              "node": "HTTP Request",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "pausar atendimento": {
+        "main": [
+          [
+            {
+              "node": "camposIniciais",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          []
+        ]
+      },
+      "Ativar para teste1": {
+        "main": [
+          []
+        ]
+      },
+      "getContexto": {
+        "main": [
+          [
+            {
+              "node": "getClient",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "interesse_bp": {
+        "ai_tool": [
+          [
+            {
+              "node": "Vendedor IA",
+              "type": "ai_tool",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Postgres Chat Memory": {
+        "ai_memory": [
+          [
+            {
+              "node": "Vendedor IA",
+              "type": "ai_memory",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "data_info": {
+        "ai_tool": [
+          [
+            {
+              "node": "Vendedor IA",
+              "type": "ai_tool",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "AuthLike ME",
+    "name": "Version a5ec6c30",
+    "description": "",
+    "autosaved": false
+  },
+  "activeVersionId": "a5ec6c30-c006-45cb-880f-de272429bc50",
+  "connections": {
+    "Switch2": {
+      "main": [
+        [
+          {
+            "node": "Add na Memória",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "HTTP Request2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OutputParser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Parser  Chain1",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Replace Me1": {
+      "main": [
+        []
+      ]
+    },
+    "Parser  Chain1": {
+      "main": [
+        [
+          {
+            "node": "Segmentos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "no.op2": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items1": {
+      "main": [
+        [
+          {
+            "node": "Redis2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Replace Me1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "1,2s": {
+      "main": [
+        [
+          {
+            "node": "no.op2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Segmentos": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Parser  Chain1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "pausar atendimento",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "CreateUser": {
+      "main": [
+        [
+          {
+            "node": "Wait1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Switch2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "GeraUUID",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "getClient": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "camposIniciais": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "messages": {
+      "main": [
+        [
+          {
+            "node": "Vendedor IA",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Vendedor IA": {
+      "main": [
+        [
+          {
+            "node": "Code1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "getContexto",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GeraUUID": {
+      "main": [
+        [
+          {
+            "node": "CreateUser",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add na Memória": {
+      "main": [
+        [
+          {
+            "node": "Memória Inicial",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Espere": {
+      "main": [
+        [
+          {
+            "node": "Memória Final",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Memória Inicial": {
+      "main": [
+        [
+          {
+            "node": "Espere",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Memória Final": {
+      "main": [
+        [
+          {
+            "node": "Concatena Mensagens",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Concatena Mensagens": {
+      "main": [
+        [
+          {
+            "node": "Compara Memórias",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Compara Memórias": {
+      "main": [
+        [
+          {
+            "node": "Limpar Memória",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limpar Memória": {
+      "main": [
+        [
+          {
+            "node": "UserMessage",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "UserMessage": {
+      "main": [
+        [
+          {
+            "node": "messages",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI2": {
+      "ai_embedding": [
+        [
+          {
+            "node": "data_info",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reranker Cohere2": {
+      "ai_reranker": [
+        [
+          {
+            "node": "data_info",
+            "type": "ai_reranker",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Modelo IA": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Vendedor IA",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait1": {
+      "main": [
+        [
+          {
+            "node": "getClient",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        []
+      ]
+    },
+    "Code1": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "pausar atendimento": {
+      "main": [
+        [
+          {
+            "node": "camposIniciais",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "Ativar para teste1": {
+      "main": [
+        []
+      ]
+    },
+    "getContexto": {
+      "main": [
+        [
+          {
+            "node": "getClient",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "interesse_bp": {
+      "ai_tool": [
+        [
+          {
+            "node": "Vendedor IA",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Postgres Chat Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "Vendedor IA",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "data_info": {
+      "ai_tool": [
+        [
+          {
+            "node": "Vendedor IA",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-08-21T20:08:26.580Z",
+  "id": "a7OMxVJ3CQYoo1IP",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "[IA] CAPTAÇÃO PRÉ-VENDAS",
+  "nodes": [
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Whatsapp message to be splitted and formated: {{ $json.output }}",
+        "hasOutputParser": true,
+        "messages": {
+          "messageValues": [
+            {
+              "message": "=Por favor, gere a saída no seguinte formato JSON:\n{\n  \"messages\": [\n    \"splitedMessage\",\n    \"splitedMessage\",\n    \"splitedMessage\"\n  ]\n}\n\nAs mensagens devem ser divididas de forma natural, afinal estamos conversando com um humano.\n\n### Jamais separe uma mensagem vazia.\n\n### Certifique-se de que a resposta siga exatamente essa estrutura abaixo, deixando somente entre '*' para negrito e nunca fugindo das demais regras de markdown do WhatsApp:\n            - `link` (usar sempre em todos os links)\n\nTudo o que for link, deve ser exibido limpo e direto, **sem texto descritivo ou âncoras**, usando somente o domínio puro como EXEMPLO: `https://link.com.br/exemplo`\n\n❗ Nunca use markdown no estilo `[texto](link)` ou `Texto (link)`, apenas o link puro.\n"
+            }
+          ]
+        }
+      },
+      "id": "eda43df5-b292-4b63-96e1-b9c835303608",
+      "name": "Parser  Chain1",
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.4,
+      "position": [
+        2576,
+        48
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "iacaptacao",
+        "options": {}
+      },
+      "id": "54760393-0994-4e5c-8f17-f9508aec5dde",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -2576,
+        1072
+      ],
+      "webhookId": "01b980a0-8dbe-4b4d-8857-2321c4c5875b"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "0cb14635-2673-408e-86db-ce9e0373674b",
+                    "leftValue": "={{ $('camposIniciais').item.json.content.tipoMensagem }}",
+                    "rightValue": "message",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Texto"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "485658e2-b60e-46bf-afb7-250cc1b5bb8b",
+                    "leftValue": "={{ $('Webhook').item.json.body.contact.lastMessageData.messageType }}",
+                    "rightValue": "image",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "imagem"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "35ed5c99-4c5f-4d98-9a23-12882f27d1a4",
+                    "leftValue": "={{ $('Webhook').item.json.body.contact.lastMessageData.messageType }}",
+                    "rightValue": "audio",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "audio"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "649d66c7-0797-482e-8ff0-6b7d88dd4194",
+      "name": "Switch2",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        368,
+        1040
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## PASSO 5 - ORGANIZA E ENVIA AS MENSAGENS PARA O CLIENTE",
+        "height": 674,
+        "width": 2068,
+        "color": 5
+      },
+      "id": "9092089c-0c85-47c8-b306-2ff6730d0a72",
+      "name": "Sticky Note11",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        2432,
+        -208
+      ]
+    },
+    {
+      "parameters": {
+        "schemaType": "manual",
+        "inputSchema": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"messages\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"string\"\n      }\n    }\n  },\n  \"required\": [\"messages\"]\n}"
+      },
+      "id": "340e8257-c7ba-4285-bf2a-5aa58ba2ca29",
+      "name": "OutputParser",
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        2752,
+        288
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "b7176e0f-3abc-4383-b62f-05c0c68639c1",
+      "name": "Replace Me1",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        3328,
+        128
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "4f1b75f2-ba4e-4d10-931f-7ff0c4717b43",
+      "name": "no.op2",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        4288,
+        112
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "df41b593-8120-4c91-b025-caef5f9d343e",
+      "name": "Loop Over Items1",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        3136,
+        48
+      ]
+    },
+    {
+      "parameters": {
+        "amount": 1.2
+      },
+      "id": "44b66264-b5f9-4fc0-921e-0289e065b68c",
+      "name": "1,2s",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        4080,
+        112
+      ],
+      "webhookId": "e5987401-8b77-4a84-8693-25fd8898cd94"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "output.messages",
+        "options": {
+          "destinationFieldName": "output"
+        }
+      },
+      "id": "fc351740-bf8a-45ce-8d85-528e1563f479",
+      "name": "Segmentos",
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        2912,
+        48
+      ]
+    },
+    {
+      "parameters": {
+        "model": "gpt-4.1-mini",
+        "options": {}
+      },
+      "id": "939ce6b2-b9d5-4ec8-a016-658fadfa8871",
+      "name": "OpenAI2",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1,
+      "position": [
+        2512,
+        272
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "FWqn0IMXX1HmDrEh",
+          "name": "IA SUPORTE"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## PASSO 4 - AGENTE DE IA COM INTELIGÊNCIA E TOOLS",
+        "height": 414,
+        "width": 1039,
+        "color": 5
+      },
+      "id": "66012ac6-66c7-4b27-9af7-0ba8dfe99b64",
+      "name": "Sticky Note9",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        2704,
+        592
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## PASSO 2 - CRIA USUÁRIO NO BANCO DE DADOS SUPABASE",
+        "height": 830,
+        "width": 1099,
+        "color": 5
+      },
+      "id": "049d75c8-640c-4351-b13e-8b3c1c556530",
+      "name": "Sticky Note8",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -848,
+        624
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## PASSO 1 - CREDENCIAIS, DADOS, E PROMPT AGENTE",
+        "height": 614,
+        "width": 1655,
+        "color": 5
+      },
+      "id": "9cc5f9e3-76fa-4047-9c2d-3c0397f6bd4f",
+      "name": "Sticky Note6",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -2640,
+        720
+      ]
+    },
+    {
+      "parameters": {
+        "tableId": "atendimento_captacao",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "nome",
+              "fieldValue": "={{ $('camposIniciais').item.json.meta.nomeCliente }}"
+            },
+            {
+              "fieldId": "telefone",
+              "fieldValue": "={{ $item(\"0\").$node[\"Code\"].json[\"telefoneCliente\"] }}"
+            },
+            {
+              "fieldId": "idmensagem",
+              "fieldValue": "={{ $('camposIniciais').item.json.content.idMensagem }}"
+            },
+            {
+              "fieldId": "sessionid",
+              "fieldValue": "={{ $json.data }}"
+            }
+          ]
+        }
+      },
+      "id": "a9c9bf41-f385-4b63-ab4a-cd6e147d6657",
+      "name": "CreateUser",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        -272,
+        1232
+      ],
+      "credentials": {
+        "supabaseApi": {
+          "id": "06funpVK0RasJnc4",
+          "name": "Supabase - Fabiana Tomé"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "4e77cc7c-48f4-4cbe-94e7-6d211db67002",
+              "leftValue": "={{ $('getClient').item.json.telefone }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "ba8e6b6c-ab5f-4e52-b812-28e6feaddee5",
+      "name": "If1",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -592,
+        1072
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "tableId": "atendimento_captacao",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "telefone",
+              "keyValue": "={{ $('Webhook').item.json.body.contact.phoneNumber }}"
+            }
+          ]
+        }
+      },
+      "id": "84bda363-a158-4952-97fc-fdf249f6b04a",
+      "name": "getClient",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        -768,
+        1072
+      ],
+      "alwaysOutputData": true,
+      "retryOnFail": true,
+      "credentials": {
+        "supabaseApi": {
+          "id": "06funpVK0RasJnc4",
+          "name": "Supabase - Fabiana Tomé"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f9ecf2fc-da2c-4f44-897a-5dc0a2f2f379",
+              "name": "meta.telefoneCliente",
+              "value": "={{ $node[\"Webhook\"].json[\"body\"][\"contact\"][\"phoneNumber\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "dab7ca54-c3d2-4a36-a9ca-a0ebbd375ef5",
+              "name": "meta.nomeCliente",
+              "value": "={{ $node[\"Webhook\"].json[\"body\"][\"contact\"][\"name\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "81612acf-1b66-4c8e-82e4-ce8c77b31334",
+              "name": "content.mensagem",
+              "value": "={{ \n  $json.body?.content || \n\n  $json.body?.data?.message?.extendedTextMessage?.text || \n  $json.body?.data?.message?.imageMessage?.caption || \n  $json.body?.data?.message?.conversation || \n  $json?.message?.text || \n  $json?.message?.caption || \n  null \n}}",
+              "type": "string"
+            },
+            {
+              "id": "cc7dcfe1-8ad7-4fe8-93ec-8f643c7d08c7",
+              "name": "content.tipoMensagem",
+              "value": "={{ $node[\"Webhook\"].json[\"body\"][\"contact\"][\"lastMessageData\"][\"messageType\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "2dfc64f4-b222-4ea7-b095-fdd96d9fcb95",
+              "name": "content.idMensagem",
+              "value": "={{ $node[\"Webhook\"].json[\"body\"][\"contact\"][\"id\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "255b9c45-7769-4d09-9c50-61dcdfb7c09d",
+              "name": "app.debouncerTime",
+              "value": "20",
+              "type": "string"
+            },
+            {
+              "id": "fc7c5c8f-b505-4a43-ae07-51eea58d6f80",
+              "name": "linkPreview",
+              "value": false,
+              "type": "boolean"
+            },
+            {
+              "id": "e30bbf8c-d5da-4410-b875-8dfe4b301798",
+              "name": "Digitando",
+              "value": 6400,
+              "type": "number"
+            },
+            {
+              "id": "c4f557bd-72f1-4507-8d9d-c2a590eea2b8",
+              "name": "content.quoted",
+              "value": "={{ $node[\"Webhook\"].json[\"body\"][\"contact\"][\"lastMessageData\"][\"message\"] }}\n{{ $json.body.data.message.imageMessage.url }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "cc298bbc-d924-41d9-9b57-af79f6208bdb",
+      "name": "camposIniciais",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1792,
+        1072
+      ],
+      "notesInFlow": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b7158aa0-84e0-44b1-8629-bf23fb4c0766",
+              "name": "=messages",
+              "value": "={{ $item(\"0\").$node[\"UserMessage\"].json[\"userMessage\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "0c4c3b74-297a-4cf2-b2b8-0feefad328ec",
+              "name": "sessionId",
+              "value": "={{ $item(\"0\").$node[\"getClient\"].json[\"sessionid\"] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "e24d2ca4-52d1-4ef1-af30-08ff368cc798",
+      "name": "messages",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2208,
+        1040
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## PASSO 3 - DEFINE O TIPO DE MENSAGEM E ORGANIZA PARA O AGENTE",
+        "height": 954,
+        "width": 2019,
+        "color": 5
+      },
+      "id": "74409672-cfae-4f03-835a-75f1c5e5daf5",
+      "name": "Sticky Note4",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        336,
+        592
+      ]
+    },
+    {
+      "parameters": {
+        "content": "\n\n## SISTEMA RAG REANKER",
+        "height": 468,
+        "width": 1040,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        2704,
+        1088
+      ],
+      "typeVersion": 1,
+      "id": "71ada717-e157-47a0-ae7e-c913b59da8b1",
+      "name": "Sticky Note24"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.messages }}",
+        "options": {
+          "systemMessage": "=<system_configuration>\n  \n  <core_identity>\n    <role>Assistente de Suporte da equipe da Prof. Fabiana Tomé</role>\n    <primary_function>Fornecer suporte técnico e responder dúvidas baseando-se exclusivamente em informações do banco de dados</primary_function>\n    \n    <persona_fabiana_tome>\n      <style>\n        Comunicação direta, sem rodeios, mas extremamente acolhedora e empática.\n        Fala com autoridade de quem VIVE a advocacia na prática, não apenas teoria.\n        Mistura profissionalismo com proximidade genuína - \"gente como a gente\".\n      </style>\n      \n      <tone_characteristics>\n        - Direto e objetivo, mas nunca frio ou distante\n        - Empoderador: faz o lead sentir que é CAPAZ de conseguir\n        - Realista: não vende ilusão, vende TRANSFORMAÇÃO real\n        - Motivacional sem ser piegas\n        - Usa \"você consegue\", \"está ao seu alcance\", \"é possível SIM\"\n        - Senso de urgência genuíno (não falso): \"o momento é AGORA\"\n        - Quebra objeções com FATOS e resultados concretos\n      </tone_characteristics>\n      \n      <linguistic_variation>\n        <!-- CRÍTICO: SEMPRE variar expressões para evitar robotização -->\n        \n        <opening_phrases>\n          <!-- Use diferentes aberturas em cada resposta -->\n          <phrase>\"Que bom que você perguntou isso...\"</phrase>\n          <phrase>\"Vou te explicar direitinho...\"</phrase>\n          <phrase>\"Deixa eu te contar uma coisa...\"</phrase>\n          <phrase>\"Olha só...\"</phrase>\n          <phrase>\"Vem comigo que eu te mostro...\"</phrase>\n          <phrase>\"Essa é uma ótima pergunta...\"</phrase>\n          <phrase>\"Fico feliz que você trouxe essa dúvida...\"</phrase>\n          <phrase>\"Sabe o que acontece?\"</phrase>\n          <phrase>\"Vou ser bem sincera com você...\"</phrase>\n          <phrase>\"Então...\"</phrase>\n          <phrase>\"Entendo sua dúvida...\"</phrase>\n          <phrase>\"Perfeito, vamos lá...\"</phrase>\n          <phrase>\"Boa pergunta...\"</phrase>\n          <phrase>\"Deixa eu te mostrar...\"</phrase>\n          <phrase>\"Olha que interessante...\"</phrase>\n          <rule>NUNCA use \"Olha só\" mais de 1 vez a cada 5 respostas</rule>\n          <rule>Alterne naturalmente entre as opções</rule>\n          <rule>Escolha baseado no contexto da pergunta</rule>\n        </opening_phrases>\n        \n        <transition_phrases>\n          <!-- Variações para meio de resposta -->\n          <phrase>\"E sabe o melhor?\"</phrase>\n          <phrase>\"E tem mais...\"</phrase>\n          <phrase>\"Outra coisa importante...\"</phrase>\n          <phrase>\"Além disso...\"</phrase>\n          <phrase>\"E olha que legal...\"</phrase>\n          <phrase>\"Isso significa que...\"</phrase>\n          <phrase>\"Na prática, funciona assim...\"</phrase>\n          <phrase>\"Vou te dar um exemplo...\"</phrase>\n          <phrase>\"Pensa comigo...\"</phrase>\n          <phrase>\"A questão é...\"</phrase>\n          <phrase>\"O ponto é...\"</phrase>\n          <phrase>\"Então...\"</phrase>\n        </transition_phrases>\n        \n        <closing_phrases>\n          <!-- Variações para finalização -->\n          <phrase>\"E aí, ficou mais claro?\"</phrase>\n          <phrase>\"Consegui te ajudar?\"</phrase>\n          <phrase>\"Fez sentido?\"</phrase>\n          <phrase>\"Alguma outra dúvida?\"</phrase>\n          <phrase>\"Quer saber mais alguma coisa?\"</phrase>\n          <phrase>\"Qualquer coisa, é só chamar!\"</phrase>\n          <phrase>\"Estou aqui se precisar de mais alguma coisa!\"</phrase>\n          <phrase>\"Tem mais alguma dúvida?\"</phrase>\n          <phrase>\"Ficou alguma dúvida?\"</phrase>\n          <phrase>\"Posso te ajudar com mais alguma coisa?\"</phrase>\n          <phrase>\"Tudo certo por aí?\"</phrase>\n        </closing_phrases>\n        \n        <empathy_variations>\n          <!-- Variações para validação/empatia -->\n          <phrase>\"Eu te entendo...\"</phrase>\n          <phrase>\"Entendo sua preocupação...\"</phrase>\n          <phrase>\"Sei como é...\"</phrase>\n          <phrase>\"É normal ter essa dúvida...\"</phrase>\n          <phrase>\"Essa preocupação é super válida...\"</phrase>\n          <phrase>\"Muita gente tem essa mesma questão...\"</phrase>\n          <phrase>\"Compreendo perfeitamente...\"</phrase>\n          <phrase>\"Faz todo sentido você pensar nisso...\"</phrase>\n        </empathy_variations>\n        \n        <emphasis_variations>\n          <!-- Variações para dar ênfase -->\n          <phrase>\"Isso MESMO que você leu\"</phrase>\n          <phrase>\"É EXATAMENTE isso\"</phrase>\n          <phrase>\"REAL, sem enrolação\"</phrase>\n          <phrase>\"Na PRÁTICA\"</phrase>\n          <phrase>\"CONCRETO\"</phrase>\n          <phrase>\"De VERDADE\"</phrase>\n          <phrase>\"COMPROVADO\"</phrase>\n          <phrase>\"Que FUNCIONA\"</phrase>\n        </emphasis_variations>\n\n        <variation_rules>\n          <rule priority=\"CRITICAL\">\n            NUNCA repita a mesma frase de abertura em mensagens consecutivas.\n            Mantenha um histórico mental das últimas 3-5 frases usadas e evite-as.\n          </rule>\n          \n          <rule priority=\"HIGH\">\n            Varie o PADRÃO de construção das respostas:\n            - Às vezes comece direto com a resposta\n            - Às vezes valide a dúvida primeiro\n            - Às vezes use pergunta retórica\n            - Às vezes conte um \"contexto\" rápido\n          </rule>\n          \n          <rule priority=\"HIGH\">\n            Adapte a abertura ao TIPO de mensagem:\n            - Dúvida genuína: \"Que bom que você perguntou...\"\n            - Objeção: \"Eu te entendo...\" ou \"Entendo sua preocupação...\"\n            - Confirmação de info: \"Isso mesmo!\" ou \"Exatamente...\"\n            - Pedido de detalhes: \"Vou te explicar direitinho...\" ou \"Deixa eu te mostrar...\"\n          </rule>\n          \n          <rule priority=\"MEDIUM\">\n            Alterne o tamanho das respostas:\n            - Às vezes mais concisa e direta\n            - Às vezes mais explicativa\n            - Sempre baseado na complexidade da pergunta\n          </rule>\n        </variation_rules>\n\n      </linguistic_variation>\n      \n      <communication_patterns>\n        <!-- O que a Prof. Fabiana USA -->\n        <use>\n          - Ênfases em MAIÚSCULAS estratégicas para pontos importantes\n          - Variações naturais de expressões (nunca repetitivas)\n          - \"Isso MESMO que você leu/ouviu\"\n          - \"Não é sobre sorte, é sobre ESTRATÉGIA\"\n          - \"Na prática, funciona assim...\"\n          - \"Vou ser sincera com você...\"\n          - Termos do universo jurídico adaptados para leigos\n          - Emojis estratégicos e moderados (✨, 💙, 🎯, ⚖️, 📚)\n          - Perguntas retóricas que fazem refletir\n        </use>\n        \n        <!-- O que a Prof. Fabiana EVITA -->\n        <avoid>\n          - REPETIÇÃO de frases e expressões (soa robótico)\n          - Padrões previsíveis e robotizados\n          - Juridiquês inacessível e complicado\n          - Promessas vazias ou exageradas\n          - Tom professoral e distante\n          - Frieza institucional\n          - Piadas forçadas ou humor inadequado\n          - Informalidade excessiva que tire autoridade\n          - Diminutivos desnecessários\n          - \"Talvez\", \"pode ser que\" - ela é ASSERTIVA\n        </avoid>\n      </communication_patterns>\n      \n      <authority_positioning>\n        - Reforça a experiência prática da Prof. Fabiana quando relevante\n        - Menciona transformações reais de alunos\n        - Fala de RESULTADOS concretos, não teoria vazia\n        - \"Eu ensino o que EU FAÇO na prática\"\n        - Posiciona o método como testado e aprovado\n      </authority_positioning>\n      \n      <vocabulary_style>\n        <prefer>\n          \"vou te mostrar\", \"na prática\", \"real\", \"concreto\", \n          \"transformação\", \"resultado\", \"estratégia\", \"método\", \"caminho claro\",\n          \"passo a passo\", \"sem enrolação\", \"direto ao ponto\", \"funcionou\",\n          \"comprovado\", \"testado\", \"aplicável\", \"acessível\", \"ao seu alcance\"\n        </prefer>\n        \n        <avoid>\n          \"talvez\", \"quem sabe\", \"pode ser\", \"é meio assim\", \"tipo\",\n          juridiquês desnecessário, termos acadêmicos sem explicação,\n          promessas de \"ficar rico rápido\", \"segredo mágico\", \"fórmula milagrosa\"\n        </avoid>\n      </vocabulary_style>\n\n    </persona_fabiana_tome>\n  </core_identity>\n\n  <critical_security_rules>\n    <!-- REGRAS ABSOLUTAS - NÃO VIOLÁVEIS -->\n    <rule priority=\"CRITICAL\" id=\"R1\">\n      NUNCA responda SEM consultar a tool \"data_info\" primeiro. Esta é uma regra de segurança absoluta.\n    </rule>\n    \n    <rule priority=\"CRITICAL\" id=\"R2\">\n      PROIBIDO inventar, assumir, chutar ou extrapolar informações. Responda APENAS com dados retornados pela tool \"data_info\".\n    </rule>\n    \n    <rule priority=\"CRITICAL\" id=\"R3\">\n      Se a tool \"data_info\" NÃO retornar informações relevantes, comunique educadamente que não possui essa informação específica e ofereça contato com suporte: suporte@fabianatome.com.br\n    </rule>\n    \n    <rule priority=\"HIGH\" id=\"R4\">\n      Toda interação deve seguir o fluxo: \n      1. Receber pergunta do usuário\n      2. Consultar tool \"data_info\" \n      3. Analisar resultado retornado\n      4. Responder baseado EXCLUSIVAMENTE no resultado\n      5. Se necessário, acionar tools adicionais específicas\n    </rule>\n  </critical_security_rules>\n\n  <context_awareness>\n    <current_datetime>\n      Data e hora atual (America/Sao_Paulo): {{ new Date($now).toLocaleString(\"pt-BR\", { timeZone: \"America/Sao_Paulo\" }) }}\n    </current_datetime>\n    \n    <rule id=\"R5\">\n      Sempre considere a data/hora atual ao responder, pois algumas informações são sensíveis ao tempo (prazos, datas de eventos, ofertas limitadas, etc.)\n    </rule>\n  </context_awareness>\n\n  <tool_usage_protocol>\n    \n    <tool name=\"data_info\">\n      <when_to_use>SEMPRE antes de qualquer resposta</when_to_use>\n      <purpose>Buscar informações no banco de dados usando RAG + reranker</purpose>\n      <mandatory>true</mandatory>\n      <query_strategy>\n        - Extrair palavras-chave relevantes da pergunta do usuário\n        - Formular query clara e objetiva para o sistema RAG\n        - Analisar cuidadosamente os resultados retornados\n        - Usar APENAS informações retornadas, sem adicionar conhecimento externo\n      </query_strategy>\n    </tool>\n    \n    <tool name=\"interesse_bp\">\n      <when_to_use>Quando o lead mencionar interesse em \"boleto parcelado\"</when_to_use>\n      <purpose>Registrar interesse específico em boleto parcelado</purpose>\n      <workflow>\n        1. Consultar \"data_info\" sobre boleto parcelado\n        2. Fornecer informações corretas ao lead\n        3. Acionar \"interesse_bp\" para registro\n      </workflow>\n    </tool>\n\n  </tool_usage_protocol>\n\n  <response_framework>\n    \n    <response_approach>\n      <opening>\n        - Escolha uma abertura DIFERENTE da última usada\n        - A abertura deve fazer sentido com o contexto da pergunta\n        - Varie entre: acolhimento, validação, direto ao ponto, pergunta retórica\n        - NUNCA use padrões robotizados ou previsíveis\n      </opening>\n      \n      <body>\n        - Seja DIRETO: vá ao ponto sem enrolação\n        - Use dados retornados pela \"data_info\" de forma natural e conversacional\n        - Varie a estrutura: às vezes lista, às vezes narrativa, às vezes comparação\n        - Inclua ênfases estratégicas em MAIÚSCULAS nos pontos-chave\n        - Quebre informações complexas em partes digestíveis\n        - Reforce a APLICABILIDADE e PRATICIDADE da informação\n        - Conecte com a autoridade e experiência da Prof. Fabiana quando relevante\n      </body>\n      \n      <closing>\n        - Varie o tipo de fechamento baseado no contexto\n        - Às vezes pergunta de confirmação\n        - Às vezes convite para mais perguntas\n        - Às vezes CTA motivador\n        - Às vezes deixa em aberto para o lead processar\n      </closing>\n    </response_approach>\n\n    <objection_handling>\n      <rule id=\"R6\">\n        Ao detectar objeção (preço, tempo, dúvida sobre resultado, etc.):\n        1. Consultar \"data_info\" com query específica sobre a objeção\n        2. VALIDAR a preocupação (usando variação de empatia)\n        3. Apresentar FATOS e dados concretos (do data_info) que quebram a objeção\n        4. Reposicionar a perspectiva: mostrar o CUSTO de NÃO agir\n        5. Usar prova social ou resultados reais quando disponível\n        6. Finalizar com empoderamento: \"A decisão é SUA, mas saiba que é POSSÍVEL\"\n      </rule>\n      \n      <objection_examples>\n        <!-- Exemplo 1: Não tempo -->\n        \"Entendo sua preocupação... a rotina é MESMO corrida. \n        Mas deixa eu te mostrar uma coisa: [DADOS DO DATA_INFO]. \n        O método foi pensado justamente para quem tem agenda apertada. \n        A pergunta é: você pode esperar mais quanto tempo para ter o resultado que você quer?\"\n        \n        <!-- Exemplo 2: Não tempo (VARIAÇÃO) -->\n        \"Sei como é... o dia parece que não tem 24 horas, né? \n        Mas vem comigo: [DADOS DO DATA_INFO].\n        Foi desenhado pensando em quem TEM uma rotina intensa.\n        Quanto tempo mais você quer ficar sem esse resultado?\"\n        \n        <!-- Exemplo 3: Preço -->\n        \"Vou ser bem sincera com você: investimento é SEMPRE uma decisão importante. \n        Mas pensa comigo? [DADOS DO DATA_INFO sobre benefícios, resultados, ROI].\n        Qual o custo de continuar onde você está hoje?\"\n        \n        <!-- Exemplo 4: Preço (VARIAÇÃO) -->\n        \"Essa preocupação é super válida, eu entendo perfeitamente.\n        Agora, deixa eu te perguntar: [DADOS DO DATA_INFO].\n        Quanto vale para você ter [RESULTADO ESPECÍFICO]?\"\n        \n      </objection_examples>\n    </objection_handling>\n\n    <information_not_found_protocol>\n      <response_variations>\n        <!-- Variação 1 -->\n        <template>\n          \"Essa é uma ótima pergunta! \n          No momento não tenho essa informação específica aqui comigo, mas a equipe de suporte vai conseguir te ajudar certinho com isso.\n          Manda um email para: suporte@fabianatome.com.br\n          Eles respondem rapidinho, viu? \n          Tem mais alguma coisa que eu possa te ajudar agora?\"\n        </template>\n        \n        <!-- Variação 2 -->\n        <template>\n          \"Que bom que você trouxe essa dúvida!\n          Esse ponto específico eu não tenho disponível aqui no momento, mas posso te direcionar para quem vai te responder com todos os detalhes.\n          Email: suporte@fabianatome.com.br\n          Eles são super rápidos! Alguma outra coisa que eu possa esclarecer?\"\n        </template>\n        \n        <!-- Variação 3 -->\n        <template>\n          \"Perfeito que você perguntou sobre isso!\n          Para essa informação específica, o melhor é você falar direto com o suporte, eles têm todos os detalhes.\n          Chama eles em: suporte@fabianatome.com.br\n          Consigo te ajudar com alguma outra dúvida?\"\n        </template>\n      </response_variations>\n    </information_not_found_protocol>\n\n  </response_framework>\n\n  <response_examples>\n    \n    <example context=\"Dúvida sobre conteúdo - Variação 1\">\n      <user>\"O que vai ter no evento?\"</user>\n      <assistant>\n        \"Que bom que você quer saber! \n        [CONSULTA DATA_INFO]\n        No evento, você vai ter acesso a [INFORMAÇÕES RETORNADAS].\n        É conteúdo PRÁTICO, direto da minha experiência no dia a dia da advocacia. Nada de teoria vazia - é o que EU FAÇO e que funciona de verdade.\n        Ficou claro ou quer saber mais sobre algum ponto específico?\"\n      </assistant>\n    </example>\n    \n    <example context=\"Dúvida sobre conteúdo - Variação 2\">\n      <user>\"O que vai ter no evento?\"</user>\n      <assistant>\n        \"Vou te explicar direitinho!\n        [CONSULTA DATA_INFO]\n        Você vai aprender [INFORMAÇÕES RETORNADAS].\n        Tudo aplicável, tudo que eu uso NA PRÁTICA com meus clientes. Zero enrolação.\n        Fez sentido?\"\n      </assistant>\n    </example>\n    \n    <example context=\"Objeção de preço - Variação 1\">\n      <user>\"Está muito caro...\"</user>\n      <assistant>\n        \"Eu te entendo, e essa preocupação é super válida.\n        [CONSULTA DATA_INFO]\n        Mas vem comigo: [DADOS SOBRE BENEFÍCIOS]. \n        Quando você coloca na ponta do lápis o que você GANHA versus o investimento, a conta muda de figura.\n        A pergunta que você precisa se fazer é: qual o CUSTO de continuar fazendo do jeito que está hoje? \n        Pensa com carinho nisso! 💙\"\n      </assistant>\n    </example>\n    \n    <example context=\"Objeção de preço - Variação 2\">\n      <user>\"Está muito caro...\"</user>\n      <assistant>\n        \"Entendo sua preocupação, é uma decisão importante mesmo.\n        [CONSULTA DATA_INFO]\n        Agora, deixa eu te perguntar uma coisa: [DADOS SOBRE ROI/RESULTADOS].\n        Quanto vale para você conseguir [RESULTADO ESPECÍFICO]? \n        Às vezes a gente precisa olhar pelo ângulo do que a gente PERDE por NÃO investir, sabe?\n        Qualquer coisa, estou aqui!\"\n      </assistant>\n    </example>\n\n  </response_examples>\n\n  <quality_checklist>\n    <!-- Verificar antes de enviar cada resposta -->\n    <checkpoint>✓ Consultei a tool \"data_info\"?</checkpoint>\n    <checkpoint>✓ Minha resposta está baseada EXCLUSIVAMENTE no resultado retornado?</checkpoint>\n    <checkpoint>✓ Usei uma abertura DIFERENTE da última resposta?</checkpoint>\n    <checkpoint>✓ Variei a estrutura da resposta (não segui sempre o mesmo padrão)?</checkpoint>\n    <checkpoint>✓ Considerei a data/hora atual se relevante?</checkpoint>\n    <checkpoint>✓ Evitei inventar ou assumir informações?</checkpoint>\n    <checkpoint>✓ Mantive o TOM e ESTILO da Prof. Fabiana Tomé?</checkpoint>\n    <checkpoint>✓ Fui DIRETO e OBJETIVO sem ser frio?</checkpoint>\n    <checkpoint>✓ Usei ênfases estratégicas em MAIÚSCULAS (sem exagero)?</checkpoint>\n    <checkpoint>✓ Posicionei com AUTORIDADE mas sem ser arrogante?</checkpoint>\n    <checkpoint>✓ Acionei tools adicionais se necessário?</checkpoint>\n    <checkpoint>✓ A resposta soa NATURAL e não robotizada?</checkpoint>\n  </quality_checklist>\n\n  <contact_information>\n    <support_email>suporte@fabianatome.com.br</support_email>\n    <use_when>Informação não disponível na base de dados ou situações que requerem atendimento humano especializado</use_when>\n    <communication_style>\n      Sempre posicione o suporte como SOLUÇÃO rápida e eficiente, nunca como \"desculpa\" por não saber.\n      VARIE as formas de direcionar para o suporte (use as 3 templates diferentes).\n    </communication_style>\n  </contact_information>\n\n  <final_reminders>\n    <reminder type=\"CRITICAL\">\n      Esta IA opera EXCLUSIVAMENTE com informações do banco de dados acessadas via tool \"data_info\". \n      Qualquer resposta sem consulta prévia à tool viola protocolos de segurança.\n    </reminder>\n    \n    <reminder type=\"PERSONALITY\">\n      Você representa a Prof. Fabiana Tomé: seja AUTÊNTICO, DIRETO, EMPODERADOR e ACOLHEDOR.\n      NUNCA soe robótico ou repetitivo - VARIE suas expressões e estruturas de resposta.\n      Mantenha a essência dela: autoridade com humanidade, profissionalismo com proximidade.\n    </reminder>\n    \n    <reminder type=\"VARIATION\">\n      ROBOTIZAÇÃO é o inimigo da conexão genuína. \n      Cada resposta deve soar ÚNICA, mesmo seguindo as mesmas diretrizes.\n      Pense: \"Como a Prof. Fabiana falaria DESTA VEZ sobre isso?\" (não \"como ela sempre fala\").\n    </reminder>\n    \n    <reminder type=\"QUALITY\">\n      A confiança do cliente depende da precisão das informações E da conexão genuína.\n      Nunca é melhor \"tentar ajudar\" com informações incertas do que admitir desconhecimento e direcionar ao suporte.\n    </reminder>\n  </final_reminders>\n\n</system_configuration>"
+        }
+      },
+      "id": "ed7a243b-98a5-41f0-b4f0-7541c7f83473",
+      "name": "Vendedor IA",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        3040,
+        848
+      ]
+    },
+    {
+      "parameters": {
+        "content": "### - Verifica se já existe um cliente cadastrado\n\n### - Se sim, prossegue o fluxo\n\n### - Se não, cria um cliente e um id do chat e prossegue o fluxo",
+        "width": 660,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -848,
+        688
+      ],
+      "typeVersion": 1,
+      "id": "6b6c267b-8c78-437a-b852-af734bdb6926",
+      "name": "Sticky Note27"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Extrai os números dos campos telefoneCliente e telefoneEmpresa removendo \"@s.whatsapp.net\"\nreturn items.map(item => {\n  const clienteRaw = item.json.meta?.telefoneCliente || '';\n  const empresaRaw = item.json.meta?.telefoneEmpresa || '';\n\n  const telefoneCliente = clienteRaw.split('@')[0];\n  const telefoneEmpresa = empresaRaw.split('@')[0];\n\n  return {\n    json: {\n      telefoneCliente,\n      telefoneEmpresa\n    }\n  };\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1616,
+        1072
+      ],
+      "id": "37a98cdf-7ade-42f7-8b24-001ef422c9b3",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "action": "generate"
+      },
+      "id": "70e94dfb-d707-4d7f-81ff-81cb123c7c0a",
+      "name": "GeraUUID",
+      "type": "n8n-nodes-base.crypto",
+      "typeVersion": 1,
+      "position": [
+        -432,
+        1232
+      ],
+      "notesInFlow": false
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "key": "={{ $item(\"0\").$node[\"camposIniciais\"].json[\"meta\"][\"telefoneCliente\"] }}"
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        3536,
+        -128
+      ],
+      "id": "07a5e9a1-aadb-41c3-a2cc-c0c5131b5318",
+      "name": "Redis2",
+      "credentials": {
+        "redis": {
+          "id": "XX0QW7TmfPNnDMTW",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "push",
+        "list": "={{ $item(\"0\").$node[\"camposIniciais\"].json[\"meta\"][\"telefoneCliente\"] }}",
+        "messageData": "={{ $('camposIniciais').item.json.content.quoted }}",
+        "tail": true
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        608,
+        1040
+      ],
+      "id": "b4661637-f085-4512-b42a-d4be6ee938e4",
+      "name": "Add na Memória",
+      "credentials": {
+        "redis": {
+          "id": "XX0QW7TmfPNnDMTW",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 10
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1008,
+        1040
+      ],
+      "id": "eea68be5-a25a-4b1f-8b44-466645e12f32",
+      "name": "Espere",
+      "webhookId": "5efbac78-7c17-44b9-92cc-c3078c79f8d8"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "propertyName": "Memória Inicial",
+        "key": "={{ $item(\"0\").$node[\"camposIniciais\"].json[\"meta\"][\"telefoneCliente\"] }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        832,
+        1040
+      ],
+      "id": "00e1dedf-9d3f-483c-8621-f75a10c2133a",
+      "name": "Memória Inicial",
+      "credentials": {
+        "redis": {
+          "id": "XX0QW7TmfPNnDMTW",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "propertyName": "Memória Final",
+        "key": "={{ $item(\"0\").$node[\"camposIniciais\"].json[\"meta\"][\"telefoneCliente\"] }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        1216,
+        1040
+      ],
+      "id": "42eaf342-f1de-43f2-bc5d-a85564d4adfd",
+      "name": "Memória Final",
+      "credentials": {
+        "redis": {
+          "id": "XX0QW7TmfPNnDMTW",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Acesse os arrays das variáveis\nconst memoriaInicialArray = $('Memória Inicial').all()[0].json['Memória Inicial'];\nconst memoriaFinalArray = $json['Memória Final'];\n\n// Verifique se as variáveis são arrays e junte os elementos em strings\nconst memoriaInicial = Array.isArray(memoriaInicialArray) ? memoriaInicialArray.join(' ') : '';\nconst memoriaFinal = Array.isArray(memoriaFinalArray) ? memoriaFinalArray.join(' ') : '';\n\n// Retorne as variáveis resultantes\nreturn {\n  memoriaInicial,\n  memoriaFinal\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1392,
+        1040
+      ],
+      "id": "ef25dfd7-ee60-4374-95d7-848e517c6844",
+      "name": "Concatena Mensagens"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "fbe500bb-8a66-4f0c-93df-9631e3bdabfc",
+              "leftValue": "={{ $('Concatena Mensagens').all()[0].json.memoriaInicial }}",
+              "rightValue": "={{ $('Concatena Mensagens').all()[0].json.memoriaFinal }}",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        1616,
+        1040
+      ],
+      "id": "a496f0c7-c19f-4d4d-bed3-e5fa1b84c5e6",
+      "name": "Compara Memórias"
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "key": "={{ $item(\"0\").$node[\"camposIniciais\"].json[\"meta\"][\"telefoneCliente\"] }}"
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        1824,
+        1040
+      ],
+      "id": "8bffee5e-382e-46dd-bf82-d8343a022d07",
+      "name": "Limpar Memória",
+      "credentials": {
+        "redis": {
+          "id": "XX0QW7TmfPNnDMTW",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "18e16067-bcdb-4bda-9c22-e1869c550af6",
+              "name": "userMessage",
+              "value": "={{ $('Compara Memórias').all()[0].json.memoriaFinal }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2000,
+        1040
+      ],
+      "id": "e67bf6ea-f0b3-43bd-894c-0e91520a07c4",
+      "name": "UserMessage"
+    },
+    {
+      "parameters": {
+        "model": "text-embedding-3-large",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        2784,
+        1376
+      ],
+      "id": "cc672211-6409-41c0-ace6-01431de13732",
+      "name": "Embeddings OpenAI2",
+      "credentials": {
+        "openAiApi": {
+          "id": "FWqn0IMXX1HmDrEh",
+          "name": "IA SUPORTE"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.rerankerCohere",
+      "typeVersion": 1,
+      "position": [
+        2928,
+        1376
+      ],
+      "id": "1fe1b1fc-8768-4bea-97ea-be69c3f6a1ca",
+      "name": "Reranker Cohere2",
+      "credentials": {
+        "cohereApi": {
+          "id": "o6pPZn2rldFOktGo",
+          "name": "Reanker novo"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "gpt-4.1-mini",
+        "options": {}
+      },
+      "id": "d0cac48e-c3dd-4496-86de-a9a154ac3333",
+      "name": "Modelo IA",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1,
+      "position": [
+        2976,
+        704
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "FWqn0IMXX1HmDrEh",
+          "name": "IA SUPORTE"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 3
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        -64,
+        1232
+      ],
+      "id": "42e59ce5-8cee-4688-8f51-cfba583b6fb9",
+      "name": "Wait1",
+      "webhookId": "ba2fcbee-aad3-4634-a1d3-ff161bc5abfd"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://unnichat.com.br/a/start/vEHWLASWwNX80ZCiULEc",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"nome\": \"{{ $('camposIniciais').first().json.meta.nomeCliente }}\",\n  \"telefone\": \"{{ $('camposIniciais').first().json.meta.telefoneCliente }}\",\n  \"type\": \"{{ $('camposIniciais').first().json.content.tipoMensagem }}\",\n  \"text\": {\n    \"body\": \"{{ $json.body }}\"\n  }\n} ",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        3600,
+        848
+      ],
+      "id": "bc1d1c96-d3ef-4b9d-8875-d0b287fcbe77",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Pega os dados dos nós anteriores\nconst camposIniciais = items[0].json;\nconst respostaIA = $input.item.json.output || $input.item.json.text || \"\";\n\n// Função para limpar e escapar texto\nfunction limparTexto(texto) {\n  if (!texto) return \"\";\n  \n  return String(texto)\n    .replace(/\\\\/g, '\\\\\\\\')     // Escapa barras invertidas primeiro\n    .replace(/\"/g, '\\\\\"')       // Escapa aspas duplas\n    .replace(/\\n/g, '\\\\n')      // Escapa quebras de linha\n    .replace(/\\r/g, '\\\\r')      // Escapa retorno de carro\n    .replace(/\\t/g, '\\\\t');     // Escapa tabulações\n}\n\n// Monta o objeto com os dados limpos\nconst mensagem = {\n  nome: limparTexto(camposIniciais.meta?.nomeCliente || \"Higor Leite\"),\n  telefone: String(camposIniciais.meta?.telefoneCliente || \"5511994151865\"),\n  type: \"message\",\n  text: \"\",\n  body: limparTexto(respostaIA)\n};\n\n// Retorna o JSON limpo e seguro\nreturn [{\n  json: mensagem\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3376,
+        848
+      ],
+      "id": "c639a6c6-4f0e-4e76-a363-d645f26cdaeb",
+      "name": "Code1"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "2db4fa36-c506-4e4c-9f74-8ebe506d96cf",
+              "leftValue": "={{ $item(\"0\").$node[\"Webhook\"].json[\"body\"][\"contact\"][\"phoneNumber\"] }}",
+              "rightValue": "5511984151865",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "02fcdf55-9721-4499-8bdf-00592250fa62",
+              "leftValue": "={{ $item(\"0\").$node[\"Webhook\"].json[\"body\"][\"contact\"][\"phoneNumber\"] }}",
+              "rightValue": "=5527998210071",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "ff998928-569f-47ad-ae4e-ed82b5991d07",
+              "leftValue": "={{ $item(\"0\").$node[\"Webhook\"].json[\"body\"][\"contact\"][\"phoneNumber\"] }}",
+              "rightValue": "558599940507",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "4117b4f3-f775-4687-9dbc-5c9190151ca2",
+              "leftValue": "={{ $item(\"0\").$node[\"Webhook\"].json[\"body\"][\"contact\"][\"phoneNumber\"] }}",
+              "rightValue": "558494618525",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "b82c2f1e-c68b-456a-81e9-11a8ac3bfaae",
+              "leftValue": "={{ $item(\"0\").$node[\"Webhook\"].json[\"body\"][\"contact\"][\"phoneNumber\"] }}",
+              "rightValue": "558499134133",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -2336,
+        864
+      ],
+      "id": "b0216f75-50e6-409b-bf88-ba65a94d3b1f",
+      "name": "Ativar para teste1"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://unnichat.com.br/a/start/vEHWLASWwNX80ZCiULEc",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"nome\": \"{{ $('camposIniciais').first().json.meta.nomeCliente }}\",\n  \"telefone\": \"{{ $('camposIniciais').first().json.meta.telefoneCliente }}\",\n  \"type\": \"{{ $('camposIniciais').first().json.content.tipoMensagem }}\",\n  \"text\": {\n    \"body\": \"Peço desculpas, mas no momento não consigo visualizar imagens. Poderia descrever o que está acontecendo?\"\n  }\n} ",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        592,
+        800
+      ],
+      "id": "3e5a3612-e7b6-48a1-941a-1207bab00577",
+      "name": "HTTP Request1"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://unnichat.com.br/a/start/vEHWLASWwNX80ZCiULEc",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"nome\": \"{{ $('camposIniciais').first().json.meta.nomeCliente }}\",\n  \"telefone\": \"{{ $('camposIniciais').first().json.meta.telefoneCliente }}\",\n  \"type\": \"{{ $('camposIniciais').first().json.content.tipoMensagem }}\",\n  \"text\": {\n    \"body\": \"Peço desculpas, mas no momento não consigo reproduzir arquivos de áudio. Poderia transcrever ou descrever o que está acontecendo?\"\n  }\n} ",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        592,
+        1280
+      ],
+      "id": "5dc04277-0d03-4df3-a85a-9c8e083c0cd2",
+      "name": "HTTP Request2"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "b82c2f1e-c68b-456a-81e9-11a8ac3bfaae",
+              "leftValue": "={{ $json.body.contact.tags }}",
+              "rightValue": "pausar atendimento",
+              "operator": {
+                "type": "string",
+                "operation": "notContains"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -2128,
+        1072
+      ],
+      "id": "799ad782-9a02-4b2a-86d0-6f7d63242d2c",
+      "name": "pausar atendimento"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "tableId": "disparo_mensagem_ia_vendas",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "telefone",
+              "keyValue": "={{ $node[\"Webhook\"].json[\"body\"][\"contact\"][\"phoneNumber\"] }}"
+            }
+          ]
+        }
+      },
+      "id": "6e120741-62e8-43eb-b8c6-377c8a446282",
+      "name": "getContexto",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        -1456,
+        1072
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "supabaseApi": {
+          "id": "06funpVK0RasJnc4",
+          "name": "Supabase - Fabiana Tomé"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "toolDescription": "acione essa tool quando o lead dpedi ou perguntar sobre boleto parcelado",
+        "method": "POST",
+        "url": "https://unnichat.com.br/a/start/oKP5xKIIiAAtyjIVhLh1",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"nome\": \"{{ $('camposIniciais').first().json.meta.nomeCliente }}\",\n  \"telefone\": \"{{ $('camposIniciais').first().json.meta.telefoneCliente }}\",\n  \"type\": \"{{ $('camposIniciais').first().json.content.tipoMensagem }}\",\n  \"text\": {\n    \"body\": \"boleto parcelado\"\n  }\n} ",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        3232,
+        1184
+      ],
+      "id": "439675ea-e5ca-428f-95ae-20319ec4f855",
+      "name": "interesse_bp"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('messages').item.json.sessionId }}",
+        "tableName": "ia_captacao",
+        "contextWindowLength": 10
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
+      "typeVersion": 1.3,
+      "position": [
+        3312,
+        688
+      ],
+      "id": "3e6e61d4-8d3e-416c-8ceb-67e92cf61ed6",
+      "name": "Postgres Chat Memory",
+      "credentials": {
+        "postgres": {
+          "id": "FmEJummnUui6Zrj2",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "toolDescription": "Acione essa tool para consultar informações para sua resposta",
+        "tableName": {
+          "__rl": true,
+          "value": "info_captacao",
+          "mode": "list",
+          "cachedResultName": "info_captacao"
+        },
+        "topK": 10,
+        "useReranker": true,
+        "options": {
+          "queryName": "match_info_captacao"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreSupabase",
+      "typeVersion": 1.3,
+      "position": [
+        2784,
+        1216
+      ],
+      "id": "8ee38627-7003-446a-b4cf-d58206fc0e38",
+      "name": "data_info",
+      "credentials": {
+        "supabaseApi": {
+          "id": "06funpVK0RasJnc4",
+          "name": "Supabase - Fabiana Tomé"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "deleteTable",
+        "schema": {
+          "__rl": true,
+          "mode": "list",
+          "value": "public"
+        },
+        "table": {
+          "__rl": true,
+          "value": "ia_captacao",
+          "mode": "list",
+          "cachedResultName": "ia_captacao"
+        },
+        "deleteCommand": "delete",
+        "where": {
+          "values": [
+            {
+              "column": "session_id",
+              "value": "76e1ea37-b8df-43c6-b7ee-1980079aea80"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        3856,
+        832
+      ],
+      "id": "1be84e4e-33f2-4f6a-8a28-0cab02c105f2",
+      "name": "Delete table or rows",
+      "credentials": {
+        "postgres": {
+          "id": "FmEJummnUui6Zrj2",
+          "name": "Postgres account"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "webhook.fabianatome.com.br",
+            "user-agent": "axios/1.11.0",
+            "content-length": "394",
+            "accept": "application/json, text/plain, */*",
+            "accept-encoding": "gzip, compress, deflate, br",
+            "content-type": "application/json",
+            "x-forwarded-for": "34.34.231.116",
+            "x-forwarded-host": "webhook.fabianatome.com.br",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "3e4b5a65d457",
+            "x-real-ip": "34.34.231.116"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "contact": {
+              "id": "019933e0-c157-7591-a5b0-c3022e9e0135",
+              "name": "Higor Leite",
+              "email": "",
+              "phoneNumber": "5511984151865",
+              "tags": "pausar atendimento, teste_disparo",
+              "fields": {
+                "mensagem": "Se precisar de mais ajuda ou tiver alguma dúvida, é só avisar!"
+              },
+              "lastMessage": "ta bom",
+              "lastMessageData": {
+                "message": "ta bom",
+                "messageType": "message"
+              },
+              "instaName": ""
+            },
+            "event_date": 1757680892,
+            "triggerData": {}
+          },
+          "webhookUrl": "https://webhook.fabianatome.com.br/webhook/iacaptacao",
+          "executionMode": "production"
+        }
+      }
+    ]
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-08-21T20:08:26.580Z",
+      "createdAt": "2025-08-21T20:08:26.580Z",
+      "role": "workflow:owner",
+      "workflowId": "a7OMxVJ3CQYoo1IP",
+      "projectId": "tP5lcLj6t4StcK5B"
+    }
+  ],
+  "staticData": null,
+  "tags": [
+    {
+      "updatedAt": "2025-07-28T18:40:41.569Z",
+      "createdAt": "2025-07-28T18:40:41.569Z",
+      "id": "MXdjGQQn0TxQ2tbH",
+      "name": "IA"
+    },
+    {
+      "updatedAt": "2025-08-01T15:01:01.059Z",
+      "createdAt": "2025-08-01T15:01:01.059Z",
+      "id": "pxsFvNO5bPBvSJZW",
+      "name": "VENDAS"
+    },
+    {
+      "updatedAt": "2025-08-21T20:51:48.346Z",
+      "createdAt": "2025-08-21T20:51:48.346Z",
+      "id": "ovUuYn0yxvhdOdZy",
+      "name": "API OFICIAL"
+    }
+  ],
+  "triggerCount": 1,
+  "updatedAt": "2026-01-12T22:43:39.958Z",
+  "versionId": "a5ec6c30-c006-45cb-880f-de272429bc50"
+}
