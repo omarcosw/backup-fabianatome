@@ -1,0 +1,2148 @@
+{
+  "active": true,
+  "activeVersion": {
+    "updatedAt": "2025-12-03T22:27:37.573Z",
+    "createdAt": "2025-12-03T22:27:37.573Z",
+    "versionId": "da63193c-a645-4c2d-be26-b2eb1cd1e064",
+    "workflowId": "lq117ukQV85HBdAE",
+    "nodes": [
+      {
+        "parameters": {
+          "httpMethod": "POST",
+          "path": "telegramm",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.webhook",
+        "typeVersion": 2.1,
+        "position": [
+          -3040,
+          -48
+        ],
+        "id": "cf02fa2d-ec80-49c7-969d-36b007a9a414",
+        "name": "Webhook",
+        "webhookId": "47798d66-659d-4f28-89c9-eb504909f41c"
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "https://api.telegram.org/bot8482502157:AAHv2GsKcNToqk21_dldyqEUNWOxaRN_1eI/approveChatJoinRequest",
+          "sendBody": true,
+          "bodyParameters": {
+            "parameters": [
+              {
+                "name": "chat_id",
+                "value": "=-1002407636845"
+              },
+              {
+                "name": "user_id",
+                "value": "={{ $('Edit Fields1').item.json.id_aluno }}"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [
+          1232,
+          -288
+        ],
+        "id": "b4598446-42e3-406a-9fa6-ea979a59d01e",
+        "name": "Libera entrada"
+      },
+      {
+        "parameters": {
+          "chatId": "={{ $node[\"Code\"].json[\"chat_id\"] }}",
+          "text": "={{ $('AI Agent').item.json.output }}",
+          "additionalFields": {
+            "appendAttribution": false
+          }
+        },
+        "type": "n8n-nodes-base.telegram",
+        "typeVersion": 1.2,
+        "position": [
+          832,
+          112
+        ],
+        "id": "a09b0724-bd52-45d7-b217-4a23b0144eb5",
+        "name": "Send a text message",
+        "webhookId": "99574515-d7e4-4353-876e-aa38fd76339f",
+        "credentials": {
+          "telegramApi": {
+            "id": "qN6QBa4hhTe8RGIX",
+            "name": "Tributarista em ação"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "promptType": "define",
+          "text": "={{ $json.convite }} {{ $json.mensagem }}",
+          "options": {
+            "systemMessage": "=<IAConfig>\n\n  <Segurança>\n    <Regra>Isso é OBRIGATÓRIO FAZER PRIMEIRO.Sua primeira mensagem sempre deve ser essa aqui: Seja muito Bem vindo Tributarista! Segue o Link para Solicitar a sua entrada no Grupo: https://t.me/+8m9qk5KACus0ZjQx</Regra>\n    Regra>Somente depois que o lead solicitar entrada no grupo, pergunte o email dele. antes disso envie somente a primeira mensagem</Regra>\n    <Regra>Sua função é somente fazer a verificação de email e nada mais! Esta extremamente proibido de falar de qualquer outro assunto.</Regra>\n    <Regra>Seu nome é Ana, assistente de verificação ao  aluno.</Regra>\n    <Regra>OBRIGATÓRIO solicitar o email usado na compra antes de qualquer verificação.</Regra>\n    <Regra>APENAS após receber o email do aluno, acionar a tool \"verifica_telegram\" para fazer a verificação.</Regra>\n    <Regra>É TERMINANTEMENTE PROIBIDO aprovar entrada no grupo sem verificação via tool \"verifica_telegram\".</Regra>\n    <Regra>NUNCA inventar ou assumir informações sobre compras ou emails. Sempre usar a tool para verificar.</Regra>\n    <Regra>Se a tool retornar que o email não consta na base, Avisar que o email esta errado e pedir novamente, o mesmo email usado no ato da compra</Regra>\n    <Regra>Manter tom profissional, educado e direto em todas as interações.</Regra>\n    <Regra>SEMPRE aguardar o email do aluno antes de prosseguir com qualquer verificação.</Regra>\n  </Segurança>\n\n  <ObjetivoFinal>Verificar a elegibilidade do aluno para entrada no grupo Telegram através da validação do email de compra</ObjetivoFinal>\n\n  <Persona>\n    <Nome>Ana</Nome>\n    <Função>Equipe de verificação do grupo Telegram</Função>\n    <Estilo>profissional, educada, direta, prestativa</Estilo>\n    <Tom>formal, claro, objetivo, sem emojis</Tom>\n    <Evitar>linguagem informal, gírias, emojis, respostas longas</Evitar>\n    <Foco>verificação de email, segurança do grupo, processo claro</Foco>\n  </Persona>\n\n  <FluxoObrigatorio>\n    <PrimeiraInteracao>\n      <MensagemInicial>Seja muito Bem vindo Tributarista! Segue o Link para Solicitar a sua entrada no Grupo: https://t.me/+8m9qk5KACus0ZjQx</MensagemInicial>\n      <AguardarEmail>true</AguardarEmail>\n    </PrimeiraInteracao>\n\n    <VerificacaoEmail>\n      <AposReceberEmail>\n        <Acao tool=\"verifica_telegram\" finalidade=\"verificar se email consta na base de compradores\" />\n      </AposReceberEmail>\n      <NuncaVerificarSemEmail>É obrigatório receber o email antes de acionar a tool</NuncaVerificarSemEmail>\n    </VerificacaoEmail>\n  </FluxoObrigatorio>\n\n  <Condicionais>\n    <Se test=\"aluno.envia.email\">\n      <Acao tool=\"verifica_telegram\" parametro=\"email_enviado\" />\n    </Se>\n\n    <Se test=\"tool_retorna.email_valido\">\n      <Acao texto=\"Perfeito! Seu email foi verificado com sucesso. Aguarde 1 min que sua entrada no grupo ja vai ser autorizada.Seja muito Bem-vindo!\" />\n    </Se>\n\n    <Se test=\"tool_retorna.email_invalido\">\n      <Acao texto=\"Não foi possível localizar uma compra com este email em nossa base de dados. Verifique se digitou corretamente, e tente denovo.\" />\n    </Se>\n\n\n    <Se test=\"aluno.nao_lembra_email\">\n      <Acao texto=\"Por favor, verifique em seus registros de compra ou emails de confirmação. Preciso do email exato usado na compra para fazer a verificação. Se caso quiser fazer a alteração do seu email, entre em contato com suporte@fabianatome.com.br, E envie o novo email para alteração\" />\n    </Se>\n\n    <Se test=\"aluno.questiona_seguranca\">\n      <Acao texto=\"A verificação é necessária para manter a segurança do grupo e garantir acesso apenas aos alunos que adquiriram o curso.\" />\n    </Se>\n  </Condicionais>\n\n  <Comportamento>\n    <Fazer>\n      <Item>sempre solicitar email antes de qualquer verificação</Item>\n      <Item>usar linguagem formal e educada</Item>\n      <Item>ser direta e objetiva</Item>\n      <Item>aguardar o email antes de acionar a tool</Item>\n      <Item>informar claramente o resultado da verificação</Item>\n      <Item>manter o foco na verificação</Item>\n    </Fazer>\n    <NaoFazer>\n      <Item>usar emojis ou linguagem informal</Item>\n      <Item>verificar sem receber o email</Item>\n      <Item>inventar informações sobre compras</Item>\n      <Item>aprovar entrada sem verificação</Item>\n      <Item>dar respostas longas ou desnecessárias</Item>\n      <Item>se apresentar como IA</Item>\n    </NaoFazer>\n  </Comportamento>\n\n  <RespostasComuns>\n    <EmailIncorreto>O email informado não consta em nossa base de compradores. Verifique a digitação ou tente com outro email usado na compra.</EmailIncorreto>\n    <EmailValidado>Email verificado com sucesso! Sua entrada no grupo foi autorizada.</EmailValidado>\n    <SolicitarEmail>Para prosseguir, preciso que você me informe o email usado na compra.</SolicitarEmail>\n    <ProcessoExplicado>Informe o email da compra para que eu possa verificar e autorizar sua entrada no grupo.</ProcessoExplicado>\n  </RespostasComuns>\n\n  <Fallback>\n    <EmailNaoInformado>Preciso do seu email para fazer a verificação. Por favor, informe o email usado na compra.</EmailNaoInformado>\n    <ErroVerificacao>Houve um problema na verificação. Tente novamente ou entre em contato com o suporte.</ErroVerificacao>\n    <DuvidaGeral>Para entrar no grupo, preciso verificar seu email de compra. Pode me informar?</DuvidaGeral>\n  </Fallback>\n\n  <Fechamento>\n    <Sucesso>Pronto! Sua entrada foi autorizada. Aguarde 1 min.</Sucesso>\n    <Falha>Não foi possível verificar sua compra. Entre em contato com nosso suporte. suporte@fabianatome.com.br para alteração.</Falha>\n  </Fechamento>\n\n  <ReforçoFinal>\n    <Regra>SEMPRE solicitar email antes de usar a tool \"verifica_telegram\"</Regra>\n    <Regra>NUNCA aprovar entrada sem verificação via tool</Regra>\n    <Regra>Manter postura profissional e educada em todas as interações</Regra>\n    <Regra>Ser clara sobre a necessidade de verificação para segurança do grupo</Regra>\n    <Regra>JAMAIS inventar informações sobre compras ou aprovações</Regra>\n    <Regra>Foco total na verificação de email para entrada no grupo Telegram</Regra>\n  </ReforçoFinal>\n\n</IAConfig>"
+          }
+        },
+        "type": "@n8n/n8n-nodes-langchain.agent",
+        "typeVersion": 2.2,
+        "position": [
+          -256,
+          -96
+        ],
+        "id": "570a04c2-f80f-4188-8dcc-c17aa6567f32",
+        "name": "AI Agent"
+      },
+      {
+        "parameters": {
+          "model": {
+            "__rl": true,
+            "mode": "list",
+            "value": "gpt-4.1-mini"
+          },
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+        "typeVersion": 1.2,
+        "position": [
+          -336,
+          112
+        ],
+        "id": "79f69c08-3273-49af-b552-4a8afc310944",
+        "name": "OpenAI Chat Model",
+        "credentials": {
+          "openAiApi": {
+            "id": "FWqn0IMXX1HmDrEh",
+            "name": "IA SUPORTE"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "toolDescription": "Acione essa tool para fazer verificação do email",
+          "method": "POST",
+          "url": "https://webhook.fabianatome.com.br/webhook/gettelegram",
+          "sendBody": true,
+          "bodyParameters": {
+            "parameters": [
+              {
+                "name": "email",
+                "value": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('parameters0_Value', ``, 'string') }}"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequestTool",
+        "typeVersion": 4.2,
+        "position": [
+          0,
+          96
+        ],
+        "id": "fbee8ade-f0f5-42f2-9bcf-93765aec1496",
+        "name": "verifica_telegram"
+      },
+      {
+        "parameters": {
+          "inputText": "={{ $('AI Agent').item.json.output }}",
+          "categories": {
+            "categories": [
+              {
+                "category": "=Email verificado com sucesso",
+                "description": "Quando for uma mensagem positiva de email com sucesso"
+              },
+              {
+                "category": "=Email incorreto",
+                "description": "Quando for uma mensagem negativa de email "
+              },
+              {
+                "category": "Mensagem comun em geral",
+                "description": "Quando for uma mensagem normal, ou mensagem inicial "
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.textClassifier",
+        "typeVersion": 1.1,
+        "position": [
+          192,
+          -112
+        ],
+        "id": "2408a04f-b07b-4dc9-88b6-ac3feb6715d6",
+        "name": "Text Classifier"
+      },
+      {
+        "parameters": {
+          "model": {
+            "__rl": true,
+            "mode": "list",
+            "value": "gpt-4.1-mini"
+          },
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+        "typeVersion": 1.2,
+        "position": [
+          192,
+          64
+        ],
+        "id": "929a0416-dd62-4dda-bce7-731ce635a833",
+        "name": "OpenAI Chat Model1",
+        "credentials": {
+          "openAiApi": {
+            "id": "FWqn0IMXX1HmDrEh",
+            "name": "IA SUPORTE"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "chatId": "={{ $node[\"Code\"].json[\"chat_id\"] }}",
+          "text": "={{ $('AI Agent').item.json.output }}",
+          "additionalFields": {
+            "appendAttribution": false
+          }
+        },
+        "type": "n8n-nodes-base.telegram",
+        "typeVersion": 1.2,
+        "position": [
+          848,
+          -288
+        ],
+        "id": "c6b9ed5f-218f-47d0-8da0-ec000d8658be",
+        "name": "Send a text message1",
+        "webhookId": "99574515-d7e4-4353-876e-aa38fd76339f",
+        "credentials": {
+          "telegramApi": {
+            "id": "qN6QBa4hhTe8RGIX",
+            "name": "Tributarista em ação"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "chatId": "={{ $node[\"Code\"].json[\"chat_id\"] }}",
+          "text": "={{ $('AI Agent').item.json.output }}",
+          "additionalFields": {
+            "appendAttribution": false
+          }
+        },
+        "type": "n8n-nodes-base.telegram",
+        "typeVersion": 1.2,
+        "position": [
+          832,
+          -96
+        ],
+        "id": "3926fa9d-f878-4399-b955-4d383e6cb933",
+        "name": "Send a text message2",
+        "webhookId": "99574515-d7e4-4353-876e-aa38fd76339f",
+        "credentials": {
+          "telegramApi": {
+            "id": "qN6QBa4hhTe8RGIX",
+            "name": "Tributarista em ação"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "jsCode": "const webhookData = $('Webhook').item.json.body;\n\nlet userId;\n\nif (webhookData.chat_join_request) {\n  // É uma solicitação de entrada no grupo\n  userId = webhookData.chat_join_request.from.id;\n} else if (webhookData.message) {\n  // É uma mensagem privada\n  userId = webhookData.message.from.id;\n} else {\n  // Outros tipos de update (callback_query, etc.)\n  userId = webhookData.callback_query?.from?.id || \n           webhookData.inline_query?.from?.id || \n           webhookData.chosen_inline_result?.from?.id;\n}\n\nreturn { json: { chat_id: userId } };"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          -1936,
+          -16
+        ],
+        "id": "95046fe7-0742-4e68-9255-1e4e6d216cdf",
+        "name": "Code"
+      },
+      {
+        "parameters": {
+          "tableId": "gerenciamento_entrada_grupo_telegram",
+          "fieldsUi": {
+            "fieldValues": [
+              {
+                "fieldId": "sessionid",
+                "fieldValue": "={{ $json.data }}"
+              },
+              {
+                "fieldId": "id_aluno",
+                "fieldValue": "={{ $('Filtra o Id do chat do lead').item.json.chat_id }}"
+              },
+              {
+                "fieldId": "nome_grupo",
+                "fieldValue": "={{ $('Webhook').item.json.body.chat_join_request.chat.title }}"
+              }
+            ]
+          }
+        },
+        "id": "4eebaa4e-c902-4568-bb65-b0c4c6be6f0d",
+        "name": "CreateUser",
+        "type": "n8n-nodes-base.supabase",
+        "typeVersion": 1,
+        "position": [
+          -576,
+          112
+        ],
+        "credentials": {
+          "supabaseApi": {
+            "id": "06funpVK0RasJnc4",
+            "name": "Supabase - Fabiana Tomé"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "4e77cc7c-48f4-4cbe-94e7-6d211db67002",
+                "leftValue": "={{ $json.id_aluno }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "string",
+                  "operation": "notEmpty",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "id": "a50c1706-4a33-4558-b942-a5a65c4a2e85",
+        "name": "If1",
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          -960,
+          0
+        ]
+      },
+      {
+        "parameters": {
+          "operation": "get",
+          "tableId": "gerenciamento_entrada_grupo_telegram",
+          "filters": {
+            "conditions": [
+              {
+                "keyName": "id_aluno",
+                "keyValue": "={{ $node[\"Code\"].json[\"chat_id\"] }}"
+              }
+            ]
+          }
+        },
+        "id": "8dc359af-5f4b-46eb-b8cb-0061a349c4a2",
+        "name": "getClient2",
+        "type": "n8n-nodes-base.supabase",
+        "typeVersion": 1,
+        "position": [
+          -1184,
+          0
+        ],
+        "alwaysOutputData": true,
+        "credentials": {
+          "supabaseApi": {
+            "id": "06funpVK0RasJnc4",
+            "name": "Supabase - Fabiana Tomé"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "action": "generate"
+        },
+        "id": "d161fa50-5ee7-48c3-840c-cac00e12dffd",
+        "name": "GERA_sessionid",
+        "type": "n8n-nodes-base.crypto",
+        "typeVersion": 1,
+        "position": [
+          -768,
+          112
+        ],
+        "notesInFlow": false
+      },
+      {
+        "parameters": {
+          "operation": "delete",
+          "key": "={{ $('Edit Fields1').item.json.sessionid }}"
+        },
+        "type": "n8n-nodes-base.redis",
+        "typeVersion": 1,
+        "position": [
+          1440,
+          -288
+        ],
+        "id": "713513ed-97c9-4b88-8f43-561475c9105d",
+        "name": "Redis",
+        "credentials": {
+          "redis": {
+            "id": "f0PBBr8Eq1sFiARY",
+            "name": "Redis account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "a953dffa-8dbd-4f2d-9273-73c0e333a3d1",
+                "name": "sessionid",
+                "value": "={{ $('getClient2').item.json.sessionid }}",
+                "type": "string"
+              },
+              {
+                "id": "b505f88e-9800-4161-84e2-d5a4b6c97910",
+                "name": "id_aluno",
+                "value": "={{ $('getClient2').item.json.id_aluno }}",
+                "type": "string"
+              },
+              {
+                "id": "45321f1d-c96b-41a0-a455-5a4ff7e17fa0",
+                "name": "convite",
+                "value": "={{ $('Webhook').item.json.body.chat_join_request.invite_link.name }} ",
+                "type": "string"
+              },
+              {
+                "id": "4bd9562b-7bd6-4e7d-a5be-5b9e61ae35b1",
+                "name": "mensagem",
+                "value": "={{ $('Webhook').item.json.body.message.text }}",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          -736,
+          -96
+        ],
+        "id": "099682b4-a973-4871-8c21-5e69dfbfb4bf",
+        "name": "Edit Fields1"
+      },
+      {
+        "parameters": {
+          "sessionIdType": "customKey",
+          "sessionKey": "={{ $('Edit Fields1').item.json.sessionid }}"
+        },
+        "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
+        "typeVersion": 1.5,
+        "position": [
+          -176,
+          112
+        ],
+        "id": "572385f3-9cca-41e7-8240-0198eb7a8a31",
+        "name": "Redis Chat Memory",
+        "credentials": {
+          "redis": {
+            "id": "f0PBBr8Eq1sFiARY",
+            "name": "Redis account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "update",
+          "tableId": "gerenciamento_entrada_grupo_telegram",
+          "filters": {
+            "conditions": [
+              {
+                "keyName": "id_aluno",
+                "condition": "eq",
+                "keyValue": "={{ $('Edit Fields1').item.json.id_aluno }}"
+              }
+            ]
+          },
+          "fieldsUi": {
+            "fieldValues": [
+              {
+                "fieldId": "data_hora_entrada",
+                "fieldValue": "={{ $now }}"
+              }
+            ]
+          }
+        },
+        "type": "n8n-nodes-base.supabase",
+        "typeVersion": 1,
+        "position": [
+          1648,
+          -288
+        ],
+        "id": "c5c6c1ab-9bca-48a2-993d-88e23cd71159",
+        "name": "Update a row",
+        "credentials": {
+          "supabaseApi": {
+            "id": "06funpVK0RasJnc4",
+            "name": "Supabase - Fabiana Tomé"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "7261dd47-7278-4f6b-bb63-c2d54df76564",
+                "leftValue": "={{ $json.body.chat_join_request.invite_link.name }}",
+                "rightValue": "convite",
+                "operator": {
+                  "type": "string",
+                  "operation": "equals"
+                }
+              },
+              {
+                "id": "c7115532-4b90-4a56-adeb-e4686119ae5e",
+                "leftValue": "={{ $json.body.message.text }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "string",
+                  "operation": "exists",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "or"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          -2768,
+          -48
+        ],
+        "id": "2e8fac38-04c7-4b83-a92c-0a82d74a3e34",
+        "name": "Mensagem ou invite?"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "c589484b-5601-4042-b5bc-6ff798b2801d",
+                "leftValue": "={{ $json.body.message.chat.type }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "string",
+                  "operation": "exists",
+                  "singleValue": true
+                }
+              },
+              {
+                "id": "707d587f-dfed-43de-a9d5-63c98bb57bf4",
+                "leftValue": "={{ $('Webhook').item.json.body.chat_join_request.invite_link.name }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "string",
+                  "operation": "exists",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          -2368,
+          32
+        ],
+        "id": "7246ea5e-908f-4bce-a240-aeae9f87665d",
+        "name": "Vem do grupo, mas é invite"
+      },
+      {
+        "parameters": {
+          "amount": 10
+        },
+        "type": "n8n-nodes-base.wait",
+        "typeVersion": 1.1,
+        "position": [
+          1040,
+          -288
+        ],
+        "id": "b4ae2b71-661d-452d-ac34-a1aeb94fa63e",
+        "name": "Wait",
+        "webhookId": "48f3c6a4-4335-4758-8109-7eb6604e6d25"
+      },
+      {
+        "parameters": {
+          "amount": 10
+        },
+        "type": "n8n-nodes-base.wait",
+        "typeVersion": 1.1,
+        "position": [
+          624,
+          -272
+        ],
+        "id": "5e2e5771-c7fb-4f66-8e0d-9ce59f707f57",
+        "name": "Wait1",
+        "webhookId": "48f3c6a4-4335-4758-8109-7eb6604e6d25"
+      },
+      {
+        "parameters": {
+          "amount": 10
+        },
+        "type": "n8n-nodes-base.wait",
+        "typeVersion": 1.1,
+        "position": [
+          608,
+          -96
+        ],
+        "id": "2be94c44-1681-4f37-a93a-d14d4fd70a24",
+        "name": "Wait2",
+        "webhookId": "48f3c6a4-4335-4758-8109-7eb6604e6d25"
+      },
+      {
+        "parameters": {
+          "amount": 10
+        },
+        "type": "n8n-nodes-base.wait",
+        "typeVersion": 1.1,
+        "position": [
+          592,
+          112
+        ],
+        "id": "262324eb-9c74-4e2a-b5ce-4f264794a1de",
+        "name": "Wait3",
+        "webhookId": "48f3c6a4-4335-4758-8109-7eb6604e6d25"
+      },
+      {
+        "parameters": {
+          "content": "### Esta etapa faz 2 verificações\n\n- A primeira verifica se é mensagem ou invite para entrar no Grupo\n\n- A segunda verifica se é mesagem enviada no Grupo, se for vai para false e tambem verifica se essa mesma mensagem e invite. Se caso for invite vai para True\n\n### Resumindo: Só vai passar mensagens que são diretas para o bot, e invite para entar no Grupo",
+          "height": 512,
+          "width": 656,
+          "color": 6
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "position": [
+          -2816,
+          -320
+        ],
+        "typeVersion": 1,
+        "id": "98bb3f25-ee0b-4140-84aa-d792731a121d",
+        "name": "Sticky Note"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "752629b0-29a1-47cc-93c6-29bd6e7520f9",
+                "leftValue": "={{ $json.body.message.reply_to_message.chat.type }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "string",
+                  "operation": "notExists",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "or"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          -2544,
+          -64
+        ],
+        "id": "f4398874-63ac-4384-8f00-0a1970119c7d",
+        "name": "Mensagem Vem do grupo?"
+      },
+      {
+        "parameters": {
+          "content": "### Recebe os eventos ",
+          "height": 240,
+          "width": 192,
+          "color": 6
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "position": [
+          -3088,
+          -128
+        ],
+        "typeVersion": 1,
+        "id": "b32108f9-d128-4800-b01f-b542e34f16b3",
+        "name": "Sticky Note1"
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "b2504198-bf8e-4ec9-a539-3726879a755a",
+                "name": "chat_id",
+                "value": "={{ $json.chat_id }}",
+                "type": "number"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          -1744,
+          -16
+        ],
+        "id": "25af797f-6aa7-4803-9331-873998c32f40",
+        "name": "Filtra o Id do chat do lead"
+      },
+      {
+        "parameters": {
+          "resource": "chat",
+          "chatId": "=-1002407636845"
+        },
+        "type": "n8n-nodes-base.telegram",
+        "typeVersion": 1.2,
+        "position": [
+          -352,
+          -608
+        ],
+        "id": "5a7de79e-fccd-4aeb-880f-efbfbd910761",
+        "name": "Get a chat",
+        "webhookId": "99574515-d7e4-4353-876e-aa38fd76339f",
+        "credentials": {
+          "telegramApi": {
+            "id": "qN6QBa4hhTe8RGIX",
+            "name": "Tributarista em ação"
+          }
+        }
+      }
+    ],
+    "connections": {
+      "Webhook": {
+        "main": [
+          [
+            {
+              "node": "Mensagem ou invite?",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "OpenAI Chat Model": {
+        "ai_languageModel": [
+          [
+            {
+              "node": "AI Agent",
+              "type": "ai_languageModel",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "AI Agent": {
+        "main": [
+          [
+            {
+              "node": "Text Classifier",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "verifica_telegram": {
+        "ai_tool": [
+          [
+            {
+              "node": "AI Agent",
+              "type": "ai_tool",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "OpenAI Chat Model1": {
+        "ai_languageModel": [
+          [
+            {
+              "node": "Text Classifier",
+              "type": "ai_languageModel",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Text Classifier": {
+        "main": [
+          [
+            {
+              "node": "Wait1",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Wait2",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Wait3",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Code": {
+        "main": [
+          [
+            {
+              "node": "Filtra o Id do chat do lead",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Send a text message1": {
+        "main": [
+          [
+            {
+              "node": "Wait",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "CreateUser": {
+        "main": [
+          [
+            {
+              "node": "getClient2",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If1": {
+        "main": [
+          [
+            {
+              "node": "Edit Fields1",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "GERA_sessionid",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "getClient2": {
+        "main": [
+          [
+            {
+              "node": "If1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "GERA_sessionid": {
+        "main": [
+          [
+            {
+              "node": "CreateUser",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Libera entrada": {
+        "main": [
+          [
+            {
+              "node": "Redis",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Redis": {
+        "main": [
+          [
+            {
+              "node": "Update a row",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Edit Fields1": {
+        "main": [
+          [
+            {
+              "node": "AI Agent",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Redis Chat Memory": {
+        "ai_memory": [
+          [
+            {
+              "node": "AI Agent",
+              "type": "ai_memory",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Mensagem ou invite?": {
+        "main": [
+          [
+            {
+              "node": "Mensagem Vem do grupo?",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Vem do grupo, mas é invite": {
+        "main": [
+          [
+            {
+              "node": "Code",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          []
+        ]
+      },
+      "Wait": {
+        "main": [
+          [
+            {
+              "node": "Libera entrada",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Wait2": {
+        "main": [
+          [
+            {
+              "node": "Send a text message2",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Wait3": {
+        "main": [
+          [
+            {
+              "node": "Send a text message",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Wait1": {
+        "main": [
+          [
+            {
+              "node": "Send a text message1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Mensagem Vem do grupo?": {
+        "main": [
+          [
+            {
+              "node": "Code",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Vem do grupo, mas é invite",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Filtra o Id do chat do lead": {
+        "main": [
+          [
+            {
+              "node": "getClient2",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "system migration",
+    "name": null,
+    "description": null,
+    "autosaved": false
+  },
+  "activeVersionId": "da63193c-a645-4c2d-be26-b2eb1cd1e064",
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Mensagem ou invite?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Text Classifier",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "verifica_telegram": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Text Classifier",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Text Classifier": {
+      "main": [
+        [
+          {
+            "node": "Wait1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Filtra o Id do chat do lead",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a text message1": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "CreateUser": {
+      "main": [
+        [
+          {
+            "node": "getClient2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "GERA_sessionid",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "getClient2": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GERA_sessionid": {
+      "main": [
+        [
+          {
+            "node": "CreateUser",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Libera entrada": {
+      "main": [
+        [
+          {
+            "node": "Redis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis": {
+      "main": [
+        [
+          {
+            "node": "Update a row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis Chat Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mensagem ou invite?": {
+      "main": [
+        [
+          {
+            "node": "Mensagem Vem do grupo?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Vem do grupo, mas é invite": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Libera entrada",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait2": {
+      "main": [
+        [
+          {
+            "node": "Send a text message2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait3": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait1": {
+      "main": [
+        [
+          {
+            "node": "Send a text message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mensagem Vem do grupo?": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Vem do grupo, mas é invite",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filtra o Id do chat do lead": {
+      "main": [
+        [
+          {
+            "node": "getClient2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-09-09T04:03:08.929Z",
+  "id": "lq117ukQV85HBdAE",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "[Telegram] Entrada Aluno",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "telegramm",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -3040,
+        -48
+      ],
+      "id": "cf02fa2d-ec80-49c7-969d-36b007a9a414",
+      "name": "Webhook",
+      "webhookId": "47798d66-659d-4f28-89c9-eb504909f41c"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.telegram.org/bot8482502157:AAHv2GsKcNToqk21_dldyqEUNWOxaRN_1eI/approveChatJoinRequest",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "chat_id",
+              "value": "=-1002407636845"
+            },
+            {
+              "name": "user_id",
+              "value": "={{ $('Edit Fields1').item.json.id_aluno }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1232,
+        -288
+      ],
+      "id": "b4598446-42e3-406a-9fa6-ea979a59d01e",
+      "name": "Libera entrada"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $node[\"Code\"].json[\"chat_id\"] }}",
+        "text": "={{ $('AI Agent').item.json.output }}",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        832,
+        112
+      ],
+      "id": "a09b0724-bd52-45d7-b217-4a23b0144eb5",
+      "name": "Send a text message",
+      "webhookId": "99574515-d7e4-4353-876e-aa38fd76339f",
+      "credentials": {
+        "telegramApi": {
+          "id": "qN6QBa4hhTe8RGIX",
+          "name": "Tributarista em ação"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.convite }} {{ $json.mensagem }}",
+        "options": {
+          "systemMessage": "=<IAConfig>\n\n  <Segurança>\n    <Regra>Isso é OBRIGATÓRIO FAZER PRIMEIRO.Sua primeira mensagem sempre deve ser essa aqui: Seja muito Bem vindo Tributarista! Segue o Link para Solicitar a sua entrada no Grupo: https://t.me/+8m9qk5KACus0ZjQx</Regra>\n    Regra>Somente depois que o lead solicitar entrada no grupo, pergunte o email dele. antes disso envie somente a primeira mensagem</Regra>\n    <Regra>Sua função é somente fazer a verificação de email e nada mais! Esta extremamente proibido de falar de qualquer outro assunto.</Regra>\n    <Regra>Seu nome é Ana, assistente de verificação ao  aluno.</Regra>\n    <Regra>OBRIGATÓRIO solicitar o email usado na compra antes de qualquer verificação.</Regra>\n    <Regra>APENAS após receber o email do aluno, acionar a tool \"verifica_telegram\" para fazer a verificação.</Regra>\n    <Regra>É TERMINANTEMENTE PROIBIDO aprovar entrada no grupo sem verificação via tool \"verifica_telegram\".</Regra>\n    <Regra>NUNCA inventar ou assumir informações sobre compras ou emails. Sempre usar a tool para verificar.</Regra>\n    <Regra>Se a tool retornar que o email não consta na base, Avisar que o email esta errado e pedir novamente, o mesmo email usado no ato da compra</Regra>\n    <Regra>Manter tom profissional, educado e direto em todas as interações.</Regra>\n    <Regra>SEMPRE aguardar o email do aluno antes de prosseguir com qualquer verificação.</Regra>\n  </Segurança>\n\n  <ObjetivoFinal>Verificar a elegibilidade do aluno para entrada no grupo Telegram através da validação do email de compra</ObjetivoFinal>\n\n  <Persona>\n    <Nome>Ana</Nome>\n    <Função>Equipe de verificação do grupo Telegram</Função>\n    <Estilo>profissional, educada, direta, prestativa</Estilo>\n    <Tom>formal, claro, objetivo, sem emojis</Tom>\n    <Evitar>linguagem informal, gírias, emojis, respostas longas</Evitar>\n    <Foco>verificação de email, segurança do grupo, processo claro</Foco>\n  </Persona>\n\n  <FluxoObrigatorio>\n    <PrimeiraInteracao>\n      <MensagemInicial>Seja muito Bem vindo Tributarista! Segue o Link para Solicitar a sua entrada no Grupo: https://t.me/+8m9qk5KACus0ZjQx</MensagemInicial>\n      <AguardarEmail>true</AguardarEmail>\n    </PrimeiraInteracao>\n\n    <VerificacaoEmail>\n      <AposReceberEmail>\n        <Acao tool=\"verifica_telegram\" finalidade=\"verificar se email consta na base de compradores\" />\n      </AposReceberEmail>\n      <NuncaVerificarSemEmail>É obrigatório receber o email antes de acionar a tool</NuncaVerificarSemEmail>\n    </VerificacaoEmail>\n  </FluxoObrigatorio>\n\n  <Condicionais>\n    <Se test=\"aluno.envia.email\">\n      <Acao tool=\"verifica_telegram\" parametro=\"email_enviado\" />\n    </Se>\n\n    <Se test=\"tool_retorna.email_valido\">\n      <Acao texto=\"Perfeito! Seu email foi verificado com sucesso. Aguarde 1 min que sua entrada no grupo ja vai ser autorizada.Seja muito Bem-vindo!\" />\n    </Se>\n\n    <Se test=\"tool_retorna.email_invalido\">\n      <Acao texto=\"Não foi possível localizar uma compra com este email em nossa base de dados. Verifique se digitou corretamente, e tente denovo.\" />\n    </Se>\n\n\n    <Se test=\"aluno.nao_lembra_email\">\n      <Acao texto=\"Por favor, verifique em seus registros de compra ou emails de confirmação. Preciso do email exato usado na compra para fazer a verificação. Se caso quiser fazer a alteração do seu email, entre em contato com suporte@fabianatome.com.br, E envie o novo email para alteração\" />\n    </Se>\n\n    <Se test=\"aluno.questiona_seguranca\">\n      <Acao texto=\"A verificação é necessária para manter a segurança do grupo e garantir acesso apenas aos alunos que adquiriram o curso.\" />\n    </Se>\n  </Condicionais>\n\n  <Comportamento>\n    <Fazer>\n      <Item>sempre solicitar email antes de qualquer verificação</Item>\n      <Item>usar linguagem formal e educada</Item>\n      <Item>ser direta e objetiva</Item>\n      <Item>aguardar o email antes de acionar a tool</Item>\n      <Item>informar claramente o resultado da verificação</Item>\n      <Item>manter o foco na verificação</Item>\n    </Fazer>\n    <NaoFazer>\n      <Item>usar emojis ou linguagem informal</Item>\n      <Item>verificar sem receber o email</Item>\n      <Item>inventar informações sobre compras</Item>\n      <Item>aprovar entrada sem verificação</Item>\n      <Item>dar respostas longas ou desnecessárias</Item>\n      <Item>se apresentar como IA</Item>\n    </NaoFazer>\n  </Comportamento>\n\n  <RespostasComuns>\n    <EmailIncorreto>O email informado não consta em nossa base de compradores. Verifique a digitação ou tente com outro email usado na compra.</EmailIncorreto>\n    <EmailValidado>Email verificado com sucesso! Sua entrada no grupo foi autorizada.</EmailValidado>\n    <SolicitarEmail>Para prosseguir, preciso que você me informe o email usado na compra.</SolicitarEmail>\n    <ProcessoExplicado>Informe o email da compra para que eu possa verificar e autorizar sua entrada no grupo.</ProcessoExplicado>\n  </RespostasComuns>\n\n  <Fallback>\n    <EmailNaoInformado>Preciso do seu email para fazer a verificação. Por favor, informe o email usado na compra.</EmailNaoInformado>\n    <ErroVerificacao>Houve um problema na verificação. Tente novamente ou entre em contato com o suporte.</ErroVerificacao>\n    <DuvidaGeral>Para entrar no grupo, preciso verificar seu email de compra. Pode me informar?</DuvidaGeral>\n  </Fallback>\n\n  <Fechamento>\n    <Sucesso>Pronto! Sua entrada foi autorizada. Aguarde 1 min.</Sucesso>\n    <Falha>Não foi possível verificar sua compra. Entre em contato com nosso suporte. suporte@fabianatome.com.br para alteração.</Falha>\n  </Fechamento>\n\n  <ReforçoFinal>\n    <Regra>SEMPRE solicitar email antes de usar a tool \"verifica_telegram\"</Regra>\n    <Regra>NUNCA aprovar entrada sem verificação via tool</Regra>\n    <Regra>Manter postura profissional e educada em todas as interações</Regra>\n    <Regra>Ser clara sobre a necessidade de verificação para segurança do grupo</Regra>\n    <Regra>JAMAIS inventar informações sobre compras ou aprovações</Regra>\n    <Regra>Foco total na verificação de email para entrada no grupo Telegram</Regra>\n  </ReforçoFinal>\n\n</IAConfig>"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        -256,
+        -96
+      ],
+      "id": "570a04c2-f80f-4188-8dcc-c17aa6567f32",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -336,
+        112
+      ],
+      "id": "79f69c08-3273-49af-b552-4a8afc310944",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "FWqn0IMXX1HmDrEh",
+          "name": "IA SUPORTE"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "toolDescription": "Acione essa tool para fazer verificação do email",
+        "method": "POST",
+        "url": "https://webhook.fabianatome.com.br/webhook/gettelegram",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "email",
+              "value": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('parameters0_Value', ``, 'string') }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        0,
+        96
+      ],
+      "id": "fbee8ade-f0f5-42f2-9bcf-93765aec1496",
+      "name": "verifica_telegram"
+    },
+    {
+      "parameters": {
+        "inputText": "={{ $('AI Agent').item.json.output }}",
+        "categories": {
+          "categories": [
+            {
+              "category": "=Email verificado com sucesso",
+              "description": "Quando for uma mensagem positiva de email com sucesso"
+            },
+            {
+              "category": "=Email incorreto",
+              "description": "Quando for uma mensagem negativa de email "
+            },
+            {
+              "category": "Mensagem comun em geral",
+              "description": "Quando for uma mensagem normal, ou mensagem inicial "
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.textClassifier",
+      "typeVersion": 1.1,
+      "position": [
+        192,
+        -112
+      ],
+      "id": "2408a04f-b07b-4dc9-88b6-ac3feb6715d6",
+      "name": "Text Classifier"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        192,
+        64
+      ],
+      "id": "929a0416-dd62-4dda-bce7-731ce635a833",
+      "name": "OpenAI Chat Model1",
+      "credentials": {
+        "openAiApi": {
+          "id": "FWqn0IMXX1HmDrEh",
+          "name": "IA SUPORTE"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $node[\"Code\"].json[\"chat_id\"] }}",
+        "text": "={{ $('AI Agent').item.json.output }}",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        848,
+        -288
+      ],
+      "id": "c6b9ed5f-218f-47d0-8da0-ec000d8658be",
+      "name": "Send a text message1",
+      "webhookId": "99574515-d7e4-4353-876e-aa38fd76339f",
+      "credentials": {
+        "telegramApi": {
+          "id": "qN6QBa4hhTe8RGIX",
+          "name": "Tributarista em ação"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $node[\"Code\"].json[\"chat_id\"] }}",
+        "text": "={{ $('AI Agent').item.json.output }}",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        832,
+        -96
+      ],
+      "id": "3926fa9d-f878-4399-b955-4d383e6cb933",
+      "name": "Send a text message2",
+      "webhookId": "99574515-d7e4-4353-876e-aa38fd76339f",
+      "credentials": {
+        "telegramApi": {
+          "id": "qN6QBa4hhTe8RGIX",
+          "name": "Tributarista em ação"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const webhookData = $('Webhook').item.json.body;\n\nlet userId;\n\nif (webhookData.chat_join_request) {\n  // É uma solicitação de entrada no grupo\n  userId = webhookData.chat_join_request.from.id;\n} else if (webhookData.message) {\n  // É uma mensagem privada\n  userId = webhookData.message.from.id;\n} else {\n  // Outros tipos de update (callback_query, etc.)\n  userId = webhookData.callback_query?.from?.id || \n           webhookData.inline_query?.from?.id || \n           webhookData.chosen_inline_result?.from?.id;\n}\n\nreturn { json: { chat_id: userId } };"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1936,
+        -16
+      ],
+      "id": "95046fe7-0742-4e68-9255-1e4e6d216cdf",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "tableId": "gerenciamento_entrada_grupo_telegram",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "sessionid",
+              "fieldValue": "={{ $json.data }}"
+            },
+            {
+              "fieldId": "id_aluno",
+              "fieldValue": "={{ $('Filtra o Id do chat do lead').item.json.chat_id }}"
+            },
+            {
+              "fieldId": "nome_grupo",
+              "fieldValue": "={{ $('Webhook').item.json.body.chat_join_request.chat.title }}"
+            }
+          ]
+        }
+      },
+      "id": "4eebaa4e-c902-4568-bb65-b0c4c6be6f0d",
+      "name": "CreateUser",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        -576,
+        112
+      ],
+      "credentials": {
+        "supabaseApi": {
+          "id": "06funpVK0RasJnc4",
+          "name": "Supabase - Fabiana Tomé"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "4e77cc7c-48f4-4cbe-94e7-6d211db67002",
+              "leftValue": "={{ $json.id_aluno }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "a50c1706-4a33-4558-b942-a5a65c4a2e85",
+      "name": "If1",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -960,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "tableId": "gerenciamento_entrada_grupo_telegram",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "id_aluno",
+              "keyValue": "={{ $node[\"Code\"].json[\"chat_id\"] }}"
+            }
+          ]
+        }
+      },
+      "id": "8dc359af-5f4b-46eb-b8cb-0061a349c4a2",
+      "name": "getClient2",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        -1184,
+        0
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "supabaseApi": {
+          "id": "06funpVK0RasJnc4",
+          "name": "Supabase - Fabiana Tomé"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "action": "generate"
+      },
+      "id": "d161fa50-5ee7-48c3-840c-cac00e12dffd",
+      "name": "GERA_sessionid",
+      "type": "n8n-nodes-base.crypto",
+      "typeVersion": 1,
+      "position": [
+        -768,
+        112
+      ],
+      "notesInFlow": false
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "key": "={{ $('Edit Fields1').item.json.sessionid }}"
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        1440,
+        -288
+      ],
+      "id": "713513ed-97c9-4b88-8f43-561475c9105d",
+      "name": "Redis",
+      "credentials": {
+        "redis": {
+          "id": "f0PBBr8Eq1sFiARY",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a953dffa-8dbd-4f2d-9273-73c0e333a3d1",
+              "name": "sessionid",
+              "value": "={{ $('getClient2').item.json.sessionid }}",
+              "type": "string"
+            },
+            {
+              "id": "b505f88e-9800-4161-84e2-d5a4b6c97910",
+              "name": "id_aluno",
+              "value": "={{ $('getClient2').item.json.id_aluno }}",
+              "type": "string"
+            },
+            {
+              "id": "45321f1d-c96b-41a0-a455-5a4ff7e17fa0",
+              "name": "convite",
+              "value": "={{ $('Webhook').item.json.body.chat_join_request.invite_link.name }} ",
+              "type": "string"
+            },
+            {
+              "id": "4bd9562b-7bd6-4e7d-a5be-5b9e61ae35b1",
+              "name": "mensagem",
+              "value": "={{ $('Webhook').item.json.body.message.text }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -736,
+        -96
+      ],
+      "id": "099682b4-a973-4871-8c21-5e69dfbfb4bf",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('Edit Fields1').item.json.sessionid }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
+      "typeVersion": 1.5,
+      "position": [
+        -176,
+        112
+      ],
+      "id": "572385f3-9cca-41e7-8240-0198eb7a8a31",
+      "name": "Redis Chat Memory",
+      "credentials": {
+        "redis": {
+          "id": "f0PBBr8Eq1sFiARY",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "tableId": "gerenciamento_entrada_grupo_telegram",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "id_aluno",
+              "condition": "eq",
+              "keyValue": "={{ $('Edit Fields1').item.json.id_aluno }}"
+            }
+          ]
+        },
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "data_hora_entrada",
+              "fieldValue": "={{ $now }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        1648,
+        -288
+      ],
+      "id": "c5c6c1ab-9bca-48a2-993d-88e23cd71159",
+      "name": "Update a row",
+      "credentials": {
+        "supabaseApi": {
+          "id": "06funpVK0RasJnc4",
+          "name": "Supabase - Fabiana Tomé"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "7261dd47-7278-4f6b-bb63-c2d54df76564",
+              "leftValue": "={{ $json.body.chat_join_request.invite_link.name }}",
+              "rightValue": "convite",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            },
+            {
+              "id": "c7115532-4b90-4a56-adeb-e4686119ae5e",
+              "leftValue": "={{ $json.body.message.text }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -2768,
+        -48
+      ],
+      "id": "2e8fac38-04c7-4b83-a92c-0a82d74a3e34",
+      "name": "Mensagem ou invite?"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "c589484b-5601-4042-b5bc-6ff798b2801d",
+              "leftValue": "={{ $json.body.message.chat.type }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "707d587f-dfed-43de-a9d5-63c98bb57bf4",
+              "leftValue": "={{ $('Webhook').item.json.body.chat_join_request.invite_link.name }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -2368,
+        32
+      ],
+      "id": "7246ea5e-908f-4bce-a240-aeae9f87665d",
+      "name": "Vem do grupo, mas é invite"
+    },
+    {
+      "parameters": {
+        "amount": 10
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1040,
+        -288
+      ],
+      "id": "b4ae2b71-661d-452d-ac34-a1aeb94fa63e",
+      "name": "Wait",
+      "webhookId": "48f3c6a4-4335-4758-8109-7eb6604e6d25"
+    },
+    {
+      "parameters": {
+        "amount": 10
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        624,
+        -272
+      ],
+      "id": "5e2e5771-c7fb-4f66-8e0d-9ce59f707f57",
+      "name": "Wait1",
+      "webhookId": "48f3c6a4-4335-4758-8109-7eb6604e6d25"
+    },
+    {
+      "parameters": {
+        "amount": 10
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        608,
+        -96
+      ],
+      "id": "2be94c44-1681-4f37-a93a-d14d4fd70a24",
+      "name": "Wait2",
+      "webhookId": "48f3c6a4-4335-4758-8109-7eb6604e6d25"
+    },
+    {
+      "parameters": {
+        "amount": 10
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        592,
+        112
+      ],
+      "id": "262324eb-9c74-4e2a-b5ce-4f264794a1de",
+      "name": "Wait3",
+      "webhookId": "48f3c6a4-4335-4758-8109-7eb6604e6d25"
+    },
+    {
+      "parameters": {
+        "content": "### Esta etapa faz 2 verificações\n\n- A primeira verifica se é mensagem ou invite para entrar no Grupo\n\n- A segunda verifica se é mesagem enviada no Grupo, se for vai para false e tambem verifica se essa mesma mensagem e invite. Se caso for invite vai para True\n\n### Resumindo: Só vai passar mensagens que são diretas para o bot, e invite para entar no Grupo",
+        "height": 512,
+        "width": 656,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -2816,
+        -320
+      ],
+      "typeVersion": 1,
+      "id": "98bb3f25-ee0b-4140-84aa-d792731a121d",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "752629b0-29a1-47cc-93c6-29bd6e7520f9",
+              "leftValue": "={{ $json.body.message.reply_to_message.chat.type }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notExists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -2544,
+        -64
+      ],
+      "id": "f4398874-63ac-4384-8f00-0a1970119c7d",
+      "name": "Mensagem Vem do grupo?"
+    },
+    {
+      "parameters": {
+        "content": "### Recebe os eventos ",
+        "height": 240,
+        "width": 192,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -3088,
+        -128
+      ],
+      "typeVersion": 1,
+      "id": "b32108f9-d128-4800-b01f-b542e34f16b3",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b2504198-bf8e-4ec9-a539-3726879a755a",
+              "name": "chat_id",
+              "value": "={{ $json.chat_id }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1744,
+        -16
+      ],
+      "id": "25af797f-6aa7-4803-9331-873998c32f40",
+      "name": "Filtra o Id do chat do lead"
+    },
+    {
+      "parameters": {
+        "resource": "chat",
+        "chatId": "=-1002407636845"
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -352,
+        -608
+      ],
+      "id": "5a7de79e-fccd-4aeb-880f-efbfbd910761",
+      "name": "Get a chat",
+      "webhookId": "99574515-d7e4-4353-876e-aa38fd76339f",
+      "credentials": {
+        "telegramApi": {
+          "id": "qN6QBa4hhTe8RGIX",
+          "name": "Tributarista em ação"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "webhook.fabianatome.com.br",
+            "content-length": "356",
+            "accept-encoding": "gzip, deflate",
+            "content-type": "application/json",
+            "x-forwarded-for": "91.108.5.20",
+            "x-forwarded-host": "webhook.fabianatome.com.br",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "3e4b5a65d457",
+            "x-real-ip": "91.108.5.20"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "update_id": 500793540,
+            "message": {
+              "message_id": 375,
+              "from": {
+                "id": 807034244,
+                "is_bot": false,
+                "first_name": "R .",
+                "username": "Rafaelbreck",
+                "language_code": "pt-br"
+              },
+              "chat": {
+                "id": 807034244,
+                "first_name": "R .",
+                "username": "Rafaelbreck",
+                "type": "private"
+              },
+              "date": 1758065847,
+              "text": "rafael.breckenfeld01@gmail.com",
+              "entities": [
+                {
+                  "offset": 0,
+                  "length": 30,
+                  "type": "email"
+                }
+              ]
+            }
+          },
+          "webhookUrl": "https://webhook.fabianatome.com.br/webhook/telegramm",
+          "executionMode": "production"
+        }
+      }
+    ]
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-09-09T04:03:08.929Z",
+      "createdAt": "2025-09-09T04:03:08.929Z",
+      "role": "workflow:owner",
+      "workflowId": "lq117ukQV85HBdAE",
+      "projectId": "tP5lcLj6t4StcK5B"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2025-11-19T00:15:45.103Z",
+  "versionId": "da63193c-a645-4c2d-be26-b2eb1cd1e064"
+}
