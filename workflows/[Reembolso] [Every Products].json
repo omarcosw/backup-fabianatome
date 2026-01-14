@@ -1,0 +1,1220 @@
+{
+  "active": true,
+  "activeVersion": {
+    "updatedAt": "2025-12-03T22:27:37.573Z",
+    "createdAt": "2025-12-03T22:27:37.573Z",
+    "versionId": "9fdf66b6-9832-4d22-b4b1-9b8bad53f245",
+    "workflowId": "ENRC0sY4Z0v2hULG",
+    "nodes": [
+      {
+        "parameters": {
+          "httpMethod": "POST",
+          "path": "chargeback-allproducts",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.webhook",
+        "typeVersion": 2,
+        "position": [
+          0,
+          0
+        ],
+        "id": "54807259-4f97-4665-a6d5-8b6800283c5a",
+        "name": "Webhook",
+        "webhookId": "40762dfd-ea5f-4274-8853-a8b4f36c3d0b"
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "c4319005-4a66-4c99-83ff-45dd11c7bd22",
+                "name": "name",
+                "value": "={{ $item(\"0\").$node[\"Webhook\"].json[\"body\"][\"data\"][\"buyer\"][\"name\"] }}",
+                "type": "string"
+              },
+              {
+                "id": "82269e45-5c8c-4d67-b790-ed4defbc61ee",
+                "name": "email",
+                "value": "={{ $item(\"0\").$node[\"Webhook\"].json[\"body\"][\"data\"][\"buyer\"][\"email\"] }}",
+                "type": "string"
+              },
+              {
+                "id": "4c5e4cc4-c82f-403b-8773-626846ac0f5c",
+                "name": "telephone",
+                "value": "={{ $item(\"0\").$node[\"Webhook\"].json[\"body\"][\"data\"][\"buyer\"][\"checkout_phone\"] }}",
+                "type": "string"
+              },
+              {
+                "id": "12b03270-aa55-4a4d-b05d-c67f8fcc8b35",
+                "name": "product",
+                "value": "={{ $item(\"0\").$node[\"Webhook\"].json[\"body\"][\"data\"][\"product\"][\"name\"] }}",
+                "type": "string"
+              },
+              {
+                "id": "f6e7fc00-76fc-4fdb-a91b-7238c41a2f97",
+                "name": "product_id",
+                "value": "={{ $item(\"0\").$node[\"Webhook\"].json[\"body\"][\"data\"][\"product\"][\"id\"] }}",
+                "type": "string"
+              },
+              {
+                "id": "dccf599b-3cd4-4f99-b41c-f738852776e5",
+                "name": "document",
+                "value": "={{ $item(\"0\").$node[\"Webhook\"].json[\"body\"][\"data\"][\"buyer\"][\"document\"] }}",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          220,
+          0
+        ],
+        "id": "02513b80-3000-47c2-9606-f1da459ff03e",
+        "name": "Edit Fields"
+      },
+      {
+        "parameters": {
+          "url": "https://fabianatome.api-us1.com/api/3/contacts",
+          "sendQuery": true,
+          "queryParameters": {
+            "parameters": [
+              {
+                "name": "email",
+                "value": "={{ $item(\"0\").$node[\"Edit Fields\"].json[\"email\"] }}"
+              }
+            ]
+          },
+          "sendHeaders": true,
+          "headerParameters": {
+            "parameters": [
+              {
+                "name": "Api-Token",
+                "value": "633f6e21dac84c73a548cdb3c300de08d58c0c61fd6e675b7a8bc93dc05cd831ac0d53c6"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "cb96ddb0-dca7-4fb6-ab9c-ece4040dbd9a",
+        "name": "HTTP Request1",
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [
+          220,
+          220
+        ]
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict"
+            },
+            "conditions": [
+              {
+                "id": "2130aa22-e19a-4662-8a2e-b43d36facf6d",
+                "leftValue": "={{ $json[\"contacts\"][\"0\"][\"id\"] }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "string",
+                  "operation": "exists",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "id": "5bbff647-dcee-4459-95b9-d7da40a5f5b1",
+        "name": "If2",
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2,
+        "position": [
+          460,
+          220
+        ]
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.noOp",
+        "typeVersion": 1,
+        "position": [
+          780,
+          380
+        ],
+        "id": "1be465d8-725f-475d-b3a9-2c7c608d320a",
+        "name": "No Operation, do nothing"
+      },
+      {
+        "parameters": {
+          "method": "DELETE",
+          "url": "=https://fabianatome.api-us1.com/api/3/contactTags/1419300",
+          "sendHeaders": true,
+          "headerParameters": {
+            "parameters": [
+              {
+                "name": "Api-Token",
+                "value": "633f6e21dac84c73a548cdb3c300de08d58c0c61fd6e675b7a8bc93dc05cd831ac0d53c6"
+              },
+              {
+                "name": "accept",
+                "value": "application/json"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "cf560d1e-a020-4e9b-95db-87d587cc4be5",
+        "name": "HTTP Request",
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [
+          720,
+          -60
+        ]
+      },
+      {
+        "parameters": {
+          "amount": 1
+        },
+        "type": "n8n-nodes-base.wait",
+        "typeVersion": 1.1,
+        "position": [
+          1240,
+          140
+        ],
+        "id": "c5f53640-b224-466a-af19-699c5448d4d8",
+        "name": "Wait",
+        "webhookId": "6b04e454-7682-4b7d-8cc4-3fc327571594"
+      },
+      {
+        "parameters": {
+          "amount": 1
+        },
+        "type": "n8n-nodes-base.wait",
+        "typeVersion": 1.1,
+        "position": [
+          1680,
+          300
+        ],
+        "id": "e93818de-8e4e-4065-8d2b-9bec9632a563",
+        "name": "Wait1",
+        "webhookId": "6b04e454-7682-4b7d-8cc4-3fc327571594"
+      },
+      {
+        "parameters": {
+          "resource": "contactTag",
+          "tagId": "650",
+          "contactId": "={{ $item(\"0\").$node[\"HTTP Request1\"].json[\"contacts\"][\"0\"][\"id\"] }}"
+        },
+        "id": "460d1877-6d03-4616-b277-6762d123e647",
+        "name": "adicona_tag_TRA_MAI_2025_COMPRA_APROVADA",
+        "type": "n8n-nodes-base.activeCampaign",
+        "typeVersion": 1,
+        "position": [
+          1240,
+          300
+        ],
+        "credentials": {
+          "activeCampaignApi": {
+            "id": "4EetjSxVIE3QPLxy",
+            "name": "ActiveCampaign - fabianatome"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "resource": "contactTag",
+          "operation": "remove",
+          "contactTagId": "={{ $json[\"id\"] }}"
+        },
+        "id": "5f690338-3b68-4dba-b7a4-97d778047b95",
+        "name": "remove_tag_TRA_MAI_2025_COMPRA_APROVADA",
+        "type": "n8n-nodes-base.activeCampaign",
+        "typeVersion": 1,
+        "position": [
+          1480,
+          300
+        ],
+        "credentials": {
+          "activeCampaignApi": {
+            "id": "4EetjSxVIE3QPLxy",
+            "name": "ActiveCampaign - fabianatome"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "resource": "contactTag",
+          "tagId": "649",
+          "contactId": "={{ $json[\"contacts\"][\"0\"][\"id\"] }}"
+        },
+        "id": "0694ac9d-b32d-4e4f-86b8-ce62fb592a96",
+        "name": "adicona_tag_TRA_MAI_2025_ALUNO",
+        "type": "n8n-nodes-base.activeCampaign",
+        "typeVersion": 1,
+        "position": [
+          740,
+          140
+        ],
+        "credentials": {
+          "activeCampaignApi": {
+            "id": "4EetjSxVIE3QPLxy",
+            "name": "ActiveCampaign - fabianatome"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "resource": "contactTag",
+          "operation": "remove",
+          "contactTagId": "={{ $json[\"id\"] }}"
+        },
+        "id": "aeb96cb8-71c3-4924-b523-24eb32739981",
+        "name": "remove_tag_TRA_MAI_2025_ALUNO",
+        "type": "n8n-nodes-base.activeCampaign",
+        "typeVersion": 1,
+        "position": [
+          980,
+          140
+        ],
+        "credentials": {
+          "activeCampaignApi": {
+            "id": "4EetjSxVIE3QPLxy",
+            "name": "ActiveCampaign - fabianatome"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "amount": 1
+        },
+        "type": "n8n-nodes-base.wait",
+        "typeVersion": 1.1,
+        "position": [
+          1680,
+          520
+        ],
+        "id": "40bbc456-482c-4465-9bd5-5369c4ca4279",
+        "name": "Wait2",
+        "webhookId": "6b04e454-7682-4b7d-8cc4-3fc327571594"
+      },
+      {
+        "parameters": {
+          "resource": "contactTag",
+          "tagId": "644",
+          "contactId": "={{ $item(\"0\").$node[\"HTTP Request1\"].json[\"contacts\"][\"0\"][\"id\"] }}"
+        },
+        "id": "d8cdee3a-4373-450b-b877-8572fdfffcae",
+        "name": "adicona_tag_ALUNO_ATIVO",
+        "type": "n8n-nodes-base.activeCampaign",
+        "typeVersion": 1,
+        "position": [
+          1240,
+          520
+        ],
+        "credentials": {
+          "activeCampaignApi": {
+            "id": "4EetjSxVIE3QPLxy",
+            "name": "ActiveCampaign - fabianatome"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "resource": "contactTag",
+          "operation": "remove",
+          "contactTagId": "={{ $json[\"id\"] }}"
+        },
+        "id": "fcdd719b-1b98-431c-a7be-404b4fdecc67",
+        "name": "remove_tag_ALUNO_ATIVO",
+        "type": "n8n-nodes-base.activeCampaign",
+        "typeVersion": 1,
+        "position": [
+          1480,
+          520
+        ],
+        "credentials": {
+          "activeCampaignApi": {
+            "id": "4EetjSxVIE3QPLxy",
+            "name": "ActiveCampaign - fabianatome"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "resource": "contactList",
+          "operation": "remove",
+          "listId": 12,
+          "contactId": "={{ $item(\"0\").$node[\"HTTP Request1\"].json[\"contacts\"][\"0\"][\"id\"] }}"
+        },
+        "id": "a350ddeb-df91-4a3f-b669-8430e50e90a0",
+        "name": "remove_lista_clientes TRA",
+        "type": "n8n-nodes-base.activeCampaign",
+        "typeVersion": 1,
+        "position": [
+          1940,
+          520
+        ],
+        "alwaysOutputData": true,
+        "credentials": {
+          "activeCampaignApi": {
+            "id": "4EetjSxVIE3QPLxy",
+            "name": "ActiveCampaign - fabianatome"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "resource": "contactList",
+          "listId": 12,
+          "contactId": 96581
+        },
+        "id": "efd48536-e1d7-4c3f-984c-f0e5f59f3895",
+        "name": "remove_lista_clientes TRA1",
+        "type": "n8n-nodes-base.activeCampaign",
+        "typeVersion": 1,
+        "position": [
+          1500,
+          760
+        ],
+        "credentials": {
+          "activeCampaignApi": {
+            "id": "4EetjSxVIE3QPLxy",
+            "name": "ActiveCampaign - fabianatome"
+          }
+        }
+      }
+    ],
+    "connections": {
+      "Webhook": {
+        "main": [
+          [
+            {
+              "node": "Edit Fields",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "HTTP Request1": {
+        "main": [
+          [
+            {
+              "node": "If2",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If2": {
+        "main": [
+          [
+            {
+              "node": "adicona_tag_TRA_MAI_2025_ALUNO",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "No Operation, do nothing",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Edit Fields": {
+        "main": [
+          [
+            {
+              "node": "HTTP Request1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Wait": {
+        "main": [
+          [
+            {
+              "node": "adicona_tag_TRA_MAI_2025_COMPRA_APROVADA",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "adicona_tag_TRA_MAI_2025_COMPRA_APROVADA": {
+        "main": [
+          [
+            {
+              "node": "remove_tag_TRA_MAI_2025_COMPRA_APROVADA",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "remove_tag_TRA_MAI_2025_COMPRA_APROVADA": {
+        "main": [
+          [
+            {
+              "node": "Wait1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "adicona_tag_TRA_MAI_2025_ALUNO": {
+        "main": [
+          [
+            {
+              "node": "remove_tag_TRA_MAI_2025_ALUNO",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "remove_tag_TRA_MAI_2025_ALUNO": {
+        "main": [
+          [
+            {
+              "node": "Wait",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Wait1": {
+        "main": [
+          [
+            {
+              "node": "adicona_tag_ALUNO_ATIVO",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "adicona_tag_ALUNO_ATIVO": {
+        "main": [
+          [
+            {
+              "node": "remove_tag_ALUNO_ATIVO",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "remove_tag_ALUNO_ATIVO": {
+        "main": [
+          [
+            {
+              "node": "Wait2",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Wait2": {
+        "main": [
+          [
+            {
+              "node": "remove_lista_clientes TRA",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "system migration",
+    "name": null,
+    "description": null,
+    "autosaved": false
+  },
+  "activeVersionId": "9fdf66b6-9832-4d22-b4b1-9b8bad53f245",
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "If2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If2": {
+      "main": [
+        [
+          {
+            "node": "adicona_tag_TRA_MAI_2025_ALUNO",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "adicona_tag_TRA_MAI_2025_COMPRA_APROVADA",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "adicona_tag_TRA_MAI_2025_COMPRA_APROVADA": {
+      "main": [
+        [
+          {
+            "node": "remove_tag_TRA_MAI_2025_COMPRA_APROVADA",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "remove_tag_TRA_MAI_2025_COMPRA_APROVADA": {
+      "main": [
+        [
+          {
+            "node": "Wait1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "adicona_tag_TRA_MAI_2025_ALUNO": {
+      "main": [
+        [
+          {
+            "node": "remove_tag_TRA_MAI_2025_ALUNO",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "remove_tag_TRA_MAI_2025_ALUNO": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait1": {
+      "main": [
+        [
+          {
+            "node": "adicona_tag_ALUNO_ATIVO",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "adicona_tag_ALUNO_ATIVO": {
+      "main": [
+        [
+          {
+            "node": "remove_tag_ALUNO_ATIVO",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "remove_tag_ALUNO_ATIVO": {
+      "main": [
+        [
+          {
+            "node": "Wait2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait2": {
+      "main": [
+        [
+          {
+            "node": "remove_lista_clientes TRA",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-06-30T19:50:02.104Z",
+  "id": "ENRC0sY4Z0v2hULG",
+  "isArchived": false,
+  "meta": null,
+  "name": "[Reembolso] [Every Products]",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "chargeback-allproducts",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "54807259-4f97-4665-a6d5-8b6800283c5a",
+      "name": "Webhook",
+      "webhookId": "40762dfd-ea5f-4274-8853-a8b4f36c3d0b"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "c4319005-4a66-4c99-83ff-45dd11c7bd22",
+              "name": "name",
+              "value": "={{ $item(\"0\").$node[\"Webhook\"].json[\"body\"][\"data\"][\"buyer\"][\"name\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "82269e45-5c8c-4d67-b790-ed4defbc61ee",
+              "name": "email",
+              "value": "={{ $item(\"0\").$node[\"Webhook\"].json[\"body\"][\"data\"][\"buyer\"][\"email\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "4c5e4cc4-c82f-403b-8773-626846ac0f5c",
+              "name": "telephone",
+              "value": "={{ $item(\"0\").$node[\"Webhook\"].json[\"body\"][\"data\"][\"buyer\"][\"checkout_phone\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "12b03270-aa55-4a4d-b05d-c67f8fcc8b35",
+              "name": "product",
+              "value": "={{ $item(\"0\").$node[\"Webhook\"].json[\"body\"][\"data\"][\"product\"][\"name\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "f6e7fc00-76fc-4fdb-a91b-7238c41a2f97",
+              "name": "product_id",
+              "value": "={{ $item(\"0\").$node[\"Webhook\"].json[\"body\"][\"data\"][\"product\"][\"id\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "dccf599b-3cd4-4f99-b41c-f738852776e5",
+              "name": "document",
+              "value": "={{ $item(\"0\").$node[\"Webhook\"].json[\"body\"][\"data\"][\"buyer\"][\"document\"] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        220,
+        0
+      ],
+      "id": "02513b80-3000-47c2-9606-f1da459ff03e",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "url": "https://fabianatome.api-us1.com/api/3/contacts",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "email",
+              "value": "={{ $item(\"0\").$node[\"Edit Fields\"].json[\"email\"] }}"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Api-Token",
+              "value": "633f6e21dac84c73a548cdb3c300de08d58c0c61fd6e675b7a8bc93dc05cd831ac0d53c6"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "cb96ddb0-dca7-4fb6-ab9c-ece4040dbd9a",
+      "name": "HTTP Request1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        220,
+        220
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "2130aa22-e19a-4662-8a2e-b43d36facf6d",
+              "leftValue": "={{ $json[\"contacts\"][\"0\"][\"id\"] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "5bbff647-dcee-4459-95b9-d7da40a5f5b1",
+      "name": "If2",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        460,
+        220
+      ]
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        780,
+        380
+      ],
+      "id": "1be465d8-725f-475d-b3a9-2c7c608d320a",
+      "name": "No Operation, do nothing"
+    },
+    {
+      "parameters": {
+        "method": "DELETE",
+        "url": "=https://fabianatome.api-us1.com/api/3/contactTags/1419300",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Api-Token",
+              "value": "633f6e21dac84c73a548cdb3c300de08d58c0c61fd6e675b7a8bc93dc05cd831ac0d53c6"
+            },
+            {
+              "name": "accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "cf560d1e-a020-4e9b-95db-87d587cc4be5",
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        720,
+        -60
+      ]
+    },
+    {
+      "parameters": {
+        "amount": 1
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1240,
+        140
+      ],
+      "id": "c5f53640-b224-466a-af19-699c5448d4d8",
+      "name": "Wait",
+      "webhookId": "6b04e454-7682-4b7d-8cc4-3fc327571594"
+    },
+    {
+      "parameters": {
+        "amount": 1
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1680,
+        300
+      ],
+      "id": "e93818de-8e4e-4065-8d2b-9bec9632a563",
+      "name": "Wait1",
+      "webhookId": "6b04e454-7682-4b7d-8cc4-3fc327571594"
+    },
+    {
+      "parameters": {
+        "resource": "contactTag",
+        "tagId": "650",
+        "contactId": "={{ $item(\"0\").$node[\"HTTP Request1\"].json[\"contacts\"][\"0\"][\"id\"] }}"
+      },
+      "id": "460d1877-6d03-4616-b277-6762d123e647",
+      "name": "adicona_tag_TRA_MAI_2025_COMPRA_APROVADA",
+      "type": "n8n-nodes-base.activeCampaign",
+      "typeVersion": 1,
+      "position": [
+        1240,
+        300
+      ],
+      "credentials": {
+        "activeCampaignApi": {
+          "id": "4EetjSxVIE3QPLxy",
+          "name": "ActiveCampaign - fabianatome"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "contactTag",
+        "operation": "remove",
+        "contactTagId": "={{ $json[\"id\"] }}"
+      },
+      "id": "5f690338-3b68-4dba-b7a4-97d778047b95",
+      "name": "remove_tag_TRA_MAI_2025_COMPRA_APROVADA",
+      "type": "n8n-nodes-base.activeCampaign",
+      "typeVersion": 1,
+      "position": [
+        1480,
+        300
+      ],
+      "credentials": {
+        "activeCampaignApi": {
+          "id": "4EetjSxVIE3QPLxy",
+          "name": "ActiveCampaign - fabianatome"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "contactTag",
+        "tagId": "649",
+        "contactId": "={{ $json[\"contacts\"][\"0\"][\"id\"] }}"
+      },
+      "id": "0694ac9d-b32d-4e4f-86b8-ce62fb592a96",
+      "name": "adicona_tag_TRA_MAI_2025_ALUNO",
+      "type": "n8n-nodes-base.activeCampaign",
+      "typeVersion": 1,
+      "position": [
+        740,
+        140
+      ],
+      "credentials": {
+        "activeCampaignApi": {
+          "id": "4EetjSxVIE3QPLxy",
+          "name": "ActiveCampaign - fabianatome"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "contactTag",
+        "operation": "remove",
+        "contactTagId": "={{ $json[\"id\"] }}"
+      },
+      "id": "aeb96cb8-71c3-4924-b523-24eb32739981",
+      "name": "remove_tag_TRA_MAI_2025_ALUNO",
+      "type": "n8n-nodes-base.activeCampaign",
+      "typeVersion": 1,
+      "position": [
+        980,
+        140
+      ],
+      "credentials": {
+        "activeCampaignApi": {
+          "id": "4EetjSxVIE3QPLxy",
+          "name": "ActiveCampaign - fabianatome"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 1
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1680,
+        520
+      ],
+      "id": "40bbc456-482c-4465-9bd5-5369c4ca4279",
+      "name": "Wait2",
+      "webhookId": "6b04e454-7682-4b7d-8cc4-3fc327571594"
+    },
+    {
+      "parameters": {
+        "resource": "contactTag",
+        "tagId": "644",
+        "contactId": "={{ $item(\"0\").$node[\"HTTP Request1\"].json[\"contacts\"][\"0\"][\"id\"] }}"
+      },
+      "id": "d8cdee3a-4373-450b-b877-8572fdfffcae",
+      "name": "adicona_tag_ALUNO_ATIVO",
+      "type": "n8n-nodes-base.activeCampaign",
+      "typeVersion": 1,
+      "position": [
+        1240,
+        520
+      ],
+      "credentials": {
+        "activeCampaignApi": {
+          "id": "4EetjSxVIE3QPLxy",
+          "name": "ActiveCampaign - fabianatome"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "contactTag",
+        "operation": "remove",
+        "contactTagId": "={{ $json[\"id\"] }}"
+      },
+      "id": "fcdd719b-1b98-431c-a7be-404b4fdecc67",
+      "name": "remove_tag_ALUNO_ATIVO",
+      "type": "n8n-nodes-base.activeCampaign",
+      "typeVersion": 1,
+      "position": [
+        1480,
+        520
+      ],
+      "credentials": {
+        "activeCampaignApi": {
+          "id": "4EetjSxVIE3QPLxy",
+          "name": "ActiveCampaign - fabianatome"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "contactList",
+        "operation": "remove",
+        "listId": 12,
+        "contactId": "={{ $item(\"0\").$node[\"HTTP Request1\"].json[\"contacts\"][\"0\"][\"id\"] }}"
+      },
+      "id": "a350ddeb-df91-4a3f-b669-8430e50e90a0",
+      "name": "remove_lista_clientes TRA",
+      "type": "n8n-nodes-base.activeCampaign",
+      "typeVersion": 1,
+      "position": [
+        1940,
+        520
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "activeCampaignApi": {
+          "id": "4EetjSxVIE3QPLxy",
+          "name": "ActiveCampaign - fabianatome"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "contactList",
+        "listId": 12,
+        "contactId": 96581
+      },
+      "id": "efd48536-e1d7-4c3f-984c-f0e5f59f3895",
+      "name": "remove_lista_clientes TRA1",
+      "type": "n8n-nodes-base.activeCampaign",
+      "typeVersion": 1,
+      "position": [
+        1500,
+        760
+      ],
+      "credentials": {
+        "activeCampaignApi": {
+          "id": "4EetjSxVIE3QPLxy",
+          "name": "ActiveCampaign - fabianatome"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "n8n.teste.com.br",
+            "user-agent": "Jodd HTTP",
+            "content-length": "1507",
+            "content-type": "application/json",
+            "x-forwarded-for": "3.226.249.248",
+            "x-forwarded-host": "n8n.teste.com.br",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "827a30cbeeef",
+            "x-hotmart-hottok": "jDJBsZLbcPf9iwjkTkYZMV8Z78xuMb4ae21fce-0e50-46bd-82f9-b15a2d29655d",
+            "x-real-ip": "3.226.249.248",
+            "accept-encoding": "gzip"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "data": {
+              "product": {
+                "has_co_production": false,
+                "name": "Teste Biblioteca Secreta 2",
+                "id": 2142093,
+                "ucode": "5fd81059-b908-4d6e-9e80-d48b9f608d75"
+              },
+              "commissions": [
+                {
+                  "currency_value": "BRL",
+                  "source": "MARKETPLACE",
+                  "value": 0.2
+                },
+                {
+                  "currency_value": "BRL",
+                  "source": "PRODUCER",
+                  "value": 0
+                }
+              ],
+              "purchase": {
+                "original_offer_price": {
+                  "currency_value": "BRL",
+                  "value": 1
+                },
+                "subscription_anticipation_purchase": false,
+                "checkout_country": {
+                  "iso": "BR",
+                  "name": "Brasil"
+                },
+                "order_bump": {
+                  "is_order_bump": false
+                },
+                "approved_date": 1707586160000,
+                "offer": {
+                  "code": "rtuzxmrh"
+                },
+                "order_date": 1707586066000,
+                "price": {
+                  "currency_value": "BRL",
+                  "value": 1
+                },
+                "payment": {
+                  "pix_qrcode": "https://customer-local-latam.ebanx.com/pix/checkout?hash=65c7b2126e89584714bb2c32bb8e40db1b4c31e5e8ebea78",
+                  "pix_expiration_date": 1707758867000,
+                  "installments_number": 1,
+                  "type": "PIX",
+                  "pix_code": "00020101021226740014br.gov.bcb.pix2552pix.ebanx.com/qr/v2/F88321948FE3A7F4CACC096E042115075204000053039865802BR5924Launch Pad Tecnologia Se6014BELO HORIZONTE62070503***630452B5"
+                },
+                "full_price": {
+                  "currency_value": "BRL",
+                  "value": 1
+                },
+                "invoice_by": "HOTMART",
+                "transaction": "HP1706547466",
+                "status": "REFUNDED"
+              },
+              "affiliates": [
+                {
+                  "affiliate_code": "",
+                  "name": ""
+                }
+              ],
+              "producer": {
+                "name": "Automagic Bots"
+              },
+              "buyer": {
+                "address": {
+                  "country": "Brasil",
+                  "country_iso": "BR"
+                },
+                "document": "45157482000126",
+                "name": "Marcos Santana",
+                "checkout_phone": "5527998210071",
+                "email": "marcosvini.daroch@gmail.com"
+              }
+            },
+            "id": "86c357bc-cbce-4ec9-9906-5cef800613c0",
+            "creation_date": 1707628027369,
+            "event": "PURCHASE_REFUNDED",
+            "version": "2.0.0"
+          }
+        }
+      }
+    ]
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-06-30T19:50:02.104Z",
+      "createdAt": "2025-06-30T19:50:02.104Z",
+      "role": "workflow:owner",
+      "workflowId": "ENRC0sY4Z0v2hULG",
+      "projectId": "tP5lcLj6t4StcK5B"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2025-07-10T04:12:00.806Z",
+  "versionId": "9fdf66b6-9832-4d22-b4b1-9b8bad53f245"
+}
