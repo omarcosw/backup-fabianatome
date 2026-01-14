@@ -1,0 +1,49 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {},
+  "createdAt": "2025-09-04T13:35:45.579Z",
+  "id": "jYf3hVAwqaN8YdZk",
+  "isArchived": true,
+  "meta": null,
+  "name": "[IA] SUPORTE/AULAS",
+  "nodes": [],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-09-04T13:35:45.579Z",
+      "createdAt": "2025-09-04T13:35:45.579Z",
+      "role": "workflow:owner",
+      "workflowId": "jYf3hVAwqaN8YdZk",
+      "projectId": "tP5lcLj6t4StcK5B"
+    }
+  ],
+  "staticData": null,
+  "tags": [
+    {
+      "updatedAt": "2025-08-05T15:23:52.239Z",
+      "createdAt": "2025-08-05T15:23:52.239Z",
+      "id": "pTkXEDr3swGmCMau",
+      "name": "AULAS"
+    },
+    {
+      "updatedAt": "2025-07-28T18:40:52.431Z",
+      "createdAt": "2025-07-28T18:40:52.431Z",
+      "id": "D2gbgXAH2Wlttqfk",
+      "name": "SUPORTE"
+    },
+    {
+      "updatedAt": "2025-07-28T18:40:41.569Z",
+      "createdAt": "2025-07-28T18:40:41.569Z",
+      "id": "MXdjGQQn0TxQ2tbH",
+      "name": "IA"
+    }
+  ],
+  "triggerCount": 1,
+  "updatedAt": "2025-11-12T00:37:33.326Z",
+  "versionId": "86243ceb-f2ee-4cac-8bb3-28b93bfa5084"
+}
