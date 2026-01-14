@@ -1,0 +1,438 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Somente email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Busca tag",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Remove tag",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "1 por vez",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code1": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "1 por vez": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Busca contato",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Somente email": {
+      "main": [
+        [
+          {
+            "node": "1 por vez",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Busca contato": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Busca tag": {
+      "main": [
+        [
+          {
+            "node": "Code1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Remove tag": {
+      "main": [
+        [
+          {
+            "node": "1 por vez",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "remove lista": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "createdAt": "2025-11-18T15:35:29.730Z",
+  "id": "ae1ehm7nWaLVS0nY",
+  "isArchived": false,
+  "meta": null,
+  "name": "remove ACT",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -224,
+        -128
+      ],
+      "id": "0f4c597f-774b-4f36-a1a8-9ab5b56245d6",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1LZ3Una2b0rxscjx61VqIE9kH1Wh9xh18m4M1UWTeFjk",
+          "mode": "list",
+          "cachedResultName": "lista remove 31/12",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1LZ3Una2b0rxscjx61VqIE9kH1Wh9xh18m4M1UWTeFjk/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1LZ3Una2b0rxscjx61VqIE9kH1Wh9xh18m4M1UWTeFjk/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        0,
+        -128
+      ],
+      "id": "e2ccbe06-6415-41d3-8b97-ac43d2cfdb6a",
+      "name": "Get row(s) in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "7Goe4M9R60j6PEhl",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Extrai todos os emails do input\nconst emails = [];\n\n// Itera sobre todos os itens do input\nfor (const item of $input.all()) {\n  const data = item.json;\n  \n  // Verifica se existe o campo 'Email' e se não está vazio\n  if (data.Email && data.Email.trim() !== '') {\n    emails.push({\n      json: {\n        email: data.Email.trim().toLowerCase(), // Normaliza para lowercase\n        nome: data.Nome ? data.Nome.trim() : '', // 'Nome' também com maiúscula\n        telefone: data.DDD && data.Telefone ? `${data.DDD}${data.Telefone}` : '',\n        documento: data.Documento || '',\n        row_number: data.row_number || ''\n      }\n    });\n  }\n}\n\n// Remove duplicatas baseado no email\nconst uniqueEmails = emails.filter((item, index, self) =>\n  index === self.findIndex((t) => t.json.email === item.json.email)\n);\n\nreturn uniqueEmails;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        208,
+        -128
+      ],
+      "id": "b1e48138-9c72-4a85-b090-868d38cc9c71",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "amount": 1
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1168,
+        -112
+      ],
+      "id": "040095ef-18b8-4a4d-87c9-6fc6179b50dd",
+      "name": "Wait",
+      "webhookId": "f05e96e0-2ede-4c89-b021-8b91f35c82c6"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "4a4a0e03-a7ed-4fd5-a5d0-9238f82b9fbe",
+              "leftValue": "={{ $json.tagId }}",
+              "rightValue": "172",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1856,
+        -96
+      ],
+      "id": "0332d4e6-d911-404a-95df-8bdcb250a40a",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Extrai todos os dados das tags do input\nconst tags = [];\n\n// Itera sobre todos os itens do input\nfor (const item of $input.all()) {\n  const data = item.json;\n  \n  // Verifica se existe o array contactTags\n  if (data.contactTags && Array.isArray(data.contactTags)) {\n    // Itera sobre cada tag dentro do contactTags\n    for (const contactTag of data.contactTags) {\n      tags.push({\n        json: {\n          tagId: contactTag.tag,\n          contactId: contactTag.contact,\n          contactTagId: contactTag.id,\n          createdDate: contactTag.cdate,\n          createdTimestamp: contactTag.created_timestamp\n        }\n      });\n    }\n  }\n}\n\n// Remove duplicatas baseado no tagId\nconst uniqueTags = tags.filter((item, index, self) =>\n  index === self.findIndex((t) => t.json.tagId === item.json.tagId)\n);\n\nreturn uniqueTags;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1632,
+        -96
+      ],
+      "id": "ab8d8611-1f4c-424d-9dca-be49cae6b11c",
+      "name": "Code1"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        720,
+        -128
+      ],
+      "id": "3c2136ab-6d4e-408d-8373-bb06e3bfcf82",
+      "name": "1 por vez"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f2da43e1-ff4c-40e8-9a5b-29e3a42d6e60",
+              "name": "email",
+              "value": "={{ $json.email }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        416,
+        -128
+      ],
+      "id": "32d4fd8a-f7a9-442f-8c21-a5fa680aed8f",
+      "name": "Somente email"
+    },
+    {
+      "parameters": {
+        "url": "https://fabianatome.api-us1.com/api/3/contacts\n",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "email",
+              "value": "={{ $json.email }}"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Api-Token",
+              "value": "633f6e21dac84c73a548cdb3c300de08d58c0c61fd6e675b7a8bc93dc05cd831ac0d53c6"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "03ddb067-d5c9-4f97-a0ee-ae5b9e057f2b",
+      "name": "Busca contato",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        960,
+        -112
+      ],
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "url": "=https://fabianatome.api-us1.com/api/3/contacts/{{ $item(\"0\").$node[\"Busca contato\"].json[\"contacts\"][\"0\"][\"id\"] }}/contactTags",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Api-Token",
+              "value": "633f6e21dac84c73a548cdb3c300de08d58c0c61fd6e675b7a8bc93dc05cd831ac0d53c6"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "3d03aefe-77df-4371-8423-4aacde14c312",
+      "name": "Busca tag",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1392,
+        -112
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "contactTag",
+        "operation": "remove",
+        "contactTagId": "={{ $json.contactTagId }}"
+      },
+      "id": "aa9da6d8-a4d4-4e88-bbdd-5d525006305c",
+      "name": "Remove tag",
+      "type": "n8n-nodes-base.activeCampaign",
+      "typeVersion": 1,
+      "position": [
+        2112,
+        -112
+      ],
+      "credentials": {
+        "activeCampaignApi": {
+          "id": "4EetjSxVIE3QPLxy",
+          "name": "ActiveCampaign - fabianatome"
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "resource": "list"
+      },
+      "id": "0fbdc93b-e2f7-4ce4-b5cd-993d564634ef",
+      "name": "remove lista",
+      "type": "n8n-nodes-base.activeCampaign",
+      "typeVersion": 1,
+      "position": [
+        1888,
+        304
+      ],
+      "credentials": {
+        "activeCampaignApi": {
+          "id": "4EetjSxVIE3QPLxy",
+          "name": "ActiveCampaign - fabianatome"
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "resource": "list"
+      },
+      "id": "af835132-9e36-4e77-bbaf-e26cba1fbfd7",
+      "name": "remove lista1",
+      "type": "n8n-nodes-base.activeCampaign",
+      "typeVersion": 1,
+      "position": [
+        2224,
+        112
+      ],
+      "credentials": {
+        "activeCampaignApi": {
+          "id": "4EetjSxVIE3QPLxy",
+          "name": "ActiveCampaign - fabianatome"
+        }
+      },
+      "onError": "continueErrorOutput"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-11-18T15:35:29.730Z",
+      "createdAt": "2025-11-18T15:35:29.730Z",
+      "role": "workflow:owner",
+      "workflowId": "ae1ehm7nWaLVS0nY",
+      "projectId": "tP5lcLj6t4StcK5B"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-12-31T21:27:27.600Z",
+  "versionId": "b7e2f1f1-ed06-4201-b2c0-370c7eeb1c63"
+}
