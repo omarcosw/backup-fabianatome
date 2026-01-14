@@ -1,0 +1,2716 @@
+{
+  "active": true,
+  "activeVersion": {
+    "updatedAt": "2025-12-08T18:30:09.018Z",
+    "createdAt": "2025-12-08T18:30:09.018Z",
+    "versionId": "a734bfbe-bc06-4a58-baa1-0815b8e48c8c",
+    "workflowId": "GqRs4iLFmwGfUfiE",
+    "nodes": [
+      {
+        "parameters": {
+          "pollTimes": {
+            "item": [
+              {
+                "mode": "everyMinute"
+              }
+            ]
+          },
+          "filters": {
+            "q": "=to:suporte@fabianatome.com.br is:unread \"EU QUERO\""
+          }
+        },
+        "type": "n8n-nodes-base.gmailTrigger",
+        "typeVersion": 1.3,
+        "position": [
+          -1424,
+          -1936
+        ],
+        "id": "774fe363-473d-45b7-8856-ee441069bf17",
+        "name": "Gmail Trigger",
+        "credentials": {
+          "gmailOAuth2": {
+            "id": "HPzL1wucwxxuw0Pc",
+            "name": "Gmail account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "71953d3f-5359-44e0-aea0-227d9ce2eb17",
+                "name": "id",
+                "value": "={{ $json.id }}",
+                "type": "string"
+              },
+              {
+                "id": "25fa6100-4892-47fb-b062-9eb602011295",
+                "name": "texto",
+                "value": "={{ $json.text }}",
+                "type": "string"
+              },
+              {
+                "id": "90303f2c-6343-4f6d-8dae-7714ef4cdd87",
+                "name": "email nao lido",
+                "value": "={{ $json.labelIds[0] }}",
+                "type": "string"
+              },
+              {
+                "id": "5aa5d396-fba9-497f-a490-eb9b55b422fd",
+                "name": "From",
+                "value": "={{ $json.from.value[0].address }}",
+                "type": "string"
+              },
+              {
+                "id": "e44e2a4e-d2a8-41da-9a93-f7e369ae3288",
+                "name": "Objetivo email",
+                "value": "={{ $item(0).$node[\"Gmail Trigger\"].json[\"subject\"].replace(/^Re:\\s*/i, '') }}",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          -1040,
+          0
+        ],
+        "id": "0473a947-d042-43a2-a5e6-3de69f8a6c96",
+        "name": "Edit Fields"
+      },
+      {
+        "parameters": {
+          "options": {}
+        },
+        "type": "n8n-nodes-base.splitInBatches",
+        "typeVersion": 3,
+        "position": [
+          -32,
+          -32
+        ],
+        "id": "270898c4-0af7-46fa-bda0-cd08c915d214",
+        "name": "Loop Over Items"
+      },
+      {
+        "parameters": {
+          "model": {
+            "__rl": true,
+            "value": "gpt-4o-mini",
+            "mode": "list",
+            "cachedResultName": "gpt-4o-mini"
+          },
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+        "typeVersion": 1.2,
+        "position": [
+          896,
+          560
+        ],
+        "id": "ee300b09-e34c-4ca0-a9c0-cfbdf68ec84d",
+        "name": "OpenAI Chat Model",
+        "credentials": {
+          "openAiApi": {
+            "id": "FWqn0IMXX1HmDrEh",
+            "name": "IA SUPORTE"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "inputText": "=Body: {{ $json.texto }}",
+          "categories": {
+            "categories": [
+              {
+                "category": "Suporte juridico",
+                "description": "Qualquer email, que seja sobre duvidas juridicas ou duvidas sobre o curso"
+              },
+              {
+                "category": "Suporte de Vendas",
+                "description": "Qualquer email, que esteja interessado no curso, ou interessado em comprar o curso"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.textClassifier",
+        "typeVersion": 1.1,
+        "position": [
+          400,
+          -32
+        ],
+        "id": "1aa95b05-e442-4ab0-8fe1-f84900cc8262",
+        "name": "Text Classifier"
+      },
+      {
+        "parameters": {
+          "model": {
+            "__rl": true,
+            "mode": "list",
+            "value": "gpt-4.1-mini"
+          },
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+        "typeVersion": 1.2,
+        "position": [
+          384,
+          144
+        ],
+        "id": "117f735b-00f9-411b-b16f-c9382e5ca8f2",
+        "name": "OpenAI Chat Model1",
+        "credentials": {
+          "openAiApi": {
+            "id": "FWqn0IMXX1HmDrEh",
+            "name": "IA SUPORTE"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "addLabels",
+          "messageId": "={{ $json.id }}",
+          "labelIds": [
+            "Label_3789883336102928457"
+          ]
+        },
+        "type": "n8n-nodes-base.gmail",
+        "typeVersion": 2.1,
+        "position": [
+          1584,
+          352
+        ],
+        "id": "db17352b-c64d-4076-97c0-602d9d8b7bc3",
+        "name": "Add label to message1",
+        "webhookId": "0f4e8949-e48d-426c-ae25-ca090f4b53cc",
+        "credentials": {
+          "gmailOAuth2": {
+            "id": "HPzL1wucwxxuw0Pc",
+            "name": "Gmail account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "95ab5c36-5fd7-4127-bd65-76fef2c71ab8",
+                "leftValue": "={{ $json.From }}",
+                "rightValue": "silvahigor288@gmail.com",
+                "operator": {
+                  "type": "string",
+                  "operation": "equals",
+                  "name": "filter.operator.equals"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          -832,
+          0
+        ],
+        "id": "3cd45486-ecf5-4372-9e6c-058b733a08e3",
+        "name": "If"
+      },
+      {
+        "parameters": {
+          "operation": "reply",
+          "messageId": "={{ $item(\"0\").$node[\"Edit Fields\"].json[\"id\"] }}",
+          "emailType": "text",
+          "message": "={{ $json.output }}",
+          "options": {
+            "appendAttribution": false
+          }
+        },
+        "type": "n8n-nodes-base.gmail",
+        "typeVersion": 2.1,
+        "position": [
+          1376,
+          352
+        ],
+        "id": "628d3430-9e6d-4dae-8836-f3b023849979",
+        "name": "Reply to a message",
+        "webhookId": "0f4e8949-e48d-426c-ae25-ca090f4b53cc",
+        "credentials": {
+          "gmailOAuth2": {
+            "id": "HPzL1wucwxxuw0Pc",
+            "name": "Gmail account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "model": {
+            "__rl": true,
+            "value": "gpt-4o-mini",
+            "mode": "list",
+            "cachedResultName": "gpt-4o-mini"
+          },
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+        "typeVersion": 1.2,
+        "position": [
+          960,
+          -288
+        ],
+        "id": "a27a891f-99e8-4d87-b34d-3aa513aa9270",
+        "name": "OpenAI Chat Model2",
+        "credentials": {
+          "openAiApi": {
+            "id": "FWqn0IMXX1HmDrEh",
+            "name": "IA SUPORTE"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "sessionIdType": "customKey",
+          "sessionKey": "={{ $item(\"0\").$node[\"Loop Over Items\"].json[\"sessionid\"] }}",
+          "contextWindowLength": 10
+        },
+        "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
+        "typeVersion": 1.5,
+        "position": [
+          1120,
+          -352
+        ],
+        "id": "832575ea-09e5-45cf-8b4d-5821e0e6cd89",
+        "name": "Redis Chat Memory",
+        "credentials": {
+          "redis": {
+            "id": "f0PBBr8Eq1sFiARY",
+            "name": "Redis account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "model": "text-embedding-3-large",
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+        "typeVersion": 1.2,
+        "position": [
+          1248,
+          -224
+        ],
+        "id": "fb7e7a01-e52b-478f-b982-8dc37b4fa658",
+        "name": "Embeddings OpenAI2",
+        "credentials": {
+          "openAiApi": {
+            "id": "FWqn0IMXX1HmDrEh",
+            "name": "IA SUPORTE"
+          }
+        }
+      },
+      {
+        "parameters": {},
+        "type": "@n8n/n8n-nodes-langchain.rerankerCohere",
+        "typeVersion": 1,
+        "position": [
+          1408,
+          -208
+        ],
+        "id": "70695094-5908-48f2-82a1-a175bcd2e634",
+        "name": "Reranker Cohere2",
+        "credentials": {
+          "cohereApi": {
+            "id": "o6pPZn2rldFOktGo",
+            "name": "Reanker novo"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "mode": "retrieve-as-tool",
+          "toolDescription": "Essa tool tem a função de buscar as informações necessarias dentro do banco de dados para uma excelente resposta dentro do contexto perguntado\n\nÉ de extrema importancia que a query que você ira usar como busca seja EXATAMENTE 100% o mesmo texto saido do input do node \"JURIDICO SUPORTE\"",
+          "tableName": {
+            "__rl": true,
+            "value": "curso",
+            "mode": "list",
+            "cachedResultName": "curso"
+          },
+          "topK": 15,
+          "useReranker": true,
+          "options": {
+            "queryName": "match_curso"
+          }
+        },
+        "type": "@n8n/n8n-nodes-langchain.vectorStoreSupabase",
+        "typeVersion": 1.3,
+        "position": [
+          1248,
+          -384
+        ],
+        "id": "6ab5ea15-a3e0-469b-b49f-1d11bf2ab446",
+        "name": "data_juridico",
+        "credentials": {
+          "supabaseApi": {
+            "id": "06funpVK0RasJnc4",
+            "name": "Supabase - Fabiana Tomé"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "model": "text-embedding-3-large",
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+        "typeVersion": 1.2,
+        "position": [
+          1184,
+          736
+        ],
+        "id": "be601964-b982-494f-81ab-c3942bac6239",
+        "name": "Embeddings OpenAI",
+        "credentials": {
+          "openAiApi": {
+            "id": "FWqn0IMXX1HmDrEh",
+            "name": "IA SUPORTE"
+          }
+        }
+      },
+      {
+        "parameters": {},
+        "type": "@n8n/n8n-nodes-langchain.rerankerCohere",
+        "typeVersion": 1,
+        "position": [
+          1344,
+          752
+        ],
+        "id": "2ae26353-d973-407c-92de-1f7045b51b8a",
+        "name": "Reranker Cohere",
+        "credentials": {
+          "cohereApi": {
+            "id": "o6pPZn2rldFOktGo",
+            "name": "Reanker novo"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "sessionIdType": "customKey"
+        },
+        "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
+        "typeVersion": 1.5,
+        "position": [
+          1072,
+          560
+        ],
+        "id": "5c865268-f2b1-459d-89ca-895f6158e169",
+        "name": "Redis Chat Memory1",
+        "credentials": {
+          "redis": {
+            "id": "f0PBBr8Eq1sFiARY",
+            "name": "Redis account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "addLabels",
+          "messageId": "={{ $json.id }}",
+          "labelIds": [
+            "Label_3789883336102928457"
+          ]
+        },
+        "type": "n8n-nodes-base.gmail",
+        "typeVersion": 2.1,
+        "position": [
+          1568,
+          -560
+        ],
+        "id": "1c2f7856-89dc-4e1c-a196-d22cc1832d9c",
+        "name": "Add label to message",
+        "webhookId": "0f4e8949-e48d-426c-ae25-ca090f4b53cc",
+        "credentials": {
+          "gmailOAuth2": {
+            "id": "HPzL1wucwxxuw0Pc",
+            "name": "Gmail account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "reply",
+          "messageId": "={{ $item(\"0\").$node[\"Edit Fields\"].json[\"id\"] }}",
+          "emailType": "text",
+          "message": "={{ $json.output }}",
+          "options": {
+            "appendAttribution": false
+          }
+        },
+        "type": "n8n-nodes-base.gmail",
+        "typeVersion": 2.1,
+        "position": [
+          1360,
+          -560
+        ],
+        "id": "6b0b39fd-83b9-429a-8105-a068d9b3ff1e",
+        "name": "Reply to a message1",
+        "webhookId": "0f4e8949-e48d-426c-ae25-ca090f4b53cc",
+        "credentials": {
+          "gmailOAuth2": {
+            "id": "HPzL1wucwxxuw0Pc",
+            "name": "Gmail account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "promptType": "define",
+          "text": "={{ $item(\"0\").$node[\"Text Classifier\"].json[\"texto\"] }}",
+          "options": {
+            "systemMessage": "=Voce se chama nina e faz o atendimento de duvidas financeiras.  Especialista em qualquer assunto abordado sobre financeiro e administrativo\n\n\nSE for duvida sobre a black , vendas somente dia 03/11"
+          }
+        },
+        "type": "@n8n/n8n-nodes-langchain.agent",
+        "typeVersion": 2.2,
+        "position": [
+          1008,
+          -560
+        ],
+        "id": "75f454c8-9bf7-480d-b189-ab419dcab873",
+        "name": "JURIDICO SUPORTE"
+      },
+      {
+        "parameters": {
+          "promptType": "define",
+          "text": "={{ $item(\"0\").$node[\"Text Classifier\"].json[\"texto\"] }}",
+          "options": {
+            "systemMessage": "=Voce se chama nina e faz o atendimento de duvidas financeiras.  Especialista em qualquer assunto abordado sobre financeiro e administrativo\n\n\nSE for duvida sobre a black , vendas somente dia 03/11"
+          }
+        },
+        "type": "@n8n/n8n-nodes-langchain.agent",
+        "typeVersion": 2.2,
+        "position": [
+          1056,
+          352
+        ],
+        "id": "8e128fc1-034d-4d33-9c21-58817e111f4b",
+        "name": "SUPORTE VENDAS"
+      },
+      {
+        "parameters": {
+          "mode": "retrieve-as-tool",
+          "toolDescription": "Essa tool tem a função de buscar as informações necessarias dentro do banco de dados para uma excelente resposta dentro do contexto perguntado\n\nÉ de extrema importancia que a query que você ira usar como busca seja EXATAMENTE 100% o mesmo texto saido do input do node \"SUPORTE VENDAS\"",
+          "tableName": {
+            "__rl": true,
+            "value": "objecoes",
+            "mode": "list",
+            "cachedResultName": "objecoes"
+          },
+          "topK": 15,
+          "useReranker": true,
+          "options": {
+            "queryName": "match_objecoes"
+          }
+        },
+        "type": "@n8n/n8n-nodes-langchain.vectorStoreSupabase",
+        "typeVersion": 1.3,
+        "position": [
+          1216,
+          544
+        ],
+        "id": "2f467275-c843-446f-ada5-8a973bb8b246",
+        "name": "data_vendas",
+        "credentials": {
+          "supabaseApi": {
+            "id": "06funpVK0RasJnc4",
+            "name": "Supabase - Fabiana Tomé"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "tableId": "atendimento_email",
+          "fieldsUi": {
+            "fieldValues": [
+              {
+                "fieldId": "sessionid",
+                "fieldValue": "={{ $json.data }}"
+              },
+              {
+                "fieldId": "email",
+                "fieldValue": "={{ $item(\"0\").$node[\"Edit Fields\"].json[\"From\"] }}"
+              }
+            ]
+          }
+        },
+        "id": "dd97cc2a-71c2-42ee-9b82-7e51a2645e0f",
+        "name": "CreateUser",
+        "type": "n8n-nodes-base.supabase",
+        "typeVersion": 1,
+        "position": [
+          96,
+          112
+        ],
+        "credentials": {
+          "supabaseApi": {
+            "id": "06funpVK0RasJnc4",
+            "name": "Supabase - Fabiana Tomé"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "4e77cc7c-48f4-4cbe-94e7-6d211db67002",
+                "leftValue": "={{ $('getClient').item.json.email }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "string",
+                  "operation": "notEmpty",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "id": "97cd7f11-e684-4edb-8917-efd2f53c9024",
+        "name": "If1",
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          -288,
+          -16
+        ]
+      },
+      {
+        "parameters": {
+          "operation": "get",
+          "tableId": "atendimento_email",
+          "filters": {
+            "conditions": [
+              {
+                "keyName": "email",
+                "keyValue": "={{ $item(\"0\").$node[\"Edit Fields\"].json[\"From\"] }}"
+              }
+            ]
+          }
+        },
+        "id": "bde8d2a7-ad76-4381-b218-aa9c100cb9ee",
+        "name": "getClient",
+        "type": "n8n-nodes-base.supabase",
+        "typeVersion": 1,
+        "position": [
+          -528,
+          -16
+        ],
+        "alwaysOutputData": true,
+        "retryOnFail": true,
+        "credentials": {
+          "supabaseApi": {
+            "id": "06funpVK0RasJnc4",
+            "name": "Supabase - Fabiana Tomé"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "action": "generate"
+        },
+        "id": "84175eed-6abf-40ad-9dc4-fcc2b38566a0",
+        "name": "GeraUUID",
+        "type": "n8n-nodes-base.crypto",
+        "typeVersion": 1,
+        "position": [
+          -96,
+          112
+        ],
+        "notesInFlow": false
+      },
+      {
+        "parameters": {
+          "content": "## EMAIL DE DUVIDAS JURIDICAS",
+          "height": 608,
+          "width": 896,
+          "color": 7
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "position": [
+          896,
+          -688
+        ],
+        "typeVersion": 1,
+        "id": "d2e950d2-8e4e-4024-9ad8-162b73d457e2",
+        "name": "Sticky Note"
+      },
+      {
+        "parameters": {
+          "content": "## EMAIL DE DUVIDAS SOBRE VENDAS",
+          "height": 656,
+          "width": 944,
+          "color": 7
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "position": [
+          880,
+          240
+        ],
+        "typeVersion": 1,
+        "id": "4ce0231f-4758-48bb-9245-05a10ac6cbae",
+        "name": "Sticky Note1"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": false,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "95ab5c36-5fd7-4127-bd65-76fef2c71ab8",
+                "leftValue": "={{ $('Loop Over Items1').item.json.texto }}",
+                "rightValue": "EU QUERO",
+                "operator": {
+                  "type": "string",
+                  "operation": "contains"
+                }
+              },
+              {
+                "id": "97b9035e-893f-4a77-b854-7d8c319d3078",
+                "leftValue": "={{ $('Loop Over Items1').item.json.texto }}",
+                "rightValue": "\" EU QUERO\"",
+                "operator": {
+                  "type": "string",
+                  "operation": "contains"
+                }
+              },
+              {
+                "id": "e29cb6a8-bbaf-41a4-ab04-2401d9d9bb61",
+                "leftValue": "={{ $('Loop Over Items1').item.json.texto }}",
+                "rightValue": "eu quero",
+                "operator": {
+                  "type": "string",
+                  "operation": "contains"
+                }
+              },
+              {
+                "id": "e8c58625-d6e0-44d3-a920-04510c43d3a4",
+                "leftValue": "={{ $('Loop Over Items1').item.json.texto }}",
+                "rightValue": "Eu Quero",
+                "operator": {
+                  "type": "string",
+                  "operation": "contains"
+                }
+              },
+              {
+                "id": "b0db38e7-1956-4de9-be06-8a634756c171",
+                "leftValue": "={{ $('Loop Over Items1').item.json.texto }}",
+                "rightValue": "\"Eu quero\"",
+                "operator": {
+                  "type": "string",
+                  "operation": "contains"
+                }
+              }
+            ],
+            "combinator": "or"
+          },
+          "options": {
+            "ignoreCase": true
+          }
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          -448,
+          -1904
+        ],
+        "id": "6530fd36-f666-473c-8433-6f3e7e0b0eb6",
+        "name": "If2"
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "71953d3f-5359-44e0-aea0-227d9ce2eb17",
+                "name": "id",
+                "value": "={{ $json.id }}",
+                "type": "string"
+              },
+              {
+                "id": "25fa6100-4892-47fb-b062-9eb602011295",
+                "name": "texto",
+                "value": "={{ $json.snippet }}",
+                "type": "string"
+              },
+              {
+                "id": "5aa5d396-fba9-497f-a490-eb9b55b422fd",
+                "name": "From",
+                "value": "={{ $json.From.match(/<(.+?)>/)?.[1] || $json.From }}",
+                "type": "string"
+              },
+              {
+                "id": "e44e2a4e-d2a8-41da-9a93-f7e369ae3288",
+                "name": "Objetivo email",
+                "value": "={{ $json.Subject }}",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          -1168,
+          -1936
+        ],
+        "id": "6419bfaf-aecc-4f16-a991-d17d434c4307",
+        "name": "Edit Fields1"
+      },
+      {
+        "parameters": {
+          "options": {}
+        },
+        "type": "n8n-nodes-base.splitInBatches",
+        "typeVersion": 3,
+        "position": [
+          -976,
+          -1936
+        ],
+        "id": "343b477f-c9b8-4522-a6b3-90a1d61a2d1a",
+        "name": "Loop Over Items1"
+      },
+      {
+        "parameters": {
+          "url": "https://fabianatome.api-us1.com/api/3/contacts",
+          "sendQuery": true,
+          "queryParameters": {
+            "parameters": [
+              {
+                "name": "email",
+                "value": "={{ $json.From }}"
+              }
+            ]
+          },
+          "sendHeaders": true,
+          "headerParameters": {
+            "parameters": [
+              {
+                "name": "Api-Token",
+                "value": "633f6e21dac84c73a548cdb3c300de08d58c0c61fd6e675b7a8bc93dc05cd831ac0d53c6"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "eb60fc92-7168-4eaa-a8ae-0409b821a264",
+        "name": "HTTP Request2",
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [
+          -688,
+          -1904
+        ]
+      },
+      {
+        "parameters": {
+          "resource": "contactTag",
+          "tagId": "760",
+          "contactId": "={{ $item(\"0\").$node[\"HTTP Request2\"].json[\"contacts\"][\"0\"][\"id\"] }}"
+        },
+        "id": "d41bc726-1721-4feb-b57f-f3fcab2065c9",
+        "name": "add tag",
+        "type": "n8n-nodes-base.activeCampaign",
+        "typeVersion": 1,
+        "position": [
+          -208,
+          -1920
+        ],
+        "credentials": {
+          "activeCampaignApi": {
+            "id": "4EetjSxVIE3QPLxy",
+            "name": "ActiveCampaign - fabianatome"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "71953d3f-5359-44e0-aea0-227d9ce2eb17",
+                "name": "id",
+                "value": "={{ $json.id }}",
+                "type": "string"
+              },
+              {
+                "id": "25fa6100-4892-47fb-b062-9eb602011295",
+                "name": "texto",
+                "value": "={{ $json.text }}",
+                "type": "string"
+              },
+              {
+                "id": "5aa5d396-fba9-497f-a490-eb9b55b422fd",
+                "name": "From",
+                "value": "={{ $json.from.value[0].address }}",
+                "type": "string"
+              },
+              {
+                "id": "e44e2a4e-d2a8-41da-9a93-f7e369ae3288",
+                "name": "Objetivo email",
+                "value": "={{ $item(0).$node[\"Gmail Trigger\"].json[\"subject\"].replace(/^Re:\\s*/i, '') }}",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          -1152,
+          -2144
+        ],
+        "id": "0d1a9480-9e56-4c4c-ba72-9b4f82857db1",
+        "name": "Edit Fields2"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": false,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "95ab5c36-5fd7-4127-bd65-76fef2c71ab8",
+                "leftValue": "={{ $('Loop Over Items1').item.json.texto }}",
+                "rightValue": "EU QUERO",
+                "operator": {
+                  "type": "string",
+                  "operation": "startsWith"
+                }
+              },
+              {
+                "id": "97b9035e-893f-4a77-b854-7d8c319d3078",
+                "leftValue": "={{ $('Loop Over Items1').item.json.texto }}",
+                "rightValue": "\" EU QUERO\"",
+                "operator": {
+                  "type": "string",
+                  "operation": "startsWith"
+                }
+              },
+              {
+                "id": "e29cb6a8-bbaf-41a4-ab04-2401d9d9bb61",
+                "leftValue": "={{ $('Loop Over Items1').item.json.texto }}",
+                "rightValue": "eu quero",
+                "operator": {
+                  "type": "string",
+                  "operation": "startsWith"
+                }
+              },
+              {
+                "id": "e8c58625-d6e0-44d3-a920-04510c43d3a4",
+                "leftValue": "={{ $('Loop Over Items1').item.json.texto }}",
+                "rightValue": "Eu Quero",
+                "operator": {
+                  "type": "string",
+                  "operation": "startsWith"
+                }
+              },
+              {
+                "id": "b0db38e7-1956-4de9-be06-8a634756c171",
+                "leftValue": "={{ $('Loop Over Items1').item.json.texto }}",
+                "rightValue": "\"Eu quero\"",
+                "operator": {
+                  "type": "string",
+                  "operation": "startsWith"
+                }
+              }
+            ],
+            "combinator": "or"
+          },
+          "options": {
+            "ignoreCase": true
+          }
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          -464,
+          -2112
+        ],
+        "id": "da3b0b0c-e8e1-4b85-9f2e-cf1d846aa124",
+        "name": "If3"
+      }
+    ],
+    "connections": {
+      "Gmail Trigger": {
+        "main": [
+          [
+            {
+              "node": "Edit Fields1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Edit Fields": {
+        "main": [
+          [
+            {
+              "node": "If",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Loop Over Items": {
+        "main": [
+          [],
+          [
+            {
+              "node": "Text Classifier",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "OpenAI Chat Model": {
+        "ai_languageModel": [
+          [
+            {
+              "node": "SUPORTE VENDAS",
+              "type": "ai_languageModel",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "OpenAI Chat Model1": {
+        "ai_languageModel": [
+          [
+            {
+              "node": "Text Classifier",
+              "type": "ai_languageModel",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Text Classifier": {
+        "main": [
+          [
+            {
+              "node": "JURIDICO SUPORTE",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "SUPORTE VENDAS",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If": {
+        "main": [
+          [
+            {
+              "node": "getClient",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Reply to a message": {
+        "main": [
+          [
+            {
+              "node": "Add label to message1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "OpenAI Chat Model2": {
+        "ai_languageModel": [
+          [
+            {
+              "node": "JURIDICO SUPORTE",
+              "type": "ai_languageModel",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Redis Chat Memory": {
+        "ai_memory": [
+          [
+            {
+              "node": "JURIDICO SUPORTE",
+              "type": "ai_memory",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Embeddings OpenAI2": {
+        "ai_embedding": [
+          [
+            {
+              "node": "data_juridico",
+              "type": "ai_embedding",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Reranker Cohere2": {
+        "ai_reranker": [
+          [
+            {
+              "node": "data_juridico",
+              "type": "ai_reranker",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "data_juridico": {
+        "ai_tool": [
+          [
+            {
+              "node": "JURIDICO SUPORTE",
+              "type": "ai_tool",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Embeddings OpenAI": {
+        "ai_embedding": [
+          [
+            {
+              "node": "data_vendas",
+              "type": "ai_embedding",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Reranker Cohere": {
+        "ai_reranker": [
+          [
+            {
+              "node": "data_vendas",
+              "type": "ai_reranker",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Redis Chat Memory1": {
+        "ai_memory": [
+          [
+            {
+              "node": "SUPORTE VENDAS",
+              "type": "ai_memory",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Reply to a message1": {
+        "main": [
+          [
+            {
+              "node": "Add label to message",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "JURIDICO SUPORTE": {
+        "main": [
+          [
+            {
+              "node": "Reply to a message1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "SUPORTE VENDAS": {
+        "main": [
+          [
+            {
+              "node": "Reply to a message",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "data_vendas": {
+        "ai_tool": [
+          [
+            {
+              "node": "SUPORTE VENDAS",
+              "type": "ai_tool",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "CreateUser": {
+        "main": [
+          [
+            {
+              "node": "getClient",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If1": {
+        "main": [
+          [
+            {
+              "node": "Loop Over Items",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "GeraUUID",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "getClient": {
+        "main": [
+          [
+            {
+              "node": "If1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "GeraUUID": {
+        "main": [
+          [
+            {
+              "node": "CreateUser",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Edit Fields1": {
+        "main": [
+          [
+            {
+              "node": "Loop Over Items1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Loop Over Items1": {
+        "main": [
+          [],
+          [
+            {
+              "node": "HTTP Request2",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If2": {
+        "main": [
+          [
+            {
+              "node": "add tag",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Loop Over Items1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "HTTP Request2": {
+        "main": [
+          [
+            {
+              "node": "If2",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "add tag": {
+        "main": [
+          [
+            {
+              "node": "Loop Over Items1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "AuthLike ME",
+    "name": null,
+    "description": null,
+    "autosaved": false
+  },
+  "activeVersionId": "a734bfbe-bc06-4a58-baa1-0815b8e48c8c",
+  "connections": {
+    "Gmail Trigger": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Text Classifier",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "SUPORTE VENDAS",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Text Classifier",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Text Classifier": {
+      "main": [
+        [
+          {
+            "node": "JURIDICO SUPORTE",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "SUPORTE VENDAS",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "getClient",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reply to a message": {
+      "main": [
+        [
+          {
+            "node": "Add label to message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "JURIDICO SUPORTE",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis Chat Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "JURIDICO SUPORTE",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI2": {
+      "ai_embedding": [
+        [
+          {
+            "node": "data_juridico",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reranker Cohere2": {
+      "ai_reranker": [
+        [
+          {
+            "node": "data_juridico",
+            "type": "ai_reranker",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "data_juridico": {
+      "ai_tool": [
+        [
+          {
+            "node": "JURIDICO SUPORTE",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI": {
+      "ai_embedding": [
+        [
+          {
+            "node": "data_vendas",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reranker Cohere": {
+      "ai_reranker": [
+        [
+          {
+            "node": "data_vendas",
+            "type": "ai_reranker",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis Chat Memory1": {
+      "ai_memory": [
+        [
+          {
+            "node": "SUPORTE VENDAS",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reply to a message1": {
+      "main": [
+        [
+          {
+            "node": "Add label to message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "JURIDICO SUPORTE": {
+      "main": [
+        [
+          {
+            "node": "Reply to a message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SUPORTE VENDAS": {
+      "main": [
+        [
+          {
+            "node": "Reply to a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "data_vendas": {
+      "ai_tool": [
+        [
+          {
+            "node": "SUPORTE VENDAS",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "CreateUser": {
+      "main": [
+        [
+          {
+            "node": "getClient",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "GeraUUID",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "getClient": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GeraUUID": {
+      "main": [
+        [
+          {
+            "node": "CreateUser",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items1": {
+      "main": [
+        [],
+        [
+          {
+            "node": "HTTP Request2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If2": {
+      "main": [
+        [
+          {
+            "node": "add tag",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request2": {
+      "main": [
+        [
+          {
+            "node": "If2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "add tag": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-09-18T16:51:47.830Z",
+  "id": "GqRs4iLFmwGfUfiE",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "[IA] SUPORTE EMAIL",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "filters": {
+          "q": "=to:suporte@fabianatome.com.br is:unread \"EU QUERO\""
+        }
+      },
+      "type": "n8n-nodes-base.gmailTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -1424,
+        -1936
+      ],
+      "id": "774fe363-473d-45b7-8856-ee441069bf17",
+      "name": "Gmail Trigger",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "HPzL1wucwxxuw0Pc",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "71953d3f-5359-44e0-aea0-227d9ce2eb17",
+              "name": "id",
+              "value": "={{ $json.id }}",
+              "type": "string"
+            },
+            {
+              "id": "25fa6100-4892-47fb-b062-9eb602011295",
+              "name": "texto",
+              "value": "={{ $json.text }}",
+              "type": "string"
+            },
+            {
+              "id": "90303f2c-6343-4f6d-8dae-7714ef4cdd87",
+              "name": "email nao lido",
+              "value": "={{ $json.labelIds[0] }}",
+              "type": "string"
+            },
+            {
+              "id": "5aa5d396-fba9-497f-a490-eb9b55b422fd",
+              "name": "From",
+              "value": "={{ $json.from.value[0].address }}",
+              "type": "string"
+            },
+            {
+              "id": "e44e2a4e-d2a8-41da-9a93-f7e369ae3288",
+              "name": "Objetivo email",
+              "value": "={{ $item(0).$node[\"Gmail Trigger\"].json[\"subject\"].replace(/^Re:\\s*/i, '') }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1040,
+        0
+      ],
+      "id": "0473a947-d042-43a2-a5e6-3de69f8a6c96",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -32,
+        -32
+      ],
+      "id": "270898c4-0af7-46fa-bda0-cd08c915d214",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        896,
+        560
+      ],
+      "id": "ee300b09-e34c-4ca0-a9c0-cfbdf68ec84d",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "FWqn0IMXX1HmDrEh",
+          "name": "IA SUPORTE"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "inputText": "=Body: {{ $json.texto }}",
+        "categories": {
+          "categories": [
+            {
+              "category": "Suporte juridico",
+              "description": "Qualquer email, que seja sobre duvidas juridicas ou duvidas sobre o curso"
+            },
+            {
+              "category": "Suporte de Vendas",
+              "description": "Qualquer email, que esteja interessado no curso, ou interessado em comprar o curso"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.textClassifier",
+      "typeVersion": 1.1,
+      "position": [
+        400,
+        -32
+      ],
+      "id": "1aa95b05-e442-4ab0-8fe1-f84900cc8262",
+      "name": "Text Classifier"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        384,
+        144
+      ],
+      "id": "117f735b-00f9-411b-b16f-c9382e5ca8f2",
+      "name": "OpenAI Chat Model1",
+      "credentials": {
+        "openAiApi": {
+          "id": "FWqn0IMXX1HmDrEh",
+          "name": "IA SUPORTE"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "addLabels",
+        "messageId": "={{ $json.id }}",
+        "labelIds": [
+          "Label_3789883336102928457"
+        ]
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        1584,
+        352
+      ],
+      "id": "db17352b-c64d-4076-97c0-602d9d8b7bc3",
+      "name": "Add label to message1",
+      "webhookId": "0f4e8949-e48d-426c-ae25-ca090f4b53cc",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "HPzL1wucwxxuw0Pc",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "95ab5c36-5fd7-4127-bd65-76fef2c71ab8",
+              "leftValue": "={{ $json.From }}",
+              "rightValue": "silvahigor288@gmail.com",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -832,
+        0
+      ],
+      "id": "3cd45486-ecf5-4372-9e6c-058b733a08e3",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "operation": "reply",
+        "messageId": "={{ $item(\"0\").$node[\"Edit Fields\"].json[\"id\"] }}",
+        "emailType": "text",
+        "message": "={{ $json.output }}",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        1376,
+        352
+      ],
+      "id": "628d3430-9e6d-4dae-8836-f3b023849979",
+      "name": "Reply to a message",
+      "webhookId": "0f4e8949-e48d-426c-ae25-ca090f4b53cc",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "HPzL1wucwxxuw0Pc",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        960,
+        -288
+      ],
+      "id": "a27a891f-99e8-4d87-b34d-3aa513aa9270",
+      "name": "OpenAI Chat Model2",
+      "credentials": {
+        "openAiApi": {
+          "id": "FWqn0IMXX1HmDrEh",
+          "name": "IA SUPORTE"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $item(\"0\").$node[\"Loop Over Items\"].json[\"sessionid\"] }}",
+        "contextWindowLength": 10
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
+      "typeVersion": 1.5,
+      "position": [
+        1120,
+        -352
+      ],
+      "id": "832575ea-09e5-45cf-8b4d-5821e0e6cd89",
+      "name": "Redis Chat Memory",
+      "credentials": {
+        "redis": {
+          "id": "f0PBBr8Eq1sFiARY",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "text-embedding-3-large",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        1248,
+        -224
+      ],
+      "id": "fb7e7a01-e52b-478f-b982-8dc37b4fa658",
+      "name": "Embeddings OpenAI2",
+      "credentials": {
+        "openAiApi": {
+          "id": "FWqn0IMXX1HmDrEh",
+          "name": "IA SUPORTE"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.rerankerCohere",
+      "typeVersion": 1,
+      "position": [
+        1408,
+        -208
+      ],
+      "id": "70695094-5908-48f2-82a1-a175bcd2e634",
+      "name": "Reranker Cohere2",
+      "credentials": {
+        "cohereApi": {
+          "id": "o6pPZn2rldFOktGo",
+          "name": "Reanker novo"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "toolDescription": "Essa tool tem a função de buscar as informações necessarias dentro do banco de dados para uma excelente resposta dentro do contexto perguntado\n\nÉ de extrema importancia que a query que você ira usar como busca seja EXATAMENTE 100% o mesmo texto saido do input do node \"JURIDICO SUPORTE\"",
+        "tableName": {
+          "__rl": true,
+          "value": "curso",
+          "mode": "list",
+          "cachedResultName": "curso"
+        },
+        "topK": 15,
+        "useReranker": true,
+        "options": {
+          "queryName": "match_curso"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreSupabase",
+      "typeVersion": 1.3,
+      "position": [
+        1248,
+        -384
+      ],
+      "id": "6ab5ea15-a3e0-469b-b49f-1d11bf2ab446",
+      "name": "data_juridico",
+      "credentials": {
+        "supabaseApi": {
+          "id": "06funpVK0RasJnc4",
+          "name": "Supabase - Fabiana Tomé"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "text-embedding-3-large",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        1184,
+        736
+      ],
+      "id": "be601964-b982-494f-81ab-c3942bac6239",
+      "name": "Embeddings OpenAI",
+      "credentials": {
+        "openAiApi": {
+          "id": "FWqn0IMXX1HmDrEh",
+          "name": "IA SUPORTE"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.rerankerCohere",
+      "typeVersion": 1,
+      "position": [
+        1344,
+        752
+      ],
+      "id": "2ae26353-d973-407c-92de-1f7045b51b8a",
+      "name": "Reranker Cohere",
+      "credentials": {
+        "cohereApi": {
+          "id": "o6pPZn2rldFOktGo",
+          "name": "Reanker novo"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
+      "typeVersion": 1.5,
+      "position": [
+        1072,
+        560
+      ],
+      "id": "5c865268-f2b1-459d-89ca-895f6158e169",
+      "name": "Redis Chat Memory1",
+      "credentials": {
+        "redis": {
+          "id": "f0PBBr8Eq1sFiARY",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "addLabels",
+        "messageId": "={{ $json.id }}",
+        "labelIds": [
+          "Label_3789883336102928457"
+        ]
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        1568,
+        -560
+      ],
+      "id": "1c2f7856-89dc-4e1c-a196-d22cc1832d9c",
+      "name": "Add label to message",
+      "webhookId": "0f4e8949-e48d-426c-ae25-ca090f4b53cc",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "HPzL1wucwxxuw0Pc",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "reply",
+        "messageId": "={{ $item(\"0\").$node[\"Edit Fields\"].json[\"id\"] }}",
+        "emailType": "text",
+        "message": "={{ $json.output }}",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        1360,
+        -560
+      ],
+      "id": "6b0b39fd-83b9-429a-8105-a068d9b3ff1e",
+      "name": "Reply to a message1",
+      "webhookId": "0f4e8949-e48d-426c-ae25-ca090f4b53cc",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "HPzL1wucwxxuw0Pc",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $item(\"0\").$node[\"Text Classifier\"].json[\"texto\"] }}",
+        "options": {
+          "systemMessage": "=Voce se chama nina e faz o atendimento de duvidas financeiras.  Especialista em qualquer assunto abordado sobre financeiro e administrativo\n\n\nSE for duvida sobre a black , vendas somente dia 03/11"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        1008,
+        -560
+      ],
+      "id": "75f454c8-9bf7-480d-b189-ab419dcab873",
+      "name": "JURIDICO SUPORTE"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $item(\"0\").$node[\"Text Classifier\"].json[\"texto\"] }}",
+        "options": {
+          "systemMessage": "=Voce se chama nina e faz o atendimento de duvidas financeiras.  Especialista em qualquer assunto abordado sobre financeiro e administrativo\n\n\nSE for duvida sobre a black , vendas somente dia 03/11"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        1056,
+        352
+      ],
+      "id": "8e128fc1-034d-4d33-9c21-58817e111f4b",
+      "name": "SUPORTE VENDAS"
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "toolDescription": "Essa tool tem a função de buscar as informações necessarias dentro do banco de dados para uma excelente resposta dentro do contexto perguntado\n\nÉ de extrema importancia que a query que você ira usar como busca seja EXATAMENTE 100% o mesmo texto saido do input do node \"SUPORTE VENDAS\"",
+        "tableName": {
+          "__rl": true,
+          "value": "objecoes",
+          "mode": "list",
+          "cachedResultName": "objecoes"
+        },
+        "topK": 15,
+        "useReranker": true,
+        "options": {
+          "queryName": "match_objecoes"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreSupabase",
+      "typeVersion": 1.3,
+      "position": [
+        1216,
+        544
+      ],
+      "id": "2f467275-c843-446f-ada5-8a973bb8b246",
+      "name": "data_vendas",
+      "credentials": {
+        "supabaseApi": {
+          "id": "06funpVK0RasJnc4",
+          "name": "Supabase - Fabiana Tomé"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "tableId": "atendimento_email",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "sessionid",
+              "fieldValue": "={{ $json.data }}"
+            },
+            {
+              "fieldId": "email",
+              "fieldValue": "={{ $item(\"0\").$node[\"Edit Fields\"].json[\"From\"] }}"
+            }
+          ]
+        }
+      },
+      "id": "dd97cc2a-71c2-42ee-9b82-7e51a2645e0f",
+      "name": "CreateUser",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        96,
+        112
+      ],
+      "credentials": {
+        "supabaseApi": {
+          "id": "06funpVK0RasJnc4",
+          "name": "Supabase - Fabiana Tomé"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "4e77cc7c-48f4-4cbe-94e7-6d211db67002",
+              "leftValue": "={{ $('getClient').item.json.email }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "97cd7f11-e684-4edb-8917-efd2f53c9024",
+      "name": "If1",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -288,
+        -16
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "tableId": "atendimento_email",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "email",
+              "keyValue": "={{ $item(\"0\").$node[\"Edit Fields\"].json[\"From\"] }}"
+            }
+          ]
+        }
+      },
+      "id": "bde8d2a7-ad76-4381-b218-aa9c100cb9ee",
+      "name": "getClient",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        -528,
+        -16
+      ],
+      "alwaysOutputData": true,
+      "retryOnFail": true,
+      "credentials": {
+        "supabaseApi": {
+          "id": "06funpVK0RasJnc4",
+          "name": "Supabase - Fabiana Tomé"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "action": "generate"
+      },
+      "id": "84175eed-6abf-40ad-9dc4-fcc2b38566a0",
+      "name": "GeraUUID",
+      "type": "n8n-nodes-base.crypto",
+      "typeVersion": 1,
+      "position": [
+        -96,
+        112
+      ],
+      "notesInFlow": false
+    },
+    {
+      "parameters": {
+        "content": "## EMAIL DE DUVIDAS JURIDICAS",
+        "height": 608,
+        "width": 896,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        896,
+        -688
+      ],
+      "typeVersion": 1,
+      "id": "d2e950d2-8e4e-4024-9ad8-162b73d457e2",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## EMAIL DE DUVIDAS SOBRE VENDAS",
+        "height": 656,
+        "width": 944,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        880,
+        240
+      ],
+      "typeVersion": 1,
+      "id": "4ce0231f-4758-48bb-9245-05a10ac6cbae",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": false,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "95ab5c36-5fd7-4127-bd65-76fef2c71ab8",
+              "leftValue": "={{ $('Loop Over Items1').item.json.texto }}",
+              "rightValue": "EU QUERO",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "97b9035e-893f-4a77-b854-7d8c319d3078",
+              "leftValue": "={{ $('Loop Over Items1').item.json.texto }}",
+              "rightValue": "\" EU QUERO\"",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "e29cb6a8-bbaf-41a4-ab04-2401d9d9bb61",
+              "leftValue": "={{ $('Loop Over Items1').item.json.texto }}",
+              "rightValue": "eu quero",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "e8c58625-d6e0-44d3-a920-04510c43d3a4",
+              "leftValue": "={{ $('Loop Over Items1').item.json.texto }}",
+              "rightValue": "Eu Quero",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "b0db38e7-1956-4de9-be06-8a634756c171",
+              "leftValue": "={{ $('Loop Over Items1').item.json.texto }}",
+              "rightValue": "\"Eu quero\"",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {
+          "ignoreCase": true
+        }
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -448,
+        -1904
+      ],
+      "id": "6530fd36-f666-473c-8433-6f3e7e0b0eb6",
+      "name": "If2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "71953d3f-5359-44e0-aea0-227d9ce2eb17",
+              "name": "id",
+              "value": "={{ $json.id }}",
+              "type": "string"
+            },
+            {
+              "id": "25fa6100-4892-47fb-b062-9eb602011295",
+              "name": "texto",
+              "value": "={{ $json.snippet }}",
+              "type": "string"
+            },
+            {
+              "id": "5aa5d396-fba9-497f-a490-eb9b55b422fd",
+              "name": "From",
+              "value": "={{ $json.From.match(/<(.+?)>/)?.[1] || $json.From }}",
+              "type": "string"
+            },
+            {
+              "id": "e44e2a4e-d2a8-41da-9a93-f7e369ae3288",
+              "name": "Objetivo email",
+              "value": "={{ $json.Subject }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1168,
+        -1936
+      ],
+      "id": "6419bfaf-aecc-4f16-a991-d17d434c4307",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -976,
+        -1936
+      ],
+      "id": "343b477f-c9b8-4522-a6b3-90a1d61a2d1a",
+      "name": "Loop Over Items1"
+    },
+    {
+      "parameters": {
+        "url": "https://fabianatome.api-us1.com/api/3/contacts",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "email",
+              "value": "={{ $json.From }}"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Api-Token",
+              "value": "633f6e21dac84c73a548cdb3c300de08d58c0c61fd6e675b7a8bc93dc05cd831ac0d53c6"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "eb60fc92-7168-4eaa-a8ae-0409b821a264",
+      "name": "HTTP Request2",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -688,
+        -1904
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "contactTag",
+        "tagId": "760",
+        "contactId": "={{ $item(\"0\").$node[\"HTTP Request2\"].json[\"contacts\"][\"0\"][\"id\"] }}"
+      },
+      "id": "d41bc726-1721-4feb-b57f-f3fcab2065c9",
+      "name": "add tag",
+      "type": "n8n-nodes-base.activeCampaign",
+      "typeVersion": 1,
+      "position": [
+        -208,
+        -1920
+      ],
+      "credentials": {
+        "activeCampaignApi": {
+          "id": "4EetjSxVIE3QPLxy",
+          "name": "ActiveCampaign - fabianatome"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "71953d3f-5359-44e0-aea0-227d9ce2eb17",
+              "name": "id",
+              "value": "={{ $json.id }}",
+              "type": "string"
+            },
+            {
+              "id": "25fa6100-4892-47fb-b062-9eb602011295",
+              "name": "texto",
+              "value": "={{ $json.text }}",
+              "type": "string"
+            },
+            {
+              "id": "5aa5d396-fba9-497f-a490-eb9b55b422fd",
+              "name": "From",
+              "value": "={{ $json.from.value[0].address }}",
+              "type": "string"
+            },
+            {
+              "id": "e44e2a4e-d2a8-41da-9a93-f7e369ae3288",
+              "name": "Objetivo email",
+              "value": "={{ $item(0).$node[\"Gmail Trigger\"].json[\"subject\"].replace(/^Re:\\s*/i, '') }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1152,
+        -2144
+      ],
+      "id": "0d1a9480-9e56-4c4c-ba72-9b4f82857db1",
+      "name": "Edit Fields2"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": false,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "95ab5c36-5fd7-4127-bd65-76fef2c71ab8",
+              "leftValue": "={{ $('Loop Over Items1').item.json.texto }}",
+              "rightValue": "EU QUERO",
+              "operator": {
+                "type": "string",
+                "operation": "startsWith"
+              }
+            },
+            {
+              "id": "97b9035e-893f-4a77-b854-7d8c319d3078",
+              "leftValue": "={{ $('Loop Over Items1').item.json.texto }}",
+              "rightValue": "\" EU QUERO\"",
+              "operator": {
+                "type": "string",
+                "operation": "startsWith"
+              }
+            },
+            {
+              "id": "e29cb6a8-bbaf-41a4-ab04-2401d9d9bb61",
+              "leftValue": "={{ $('Loop Over Items1').item.json.texto }}",
+              "rightValue": "eu quero",
+              "operator": {
+                "type": "string",
+                "operation": "startsWith"
+              }
+            },
+            {
+              "id": "e8c58625-d6e0-44d3-a920-04510c43d3a4",
+              "leftValue": "={{ $('Loop Over Items1').item.json.texto }}",
+              "rightValue": "Eu Quero",
+              "operator": {
+                "type": "string",
+                "operation": "startsWith"
+              }
+            },
+            {
+              "id": "b0db38e7-1956-4de9-be06-8a634756c171",
+              "leftValue": "={{ $('Loop Over Items1').item.json.texto }}",
+              "rightValue": "\"Eu quero\"",
+              "operator": {
+                "type": "string",
+                "operation": "startsWith"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {
+          "ignoreCase": true
+        }
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -464,
+        -2112
+      ],
+      "id": "da3b0b0c-e8e1-4b85-9f2e-cf1d846aa124",
+      "name": "If3"
+    }
+  ],
+  "pinData": {
+    "Gmail Trigger": [
+      {
+        "json": {
+          "id": "19aff17303627037",
+          "threadId": "19aff17303627037",
+          "snippet": "EU QUERO Em sáb., 6 de dez. de 2025 às 10:32, Fabiana Tomé &lt;suporte@fabianatome.com.br&gt; escreveu: 2026 já começou ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌",
+          "payload": {
+            "mimeType": "multipart/alternative"
+          },
+          "sizeEstimate": 25298,
+          "historyId": "8309183",
+          "internalDate": "1765216287000",
+          "labels": [
+            {
+              "id": "INBOX",
+              "name": "INBOX"
+            },
+            {
+              "id": "IMPORTANT",
+              "name": "IMPORTANT"
+            },
+            {
+              "id": "CATEGORY_PERSONAL",
+              "name": "CATEGORY_PERSONAL"
+            },
+            {
+              "id": "UNREAD",
+              "name": "UNREAD"
+            }
+          ],
+          "From": "Higor Leite <silvahigor288@gmail.com>",
+          "Subject": "Re: Encontro exclusivo para alunos",
+          "To": "\"Fabiana Tomé\" <suporte@fabianatome.com.br>"
+        }
+      }
+    ]
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-09-18T16:51:47.830Z",
+      "createdAt": "2025-09-18T16:51:47.830Z",
+      "role": "workflow:owner",
+      "workflowId": "GqRs4iLFmwGfUfiE",
+      "projectId": "tP5lcLj6t4StcK5B"
+    }
+  ],
+  "staticData": {
+    "node:Gmail Trigger": {
+      "Gmail Trigger": {
+        "lastTimeChecked": 1767999647,
+        "possibleDuplicates": [
+          "19ba4fdae9ad59d4"
+        ]
+      }
+    }
+  },
+  "tags": [
+    {
+      "updatedAt": "2025-09-18T16:54:30.363Z",
+      "createdAt": "2025-09-18T16:54:30.363Z",
+      "id": "15DRViBJq794lbPz",
+      "name": "EMAIL"
+    },
+    {
+      "updatedAt": "2025-07-28T18:41:54.989Z",
+      "createdAt": "2025-07-28T18:41:54.989Z",
+      "id": "s9jXAqhzQwOBMWYM",
+      "name": "Suporte"
+    }
+  ],
+  "triggerCount": 1,
+  "updatedAt": "2025-12-08T18:30:09.031Z",
+  "versionId": "a734bfbe-bc06-4a58-baa1-0815b8e48c8c"
+}
