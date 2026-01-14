@@ -1,0 +1,3505 @@
+{
+  "active": true,
+  "activeVersion": {
+    "updatedAt": "2026-01-14T14:34:46.363Z",
+    "createdAt": "2026-01-14T14:34:41.723Z",
+    "versionId": "6e8ed7b1-877f-4de8-b45d-1cc10ab8e203",
+    "workflowId": "rzkAHriK9b7MoVVV",
+    "nodes": [
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "79edcf9f-8602-409f-8d04-ced41c06d16f",
+                "name": "email",
+                "value": "={{ $item(\"0\").$node[\"formata_dados\"].json[\"Email\"] }}",
+                "type": "string"
+              },
+              {
+                "id": "4750507c-f44a-45d5-b5ce-2a681d5a5581",
+                "name": "utm_source",
+                "value": "={{ $item(\"0\").$node[\"formata_dados\"].json[\"utm_source\"] }}",
+                "type": "string"
+              },
+              {
+                "id": "a68b8a08-b2d1-4352-affb-0a6f4045cf4a",
+                "name": "utm_campaign",
+                "value": "={{ $item(\"0\").$node[\"formata_dados\"].json[\"utm_campaign\"] }}",
+                "type": "string"
+              },
+              {
+                "id": "71c74ec7-51b3-422e-a2d5-ae7bbf3bd1b0",
+                "name": "utm_term",
+                "value": "={{ $item(\"0\").$node[\"formata_dados\"].json[\"utm_term\"] }}",
+                "type": "string"
+              },
+              {
+                "id": "57aa10ae-6631-4352-8925-35138b1c9b7a",
+                "name": "utm_medium",
+                "value": "={{ $item(\"0\").$node[\"formata_dados\"].json[\"utm_medium\"] }}",
+                "type": "string"
+              },
+              {
+                "id": "4e84ee54-3122-48e4-92d9-1f9db59e0b94",
+                "name": "utm_content",
+                "value": "={{ $item(\"0\").$node[\"formata_dados\"].json[\"utm_content\"] }}",
+                "type": "string"
+              },
+              {
+                "id": "66f8191a-dd73-4773-b3f7-a63076f8686b",
+                "name": "form_id",
+                "value": "={{ $item(\"0\").$node[\"Webhook1\"].json[\"body\"][\"form_id\"] }}",
+                "type": "string"
+              },
+              {
+                "id": "bb839055-124b-4671-99e9-d13293daa8c7",
+                "name": "page",
+                "value": "={{ $item(\"0\").$node[\"formata_dados\"].json[\"url_pagina\"] }}",
+                "type": "string"
+              },
+              {
+                "id": "b5b5da8a-46c5-44bd-acb3-3f246b420a53",
+                "name": "Evento",
+                "value": "[TRA_FEV_2026] - [CAPTAÇÃO]",
+                "type": "string"
+              },
+              {
+                "id": "271ee5fa-6031-4a09-b53d-b1da2acf56a9",
+                "name": "nome",
+                "value": "={{ $item(\"0\").$node[\"formata_dados\"].json[\"primeiro_nome\"] }}",
+                "type": "string"
+              },
+              {
+                "id": "a973ea01-7ccc-4b7b-aa43-4237223690c7",
+                "name": "sobrenome",
+                "value": "={{ $item(\"0\").$node[\"formata_dados\"].json[\"sobrenome\"] }}",
+                "type": "string"
+              },
+              {
+                "id": "7b8ac769-0ee5-410d-849d-34385009029b",
+                "name": "telefone",
+                "value": "={{ $item(\"0\").$node[\"formata_dados\"].json[\"WhatsApp\"] }}",
+                "type": "string"
+              },
+              {
+                "id": "61ea21d5-244f-4120-955b-400c8e11cd5e",
+                "name": "No momento você é",
+                "value": "={{ $node[\"Webhook1\"].json[\"body\"][\"No momento você é \"] }}",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "b8ba90be-b29f-40e3-8d70-8961d7e4db18",
+        "name": "dados",
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.3,
+        "position": [
+          176,
+          0
+        ]
+      },
+      {
+        "parameters": {
+          "jsCode": "return (() => {\n  const data = $json.body;\n\n  // Lista oficial de DDDs válidos no Brasil\n  const dddsValidos = [\n    \"11\",\"12\",\"13\",\"14\",\"15\",\"16\",\"17\",\"18\",\"19\",\n    \"21\",\"22\",\"24\",\"27\",\"28\",\n    \"31\",\"32\",\"33\",\"34\",\"35\",\"37\",\"38\",\n    \"41\",\"42\",\"43\",\"44\",\"45\",\"46\",\n    \"47\",\"48\",\"49\",\n    \"51\",\"53\",\"54\",\"55\",\n    \"61\",\"62\",\"63\",\"64\",\"65\",\"66\",\"67\",\n    \"68\",\"69\",\n    \"71\",\"73\",\"74\",\"75\",\"77\",\"79\",\n    \"81\",\"82\",\"83\",\"84\",\"85\",\"86\",\"87\",\"88\",\"89\",\n    \"91\",\"92\",\"93\",\"94\",\"95\",\"96\",\"97\",\"98\",\"99\"\n  ];\n\n  // Separa nome completo em primeiro nome e sobrenome\n  function formatarNome(Name) {\n    const partes = (Name || \"\").trim().split(\" \");\n    const primeiro_nome = partes.shift();\n    const sobrenome = partes.length > 0 ? partes.join(\" \") : \"\";\n    return { primeiro_nome, sobrenome };\n  }\n\n  // Formata número de WhatsApp (inclui fallback para DDD \"98\" se ausente)\n  function formatarWhatsapp(WhatsApp) {\n    let numero = (WhatsApp || \"\").replace(/\\D/g, \"\");\n\n    // Adiciona DDI do Brasil se não tiver\n    if (!numero.startsWith(\"55\")) {\n      numero = \"55\" + numero;\n    }\n\n    let numeroNacional = numero.slice(2); // Remove \"55\"\n\n    // Se vier sem DDD (8 ou 9 dígitos), assume \"98\"\n    if (numeroNacional.length === 8 || numeroNacional.length === 9) {\n      numeroNacional = \"98\" + numeroNacional;\n    }\n\n    const ddd = numeroNacional.slice(0, 2);\n    let restante = numeroNacional.slice(2);\n\n    // Verifica DDD válido\n    if (!dddsValidos.includes(ddd)) {\n      console.log(\"❌ DDD inválido:\", ddd);\n      return null;\n    }\n\n    // Corrige erro de digitação (9999 → 999)\n    if (/^9999/.test(restante)) {\n      restante = restante.replace(/^9999/, '999');\n      numeroNacional = ddd + restante;\n    }\n\n    // Validação final (deve ter 10 ou 11 dígitos)\n    if (numeroNacional.length !== 10 && numeroNacional.length !== 11) {\n      console.log(\"❌ Número inválido:\", numeroNacional);\n      return null;\n    }\n\n    const resultado = '55' + numeroNacional;\n\n    console.log({ input: WhatsApp, resultado });\n\n    return resultado;\n  }\n\n  // Dados principais do formulário\n  const nome = data.Nome;\n  const telefone = data.WhatsApp;\n  const email = data[\"E-mail\"];\n  const pagina = data.pagina || \"\";\n\n  // Parâmetros UTM\n  const utm_source = data.utm_source || \"\";\n  const utm_medium = data.utm_medium || \"\";\n  const utm_content = data.utm_content || \"\";\n  const utm_term = data.utm_term || \"\";\n  const utm_campaign = data.utm_campaign || \"\";\n\n  const nomeFormatado = formatarNome(nome);\n\n  // Retorna no formato esperado pelo Code node\n  return [\n    {\n      json: {\n        primeiro_nome: nomeFormatado.primeiro_nome,\n        sobrenome: nomeFormatado.sobrenome,\n        WhatsApp: formatarWhatsapp(telefone),\n        Email: (email || \"\").toLowerCase(),\n        data_hora: null,\n        url_pagina: pagina,\n        utm_source,\n        utm_medium,\n        utm_content,\n        utm_term,\n        utm_campaign\n      }\n    }\n  ];\n})();"
+        },
+        "id": "dee8afeb-49a4-4a1d-86f4-db8c837d014d",
+        "name": "formata_dados",
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          -64,
+          0
+        ]
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 1
+            },
+            "conditions": [
+              {
+                "id": "dd359e72-da78-43bb-84a7-1b0911d82aa5",
+                "leftValue": "={{ $item(\"0\").$node[\"pesquisa_user2\"].json[\"id\"] }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "number",
+                  "operation": "exists",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "id": "5995674b-0ac2-4244-a028-96bd9907598d",
+        "name": "encontrou_user1",
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2,
+        "position": [
+          -128,
+          1424
+        ]
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 1
+            },
+            "conditions": [
+              {
+                "id": "dd359e72-da78-43bb-84a7-1b0911d82aa5",
+                "leftValue": "={{ $item(\"0\").$node[\"existe\"].json[\"email\"] }}",
+                "rightValue": "={{ $item(\"0\").$node[\"dados\"].json[\"email\"] }}",
+                "operator": {
+                  "type": "string",
+                  "operation": "equals"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "id": "9f12fb17-d730-4c84-b247-e6d2a48f84c9",
+        "name": "email do webhook é o mesmo email já captado?",
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2,
+        "position": [
+          1744,
+          944
+        ]
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 1
+            },
+            "conditions": [
+              {
+                "id": "dd359e72-da78-43bb-84a7-1b0911d82aa5",
+                "leftValue": "={{ $item(\"0\").$node[\"encontrou_user1\"].json[\"email\"] }}",
+                "rightValue": "={{ $item(\"0\").$node[\"dados\"].json[\"email\"] }}",
+                "operator": {
+                  "type": "string",
+                  "operation": "equals"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "id": "3e900f72-e6a5-40c8-a02e-8a69e1cd749a",
+        "name": "email_igual1",
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2,
+        "position": [
+          576,
+          1344
+        ]
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.noOp",
+        "typeVersion": 1,
+        "position": [
+          2304,
+          912
+        ],
+        "id": "1b563b9d-4149-4212-9f9e-ceaf642ae5e0",
+        "name": "No Operation, do nothing1"
+      },
+      {
+        "parameters": {
+          "content": "# RECEBE DADOS DO WEBHOOK",
+          "height": 400,
+          "width": 828
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "typeVersion": 1,
+        "position": [
+          -416,
+          -144
+        ],
+        "id": "d307bbd4-3718-42ae-a91b-6881041e3c2e",
+        "name": "Sticky Note"
+      },
+      {
+        "parameters": {
+          "operation": "getAll",
+          "tableId": "users",
+          "limit": 1,
+          "matchType": "allFilters",
+          "filters": {
+            "conditions": [
+              {
+                "keyName": "telefone",
+                "condition": "eq",
+                "keyValue": "={{ $node[\"dados\"].json[\"telefone\"] }}"
+              },
+              {
+                "keyName": "email",
+                "condition": "eq",
+                "keyValue": "={{ $node[\"dados\"].json[\"email\"] }}"
+              }
+            ]
+          }
+        },
+        "id": "860404b5-3ef5-452e-ad1a-10427c6f5b60",
+        "name": "pesquisa_user2",
+        "type": "n8n-nodes-base.supabase",
+        "typeVersion": 1,
+        "position": [
+          -320,
+          1424
+        ],
+        "alwaysOutputData": true,
+        "credentials": {
+          "supabaseApi": {
+            "id": "06funpVK0RasJnc4",
+            "name": "Supabase - Fabiana Tomé"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "amount": 1
+        },
+        "id": "b183d270-81d1-4193-8393-e7aced4a1ce0",
+        "name": "Wait",
+        "type": "n8n-nodes-base.wait",
+        "typeVersion": 1.1,
+        "position": [
+          -128,
+          1680
+        ],
+        "webhookId": "5fb2e0ca-06ca-4a48-8ce4-76f98099e89f"
+      },
+      {
+        "parameters": {
+          "operation": "getAll",
+          "tableId": "users",
+          "limit": 1,
+          "filters": {
+            "conditions": [
+              {
+                "keyName": "email",
+                "condition": "eq",
+                "keyValue": "={{ $item(\"0\").$node[\"dados\"].json[\"email\"] }}"
+              }
+            ]
+          }
+        },
+        "id": "7f50b6f6-e5d7-462e-9231-9d7766062994",
+        "name": "pesquisa_user3",
+        "type": "n8n-nodes-base.supabase",
+        "typeVersion": 1,
+        "position": [
+          48,
+          1680
+        ],
+        "alwaysOutputData": true,
+        "credentials": {
+          "supabaseApi": {
+            "id": "06funpVK0RasJnc4",
+            "name": "Supabase - Fabiana Tomé"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "tableId": "users",
+          "fieldsUi": {
+            "fieldValues": [
+              {
+                "fieldId": "nome",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"nome\"] }}"
+              },
+              {
+                "fieldId": "sobrenome",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"sobrenome\"] }}"
+              },
+              {
+                "fieldId": "email",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"email\"] }}"
+              },
+              {
+                "fieldId": "telefone",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"telefone\"] }}"
+              }
+            ]
+          }
+        },
+        "id": "15d23206-aa57-415f-99e6-a26c8e055f3e",
+        "name": "cadastra_user",
+        "type": "n8n-nodes-base.supabase",
+        "typeVersion": 1,
+        "position": [
+          -320,
+          1680
+        ],
+        "credentials": {
+          "supabaseApi": {
+            "id": "06funpVK0RasJnc4",
+            "name": "Supabase - Fabiana Tomé"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "tableId": "cadastros",
+          "fieldsUi": {
+            "fieldValues": [
+              {
+                "fieldId": "id_user",
+                "fieldValue": "={{ $item(\"0\").$node[\"pesquisa_user3\"].json[\"id\"] }}"
+              },
+              {
+                "fieldId": "nome",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"nome\"] }}"
+              },
+              {
+                "fieldId": "sobrenome",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"sobrenome\"] }}"
+              },
+              {
+                "fieldId": "email",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"email\"] }}"
+              },
+              {
+                "fieldId": "telefone",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"telefone\"] }}"
+              },
+              {
+                "fieldId": "utm_source",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"utm_source\"] }}"
+              },
+              {
+                "fieldId": "utm_campaign",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"utm_campaign\"] }}"
+              },
+              {
+                "fieldId": "utm_term",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"utm_term\"] }}"
+              },
+              {
+                "fieldId": "utm_medium",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"utm_medium\"] }}"
+              },
+              {
+                "fieldId": "utm_content",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"utm_content\"] }}"
+              },
+              {
+                "fieldId": "form_id",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"form_id\"] }}"
+              },
+              {
+                "fieldId": "pagina",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"page\"] }}"
+              },
+              {
+                "fieldId": "evento",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"Evento\"] }}"
+              },
+              {
+                "fieldId": "data_cadastro",
+                "fieldValue": "={{ new Date(new Date().toLocaleString(\"en-US\", { timeZone: \"America/Sao_Paulo\" })).toISOString().replace('T', ' ').substring(0, 19) }}"
+              },
+              {
+                "fieldId": "o_que_voce_e",
+                "fieldValue": "={{ $node[\"dados\"].json[\"No momento você é\"] }}"
+              }
+            ]
+          }
+        },
+        "id": "4f7ee908-abc9-4d94-bd77-ab4debb5c32d",
+        "name": "insere_cadastro",
+        "type": "n8n-nodes-base.supabase",
+        "typeVersion": 1,
+        "position": [
+          256,
+          1680
+        ],
+        "alwaysOutputData": true,
+        "credentials": {
+          "supabaseApi": {
+            "id": "06funpVK0RasJnc4",
+            "name": "Supabase - Fabiana Tomé"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "update",
+          "tableId": "users",
+          "filters": {
+            "conditions": [
+              {
+                "keyName": "id",
+                "condition": "eq",
+                "keyValue": "={{ $item(\"0\").$node[\"pesquisa_user2\"].json[\"id\"] }}"
+              }
+            ]
+          },
+          "fieldsUi": {
+            "fieldValues": [
+              {
+                "fieldId": "nome",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"nome\"] }}"
+              },
+              {
+                "fieldId": "sobrenome",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"sobrenome\"] }}"
+              },
+              {
+                "fieldId": "email",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"email\"] }}"
+              },
+              {
+                "fieldId": "telefone",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"telefone\"] }}"
+              }
+            ]
+          }
+        },
+        "id": "d7e2bedc-c1cb-4722-aab9-0d64468d5409",
+        "name": "atualiza_user",
+        "type": "n8n-nodes-base.supabase",
+        "typeVersion": 1,
+        "position": [
+          832,
+          1392
+        ],
+        "alwaysOutputData": true,
+        "credentials": {
+          "supabaseApi": {
+            "id": "06funpVK0RasJnc4",
+            "name": "Supabase - Fabiana Tomé"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "getAll",
+          "tableId": "cadastros",
+          "limit": 1,
+          "matchType": "allFilters",
+          "filters": {
+            "conditions": [
+              {
+                "keyName": "email",
+                "condition": "eq",
+                "keyValue": "={{ $item(\"0\").$node[\"dados\"].json[\"email\"] }}"
+              },
+              {
+                "keyName": "evento",
+                "condition": "eq",
+                "keyValue": "={{ $item(\"0\").$node[\"dados\"].json[\"Evento\"] }}"
+              }
+            ]
+          }
+        },
+        "id": "f52e973a-1604-46e9-bf2d-2df9eb19eac5",
+        "name": "pesquisa_cadastro4",
+        "type": "n8n-nodes-base.supabase",
+        "typeVersion": 1,
+        "position": [
+          1200,
+          1200
+        ],
+        "alwaysOutputData": true,
+        "credentials": {
+          "supabaseApi": {
+            "id": "06funpVK0RasJnc4",
+            "name": "Supabase - Fabiana Tomé"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "tableId": "cadastros",
+          "fieldsUi": {
+            "fieldValues": [
+              {
+                "fieldId": "id_user",
+                "fieldValue": "={{ $item(\"0\").$node[\"pesquisa_user2\"].json[\"id\"] }}"
+              },
+              {
+                "fieldId": "nome",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"nome\"] }}"
+              },
+              {
+                "fieldId": "sobrenome",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"sobrenome\"] }}"
+              },
+              {
+                "fieldId": "email",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"email\"] }}"
+              },
+              {
+                "fieldId": "telefone",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"telefone\"] }}"
+              },
+              {
+                "fieldId": "utm_source",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"utm_source\"] }}"
+              },
+              {
+                "fieldId": "utm_campaign",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"utm_campaign\"] }}"
+              },
+              {
+                "fieldId": "utm_term",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"utm_term\"] }}"
+              },
+              {
+                "fieldId": "utm_medium",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"utm_medium\"] }}"
+              },
+              {
+                "fieldId": "utm_content",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"utm_content\"] }}"
+              },
+              {
+                "fieldId": "form_id",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"form_id\"] }}"
+              },
+              {
+                "fieldId": "pagina",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"page\"] }}"
+              },
+              {
+                "fieldId": "evento",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"Evento\"] }}"
+              },
+              {
+                "fieldId": "data_cadastro",
+                "fieldValue": "={{ $now }}"
+              },
+              {
+                "fieldId": "o_que_voce_e",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"No momento você é\"] }}"
+              }
+            ]
+          }
+        },
+        "id": "3d843ecc-fb0d-48fa-b3b5-686bd2feb9d6",
+        "name": "insere_cadastro1",
+        "type": "n8n-nodes-base.supabase",
+        "typeVersion": 1,
+        "position": [
+          1856,
+          1216
+        ],
+        "alwaysOutputData": true,
+        "credentials": {
+          "supabaseApi": {
+            "id": "06funpVK0RasJnc4",
+            "name": "Supabase - Fabiana Tomé"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "94a618cf-7aae-45f4-a725-ba4e7ae3be0d",
+                "leftValue": "={{ $item(\"0\").$node[\"pesquisa_cadastro4\"].json[\"id_user\"] }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "number",
+                  "operation": "exists",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "id": "081fe755-1fdf-416a-94c6-66f2e1278d42",
+        "name": "existe",
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          1424,
+          1200
+        ]
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "e06746e7-e25e-47d2-8e01-8b62b714d7bf",
+                "leftValue": "={{ $item(\"0\").$node[\"pesquisa_cadastro4\"].json[\"email\"] }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "string",
+                  "operation": "exists",
+                  "singleValue": true
+                }
+              },
+              {
+                "id": "52707a30-1eff-41c9-abc7-888f51fa2a64",
+                "leftValue": "={{ $json[\"evento\"] }}",
+                "rightValue": "={{ $item(\"0\").$node[\"dados\"].json[\"Evento\"] }}",
+                "operator": {
+                  "type": "string",
+                  "operation": "equals",
+                  "name": "filter.operator.equals"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "id": "19b74585-1956-40b4-ac9a-7b6885a576dc",
+        "name": "evento_igual2",
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          2048,
+          928
+        ]
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "e06746e7-e25e-47d2-8e01-8b62b714d7bf",
+                "leftValue": "={{ $item(\"0\").$node[\"pesquisa_cadastro4\"].json[\"email\"] }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "string",
+                  "operation": "exists",
+                  "singleValue": true
+                }
+              },
+              {
+                "id": "52707a30-1eff-41c9-abc7-888f51fa2a64",
+                "leftValue": "={{ $json[\"evento\"] }}",
+                "rightValue": "={{ $item(\"0\").$node[\"dados\"].json[\"Evento\"] }}",
+                "operator": {
+                  "type": "string",
+                  "operation": "equals",
+                  "name": "filter.operator.equals"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "id": "b68022a2-e610-4495-bddf-fc36a2859216",
+        "name": "evento_igual3",
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          2240,
+          1168
+        ]
+      },
+      {
+        "parameters": {
+          "operation": "update",
+          "tableId": "cadastros",
+          "fieldsUi": {
+            "fieldValues": [
+              {
+                "fieldId": "id_user",
+                "fieldValue": "={{ $item(\"0\").$node[\"pesquisa_user2\"].json[\"id\"] }}"
+              },
+              {
+                "fieldId": "nome",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"nome\"] }}"
+              },
+              {
+                "fieldId": "sobrenome",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"sobrenome\"] }}"
+              },
+              {
+                "fieldId": "email",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"email\"] }}"
+              },
+              {
+                "fieldId": "telefone",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"telefone\"] }}"
+              },
+              {
+                "fieldId": "utm_source",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"utm_source\"] }}"
+              },
+              {
+                "fieldId": "utm_campaign",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"utm_campaign\"] }}"
+              },
+              {
+                "fieldId": "utm_term",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"utm_term\"] }}"
+              },
+              {
+                "fieldId": "utm_medium",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"utm_medium\"] }}"
+              },
+              {
+                "fieldId": "utm_content",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"utm_content\"] }}"
+              },
+              {
+                "fieldId": "form_id",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"form_id\"] }}"
+              },
+              {
+                "fieldId": "pagina",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"page\"] }}"
+              },
+              {
+                "fieldId": "evento",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"Evento\"] }}"
+              },
+              {
+                "fieldId": "data_cadastro",
+                "fieldValue": "={{ $now }}"
+              },
+              {
+                "fieldId": "o_que_voce_e",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"No momento você é\"] }}"
+              }
+            ]
+          }
+        },
+        "id": "a798cc1f-9279-4c33-a6fc-0715666c2e57",
+        "name": "insere_cadastro2",
+        "type": "n8n-nodes-base.supabase",
+        "typeVersion": 1,
+        "position": [
+          2544,
+          1056
+        ],
+        "alwaysOutputData": true,
+        "credentials": {
+          "supabaseApi": {
+            "id": "06funpVK0RasJnc4",
+            "name": "Supabase - Fabiana Tomé"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "getAll",
+          "tableId": "cadastros",
+          "limit": 1,
+          "matchType": "allFilters",
+          "filters": {
+            "conditions": [
+              {
+                "keyName": "email",
+                "condition": "eq",
+                "keyValue": "={{ $item(\"0\").$node[\"dados\"].json[\"email\"] }}"
+              },
+              {
+                "keyName": "evento",
+                "condition": "eq",
+                "keyValue": "={{ $item(\"0\").$node[\"dados\"].json[\"Evento\"] }}"
+              }
+            ]
+          }
+        },
+        "id": "3a383093-5417-49c4-a0f3-ca21dfe66402",
+        "name": "pesquisa_cadastro5",
+        "type": "n8n-nodes-base.supabase",
+        "typeVersion": 1,
+        "position": [
+          2544,
+          1264
+        ],
+        "alwaysOutputData": true,
+        "credentials": {
+          "supabaseApi": {
+            "id": "06funpVK0RasJnc4",
+            "name": "Supabase - Fabiana Tomé"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "url": "https://fabianatome.api-us1.com/api/3/contacts",
+          "sendQuery": true,
+          "queryParameters": {
+            "parameters": [
+              {
+                "name": "email",
+                "value": "={{ $item(\"0\").$node[\"dados\"].json[\"email\"] }}"
+              }
+            ]
+          },
+          "sendHeaders": true,
+          "headerParameters": {
+            "parameters": [
+              {
+                "name": "Api-Token",
+                "value": "633f6e21dac84c73a548cdb3c300de08d58c0c61fd6e675b7a8bc93dc05cd831ac0d53c6"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "3f37cf66-deb2-4803-9ee4-750d41f03213",
+        "name": "HTTP Request1",
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [
+          -288,
+          672
+        ]
+      },
+      {
+        "parameters": {
+          "errorMessage": "An error ocurred!"
+        },
+        "id": "12f2c6b6-e232-4682-8a4e-81055e5c9f17",
+        "name": "Stop and Error3",
+        "type": "n8n-nodes-base.stopAndError",
+        "typeVersion": 1,
+        "position": [
+          512,
+          848
+        ]
+      },
+      {
+        "parameters": {
+          "errorMessage": "An error ocurred!"
+        },
+        "id": "27eb5620-9dec-4fb6-996a-bc48dddfbfa1",
+        "name": "Stop and Error2",
+        "type": "n8n-nodes-base.stopAndError",
+        "typeVersion": 1,
+        "position": [
+          512,
+          496
+        ]
+      },
+      {
+        "parameters": {
+          "operation": "update",
+          "contactId": "={{ $json[\"contacts\"][\"0\"][\"id\"] }}",
+          "updateFields": {
+            "fieldValues": {
+              "property": [
+                {
+                  "field": "=156",
+                  "value": "={{ $item(\"0\").$node[\"dados\"].json[\"utm_source\"] }}"
+                },
+                {
+                  "field": "=158",
+                  "value": "={{ $item(\"0\").$node[\"dados\"].json[\"utm_campaign\"] }}"
+                },
+                {
+                  "field": "=159",
+                  "value": "={{ $item(\"0\").$node[\"dados\"].json[\"utm_term\"] }}"
+                },
+                {
+                  "field": "=157",
+                  "value": "={{ $item(\"0\").$node[\"dados\"].json[\"utm_medium\"] }}"
+                },
+                {
+                  "field": "=160",
+                  "value": "={{ $item(\"0\").$node[\"dados\"].json[\"utm_content\"] }}"
+                },
+                {
+                  "field": "=161",
+                  "value": "={{ $now.format('dd/MM/yyyy') }}"
+                },
+                {
+                  "field": "=162",
+                  "value": "={{ $item(\"0\").$node[\"dados\"].json[\"page\"] }}"
+                },
+                {
+                  "field": "=163",
+                  "value": "={{ $node[\"dados\"].json[\"No momento você é\"] }}"
+                }
+              ]
+            },
+            "email": "={{ $item(\"0\").$node[\"dados\"].json[\"email\"] }}",
+            "firstName": "={{ $item(\"0\").$node[\"dados\"].json[\"nome\"] }}",
+            "lastName": "={{ $item(\"0\").$node[\"dados\"].json[\"sobrenome\"] }}",
+            "phone": "={{ $item(\"0\").$node[\"dados\"].json[\"telefone\"] }}"
+          }
+        },
+        "id": "8998b2ef-abd5-43a3-8f61-2f73d57b52c2",
+        "name": "atualiza_contato_no_ac2",
+        "type": "n8n-nodes-base.activeCampaign",
+        "typeVersion": 1,
+        "position": [
+          192,
+          528
+        ],
+        "credentials": {
+          "activeCampaignApi": {
+            "id": "4EetjSxVIE3QPLxy",
+            "name": "ActiveCampaign - fabianatome"
+          }
+        },
+        "onError": "continueErrorOutput"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict"
+            },
+            "conditions": [
+              {
+                "id": "2130aa22-e19a-4662-8a2e-b43d36facf6d",
+                "leftValue": "={{ $json[\"contacts\"][\"0\"][\"id\"] }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "string",
+                  "operation": "exists",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "id": "f7f3fac1-7925-471e-94f7-80cc082aa5a0",
+        "name": "If2",
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2,
+        "position": [
+          -48,
+          672
+        ]
+      },
+      {
+        "parameters": {
+          "email": "={{ $item(\"0\").$node[\"dados\"].json[\"email\"] }}",
+          "updateIfExists": true,
+          "additionalFields": {
+            "fieldValues": {
+              "property": [
+                {
+                  "field": "=156",
+                  "value": "={{ $item(\"0\").$node[\"dados\"].json[\"utm_source\"] }}"
+                },
+                {
+                  "field": "=158",
+                  "value": "={{ $item(\"0\").$node[\"dados\"].json[\"utm_campaign\"] }}"
+                },
+                {
+                  "field": "=159",
+                  "value": "={{ $item(\"0\").$node[\"dados\"].json[\"utm_term\"] }}"
+                },
+                {
+                  "field": "=157",
+                  "value": "={{ $item(\"0\").$node[\"dados\"].json[\"utm_medium\"] }}"
+                },
+                {
+                  "field": "=160",
+                  "value": "={{ $item(\"0\").$node[\"dados\"].json[\"utm_content\"] }}"
+                },
+                {
+                  "field": "=161",
+                  "value": "={{ $now.format('dd/MM/yyyy') }}"
+                },
+                {
+                  "field": "=162",
+                  "value": "={{ $item(\"0\").$node[\"dados\"].json[\"page\"] }}"
+                },
+                {
+                  "field": "=163",
+                  "value": "={{ $node[\"dados\"].json[\"No momento você é\"] }}"
+                }
+              ]
+            },
+            "firstName": "={{ $item(\"0\").$node[\"dados\"].json[\"nome\"] }}",
+            "lastName": "={{ $item(\"0\").$node[\"dados\"].json[\"sobrenome\"] }}",
+            "phone": "={{ $item(\"0\").$node[\"dados\"].json[\"telefone\"] }}"
+          }
+        },
+        "id": "876a520e-f8cc-4c0e-9fed-5919a65ce2cd",
+        "name": "cria_contato_no_ac2",
+        "type": "n8n-nodes-base.activeCampaign",
+        "typeVersion": 1,
+        "position": [
+          192,
+          816
+        ],
+        "credentials": {
+          "activeCampaignApi": {
+            "id": "4EetjSxVIE3QPLxy",
+            "name": "ActiveCampaign - fabianatome"
+          }
+        },
+        "onError": "continueErrorOutput"
+      },
+      {
+        "parameters": {
+          "httpMethod": "POST",
+          "path": "tra_jan_2026",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.webhook",
+        "typeVersion": 2,
+        "position": [
+          -288,
+          0
+        ],
+        "id": "d82f69ff-4342-4f2e-a4c5-98591043544b",
+        "name": "Webhook1",
+        "webhookId": "0881aa8c-a6d7-4efd-8f43-09590f32e206"
+      },
+      {
+        "parameters": {
+          "url": "=https://{{ $node[\"Set\"].json[\"url_api_activecampaign\"] }}.api-us1.com/api/3/tags?limit=1000&search={{ $node[\"Set\"].json[\"tag_procurada\"] }}",
+          "options": {},
+          "headerParametersUi": {
+            "parameter": [
+              {
+                "name": "Api-Token",
+                "value": "={{ $node[\"Set\"].json[\"Api-Token\"] }}"
+              },
+              {
+                "name": "accept",
+                "value": "application/json"
+              },
+              {
+                "name": "content-type",
+                "value": "application/json"
+              }
+            ]
+          }
+        },
+        "name": "Listar Tags da Conta",
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 2,
+        "position": [
+          -800,
+          -16
+        ],
+        "id": "db5797d3-aae0-4f30-8fa6-2f14a78455f0"
+      },
+      {
+        "parameters": {
+          "url": "=https://{{ $json[\"url_api_activecampaign\"] }}.api-us1.com/api/3/fields?limit=1000",
+          "options": {},
+          "headerParametersUi": {
+            "parameter": [
+              {
+                "name": "Api-Token",
+                "value": "={{ $node[\"Set\"].json[\"Api-Token\"] }}"
+              },
+              {
+                "name": "content-type",
+                "value": "application/json"
+              },
+              {
+                "name": "accept",
+                "value": "application/json"
+              }
+            ]
+          }
+        },
+        "name": "Listar Campos Personalizados de Contatos da Conta",
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 2,
+        "position": [
+          -1008,
+          -16
+        ],
+        "id": "36c7afe8-f7ce-445e-9632-f0d30aff43a2"
+      },
+      {
+        "parameters": {
+          "values": {
+            "string": [
+              {
+                "name": "Api-Token",
+                "value": "633f6e21dac84c73a548cdb3c300de08d58c0c61fd6e675b7a8bc93dc05cd831ac0d53c6"
+              },
+              {
+                "name": "url_api_activecampaign",
+                "value": "fabianatome"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "db056999-58bb-4974-88c8-ced598093f91",
+        "name": "Set",
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 2,
+        "position": [
+          -1200,
+          -16
+        ]
+      },
+      {
+        "parameters": {
+          "content": "## Para consulta\n \nUtilize os Nodes Abaixo para consultar os IDs dos Campos e Tags no ActiveCampaign",
+          "height": 408,
+          "width": 939,
+          "color": 4
+        },
+        "id": "2a36ad1d-ca5b-466d-922f-1485bed92e63",
+        "name": "Sticky Note1",
+        "type": "n8n-nodes-base.stickyNote",
+        "typeVersion": 1,
+        "position": [
+          -1488,
+          -160
+        ]
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.manualTrigger",
+        "typeVersion": 1,
+        "position": [
+          -1376,
+          -16
+        ],
+        "id": "7027e1c5-05ff-4cd9-a2ae-f24dc567f4f2",
+        "name": "When clicking ‘Execute workflow’"
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "https://unnichat.com.br/a/start/KFpbQpUBzADLlarzA5AQ",
+          "sendBody": true,
+          "specifyBody": "json",
+          "jsonBody": "={\n  \"apiKey\": \"Bearer 711fb178-e5eb-451a-9220-b315f002a27a\",\n  \"data\": {\n    \"user\": {\n      \"phoneNumber\": \"{{ $item(\"0\").$node[\"dados\"].json[\"telefone\"] }}\",\n      \"name\": \"{{ $item(\"0\").$node[\"dados\"].json[\"nome\"] }}\"\n    }\n  }\n}",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [
+          1392,
+          1776
+        ],
+        "id": "156466df-7daf-4627-afa9-e74f73658dd3",
+        "name": "HTTP Request",
+        "retryOnFail": false,
+        "onError": "continueRegularOutput"
+      },
+      {
+        "parameters": {
+          "resource": "contactTag",
+          "tagId": "773",
+          "contactId": "={{ $json[\"id\"] }}"
+        },
+        "id": "3d2e3ec0-c286-483c-a295-37d00916fc0e",
+        "name": "tag_lead",
+        "type": "n8n-nodes-base.activeCampaign",
+        "typeVersion": 1,
+        "position": [
+          512,
+          672
+        ],
+        "credentials": {
+          "activeCampaignApi": {
+            "id": "4EetjSxVIE3QPLxy",
+            "name": "ActiveCampaign - fabianatome"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "content": "## ActiveCampaign",
+          "height": 784,
+          "width": 1152,
+          "color": 5
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "position": [
+          -416,
+          352
+        ],
+        "typeVersion": 1,
+        "id": "d0466789-f345-4ace-b5dd-b2eeb737f359",
+        "name": "Sticky Note2"
+      },
+      {
+        "parameters": {
+          "content": "## Cadastro Banco de Dados",
+          "height": 704,
+          "width": 864,
+          "color": 5
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "position": [
+          -416,
+          1248
+        ],
+        "typeVersion": 1,
+        "id": "b374e602-2f90-41d2-addc-e34bb33726fa",
+        "name": "Sticky Note3"
+      },
+      {
+        "parameters": {
+          "amount": 3
+        },
+        "id": "5f1692d4-84e6-4a87-adf9-66bd89e77f96",
+        "name": "Wait1",
+        "type": "n8n-nodes-base.wait",
+        "typeVersion": 1.1,
+        "position": [
+          1184,
+          1776
+        ],
+        "webhookId": "e3f7fac4-f04b-4237-85fb-b69dced6d391"
+      },
+      {
+        "parameters": {
+          "content": "## Atualização BD",
+          "height": 336,
+          "width": 496,
+          "color": 3
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "position": [
+          512,
+          1248
+        ],
+        "typeVersion": 1,
+        "id": "b341324c-1c4e-406f-b53d-7cff818acd13",
+        "name": "Sticky Note4"
+      },
+      {
+        "parameters": {
+          "content": "## Verificação do Lead",
+          "height": 752,
+          "width": 1776,
+          "color": 6
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "position": [
+          1056,
+          832
+        ],
+        "typeVersion": 1,
+        "id": "3f96504e-d378-4a3a-bd45-37fd7fbd50c4",
+        "name": "Sticky Note5"
+      },
+      {
+        "parameters": {
+          "content": "## Dispara API OFICIAL",
+          "height": 352,
+          "width": 544,
+          "color": 4
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "position": [
+          1072,
+          1632
+        ],
+        "typeVersion": 1,
+        "id": "87f901d3-a174-4180-9c00-ee1e8cebb921",
+        "name": "Sticky Note6"
+      }
+    ],
+    "connections": {
+      "dados": {
+        "main": [
+          [
+            {
+              "node": "HTTP Request1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "formata_dados": {
+        "main": [
+          [
+            {
+              "node": "dados",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "encontrou_user1": {
+        "main": [
+          [
+            {
+              "node": "email_igual1",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "cadastra_user",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "email do webhook é o mesmo email já captado?": {
+        "main": [
+          [
+            {
+              "node": "evento_igual2",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "evento_igual3",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "email_igual1": {
+        "main": [
+          [
+            {
+              "node": "pesquisa_cadastro4",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "atualiza_user",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "pesquisa_user2": {
+        "main": [
+          [
+            {
+              "node": "encontrou_user1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Wait": {
+        "main": [
+          [
+            {
+              "node": "pesquisa_user3",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "pesquisa_user3": {
+        "main": [
+          [
+            {
+              "node": "insere_cadastro",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "cadastra_user": {
+        "main": [
+          [
+            {
+              "node": "Wait",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "atualiza_user": {
+        "main": [
+          [
+            {
+              "node": "pesquisa_cadastro4",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "pesquisa_cadastro4": {
+        "main": [
+          [
+            {
+              "node": "existe",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "existe": {
+        "main": [
+          [
+            {
+              "node": "email do webhook é o mesmo email já captado?",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "insere_cadastro1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "evento_igual2": {
+        "main": [
+          [
+            {
+              "node": "No Operation, do nothing1",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "insere_cadastro1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "evento_igual3": {
+        "main": [
+          [
+            {
+              "node": "insere_cadastro2",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "pesquisa_cadastro5",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "insere_cadastro2": {
+        "main": [
+          [
+            {
+              "node": "pesquisa_cadastro5",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "pesquisa_cadastro5": {
+        "main": [
+          [
+            {
+              "node": "evento_igual2",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "HTTP Request1": {
+        "main": [
+          [
+            {
+              "node": "If2",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "atualiza_contato_no_ac2": {
+        "main": [
+          [
+            {
+              "node": "tag_lead",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Stop and Error2",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If2": {
+        "main": [
+          [
+            {
+              "node": "atualiza_contato_no_ac2",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "cria_contato_no_ac2",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "cria_contato_no_ac2": {
+        "main": [
+          [
+            {
+              "node": "tag_lead",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Stop and Error3",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "insere_cadastro1": {
+        "main": [
+          [
+            {
+              "node": "Wait1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "insere_cadastro": {
+        "main": [
+          [
+            {
+              "node": "Wait1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Webhook1": {
+        "main": [
+          [
+            {
+              "node": "formata_dados",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Listar Campos Personalizados de Contatos da Conta": {
+        "main": [
+          [
+            {
+              "node": "Listar Tags da Conta",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Set": {
+        "main": [
+          [
+            {
+              "node": "Listar Campos Personalizados de Contatos da Conta",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "When clicking ‘Execute workflow’": {
+        "main": [
+          [
+            {
+              "node": "Set",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "tag_lead": {
+        "main": [
+          [
+            {
+              "node": "pesquisa_user2",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Wait1": {
+        "main": [
+          [
+            {
+              "node": "HTTP Request",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "AuthLike ME",
+    "name": "Version 6e8ed7b1",
+    "description": "",
+    "autosaved": false
+  },
+  "activeVersionId": "6e8ed7b1-877f-4de8-b45d-1cc10ab8e203",
+  "connections": {
+    "dados": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "formata_dados": {
+      "main": [
+        [
+          {
+            "node": "dados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "encontrou_user1": {
+      "main": [
+        [
+          {
+            "node": "email_igual1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "cadastra_user",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "email do webhook é o mesmo email já captado?": {
+      "main": [
+        [
+          {
+            "node": "evento_igual2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "evento_igual3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "email_igual1": {
+      "main": [
+        [
+          {
+            "node": "pesquisa_cadastro4",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "atualiza_user",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "pesquisa_user2": {
+      "main": [
+        [
+          {
+            "node": "encontrou_user1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "pesquisa_user3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "pesquisa_user3": {
+      "main": [
+        [
+          {
+            "node": "insere_cadastro",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "cadastra_user": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "atualiza_user": {
+      "main": [
+        [
+          {
+            "node": "pesquisa_cadastro4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "pesquisa_cadastro4": {
+      "main": [
+        [
+          {
+            "node": "existe",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "existe": {
+      "main": [
+        [
+          {
+            "node": "email do webhook é o mesmo email já captado?",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "insere_cadastro1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "evento_igual2": {
+      "main": [
+        [
+          {
+            "node": "No Operation, do nothing1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "insere_cadastro1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "evento_igual3": {
+      "main": [
+        [
+          {
+            "node": "insere_cadastro2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "pesquisa_cadastro5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "insere_cadastro2": {
+      "main": [
+        [
+          {
+            "node": "pesquisa_cadastro5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "pesquisa_cadastro5": {
+      "main": [
+        [
+          {
+            "node": "evento_igual2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "If2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "atualiza_contato_no_ac2": {
+      "main": [
+        [
+          {
+            "node": "tag_lead",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Stop and Error2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If2": {
+      "main": [
+        [
+          {
+            "node": "atualiza_contato_no_ac2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "cria_contato_no_ac2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "cria_contato_no_ac2": {
+      "main": [
+        [
+          {
+            "node": "tag_lead",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Stop and Error3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "insere_cadastro1": {
+      "main": [
+        [
+          {
+            "node": "Wait1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "insere_cadastro": {
+      "main": [
+        [
+          {
+            "node": "Wait1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook1": {
+      "main": [
+        [
+          {
+            "node": "formata_dados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Listar Campos Personalizados de Contatos da Conta": {
+      "main": [
+        [
+          {
+            "node": "Listar Tags da Conta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set": {
+      "main": [
+        [
+          {
+            "node": "Listar Campos Personalizados de Contatos da Conta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Set",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "tag_lead": {
+      "main": [
+        [
+          {
+            "node": "pesquisa_user2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait1": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2026-01-02T18:14:03.797Z",
+  "id": "rzkAHriK9b7MoVVV",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "[TRA_FEV_2026] - LEAD",
+  "nodes": [
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "79edcf9f-8602-409f-8d04-ced41c06d16f",
+              "name": "email",
+              "value": "={{ $item(\"0\").$node[\"formata_dados\"].json[\"Email\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "4750507c-f44a-45d5-b5ce-2a681d5a5581",
+              "name": "utm_source",
+              "value": "={{ $item(\"0\").$node[\"formata_dados\"].json[\"utm_source\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "a68b8a08-b2d1-4352-affb-0a6f4045cf4a",
+              "name": "utm_campaign",
+              "value": "={{ $item(\"0\").$node[\"formata_dados\"].json[\"utm_campaign\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "71c74ec7-51b3-422e-a2d5-ae7bbf3bd1b0",
+              "name": "utm_term",
+              "value": "={{ $item(\"0\").$node[\"formata_dados\"].json[\"utm_term\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "57aa10ae-6631-4352-8925-35138b1c9b7a",
+              "name": "utm_medium",
+              "value": "={{ $item(\"0\").$node[\"formata_dados\"].json[\"utm_medium\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "4e84ee54-3122-48e4-92d9-1f9db59e0b94",
+              "name": "utm_content",
+              "value": "={{ $item(\"0\").$node[\"formata_dados\"].json[\"utm_content\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "66f8191a-dd73-4773-b3f7-a63076f8686b",
+              "name": "form_id",
+              "value": "={{ $item(\"0\").$node[\"Webhook1\"].json[\"body\"][\"form_id\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "bb839055-124b-4671-99e9-d13293daa8c7",
+              "name": "page",
+              "value": "={{ $item(\"0\").$node[\"formata_dados\"].json[\"url_pagina\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "b5b5da8a-46c5-44bd-acb3-3f246b420a53",
+              "name": "Evento",
+              "value": "[TRA_FEV_2026] - [CAPTAÇÃO]",
+              "type": "string"
+            },
+            {
+              "id": "271ee5fa-6031-4a09-b53d-b1da2acf56a9",
+              "name": "nome",
+              "value": "={{ $item(\"0\").$node[\"formata_dados\"].json[\"primeiro_nome\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "a973ea01-7ccc-4b7b-aa43-4237223690c7",
+              "name": "sobrenome",
+              "value": "={{ $item(\"0\").$node[\"formata_dados\"].json[\"sobrenome\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "7b8ac769-0ee5-410d-849d-34385009029b",
+              "name": "telefone",
+              "value": "={{ $item(\"0\").$node[\"formata_dados\"].json[\"WhatsApp\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "61ea21d5-244f-4120-955b-400c8e11cd5e",
+              "name": "No momento você é",
+              "value": "={{ $node[\"Webhook1\"].json[\"body\"][\"No momento você é \"] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "b8ba90be-b29f-40e3-8d70-8961d7e4db18",
+      "name": "dados",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [
+        176,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "return (() => {\n  const data = $json.body;\n\n  // Lista oficial de DDDs válidos no Brasil\n  const dddsValidos = [\n    \"11\",\"12\",\"13\",\"14\",\"15\",\"16\",\"17\",\"18\",\"19\",\n    \"21\",\"22\",\"24\",\"27\",\"28\",\n    \"31\",\"32\",\"33\",\"34\",\"35\",\"37\",\"38\",\n    \"41\",\"42\",\"43\",\"44\",\"45\",\"46\",\n    \"47\",\"48\",\"49\",\n    \"51\",\"53\",\"54\",\"55\",\n    \"61\",\"62\",\"63\",\"64\",\"65\",\"66\",\"67\",\n    \"68\",\"69\",\n    \"71\",\"73\",\"74\",\"75\",\"77\",\"79\",\n    \"81\",\"82\",\"83\",\"84\",\"85\",\"86\",\"87\",\"88\",\"89\",\n    \"91\",\"92\",\"93\",\"94\",\"95\",\"96\",\"97\",\"98\",\"99\"\n  ];\n\n  // Separa nome completo em primeiro nome e sobrenome\n  function formatarNome(Name) {\n    const partes = (Name || \"\").trim().split(\" \");\n    const primeiro_nome = partes.shift();\n    const sobrenome = partes.length > 0 ? partes.join(\" \") : \"\";\n    return { primeiro_nome, sobrenome };\n  }\n\n  // Formata número de WhatsApp (inclui fallback para DDD \"98\" se ausente)\n  function formatarWhatsapp(WhatsApp) {\n    let numero = (WhatsApp || \"\").replace(/\\D/g, \"\");\n\n    // Adiciona DDI do Brasil se não tiver\n    if (!numero.startsWith(\"55\")) {\n      numero = \"55\" + numero;\n    }\n\n    let numeroNacional = numero.slice(2); // Remove \"55\"\n\n    // Se vier sem DDD (8 ou 9 dígitos), assume \"98\"\n    if (numeroNacional.length === 8 || numeroNacional.length === 9) {\n      numeroNacional = \"98\" + numeroNacional;\n    }\n\n    const ddd = numeroNacional.slice(0, 2);\n    let restante = numeroNacional.slice(2);\n\n    // Verifica DDD válido\n    if (!dddsValidos.includes(ddd)) {\n      console.log(\"❌ DDD inválido:\", ddd);\n      return null;\n    }\n\n    // Corrige erro de digitação (9999 → 999)\n    if (/^9999/.test(restante)) {\n      restante = restante.replace(/^9999/, '999');\n      numeroNacional = ddd + restante;\n    }\n\n    // Validação final (deve ter 10 ou 11 dígitos)\n    if (numeroNacional.length !== 10 && numeroNacional.length !== 11) {\n      console.log(\"❌ Número inválido:\", numeroNacional);\n      return null;\n    }\n\n    const resultado = '55' + numeroNacional;\n\n    console.log({ input: WhatsApp, resultado });\n\n    return resultado;\n  }\n\n  // Dados principais do formulário\n  const nome = data.Nome;\n  const telefone = data.WhatsApp;\n  const email = data[\"E-mail\"];\n  const pagina = data.pagina || \"\";\n\n  // Parâmetros UTM\n  const utm_source = data.utm_source || \"\";\n  const utm_medium = data.utm_medium || \"\";\n  const utm_content = data.utm_content || \"\";\n  const utm_term = data.utm_term || \"\";\n  const utm_campaign = data.utm_campaign || \"\";\n\n  const nomeFormatado = formatarNome(nome);\n\n  // Retorna no formato esperado pelo Code node\n  return [\n    {\n      json: {\n        primeiro_nome: nomeFormatado.primeiro_nome,\n        sobrenome: nomeFormatado.sobrenome,\n        WhatsApp: formatarWhatsapp(telefone),\n        Email: (email || \"\").toLowerCase(),\n        data_hora: null,\n        url_pagina: pagina,\n        utm_source,\n        utm_medium,\n        utm_content,\n        utm_term,\n        utm_campaign\n      }\n    }\n  ];\n})();"
+      },
+      "id": "dee8afeb-49a4-4a1d-86f4-db8c837d014d",
+      "name": "formata_dados",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -64,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "dd359e72-da78-43bb-84a7-1b0911d82aa5",
+              "leftValue": "={{ $item(\"0\").$node[\"pesquisa_user2\"].json[\"id\"] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "number",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "5995674b-0ac2-4244-a028-96bd9907598d",
+      "name": "encontrou_user1",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        -128,
+        1424
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "dd359e72-da78-43bb-84a7-1b0911d82aa5",
+              "leftValue": "={{ $item(\"0\").$node[\"existe\"].json[\"email\"] }}",
+              "rightValue": "={{ $item(\"0\").$node[\"dados\"].json[\"email\"] }}",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "9f12fb17-d730-4c84-b247-e6d2a48f84c9",
+      "name": "email do webhook é o mesmo email já captado?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        1744,
+        944
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "dd359e72-da78-43bb-84a7-1b0911d82aa5",
+              "leftValue": "={{ $item(\"0\").$node[\"encontrou_user1\"].json[\"email\"] }}",
+              "rightValue": "={{ $item(\"0\").$node[\"dados\"].json[\"email\"] }}",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "3e900f72-e6a5-40c8-a02e-8a69e1cd749a",
+      "name": "email_igual1",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        576,
+        1344
+      ]
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        2304,
+        912
+      ],
+      "id": "1b563b9d-4149-4212-9f9e-ceaf642ae5e0",
+      "name": "No Operation, do nothing1"
+    },
+    {
+      "parameters": {
+        "content": "# RECEBE DADOS DO WEBHOOK",
+        "height": 400,
+        "width": 828
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -416,
+        -144
+      ],
+      "id": "d307bbd4-3718-42ae-a91b-6881041e3c2e",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "users",
+        "limit": 1,
+        "matchType": "allFilters",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "telefone",
+              "condition": "eq",
+              "keyValue": "={{ $node[\"dados\"].json[\"telefone\"] }}"
+            },
+            {
+              "keyName": "email",
+              "condition": "eq",
+              "keyValue": "={{ $node[\"dados\"].json[\"email\"] }}"
+            }
+          ]
+        }
+      },
+      "id": "860404b5-3ef5-452e-ad1a-10427c6f5b60",
+      "name": "pesquisa_user2",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        -320,
+        1424
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "supabaseApi": {
+          "id": "06funpVK0RasJnc4",
+          "name": "Supabase - Fabiana Tomé"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 1
+      },
+      "id": "b183d270-81d1-4193-8393-e7aced4a1ce0",
+      "name": "Wait",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        -128,
+        1680
+      ],
+      "webhookId": "5fb2e0ca-06ca-4a48-8ce4-76f98099e89f"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "users",
+        "limit": 1,
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "email",
+              "condition": "eq",
+              "keyValue": "={{ $item(\"0\").$node[\"dados\"].json[\"email\"] }}"
+            }
+          ]
+        }
+      },
+      "id": "7f50b6f6-e5d7-462e-9231-9d7766062994",
+      "name": "pesquisa_user3",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        48,
+        1680
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "supabaseApi": {
+          "id": "06funpVK0RasJnc4",
+          "name": "Supabase - Fabiana Tomé"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "tableId": "users",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "nome",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"nome\"] }}"
+            },
+            {
+              "fieldId": "sobrenome",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"sobrenome\"] }}"
+            },
+            {
+              "fieldId": "email",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"email\"] }}"
+            },
+            {
+              "fieldId": "telefone",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"telefone\"] }}"
+            }
+          ]
+        }
+      },
+      "id": "15d23206-aa57-415f-99e6-a26c8e055f3e",
+      "name": "cadastra_user",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        -320,
+        1680
+      ],
+      "credentials": {
+        "supabaseApi": {
+          "id": "06funpVK0RasJnc4",
+          "name": "Supabase - Fabiana Tomé"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "tableId": "cadastros",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "id_user",
+              "fieldValue": "={{ $item(\"0\").$node[\"pesquisa_user3\"].json[\"id\"] }}"
+            },
+            {
+              "fieldId": "nome",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"nome\"] }}"
+            },
+            {
+              "fieldId": "sobrenome",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"sobrenome\"] }}"
+            },
+            {
+              "fieldId": "email",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"email\"] }}"
+            },
+            {
+              "fieldId": "telefone",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"telefone\"] }}"
+            },
+            {
+              "fieldId": "utm_source",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"utm_source\"] }}"
+            },
+            {
+              "fieldId": "utm_campaign",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"utm_campaign\"] }}"
+            },
+            {
+              "fieldId": "utm_term",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"utm_term\"] }}"
+            },
+            {
+              "fieldId": "utm_medium",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"utm_medium\"] }}"
+            },
+            {
+              "fieldId": "utm_content",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"utm_content\"] }}"
+            },
+            {
+              "fieldId": "form_id",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"form_id\"] }}"
+            },
+            {
+              "fieldId": "pagina",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"page\"] }}"
+            },
+            {
+              "fieldId": "evento",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"Evento\"] }}"
+            },
+            {
+              "fieldId": "data_cadastro",
+              "fieldValue": "={{ new Date(new Date().toLocaleString(\"en-US\", { timeZone: \"America/Sao_Paulo\" })).toISOString().replace('T', ' ').substring(0, 19) }}"
+            },
+            {
+              "fieldId": "o_que_voce_e",
+              "fieldValue": "={{ $node[\"dados\"].json[\"No momento você é\"] }}"
+            }
+          ]
+        }
+      },
+      "id": "4f7ee908-abc9-4d94-bd77-ab4debb5c32d",
+      "name": "insere_cadastro",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        256,
+        1680
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "supabaseApi": {
+          "id": "06funpVK0RasJnc4",
+          "name": "Supabase - Fabiana Tomé"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "tableId": "users",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "id",
+              "condition": "eq",
+              "keyValue": "={{ $item(\"0\").$node[\"pesquisa_user2\"].json[\"id\"] }}"
+            }
+          ]
+        },
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "nome",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"nome\"] }}"
+            },
+            {
+              "fieldId": "sobrenome",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"sobrenome\"] }}"
+            },
+            {
+              "fieldId": "email",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"email\"] }}"
+            },
+            {
+              "fieldId": "telefone",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"telefone\"] }}"
+            }
+          ]
+        }
+      },
+      "id": "d7e2bedc-c1cb-4722-aab9-0d64468d5409",
+      "name": "atualiza_user",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        832,
+        1392
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "supabaseApi": {
+          "id": "06funpVK0RasJnc4",
+          "name": "Supabase - Fabiana Tomé"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "cadastros",
+        "limit": 1,
+        "matchType": "allFilters",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "email",
+              "condition": "eq",
+              "keyValue": "={{ $item(\"0\").$node[\"dados\"].json[\"email\"] }}"
+            },
+            {
+              "keyName": "evento",
+              "condition": "eq",
+              "keyValue": "={{ $item(\"0\").$node[\"dados\"].json[\"Evento\"] }}"
+            }
+          ]
+        }
+      },
+      "id": "f52e973a-1604-46e9-bf2d-2df9eb19eac5",
+      "name": "pesquisa_cadastro4",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        1200,
+        1200
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "supabaseApi": {
+          "id": "06funpVK0RasJnc4",
+          "name": "Supabase - Fabiana Tomé"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "tableId": "cadastros",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "id_user",
+              "fieldValue": "={{ $item(\"0\").$node[\"pesquisa_user2\"].json[\"id\"] }}"
+            },
+            {
+              "fieldId": "nome",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"nome\"] }}"
+            },
+            {
+              "fieldId": "sobrenome",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"sobrenome\"] }}"
+            },
+            {
+              "fieldId": "email",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"email\"] }}"
+            },
+            {
+              "fieldId": "telefone",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"telefone\"] }}"
+            },
+            {
+              "fieldId": "utm_source",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"utm_source\"] }}"
+            },
+            {
+              "fieldId": "utm_campaign",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"utm_campaign\"] }}"
+            },
+            {
+              "fieldId": "utm_term",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"utm_term\"] }}"
+            },
+            {
+              "fieldId": "utm_medium",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"utm_medium\"] }}"
+            },
+            {
+              "fieldId": "utm_content",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"utm_content\"] }}"
+            },
+            {
+              "fieldId": "form_id",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"form_id\"] }}"
+            },
+            {
+              "fieldId": "pagina",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"page\"] }}"
+            },
+            {
+              "fieldId": "evento",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"Evento\"] }}"
+            },
+            {
+              "fieldId": "data_cadastro",
+              "fieldValue": "={{ $now }}"
+            },
+            {
+              "fieldId": "o_que_voce_e",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"No momento você é\"] }}"
+            }
+          ]
+        }
+      },
+      "id": "3d843ecc-fb0d-48fa-b3b5-686bd2feb9d6",
+      "name": "insere_cadastro1",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        1856,
+        1216
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "supabaseApi": {
+          "id": "06funpVK0RasJnc4",
+          "name": "Supabase - Fabiana Tomé"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "94a618cf-7aae-45f4-a725-ba4e7ae3be0d",
+              "leftValue": "={{ $item(\"0\").$node[\"pesquisa_cadastro4\"].json[\"id_user\"] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "number",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "081fe755-1fdf-416a-94c6-66f2e1278d42",
+      "name": "existe",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1424,
+        1200
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "e06746e7-e25e-47d2-8e01-8b62b714d7bf",
+              "leftValue": "={{ $item(\"0\").$node[\"pesquisa_cadastro4\"].json[\"email\"] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "52707a30-1eff-41c9-abc7-888f51fa2a64",
+              "leftValue": "={{ $json[\"evento\"] }}",
+              "rightValue": "={{ $item(\"0\").$node[\"dados\"].json[\"Evento\"] }}",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "19b74585-1956-40b4-ac9a-7b6885a576dc",
+      "name": "evento_igual2",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        2048,
+        928
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "e06746e7-e25e-47d2-8e01-8b62b714d7bf",
+              "leftValue": "={{ $item(\"0\").$node[\"pesquisa_cadastro4\"].json[\"email\"] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "52707a30-1eff-41c9-abc7-888f51fa2a64",
+              "leftValue": "={{ $json[\"evento\"] }}",
+              "rightValue": "={{ $item(\"0\").$node[\"dados\"].json[\"Evento\"] }}",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "b68022a2-e610-4495-bddf-fc36a2859216",
+      "name": "evento_igual3",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        2240,
+        1168
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "tableId": "cadastros",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "id_user",
+              "fieldValue": "={{ $item(\"0\").$node[\"pesquisa_user2\"].json[\"id\"] }}"
+            },
+            {
+              "fieldId": "nome",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"nome\"] }}"
+            },
+            {
+              "fieldId": "sobrenome",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"sobrenome\"] }}"
+            },
+            {
+              "fieldId": "email",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"email\"] }}"
+            },
+            {
+              "fieldId": "telefone",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"telefone\"] }}"
+            },
+            {
+              "fieldId": "utm_source",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"utm_source\"] }}"
+            },
+            {
+              "fieldId": "utm_campaign",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"utm_campaign\"] }}"
+            },
+            {
+              "fieldId": "utm_term",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"utm_term\"] }}"
+            },
+            {
+              "fieldId": "utm_medium",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"utm_medium\"] }}"
+            },
+            {
+              "fieldId": "utm_content",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"utm_content\"] }}"
+            },
+            {
+              "fieldId": "form_id",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"form_id\"] }}"
+            },
+            {
+              "fieldId": "pagina",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"page\"] }}"
+            },
+            {
+              "fieldId": "evento",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"Evento\"] }}"
+            },
+            {
+              "fieldId": "data_cadastro",
+              "fieldValue": "={{ $now }}"
+            },
+            {
+              "fieldId": "o_que_voce_e",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"No momento você é\"] }}"
+            }
+          ]
+        }
+      },
+      "id": "a798cc1f-9279-4c33-a6fc-0715666c2e57",
+      "name": "insere_cadastro2",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        2544,
+        1056
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "supabaseApi": {
+          "id": "06funpVK0RasJnc4",
+          "name": "Supabase - Fabiana Tomé"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "cadastros",
+        "limit": 1,
+        "matchType": "allFilters",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "email",
+              "condition": "eq",
+              "keyValue": "={{ $item(\"0\").$node[\"dados\"].json[\"email\"] }}"
+            },
+            {
+              "keyName": "evento",
+              "condition": "eq",
+              "keyValue": "={{ $item(\"0\").$node[\"dados\"].json[\"Evento\"] }}"
+            }
+          ]
+        }
+      },
+      "id": "3a383093-5417-49c4-a0f3-ca21dfe66402",
+      "name": "pesquisa_cadastro5",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        2544,
+        1264
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "supabaseApi": {
+          "id": "06funpVK0RasJnc4",
+          "name": "Supabase - Fabiana Tomé"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "https://fabianatome.api-us1.com/api/3/contacts",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "email",
+              "value": "={{ $item(\"0\").$node[\"dados\"].json[\"email\"] }}"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Api-Token",
+              "value": "633f6e21dac84c73a548cdb3c300de08d58c0c61fd6e675b7a8bc93dc05cd831ac0d53c6"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "3f37cf66-deb2-4803-9ee4-750d41f03213",
+      "name": "HTTP Request1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -288,
+        672
+      ]
+    },
+    {
+      "parameters": {
+        "errorMessage": "An error ocurred!"
+      },
+      "id": "12f2c6b6-e232-4682-8a4e-81055e5c9f17",
+      "name": "Stop and Error3",
+      "type": "n8n-nodes-base.stopAndError",
+      "typeVersion": 1,
+      "position": [
+        512,
+        848
+      ]
+    },
+    {
+      "parameters": {
+        "errorMessage": "An error ocurred!"
+      },
+      "id": "27eb5620-9dec-4fb6-996a-bc48dddfbfa1",
+      "name": "Stop and Error2",
+      "type": "n8n-nodes-base.stopAndError",
+      "typeVersion": 1,
+      "position": [
+        512,
+        496
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "contactId": "={{ $json[\"contacts\"][\"0\"][\"id\"] }}",
+        "updateFields": {
+          "fieldValues": {
+            "property": [
+              {
+                "field": "=156",
+                "value": "={{ $item(\"0\").$node[\"dados\"].json[\"utm_source\"] }}"
+              },
+              {
+                "field": "=158",
+                "value": "={{ $item(\"0\").$node[\"dados\"].json[\"utm_campaign\"] }}"
+              },
+              {
+                "field": "=159",
+                "value": "={{ $item(\"0\").$node[\"dados\"].json[\"utm_term\"] }}"
+              },
+              {
+                "field": "=157",
+                "value": "={{ $item(\"0\").$node[\"dados\"].json[\"utm_medium\"] }}"
+              },
+              {
+                "field": "=160",
+                "value": "={{ $item(\"0\").$node[\"dados\"].json[\"utm_content\"] }}"
+              },
+              {
+                "field": "=161",
+                "value": "={{ $now.format('dd/MM/yyyy') }}"
+              },
+              {
+                "field": "=162",
+                "value": "={{ $item(\"0\").$node[\"dados\"].json[\"page\"] }}"
+              },
+              {
+                "field": "=163",
+                "value": "={{ $node[\"dados\"].json[\"No momento você é\"] }}"
+              }
+            ]
+          },
+          "email": "={{ $item(\"0\").$node[\"dados\"].json[\"email\"] }}",
+          "firstName": "={{ $item(\"0\").$node[\"dados\"].json[\"nome\"] }}",
+          "lastName": "={{ $item(\"0\").$node[\"dados\"].json[\"sobrenome\"] }}",
+          "phone": "={{ $item(\"0\").$node[\"dados\"].json[\"telefone\"] }}"
+        }
+      },
+      "id": "8998b2ef-abd5-43a3-8f61-2f73d57b52c2",
+      "name": "atualiza_contato_no_ac2",
+      "type": "n8n-nodes-base.activeCampaign",
+      "typeVersion": 1,
+      "position": [
+        192,
+        528
+      ],
+      "credentials": {
+        "activeCampaignApi": {
+          "id": "4EetjSxVIE3QPLxy",
+          "name": "ActiveCampaign - fabianatome"
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "2130aa22-e19a-4662-8a2e-b43d36facf6d",
+              "leftValue": "={{ $json[\"contacts\"][\"0\"][\"id\"] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "f7f3fac1-7925-471e-94f7-80cc082aa5a0",
+      "name": "If2",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        -48,
+        672
+      ]
+    },
+    {
+      "parameters": {
+        "email": "={{ $item(\"0\").$node[\"dados\"].json[\"email\"] }}",
+        "updateIfExists": true,
+        "additionalFields": {
+          "fieldValues": {
+            "property": [
+              {
+                "field": "=156",
+                "value": "={{ $item(\"0\").$node[\"dados\"].json[\"utm_source\"] }}"
+              },
+              {
+                "field": "=158",
+                "value": "={{ $item(\"0\").$node[\"dados\"].json[\"utm_campaign\"] }}"
+              },
+              {
+                "field": "=159",
+                "value": "={{ $item(\"0\").$node[\"dados\"].json[\"utm_term\"] }}"
+              },
+              {
+                "field": "=157",
+                "value": "={{ $item(\"0\").$node[\"dados\"].json[\"utm_medium\"] }}"
+              },
+              {
+                "field": "=160",
+                "value": "={{ $item(\"0\").$node[\"dados\"].json[\"utm_content\"] }}"
+              },
+              {
+                "field": "=161",
+                "value": "={{ $now.format('dd/MM/yyyy') }}"
+              },
+              {
+                "field": "=162",
+                "value": "={{ $item(\"0\").$node[\"dados\"].json[\"page\"] }}"
+              },
+              {
+                "field": "=163",
+                "value": "={{ $node[\"dados\"].json[\"No momento você é\"] }}"
+              }
+            ]
+          },
+          "firstName": "={{ $item(\"0\").$node[\"dados\"].json[\"nome\"] }}",
+          "lastName": "={{ $item(\"0\").$node[\"dados\"].json[\"sobrenome\"] }}",
+          "phone": "={{ $item(\"0\").$node[\"dados\"].json[\"telefone\"] }}"
+        }
+      },
+      "id": "876a520e-f8cc-4c0e-9fed-5919a65ce2cd",
+      "name": "cria_contato_no_ac2",
+      "type": "n8n-nodes-base.activeCampaign",
+      "typeVersion": 1,
+      "position": [
+        192,
+        816
+      ],
+      "credentials": {
+        "activeCampaignApi": {
+          "id": "4EetjSxVIE3QPLxy",
+          "name": "ActiveCampaign - fabianatome"
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "tra_jan_2026",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -288,
+        0
+      ],
+      "id": "d82f69ff-4342-4f2e-a4c5-98591043544b",
+      "name": "Webhook1",
+      "webhookId": "0881aa8c-a6d7-4efd-8f43-09590f32e206"
+    },
+    {
+      "parameters": {
+        "url": "=https://{{ $node[\"Set\"].json[\"url_api_activecampaign\"] }}.api-us1.com/api/3/tags?limit=1000&search={{ $node[\"Set\"].json[\"tag_procurada\"] }}",
+        "options": {},
+        "headerParametersUi": {
+          "parameter": [
+            {
+              "name": "Api-Token",
+              "value": "={{ $node[\"Set\"].json[\"Api-Token\"] }}"
+            },
+            {
+              "name": "accept",
+              "value": "application/json"
+            },
+            {
+              "name": "content-type",
+              "value": "application/json"
+            }
+          ]
+        }
+      },
+      "name": "Listar Tags da Conta",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 2,
+      "position": [
+        -800,
+        -16
+      ],
+      "id": "db5797d3-aae0-4f30-8fa6-2f14a78455f0"
+    },
+    {
+      "parameters": {
+        "url": "=https://{{ $json[\"url_api_activecampaign\"] }}.api-us1.com/api/3/fields?limit=1000",
+        "options": {},
+        "headerParametersUi": {
+          "parameter": [
+            {
+              "name": "Api-Token",
+              "value": "={{ $node[\"Set\"].json[\"Api-Token\"] }}"
+            },
+            {
+              "name": "content-type",
+              "value": "application/json"
+            },
+            {
+              "name": "accept",
+              "value": "application/json"
+            }
+          ]
+        }
+      },
+      "name": "Listar Campos Personalizados de Contatos da Conta",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 2,
+      "position": [
+        -1008,
+        -16
+      ],
+      "id": "36c7afe8-f7ce-445e-9632-f0d30aff43a2"
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "Api-Token",
+              "value": "633f6e21dac84c73a548cdb3c300de08d58c0c61fd6e675b7a8bc93dc05cd831ac0d53c6"
+            },
+            {
+              "name": "url_api_activecampaign",
+              "value": "fabianatome"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "db056999-58bb-4974-88c8-ced598093f91",
+      "name": "Set",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 2,
+      "position": [
+        -1200,
+        -16
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Para consulta\n \nUtilize os Nodes Abaixo para consultar os IDs dos Campos e Tags no ActiveCampaign",
+        "height": 408,
+        "width": 939,
+        "color": 4
+      },
+      "id": "2a36ad1d-ca5b-466d-922f-1485bed92e63",
+      "name": "Sticky Note1",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1488,
+        -160
+      ]
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -1376,
+        -16
+      ],
+      "id": "7027e1c5-05ff-4cd9-a2ae-f24dc567f4f2",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://unnichat.com.br/a/start/KFpbQpUBzADLlarzA5AQ",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"apiKey\": \"Bearer 711fb178-e5eb-451a-9220-b315f002a27a\",\n  \"data\": {\n    \"user\": {\n      \"phoneNumber\": \"{{ $item(\"0\").$node[\"dados\"].json[\"telefone\"] }}\",\n      \"name\": \"{{ $item(\"0\").$node[\"dados\"].json[\"nome\"] }}\"\n    }\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1392,
+        1776
+      ],
+      "id": "156466df-7daf-4627-afa9-e74f73658dd3",
+      "name": "HTTP Request",
+      "retryOnFail": false,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "resource": "contactTag",
+        "tagId": "773",
+        "contactId": "={{ $json[\"id\"] }}"
+      },
+      "id": "3d2e3ec0-c286-483c-a295-37d00916fc0e",
+      "name": "tag_lead",
+      "type": "n8n-nodes-base.activeCampaign",
+      "typeVersion": 1,
+      "position": [
+        512,
+        672
+      ],
+      "credentials": {
+        "activeCampaignApi": {
+          "id": "4EetjSxVIE3QPLxy",
+          "name": "ActiveCampaign - fabianatome"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## ActiveCampaign",
+        "height": 784,
+        "width": 1152,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -416,
+        352
+      ],
+      "typeVersion": 1,
+      "id": "d0466789-f345-4ace-b5dd-b2eeb737f359",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "## Cadastro Banco de Dados",
+        "height": 704,
+        "width": 864,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -416,
+        1248
+      ],
+      "typeVersion": 1,
+      "id": "b374e602-2f90-41d2-addc-e34bb33726fa",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "amount": 3
+      },
+      "id": "5f1692d4-84e6-4a87-adf9-66bd89e77f96",
+      "name": "Wait1",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1184,
+        1776
+      ],
+      "webhookId": "e3f7fac4-f04b-4237-85fb-b69dced6d391"
+    },
+    {
+      "parameters": {
+        "content": "## Atualização BD",
+        "height": 336,
+        "width": 496,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        512,
+        1248
+      ],
+      "typeVersion": 1,
+      "id": "b341324c-1c4e-406f-b53d-7cff818acd13",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "content": "## Verificação do Lead",
+        "height": 752,
+        "width": 1776,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1056,
+        832
+      ],
+      "typeVersion": 1,
+      "id": "3f96504e-d378-4a3a-bd45-37fd7fbd50c4",
+      "name": "Sticky Note5"
+    },
+    {
+      "parameters": {
+        "content": "## Dispara API OFICIAL",
+        "height": 352,
+        "width": 544,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1072,
+        1632
+      ],
+      "typeVersion": 1,
+      "id": "87f901d3-a174-4180-9c00-ee1e8cebb921",
+      "name": "Sticky Note6"
+    }
+  ],
+  "pinData": {
+    "Webhook1": [
+      {
+        "json": {
+          "headers": {
+            "host": "webhook.fabianatome.com.br",
+            "user-agent": "WordPress/6.6.2; https://tributaristaemacao.com.br",
+            "content-length": "400",
+            "accept": "*/*",
+            "accept-encoding": "deflate, gzip, br",
+            "content-type": "application/x-www-form-urlencoded",
+            "x-forwarded-for": "186.209.113.102",
+            "x-forwarded-host": "webhook.fabianatome.com.br",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "55c61d0068b6",
+            "x-real-ip": "186.209.113.102"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "Nome": "Higor Leite",
+            "E-mail": "silvahigor288@gmail.com",
+            "WhatsApp": "11984151865",
+            "No momento você é ": "Estudante de Direito",
+            "utm_source": "facebook_ads",
+            "utm_campaign": "{{campaign.name}}",
+            "utm_medium": "{{placement}}",
+            "utm_term": "{{adset.name}}",
+            "utm_content": "{{ad.name}}",
+            "pagina": "SPT ED5 – Semana Prática Tributária – LP01 | JAN",
+            "form_id": "6826aa6",
+            "form_name": "TRA_FEV26"
+          },
+          "webhookUrl": "https://webhook.fabianatome.com.br/webhook/tra_jan_2026",
+          "executionMode": "production"
+        }
+      }
+    ]
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "timeSavedMode": "fixed",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false,
+    "errorWorkflow": "zpAWZYSZedxOSIsE"
+  },
+  "shared": [
+    {
+      "updatedAt": "2026-01-02T18:14:03.797Z",
+      "createdAt": "2026-01-02T18:14:03.797Z",
+      "role": "workflow:owner",
+      "workflowId": "rzkAHriK9b7MoVVV",
+      "projectId": "tP5lcLj6t4StcK5B"
+    }
+  ],
+  "staticData": null,
+  "tags": [
+    {
+      "updatedAt": "2026-01-14T14:28:49.979Z",
+      "createdAt": "2026-01-14T14:28:49.979Z",
+      "id": "yaqZES7fFnEMq7iP",
+      "name": "TRA_FEV_2026"
+    }
+  ],
+  "triggerCount": 1,
+  "updatedAt": "2026-01-14T14:38:02.890Z",
+  "versionId": "6e8ed7b1-877f-4de8-b45d-1cc10ab8e203"
+}
