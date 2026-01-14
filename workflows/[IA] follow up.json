@@ -1,0 +1,1517 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Busca todos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Busca todos": {
+      "main": [
+        [
+          {
+            "node": "Não Tem a data da ultima mensagem?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Não Tem a data da ultima mensagem?": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Não responde 1h",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Tem memoria aberta?": {
+      "main": [
+        [
+          {
+            "node": "follow_up 60 min",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Tem memoria aberta?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Não responde 1h": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Não responde 3h",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Tem memoria aberta?1": {
+      "main": [
+        [
+          {
+            "node": "follow_up 60 min1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items1": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Tem memoria aberta?1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Tem memoria aberta?2": {
+      "main": [
+        [
+          {
+            "node": "follow_up 60 min2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items3": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Tem memoria aberta?2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Tem memoria aberta?3": {
+      "main": [
+        [
+          {
+            "node": "follow_up 60 min3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items4": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Tem memoria aberta?3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "follow_up 60 min": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Update a row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update a row": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "follow_up 60 min1": {
+      "main": [
+        [
+          {
+            "node": "Code1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update a row1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "follow_up 60 min2": {
+      "main": [
+        [
+          {
+            "node": "Code2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update a row2": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "follow_up 60 min3": {
+      "main": [
+        [
+          {
+            "node": "Code3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update a row3": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Não responde 3h": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Não responde 5h",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Não responde 5h": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Não responde 10h",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Não responde 10h": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items4",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Não responde 20h",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Tem memoria aberta?4": {
+      "main": [
+        [
+          {
+            "node": "follow_up 60 min4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items5": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Tem memoria aberta?4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "follow_up 60 min4": {
+      "main": [
+        [
+          {
+            "node": "Code4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update a row4": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Não responde 20h": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request5": {
+      "main": [
+        [
+          {
+            "node": "Update a row1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request6": {
+      "main": [
+        [
+          {
+            "node": "Update a row2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request7": {
+      "main": [
+        [
+          {
+            "node": "Update a row3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request8": {
+      "main": [
+        [
+          {
+            "node": "Update a row4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code1": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code2": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code3": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code4": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-11-04T03:09:27.366Z",
+  "id": "jLuBThsZklpi3StD",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "[IA] follow up",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 10
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        64,
+        656
+      ],
+      "id": "9e04a831-9726-4c3f-9558-98254918ff46",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "content": "## Não responde depois de 24h deleta memoria",
+        "height": 1664,
+        "width": 3552
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        0,
+        -32
+      ],
+      "typeVersion": 1,
+      "id": "f7fa97b0-3430-4f66-8f59-93d3a532c943",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "atendimento_wpp_vendas",
+        "returnAll": true
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        288,
+        656
+      ],
+      "id": "f87d22af-8e4f-42d3-8191-b5b03801f03c",
+      "name": "Busca todos",
+      "credentials": {
+        "supabaseApi": {
+          "id": "06funpVK0RasJnc4",
+          "name": "Supabase - Fabiana Tomé"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "5c9071ff-aca0-49af-8e4b-633d1d4b8b24",
+              "leftValue": "={{ $json.ultima_mensagem }}",
+              "rightValue": "=null",
+              "operator": {
+                "type": "string",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        512,
+        656
+      ],
+      "id": "cf53cbb2-8373-4d83-b2f6-6fa28a87c348",
+      "name": "Não Tem a data da ultima mensagem?",
+      "alwaysOutputData": false,
+      "retryOnFail": false
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "key": "={{ $json.sessionid }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        1184,
+        80
+      ],
+      "id": "7f1087e7-3cca-4147-8d84-f215c9cd2da2",
+      "name": "Tem memoria aberta?",
+      "credentials": {
+        "redis": {
+          "id": "f0PBBr8Eq1sFiARY",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        960,
+        144
+      ],
+      "id": "709a6615-e018-40b8-a629-ada4b6f86dfd",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4.1-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4.1-MINI"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=<prompt>\n  <contexto>\n   Você está dando continuidade a uma conversa iniciada com um cliente. \n    A última mensagem enviada anteriormente por você pode ser acessada via a expressão: {{ $json.propertyName[0] }}.\n    O cliente ainda não respondeu. Você precisa enviar uma nova mensagem de forma natural, humana, empática e educada, porém com uma abordagem direta, estratégica e com foco em Venda.\n    A persona da IA é de um vendedor agressivo, direto, estratégico, empático e provocativo – sempre buscando o fechamento da venda.\n  </contexto>\n\n  <regras_gerais>\n      <regra>NUNCA iniciar a mensagem com \"Oi\", \"Olá\", \"Bom dia\", ou qualquer tipo de saudação.</regra>\n\n      <regra>Não repetir a última mensagem enviada.</regra>\n\n      <regra>Não usar tom robótico, genérico ou automatizado.</regra>\n\n      <regra>Não mudar o tom da conversa iniciado anteriormente.</regra>\n\n      <regra>Não fazer chamadas diretas à ação como \"Clique aqui\" sem antes criar contexto.</regra>\n\n      <regra>Não utilizar emojis.</regra>\n\n      <regra>Não usar frases feitas ou genéricas como \"Estamos aqui para ajudar\".</regra>\n\n      <regra>Não oferecer desculpas ou justificar a ausência do cliente.</regra>\n\n      <regra>Continue a conversa com base na última mensagem enviada pela IA ({{ $json.propertyName[0] }}).</regra>\n\n      <regra>Use tom empático, humano, direto e natural, sem parecer automático.</regra>\n\n      <regra>Faça uma pergunta simples e contextualizada, com base no conteúdo anterior.</regra>\n\n      <regra>Demonstre interesse genuíno na resposta do cliente, mantendo o tom conversacional.</regra>\n\n      <regra>Mantenha o foco em conversão: provocar ação, estimular tomada de decisão e gerar urgência de forma estratégica.</regra>\n\n  </regras_gerais>\n\n \n</prompt>\n"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        1408,
+        80
+      ],
+      "id": "c4c5db89-aa21-44d0-8d9b-f679d1a9c08c",
+      "name": "follow_up 60 min",
+      "credentials": {
+        "openAiApi": {
+          "id": "FWqn0IMXX1HmDrEh",
+          "name": "IA SUPORTE"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "5c9071ff-aca0-49af-8e4b-633d1d4b8b24",
+              "leftValue": "={{ $now }}",
+              "rightValue": "={{ $json.ultima_mensagem.toDateTime().plus(60, 'minutes') }}",
+              "operator": {
+                "type": "dateTime",
+                "operation": "after"
+              }
+            },
+            {
+              "id": "19a1a868-23f5-4a85-b8e8-91e4a21b914e",
+              "leftValue": "={{ $now }}",
+              "rightValue": "={{ $json.ultima_mensagem.toDateTime().plus(70, 'minutes') }}",
+              "operator": {
+                "type": "dateTime",
+                "operation": "before"
+              }
+            },
+            {
+              "id": "40e9ebce-6551-4635-a0ce-fbd047689a1e",
+              "leftValue": "={{ $json.followup }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        736,
+        656
+      ],
+      "id": "e93561e5-83a5-4422-96d0-97490a5625a6",
+      "name": "Não responde 1h",
+      "alwaysOutputData": false,
+      "retryOnFail": false
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "key": "={{ $json.sessionid }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        1472,
+        384
+      ],
+      "id": "13c436a1-0496-44e6-9665-ecafdb24df18",
+      "name": "Tem memoria aberta?1",
+      "credentials": {
+        "redis": {
+          "id": "f0PBBr8Eq1sFiARY",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        1184,
+        464
+      ],
+      "id": "58032219-92b4-4bad-bdec-dbb3ca33c1ab",
+      "name": "Loop Over Items1"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4.1-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4.1-MINI"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=<prompt>\n  <contexto>\n   Você está dando continuidade a uma conversa iniciada com um cliente. \n    A última mensagem enviada anteriormente por você pode ser acessada via a expressão: {{ $json.propertyName[0] }}.\n    O cliente ainda não respondeu. Você precisa enviar uma nova mensagem de forma natural, humana, empática e educada, porém com uma abordagem direta, estratégica e com foco em Venda.\n    A persona da IA é de um vendedor agressivo, direto, estratégico, empático e provocativo – sempre buscando o fechamento da venda.\n  </contexto>\n\n  <regras_gerais>\n      <regra>NUNCA iniciar a mensagem com \"Oi\", \"Olá\", \"Bom dia\", ou qualquer tipo de saudação.</regra>\n\n      <regra>Não repetir a última mensagem enviada.</regra>\n\n      <regra>Não usar tom robótico, genérico ou automatizado.</regra>\n\n      <regra>Não mudar o tom da conversa iniciado anteriormente.</regra>\n\n      <regra>Não fazer chamadas diretas à ação como \"Clique aqui\" sem antes criar contexto.</regra>\n\n      <regra>Não utilizar emojis.</regra>\n\n      <regra>Não usar frases feitas ou genéricas como \"Estamos aqui para ajudar\".</regra>\n\n      <regra>Não oferecer desculpas ou justificar a ausência do cliente.</regra>\n\n      <regra>Continue a conversa com base na última mensagem enviada pela IA ({{ $json.propertyName[0] }}).</regra>\n\n      <regra>Use tom empático, humano, direto e natural, sem parecer automático.</regra>\n\n      <regra>Faça uma pergunta simples e contextualizada, com base no conteúdo anterior.</regra>\n\n      <regra>Demonstre interesse genuíno na resposta do cliente, mantendo o tom conversacional.</regra>\n\n      <regra>Mantenha o foco em conversão: provocar ação, estimular tomada de decisão e gerar urgência de forma estratégica.</regra>\n\n  </regras_gerais>\n\n \n</prompt>\n"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        1760,
+        384
+      ],
+      "id": "118c81d8-3890-4487-9535-0cbda8281489",
+      "name": "follow_up 60 min1",
+      "credentials": {
+        "openAiApi": {
+          "id": "FWqn0IMXX1HmDrEh",
+          "name": "IA SUPORTE"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "key": "={{ $json.sessionid }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        1824,
+        704
+      ],
+      "id": "dff25a51-2aad-4530-8c71-ccd14e4f3561",
+      "name": "Tem memoria aberta?2",
+      "credentials": {
+        "redis": {
+          "id": "f0PBBr8Eq1sFiARY",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        1472,
+        768
+      ],
+      "id": "f9855bfe-273d-4584-b9f3-8f7a5c7dd985",
+      "name": "Loop Over Items3"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4.1-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4.1-MINI"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=<prompt>\n  <contexto>\n   Você está dando continuidade a uma conversa iniciada com um cliente. \n    A última mensagem enviada anteriormente por você pode ser acessada via a expressão: {{ $json.propertyName[0] }}.\n    O cliente ainda não respondeu. Você precisa enviar uma nova mensagem de forma natural, humana, empática e educada, porém com uma abordagem direta, estratégica e com foco em Venda.\n    A persona da IA é de um vendedor agressivo, direto, estratégico, empático e provocativo – sempre buscando o fechamento da venda.\n  </contexto>\n\n  <regras_gerais>\n      <regra>NUNCA iniciar a mensagem com \"Oi\", \"Olá\", \"Bom dia\", ou qualquer tipo de saudação.</regra>\n\n      <regra>Não repetir a última mensagem enviada.</regra>\n\n      <regra>Não usar tom robótico, genérico ou automatizado.</regra>\n\n      <regra>Não mudar o tom da conversa iniciado anteriormente.</regra>\n\n      <regra>Não fazer chamadas diretas à ação como \"Clique aqui\" sem antes criar contexto.</regra>\n\n      <regra>Não utilizar emojis.</regra>\n\n      <regra>Não usar frases feitas ou genéricas como \"Estamos aqui para ajudar\".</regra>\n\n      <regra>Não oferecer desculpas ou justificar a ausência do cliente.</regra>\n\n      <regra>Continue a conversa com base na última mensagem enviada pela IA ({{ $json.propertyName[0] }}).</regra>\n\n      <regra>Use tom empático, humano, direto e natural, sem parecer automático.</regra>\n\n      <regra>Faça uma pergunta simples e contextualizada, com base no conteúdo anterior.</regra>\n\n      <regra>Demonstre interesse genuíno na resposta do cliente, mantendo o tom conversacional.</regra>\n\n      <regra>Mantenha o foco em conversão: provocar ação, estimular tomada de decisão e gerar urgência de forma estratégica.</regra>\n\n  </regras_gerais>\n\n \n</prompt>\n"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        2112,
+        704
+      ],
+      "id": "4ce2e12d-0378-4825-a374-9cb15a89956e",
+      "name": "follow_up 60 min2",
+      "credentials": {
+        "openAiApi": {
+          "id": "FWqn0IMXX1HmDrEh",
+          "name": "IA SUPORTE"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "key": "={{ $json.sessionid }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        2176,
+        1008
+      ],
+      "id": "d623fbc8-0b15-4e0a-b628-4f2299721a3c",
+      "name": "Tem memoria aberta?3",
+      "credentials": {
+        "redis": {
+          "id": "f0PBBr8Eq1sFiARY",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        1824,
+        1088
+      ],
+      "id": "c4e5b14a-e865-477c-81d9-90a7047f9aed",
+      "name": "Loop Over Items4"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4.1-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4.1-MINI"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=<prompt>\n  <contexto>\n   Você está dando continuidade a uma conversa iniciada com um cliente. \n    A última mensagem enviada anteriormente por você pode ser acessada via a expressão: {{ $json.propertyName[0] }}.\n    O cliente ainda não respondeu. Você precisa enviar uma nova mensagem de forma natural, humana, empática e educada, porém com uma abordagem direta, estratégica e com foco em Venda.\n    A persona da IA é de um vendedor agressivo, direto, estratégico, empático e provocativo – sempre buscando o fechamento da venda.\n  </contexto>\n\n  <regras_gerais>\n      <regra>NUNCA iniciar a mensagem com \"Oi\", \"Olá\", \"Bom dia\", ou qualquer tipo de saudação.</regra>\n\n      <regra>Não repetir a última mensagem enviada.</regra>\n\n      <regra>Não usar tom robótico, genérico ou automatizado.</regra>\n\n      <regra>Não mudar o tom da conversa iniciado anteriormente.</regra>\n\n      <regra>Não fazer chamadas diretas à ação como \"Clique aqui\" sem antes criar contexto.</regra>\n\n      <regra>Não utilizar emojis.</regra>\n\n      <regra>Não usar frases feitas ou genéricas como \"Estamos aqui para ajudar\".</regra>\n\n      <regra>Não oferecer desculpas ou justificar a ausência do cliente.</regra>\n\n      <regra>Continue a conversa com base na última mensagem enviada pela IA ({{ $json.propertyName[0] }}).</regra>\n\n      <regra>Use tom empático, humano, direto e natural, sem parecer automático.</regra>\n\n      <regra>Faça uma pergunta simples e contextualizada, com base no conteúdo anterior.</regra>\n\n      <regra>Demonstre interesse genuíno na resposta do cliente, mantendo o tom conversacional.</regra>\n\n      <regra>Mantenha o foco em conversão: provocar ação, estimular tomada de decisão e gerar urgência de forma estratégica.</regra>\n\n  </regras_gerais>\n\n \n</prompt>\n"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        2464,
+        1008
+      ],
+      "id": "d0e60eac-5073-40f4-9bf7-b7d06cbe980f",
+      "name": "follow_up 60 min3",
+      "credentials": {
+        "openAiApi": {
+          "id": "FWqn0IMXX1HmDrEh",
+          "name": "IA SUPORTE"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "tableId": "atendimento_wpp_vendas",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "telefone",
+              "condition": "eq",
+              "keyValue": "={{ $('Loop Over Items').item.json.telefone }}"
+            }
+          ]
+        },
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "followup",
+              "fieldValue": "1"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        2288,
+        160
+      ],
+      "id": "09746eef-caf2-488b-9100-3986c4aa0077",
+      "name": "Update a row",
+      "credentials": {
+        "supabaseApi": {
+          "id": "06funpVK0RasJnc4",
+          "name": "Supabase - Fabiana Tomé"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://unnichat.com.br/a/start/BRNQGn9RRxa0d3PMNMV7",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"nome\": \"{{ $('Loop Over Items').item.json.nome }}\",\n  \"telefone\": \"{{$('Loop Over Items').item.json.telefone}}\",\n  \"type\": \"message\",\n  \"text\": {\n    \"body\": \"{{ $item(\"0\").$node[\"Code\"].json[\"text\"][\"body\"] }}\"\n  }\n}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2000,
+        80
+      ],
+      "id": "f6695f58-459d-419d-9166-c43309920a70",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "tableId": "atendimento_wpp_vendas",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "telefone",
+              "condition": "eq",
+              "keyValue": "={{ $('Loop Over Items1').item.json.telefone }}"
+            }
+          ]
+        },
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "followup",
+              "fieldValue": "2"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        2608,
+        432
+      ],
+      "id": "3af66cf6-ad3a-40a1-a077-f5f36890e565",
+      "name": "Update a row1",
+      "credentials": {
+        "supabaseApi": {
+          "id": "06funpVK0RasJnc4",
+          "name": "Supabase - Fabiana Tomé"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "tableId": "atendimento_wpp_vendas",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "telefone",
+              "condition": "eq",
+              "keyValue": "={{ $('Loop Over Items3').item.json.telefone }}"
+            }
+          ]
+        },
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "followup",
+              "fieldValue": "3"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        2912,
+        768
+      ],
+      "id": "115d6d17-064a-4506-960b-1c0c0d18a179",
+      "name": "Update a row2",
+      "credentials": {
+        "supabaseApi": {
+          "id": "06funpVK0RasJnc4",
+          "name": "Supabase - Fabiana Tomé"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "tableId": "atendimento_wpp_vendas",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "telefone",
+              "condition": "eq",
+              "keyValue": "={{ $('Loop Over Items4').item.json.telefone }}"
+            }
+          ]
+        },
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "followup",
+              "fieldValue": "4"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        3184,
+        1088
+      ],
+      "id": "3eb67040-ced4-420e-a4ad-795d5c2d60a1",
+      "name": "Update a row3",
+      "credentials": {
+        "supabaseApi": {
+          "id": "06funpVK0RasJnc4",
+          "name": "Supabase - Fabiana Tomé"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "5c9071ff-aca0-49af-8e4b-633d1d4b8b24",
+              "leftValue": "={{ $now }}",
+              "rightValue": "={{ $json.ultima_mensagem.toDateTime().plus(180, 'minutes') }}",
+              "operator": {
+                "type": "dateTime",
+                "operation": "after"
+              }
+            },
+            {
+              "id": "19a1a868-23f5-4a85-b8e8-91e4a21b914e",
+              "leftValue": "={{ $now }}",
+              "rightValue": "={{ $json.ultima_mensagem.toDateTime().plus(190, 'minutes') }}",
+              "operator": {
+                "type": "dateTime",
+                "operation": "before"
+              }
+            },
+            {
+              "id": "fff3fcff-e70e-4090-8666-4c83b67cdf36",
+              "leftValue": "={{ $json.followup }}",
+              "rightValue": 1,
+              "operator": {
+                "type": "number",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        960,
+        800
+      ],
+      "id": "69307336-21fa-4f03-9e59-670a47050cae",
+      "name": "Não responde 3h",
+      "alwaysOutputData": false,
+      "retryOnFail": false
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "5c9071ff-aca0-49af-8e4b-633d1d4b8b24",
+              "leftValue": "={{ $now }}",
+              "rightValue": "={{ $json.ultima_mensagem.toDateTime().plus(300, 'minutes') }}",
+              "operator": {
+                "type": "dateTime",
+                "operation": "after"
+              }
+            },
+            {
+              "id": "19a1a868-23f5-4a85-b8e8-91e4a21b914e",
+              "leftValue": "={{ $now }}",
+              "rightValue": "={{ $json.ultima_mensagem.toDateTime().plus(310, 'minutes') }}",
+              "operator": {
+                "type": "dateTime",
+                "operation": "before"
+              }
+            },
+            {
+              "id": "0aca263f-c4dd-417a-ba83-a16d28e3c44b",
+              "leftValue": "={{ $json.followup }}",
+              "rightValue": 2,
+              "operator": {
+                "type": "number",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1184,
+        944
+      ],
+      "id": "c9b6545c-154f-4b5d-b630-1d90140399c1",
+      "name": "Não responde 5h",
+      "alwaysOutputData": false,
+      "retryOnFail": false
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "5c9071ff-aca0-49af-8e4b-633d1d4b8b24",
+              "leftValue": "={{ $now }}",
+              "rightValue": "={{ $json.ultima_mensagem.toDateTime().plus(600, 'minutes') }}",
+              "operator": {
+                "type": "dateTime",
+                "operation": "after"
+              }
+            },
+            {
+              "id": "19a1a868-23f5-4a85-b8e8-91e4a21b914e",
+              "leftValue": "={{ $now }}",
+              "rightValue": "={{ $json.ultima_mensagem.toDateTime().plus(610, 'minutes') }}",
+              "operator": {
+                "type": "dateTime",
+                "operation": "before"
+              }
+            },
+            {
+              "id": "4b53f211-7aeb-491a-bff6-8e852f453d0c",
+              "leftValue": "={{ $json.followup }}",
+              "rightValue": 3,
+              "operator": {
+                "type": "number",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1472,
+        1088
+      ],
+      "id": "34583d83-eca3-41ae-94c4-ff9169fb1dda",
+      "name": "Não responde 10h",
+      "alwaysOutputData": false,
+      "retryOnFail": false
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "key": "={{ $json.sessionid }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        2304,
+        1312
+      ],
+      "id": "f26e0cae-f509-45ac-b25f-2c0aa0290dd1",
+      "name": "Tem memoria aberta?4",
+      "credentials": {
+        "redis": {
+          "id": "f0PBBr8Eq1sFiARY",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        1952,
+        1392
+      ],
+      "id": "0a865d52-1749-41b8-b248-adb2b1c2979c",
+      "name": "Loop Over Items5"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4O-MINI"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=<prompt>\n  <contexto>\n   Você está dando continuidade a uma conversa iniciada com um cliente. \n    A última mensagem enviada anteriormente por você pode ser acessada via a expressão: {{ $json.propertyName[0] }}.\n    O cliente ainda não respondeu. Você precisa enviar uma nova mensagem de forma natural, humana, empática e educada, porém com uma abordagem direta, estratégica e com foco em Venda.\n    A persona da IA é de um vendedor agressivo, direto, estratégico, empático e provocativo – sempre buscando o fechamento da venda.\n  </contexto>\n\n  <regras_gerais>\n      <regra>NUNCA iniciar a mensagem com \"Oi\", \"Olá\", \"Bom dia\", ou qualquer tipo de saudação.</regra>\n\n      <regra>Não repetir a última mensagem enviada.</regra>\n\n      <regra>Não usar tom robótico, genérico ou automatizado.</regra>\n\n      <regra>Não mudar o tom da conversa iniciado anteriormente.</regra>\n\n      <regra>Não fazer chamadas diretas à ação como \"Clique aqui\" sem antes criar contexto.</regra>\n\n      <regra>Não utilizar emojis.</regra>\n\n      <regra>Não usar frases feitas ou genéricas como \"Estamos aqui para ajudar\".</regra>\n\n      <regra>Não oferecer desculpas ou justificar a ausência do cliente.</regra>\n\n      <regra>Continue a conversa com base na última mensagem enviada pela IA ({{ $json.propertyName[0] }}).</regra>\n\n      <regra>Use tom empático, humano, direto e natural, sem parecer automático.</regra>\n\n      <regra>Faça uma pergunta simples e contextualizada, com base no conteúdo anterior.</regra>\n\n      <regra>Demonstre interesse genuíno na resposta do cliente, mantendo o tom conversacional.</regra>\n\n      <regra>Mantenha o foco em conversão: provocar ação, estimular tomada de decisão e gerar urgência de forma estratégica.</regra>\n\n  </regras_gerais>\n\n \n</prompt>\n"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        2592,
+        1312
+      ],
+      "id": "f67aa96a-bbe2-423c-a805-7c28411d894e",
+      "name": "follow_up 60 min4",
+      "credentials": {
+        "openAiApi": {
+          "id": "FWqn0IMXX1HmDrEh",
+          "name": "IA SUPORTE"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "tableId": "atendimento_wpp_vendas",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "telefone",
+              "condition": "eq",
+              "keyValue": "={{ $('Loop Over Items5').item.json.telefone }}"
+            }
+          ]
+        },
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "followup",
+              "fieldValue": "5"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        3328,
+        1376
+      ],
+      "id": "298e0806-6600-4c69-af84-e741cd592148",
+      "name": "Update a row4",
+      "credentials": {
+        "supabaseApi": {
+          "id": "06funpVK0RasJnc4",
+          "name": "Supabase - Fabiana Tomé"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "5c9071ff-aca0-49af-8e4b-633d1d4b8b24",
+              "leftValue": "={{ $now }}",
+              "rightValue": "={{ $json.ultima_mensagem.toDateTime().plus(1200, 'minutes') }}",
+              "operator": {
+                "type": "dateTime",
+                "operation": "after"
+              }
+            },
+            {
+              "id": "19a1a868-23f5-4a85-b8e8-91e4a21b914e",
+              "leftValue": "={{ $now }}",
+              "rightValue": "={{ $json.ultima_mensagem.toDateTime().plus(1210, 'minutes') }}",
+              "operator": {
+                "type": "dateTime",
+                "operation": "before"
+              }
+            },
+            {
+              "id": "4b53f211-7aeb-491a-bff6-8e852f453d0c",
+              "leftValue": "={{ $json.followup }}",
+              "rightValue": 4,
+              "operator": {
+                "type": "number",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1616,
+        1392
+      ],
+      "id": "1b473e68-9064-482e-a39b-12ff1328ec0c",
+      "name": "Não responde 20h",
+      "alwaysOutputData": false,
+      "retryOnFail": false
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://unnichat.com.br/a/start/BRNQGn9RRxa0d3PMNMV7",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"nome\": \"{{ $('Loop Over Items1').item.json.nome }}\",\n  \"telefone\": \"{{ $('Loop Over Items1').item.json.telefone }}\",\n  \"type\": \"message\",\n  \"text\": {\n    \"body\": \"{{ $item(\"0\").$node[\"Code1\"].json[\"text\"][\"body\"] }}\"\n  }\n} ",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2384,
+        384
+      ],
+      "id": "71cc44a9-8c40-4c84-8f21-194a99431fcf",
+      "name": "HTTP Request5"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://unnichat.com.br/a/start/BRNQGn9RRxa0d3PMNMV7",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"nome\": \"{{ $('Loop Over Items3').item.json.nome }}\",\n  \"telefone\": \"{{ $('Loop Over Items3').item.json.telefone }}\",\n  \"type\": \"message\",\n  \"text\": {\n    \"body\": \"{{ $item(\"0\").$node[\"Code2\"].json[\"text\"][\"body\"] }}\"\n  }\n} ",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2656,
+        736
+      ],
+      "id": "f9e66d30-b015-4c7a-811b-ff3892f2ef10",
+      "name": "HTTP Request6"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://unnichat.com.br/a/start/BRNQGn9RRxa0d3PMNMV7",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"nome\": \"{{ $('Loop Over Items4').item.json.nome }}\",\n  \"telefone\": \"{{ $('Loop Over Items4').item.json.telefone }}\",\n  \"type\": \"message\",\n  \"text\": {\n    \"body\": \"{{ $item(\"0\").$node[\"Code3\"].json[\"text\"][\"body\"] }}\"\n  }\n} ",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2976,
+        1072
+      ],
+      "id": "08683069-7a3a-4bf0-b4b4-5a9250716fc3",
+      "name": "HTTP Request7"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://unnichat.com.br/a/start/BRNQGn9RRxa0d3PMNMV7",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"nome\": \"{{ $('Loop Over Items5').item.json.nome }}\",\n  \"telefone\": \"{{ $('Loop Over Items5').item.json.telefone }}\",\n  \"type\": \"message\",\n  \"text\": {\n    \"body\": \"{{ $item(\"0\").$node[\"Code4\"].json[\"text\"][\"body\"] }}\"\n  }\n} ",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        3120,
+        1344
+      ],
+      "id": "49a0e22c-887b-4a4d-8f8b-29026cf3773a",
+      "name": "HTTP Request8"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Pega os dados dos nós anteriores\nconst camposIniciais = items[0].json;\n\n// Pega a resposta da IA corretamente da estrutura\nconst respostaIA = $input.item.json.message?.content || \n                   $input.item.json.output || \n                   $input.item.json.text || \n                   \"\";\n\n// Função para limpar e escapar texto\nfunction limparTexto(texto) {\n  if (!texto) return \"\";\n  \n  return String(texto)\n    .replace(/\\\\/g, '\\\\\\\\')     // Escapa barras invertidas primeiro\n    .replace(/\"/g, '\\\\\"')       // Escapa aspas duplas\n    .replace(/\\n/g, '\\\\n')      // Escapa quebras de linha\n    .replace(/\\r/g, '\\\\r')      // Escapa retorno de carro\n    .replace(/\\t/g, '\\\\t');     // Escapa tabulações\n}\n\n// Monta o objeto com os dados limpos\nconst mensagem = {\n  name: limparTexto(camposIniciais.meta?.nomeCliente || \"Higor Leite\"),\n  telefone: String(camposIniciais.meta?.telefoneCliente || \"5511994151865\"),\n  type: \"message\",\n  text: {\n    body: limparTexto(respostaIA)\n  }\n};\n\n// Retorna o JSON limpo e seguro\nreturn [{\n  json: mensagem\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2144,
+        384
+      ],
+      "id": "3d0f0954-174c-4928-a364-61f0fb077264",
+      "name": "Code1"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Pega os dados dos nós anteriores\nconst camposIniciais = items[0].json;\n\n// Pega a resposta da IA corretamente da estrutura\nconst respostaIA = $input.item.json.message?.content || \n                   $input.item.json.output || \n                   $input.item.json.text || \n                   \"\";\n\n// Função para limpar e escapar texto\nfunction limparTexto(texto) {\n  if (!texto) return \"\";\n  \n  return String(texto)\n    .replace(/\\\\/g, '\\\\\\\\')     // Escapa barras invertidas primeiro\n    .replace(/\"/g, '\\\\\"')       // Escapa aspas duplas\n    .replace(/\\n/g, '\\\\n')      // Escapa quebras de linha\n    .replace(/\\r/g, '\\\\r')      // Escapa retorno de carro\n    .replace(/\\t/g, '\\\\t');     // Escapa tabulações\n}\n\n// Monta o objeto com os dados limpos\nconst mensagem = {\n  name: limparTexto(camposIniciais.meta?.nomeCliente || \"Higor Leite\"),\n  telefone: String(camposIniciais.meta?.telefoneCliente || \"5511994151865\"),\n  type: \"message\",\n  text: {\n    body: limparTexto(respostaIA)\n  }\n};\n\n// Retorna o JSON limpo e seguro\nreturn [{\n  json: mensagem\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1760,
+        80
+      ],
+      "id": "ee59a29b-f168-4415-95d1-e3949f26fa45",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Pega os dados dos nós anteriores\nconst camposIniciais = items[0].json;\n\n// Pega a resposta da IA corretamente da estrutura\nconst respostaIA = $input.item.json.message?.content || \n                   $input.item.json.output || \n                   $input.item.json.text || \n                   \"\";\n\n// Função para limpar e escapar texto\nfunction limparTexto(texto) {\n  if (!texto) return \"\";\n  \n  return String(texto)\n    .replace(/\\\\/g, '\\\\\\\\')     // Escapa barras invertidas primeiro\n    .replace(/\"/g, '\\\\\"')       // Escapa aspas duplas\n    .replace(/\\n/g, '\\\\n')      // Escapa quebras de linha\n    .replace(/\\r/g, '\\\\r')      // Escapa retorno de carro\n    .replace(/\\t/g, '\\\\t');     // Escapa tabulações\n}\n\n// Monta o objeto com os dados limpos\nconst mensagem = {\n  name: limparTexto(camposIniciais.meta?.nomeCliente || \"Higor Leite\"),\n  telefone: String(camposIniciais.meta?.telefoneCliente || \"5511994151865\"),\n  type: \"message\",\n  text: {\n    body: limparTexto(respostaIA)\n  }\n};\n\n// Retorna o JSON limpo e seguro\nreturn [{\n  json: mensagem\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2448,
+        720
+      ],
+      "id": "e02e8a35-74ff-4582-9fce-2a35f5116e26",
+      "name": "Code2"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Pega os dados dos nós anteriores\nconst camposIniciais = items[0].json;\n\n// Pega a resposta da IA corretamente da estrutura\nconst respostaIA = $input.item.json.message?.content || \n                   $input.item.json.output || \n                   $input.item.json.text || \n                   \"\";\n\n// Função para limpar e escapar texto\nfunction limparTexto(texto) {\n  if (!texto) return \"\";\n  \n  return String(texto)\n    .replace(/\\\\/g, '\\\\\\\\')     // Escapa barras invertidas primeiro\n    .replace(/\"/g, '\\\\\"')       // Escapa aspas duplas\n    .replace(/\\n/g, '\\\\n')      // Escapa quebras de linha\n    .replace(/\\r/g, '\\\\r')      // Escapa retorno de carro\n    .replace(/\\t/g, '\\\\t');     // Escapa tabulações\n}\n\n// Monta o objeto com os dados limpos\nconst mensagem = {\n  name: limparTexto(camposIniciais.meta?.nomeCliente || \"Higor Leite\"),\n  telefone: String(camposIniciais.meta?.telefoneCliente || \"5511994151865\"),\n  type: \"message\",\n  text: {\n    body: limparTexto(respostaIA)\n  }\n};\n\n// Retorna o JSON limpo e seguro\nreturn [{\n  json: mensagem\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2800,
+        1056
+      ],
+      "id": "0bfb00d6-2a0e-4551-a326-b3243f35995b",
+      "name": "Code3"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Pega os dados dos nós anteriores\nconst camposIniciais = items[0].json;\n\n// Pega a resposta da IA corretamente da estrutura\nconst respostaIA = $input.item.json.message?.content || \n                   $input.item.json.output || \n                   $input.item.json.text || \n                   \"\";\n\n// Função para limpar e escapar texto\nfunction limparTexto(texto) {\n  if (!texto) return \"\";\n  \n  return String(texto)\n    .replace(/\\\\/g, '\\\\\\\\')     // Escapa barras invertidas primeiro\n    .replace(/\"/g, '\\\\\"')       // Escapa aspas duplas\n    .replace(/\\n/g, '\\\\n')      // Escapa quebras de linha\n    .replace(/\\r/g, '\\\\r')      // Escapa retorno de carro\n    .replace(/\\t/g, '\\\\t');     // Escapa tabulações\n}\n\n// Monta o objeto com os dados limpos\nconst mensagem = {\n  name: limparTexto(camposIniciais.meta?.nomeCliente || \"Higor Leite\"),\n  telefone: String(camposIniciais.meta?.telefoneCliente || \"5511994151865\"),\n  type: \"message\",\n  text: {\n    body: limparTexto(respostaIA)\n  }\n};\n\n// Retorna o JSON limpo e seguro\nreturn [{\n  json: mensagem\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2880,
+        1328
+      ],
+      "id": "388c912b-fa14-4a75-bb75-344f40b75de9",
+      "name": "Code4"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-11-04T03:09:27.366Z",
+      "createdAt": "2025-11-04T03:09:27.366Z",
+      "role": "workflow:owner",
+      "workflowId": "jLuBThsZklpi3StD",
+      "projectId": "tP5lcLj6t4StcK5B"
+    }
+  ],
+  "staticData": {
+    "node:Schedule Trigger": {
+      "recurrenceRules": []
+    }
+  },
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2025-11-06T16:45:07.971Z",
+  "versionId": "817eca50-b4d9-4487-8171-3b6cf5e41f03"
+}
