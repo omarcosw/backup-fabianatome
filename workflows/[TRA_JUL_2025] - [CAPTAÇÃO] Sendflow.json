@@ -1,0 +1,2243 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "pesquisa_grupo": {
+      "main": [
+        [
+          {
+            "node": "encontrou_grupo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "cria_grupo": {
+      "main": [
+        [
+          {
+            "node": "pesquisa_grupo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "cria_user": {
+      "main": [
+        [
+          {
+            "node": "pesquisa_user1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "pesquisa_grupo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "encontrou_user1": {
+      "main": [
+        [
+          {
+            "node": "pesquisa_lead_nos_grupos1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "cria_user",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "encontrou_lead_no_grupo1": {
+      "main": [
+        [
+          {
+            "node": "entrou_no_grupo2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "entrou_no_grupo3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "entrou_no_grupo2": {
+      "main": [
+        [
+          {
+            "node": "update_entrou_no_grupo1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "update_saiu_do_grupo1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "entrou_no_grupo3": {
+      "main": [
+        [
+          {
+            "node": "insere_lead_na_tabela_leads_nos_grupos2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "insere_lead_na_tabela_leads_nos_grupos3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "encontrou_grupo": {
+      "main": [
+        [
+          {
+            "node": "pesquisa_user1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "cria_grupo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "pesquisa_user1": {
+      "main": [
+        [
+          {
+            "node": "encontrou_user1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "update_entrou_no_grupo1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "update_saiu_do_grupo1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "pesquisa_lead_nos_grupos1": {
+      "main": [
+        [
+          {
+            "node": "encontrou_lead_no_grupo1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "insere_lead_na_tabela_leads_nos_grupos2": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "insere_lead_na_tabela_leads_nos_grupos3": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "pesquisa_cadastro": {
+      "main": [
+        [
+          {
+            "node": "If2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields4": {
+      "main": [
+        [
+          {
+            "node": "pesquisa_cadastro",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "cria_contato_manychat": {
+      "main": [
+        [
+          {
+            "node": "verifica_whatsapp",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "verifica_whatsapp": {
+      "main": [
+        [],
+        [
+          {
+            "node": "atualiza_contato_manychat",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "atualiza_contato_manychat": {
+      "main": [
+        [
+          {
+            "node": "define_campo_telefone",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "define_campo_telefone": {
+      "main": [
+        [
+          {
+            "node": "tra_jul_2025_entrou_no_grupo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "No Operation, do nothing2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "atualiza_contato_manychat",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "nao_encontrou_telefone1": {
+      "main": [
+        [
+          {
+            "node": "cria_contato_manychat",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "procura_id_manychat_pelo_telefone1": {
+      "main": [
+        [
+          {
+            "node": "nao_encontrou_telefone1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "procura_id_manychat_pelo_telefone1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If2": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "tra_jul_2025_entrou_no_grupo": {
+      "main": [
+        [
+          {
+            "node": "fim1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "pesquisa_cadastro1": {
+      "main": [
+        [
+          {
+            "node": "If3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If3": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "cria_contato_manychat1": {
+      "main": [
+        [
+          {
+            "node": "verifica_whatsapp1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "verifica_whatsapp1": {
+      "main": [
+        [],
+        [
+          {
+            "node": "atualiza_contato_manychat1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "atualiza_contato_manychat1": {
+      "main": [
+        [
+          {
+            "node": "define_campo_telefone1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "define_campo_telefone1": {
+      "main": [
+        [
+          {
+            "node": "tra_jul_2025_saiu_do_grupo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "atualiza_contato_manychat1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "nao_encontrou_telefone2": {
+      "main": [
+        [
+          {
+            "node": "cria_contato_manychat1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "procura_id_manychat_pelo_telefone2": {
+      "main": [
+        [
+          {
+            "node": "nao_encontrou_telefone2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields5": {
+      "main": [
+        [
+          {
+            "node": "procura_id_manychat_pelo_telefone2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields3": {
+      "main": [
+        [
+          {
+            "node": "pesquisa_cadastro1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "tra_jul_2025_saiu_do_grupo": {
+      "main": [
+        [
+          {
+            "node": "fim2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-08-16T17:47:16.062Z",
+  "id": "GJj8XwZNBLQ3EYGR",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "[TRA_JUL_2025] - [CAPTAÇÃO] Sendflow",
+  "nodes": [
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "grupos",
+        "limit": 1,
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "nome",
+              "condition": "eq",
+              "keyValue": "={{ $item(\"0\").$node[\"Edit Fields1\"].json[\"nome_grupo\"] }}"
+            }
+          ]
+        }
+      },
+      "id": "26009e6f-7589-4fcd-904c-190d53222ca2",
+      "name": "pesquisa_grupo",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        520,
+        1320
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "supabaseApi": {
+          "id": "06funpVK0RasJnc4",
+          "name": "Supabase - Fabiana Tomé"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "tableId": "grupos",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "nome",
+              "fieldValue": "={{ $item(\"0\").$node[\"Edit Fields1\"].json[\"nome_grupo\"] }}"
+            },
+            {
+              "fieldId": "evento",
+              "fieldValue": "={{ $item(\"0\").$node[\"Edit Fields1\"].json[\"evento1\"] }}"
+            }
+          ]
+        }
+      },
+      "id": "aa13f2ef-b84f-4be8-8234-7f72626c6891",
+      "name": "cria_grupo",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        720,
+        1480
+      ],
+      "credentials": {
+        "supabaseApi": {
+          "id": "06funpVK0RasJnc4",
+          "name": "Supabase - Fabiana Tomé"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "tableId": "users",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "telefone",
+              "fieldValue": "={{ $item(\"0\").$node[\"Edit Fields1\"].json[\"número_participante\"] }}"
+            }
+          ]
+        }
+      },
+      "id": "54d36a6e-b966-4d35-92ca-3c52311515fa",
+      "name": "cria_user",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        1420,
+        1420
+      ],
+      "credentials": {
+        "supabaseApi": {
+          "id": "06funpVK0RasJnc4",
+          "name": "Supabase - Fabiana Tomé"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "581911f4-1edc-4223-9d0b-63a4a0c51264",
+              "name": "id_campanha",
+              "value": "={{ $json[\"body\"][\"data\"][\"campaignId\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "8b54b9dd-4c63-4385-ae7b-0abb12662c7c",
+              "name": "nome_campanha",
+              "value": "={{ $json[\"body\"][\"data\"][\"campaignName\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "f345ee1e-809f-49fa-b63c-50987289cc29",
+              "name": "nome_grupo",
+              "value": "={{ $json[\"body\"][\"data\"][\"groupName\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "644349ad-b239-4d9f-823a-645498fcef5a",
+              "name": "número_participante",
+              "value": "={{ $json[\"body\"][\"data\"][\"number\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "4b6b96d1-c81b-4758-ab8e-150a033261db",
+              "name": "data_que_entrou",
+              "value": "={{ $json[\"body\"][\"data\"][\"createdAt\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "41c907e1-b28a-41ce-aa48-3ad3e5e6763a",
+              "name": "evento",
+              "value": "={{ $node[\"Webhook1\"].json[\"body\"][\"event\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "2b0020cf-fbd5-40a4-bd2a-c4966e981b9e",
+              "name": "id",
+              "value": "={{ $node[\"Webhook1\"].json[\"body\"][\"id\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "8e4a3609-de2b-4836-ae66-8e4fc6fc1bab",
+              "name": "evento1",
+              "value": "[SPT0725] - [CAPTAÇÃO]",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "3c1d9609-3de9-4d19-b480-475d1af1eee3",
+      "name": "Edit Fields1",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        300,
+        1320
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "dd359e72-da78-43bb-84a7-1b0911d82aa5",
+              "leftValue": "={{ $node[\"pesquisa_user1\"].json[\"id\"] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "number",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "4dbf0f3a-9fc2-4e2b-a071-4591d1e68feb",
+      "name": "encontrou_user1",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        1200,
+        1300
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "dd359e72-da78-43bb-84a7-1b0911d82aa5",
+              "leftValue": "={{ $node[\"pesquisa_lead_nos_grupos1\"].json[\"id\"] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "number",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "5d1c69ea-e828-4965-8bf7-acaf97787597",
+      "name": "encontrou_lead_no_grupo1",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        1820,
+        1280
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "65b5bcdb-1d2b-4071-82e8-87166a50612b",
+              "leftValue": "={{ $node[\"Edit Fields1\"].json[\"evento\"] }}",
+              "rightValue": "=group.updated.members.added",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "52f2ce9a-dec1-445f-8ed4-d2e3dbf572aa",
+      "name": "entrou_no_grupo2",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        1980,
+        1060
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "65b5bcdb-1d2b-4071-82e8-87166a50612b",
+              "leftValue": "={{ $node[\"Edit Fields1\"].json[\"evento\"] }}",
+              "rightValue": "=group.updated.members.added",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "912f7a48-4cc4-49d7-8c87-7d2fade47b2f",
+      "name": "entrou_no_grupo3",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        1980,
+        1440
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "dd359e72-da78-43bb-84a7-1b0911d82aa5",
+              "leftValue": "={{ $node[\"pesquisa_grupo\"].json[\"id\"] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "number",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "8d3ae16d-6030-42b8-9569-969daee7126f",
+      "name": "encontrou_grupo",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        720,
+        1320
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "581911f4-1edc-4223-9d0b-63a4a0c51264",
+              "name": "nome_grupo",
+              "value": "={{ $node[\"Edit Fields1\"].json[\"nome_grupo\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "8b54b9dd-4c63-4385-ae7b-0abb12662c7c",
+              "name": "telefone_participante",
+              "value": "={{ $node[\"Edit Fields1\"].json[\"número_participante\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "4b6b96d1-c81b-4758-ab8e-150a033261db",
+              "name": "data_que_entrou",
+              "value": "={{ $node[\"Edit Fields1\"].json[\"data_que_entrou\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "41c907e1-b28a-41ce-aa48-3ad3e5e6763a",
+              "name": "id",
+              "value": "={{ $node[\"Edit Fields1\"].json[\"id\"] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "3fbaaa3c-add7-48c2-b635-a6753ebc0a0d",
+      "name": "Edit Fields3",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2680,
+        1340
+      ]
+    },
+    {
+      "parameters": {
+        "content": "# CADASTRA CONTATO QUE ENTROU OU SAIU DOS GRUPOS NO BANCO DE DADOS",
+        "height": 1007,
+        "width": 2974,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        0,
+        820
+      ],
+      "typeVersion": 1,
+      "id": "3a4ceb00-ad78-43d9-b380-fadc75606b05",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "e05d7d83-f820-4911-a990-eafea6c038f3",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        80,
+        1320
+      ],
+      "id": "95b94e1d-f58b-4eed-8218-aee089452fe6",
+      "name": "Webhook1",
+      "webhookId": "e05d7d83-f820-4911-a990-eafea6c038f3"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "users",
+        "limit": 1,
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "telefone",
+              "condition": "eq",
+              "keyValue": "={{ $item(\"0\").$node[\"Edit Fields1\"].json[\"número_participante\"] }}"
+            }
+          ]
+        }
+      },
+      "id": "c4983404-6830-4cb5-8b93-be7967f109bf",
+      "name": "pesquisa_user1",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        1000,
+        1300
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "supabaseApi": {
+          "id": "06funpVK0RasJnc4",
+          "name": "Supabase - Fabiana Tomé"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "tableId": "contatos_grupos",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "id_user",
+              "condition": "eq",
+              "keyValue": "={{ $item(\"0\").$node[\"pesquisa_lead_nos_grupos1\"].json[\"id_user\"] }}"
+            }
+          ]
+        },
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "data_entrada",
+              "fieldValue": "={{ $now }}"
+            },
+            {
+              "fieldId": "status",
+              "fieldValue": "No Grupo"
+            },
+            {
+              "fieldId": "nome_grupo",
+              "fieldValue": "={{ $item(\"0\").$node[\"Edit Fields1\"].json[\"nome_grupo\"] }}"
+            },
+            {
+              "fieldId": "evento",
+              "fieldValue": "={{ $item(\"0\").$node[\"Edit Fields1\"].json[\"evento1\"] }}"
+            }
+          ]
+        }
+      },
+      "id": "a168507b-1d46-4ffa-b477-ebeaf736873c",
+      "name": "update_entrou_no_grupo1",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        2200,
+        960
+      ],
+      "credentials": {
+        "supabaseApi": {
+          "id": "06funpVK0RasJnc4",
+          "name": "Supabase - Fabiana Tomé"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "tableId": "contatos_grupos",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "id_user",
+              "condition": "eq",
+              "keyValue": "={{ $item(\"0\").$node[\"pesquisa_lead_nos_grupos1\"].json[\"id_user\"] }}"
+            }
+          ]
+        },
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "data_saida",
+              "fieldValue": "={{ $now }}"
+            },
+            {
+              "fieldId": "status",
+              "fieldValue": "Saiu do Grupo"
+            },
+            {
+              "fieldId": "nome_grupo",
+              "fieldValue": "={{ $item(\"0\").$node[\"Edit Fields1\"].json[\"nome_grupo\"] }}"
+            },
+            {
+              "fieldId": "evento",
+              "fieldValue": "={{ $item(\"0\").$node[\"Edit Fields1\"].json[\"evento1\"] }}"
+            }
+          ]
+        }
+      },
+      "id": "6db900ca-0189-41be-a86b-1c25a18fbe5e",
+      "name": "update_saiu_do_grupo1",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        2220,
+        1140
+      ],
+      "credentials": {
+        "supabaseApi": {
+          "id": "06funpVK0RasJnc4",
+          "name": "Supabase - Fabiana Tomé"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "contatos_grupos",
+        "limit": 1,
+        "matchType": "allFilters",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "numero",
+              "condition": "eq",
+              "keyValue": "={{ $item(\"0\").$node[\"Edit Fields1\"].json[\"número_participante\"] }}"
+            },
+            {
+              "keyName": "nome_grupo",
+              "condition": "eq",
+              "keyValue": "={{ $item(\"0\").$node[\"Edit Fields1\"].json[\"nome_grupo\"] }}"
+            }
+          ]
+        }
+      },
+      "id": "d9fb3640-f42a-4760-8d76-7d234196404f",
+      "name": "pesquisa_lead_nos_grupos1",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        1620,
+        1280
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "supabaseApi": {
+          "id": "06funpVK0RasJnc4",
+          "name": "Supabase - Fabiana Tomé"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "tableId": "contatos_grupos",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "data_entrada",
+              "fieldValue": "={{ $now }}"
+            },
+            {
+              "fieldId": "status",
+              "fieldValue": "No Grupo"
+            },
+            {
+              "fieldId": "nome_grupo",
+              "fieldValue": "={{ $item(\"0\").$node[\"Edit Fields1\"].json[\"nome_grupo\"] }}"
+            },
+            {
+              "fieldId": "numero",
+              "fieldValue": "={{ $item(\"0\").$node[\"Edit Fields1\"].json[\"número_participante\"] }}"
+            },
+            {
+              "fieldId": "id_grupo",
+              "fieldValue": "={{ $item(\"0\").$node[\"pesquisa_grupo\"].json[\"id\"] }}"
+            },
+            {
+              "fieldId": "id_user",
+              "fieldValue": "={{ $item(\"0\").$node[\"pesquisa_user1\"].json[\"id\"] }}"
+            },
+            {
+              "fieldId": "evento",
+              "fieldValue": "={{ $item(\"0\").$node[\"Edit Fields1\"].json[\"evento1\"] }}"
+            }
+          ]
+        }
+      },
+      "id": "cbcd123b-e34d-456c-af78-f1978a12f1ff",
+      "name": "insere_lead_na_tabela_leads_nos_grupos2",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        2240,
+        1320
+      ],
+      "credentials": {
+        "supabaseApi": {
+          "id": "06funpVK0RasJnc4",
+          "name": "Supabase - Fabiana Tomé"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "tableId": "contatos_grupos",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "data_saida",
+              "fieldValue": "={{ $now }}"
+            },
+            {
+              "fieldId": "status",
+              "fieldValue": "Saiu do Grupo"
+            },
+            {
+              "fieldId": "nome_grupo",
+              "fieldValue": "={{ $item(\"0\").$node[\"Edit Fields1\"].json[\"nome_grupo\"] }}"
+            },
+            {
+              "fieldId": "numero",
+              "fieldValue": "={{ $item(\"0\").$node[\"Edit Fields1\"].json[\"número_participante\"] }}"
+            },
+            {
+              "fieldId": "id_grupo",
+              "fieldValue": "={{ $item(\"0\").$node[\"pesquisa_grupo\"].json[\"id\"] }}"
+            },
+            {
+              "fieldId": "id_user",
+              "fieldValue": "={{ $item(\"0\").$node[\"pesquisa_user1\"].json[\"id\"] }}"
+            },
+            {
+              "fieldId": "evento",
+              "fieldValue": "={{ $item(\"0\").$node[\"Edit Fields1\"].json[\"evento1\"] }}"
+            }
+          ]
+        }
+      },
+      "id": "ff135ef1-20b4-47cd-a3fc-ab32a4c4cdb5",
+      "name": "insere_lead_na_tabela_leads_nos_grupos3",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        2260,
+        1540
+      ],
+      "credentials": {
+        "supabaseApi": {
+          "id": "06funpVK0RasJnc4",
+          "name": "Supabase - Fabiana Tomé"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "581911f4-1edc-4223-9d0b-63a4a0c51264",
+              "name": "nome_grupo",
+              "value": "={{ $node[\"Edit Fields1\"].json[\"nome_grupo\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "8b54b9dd-4c63-4385-ae7b-0abb12662c7c",
+              "name": "telefone_participante",
+              "value": "={{ $node[\"Edit Fields1\"].json[\"número_participante\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "4b6b96d1-c81b-4758-ab8e-150a033261db",
+              "name": "data_que_entrou",
+              "value": "={{ $node[\"Edit Fields1\"].json[\"data_que_entrou\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "41c907e1-b28a-41ce-aa48-3ad3e5e6763a",
+              "name": "id",
+              "value": "={{ $node[\"Edit Fields1\"].json[\"id\"] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "af74bf7a-8c84-46b1-9690-fa2ad03fecba",
+      "name": "Edit Fields4",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2680,
+        1040
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "cadastros",
+        "limit": 1,
+        "matchType": "allFilters",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "id_user",
+              "condition": "eq",
+              "keyValue": "={{ $item(\"0\").$node[\"pesquisa_user1\"].json[\"id\"] }}"
+            }
+          ]
+        }
+      },
+      "id": "21b19d5e-2fa6-465f-a75a-f83f7b69dcf7",
+      "name": "pesquisa_cadastro",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        2880,
+        1040
+      ],
+      "executeOnce": false,
+      "alwaysOutputData": true,
+      "credentials": {
+        "supabaseApi": {
+          "id": "06funpVK0RasJnc4",
+          "name": "Supabase - Fabiana Tomé"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "f7c5f42f-d024-4e8a-8208-cf79ae590492",
+              "leftValue": "={{ $item(\"0\").$node[\"pesquisa_cadastro\"].json[\"id\"] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "number",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "9c0cf39c-1a9c-4bcc-89a1-c6329983956b",
+      "name": "If2",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        3060,
+        1060
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.manychat.com/fb/subscriber/createSubscriber",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "authorization",
+              "value": "=Bearer {{ $node[\"Edit Fields2\"].json[\"key\"] }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "first_name",
+              "value": "={{ $node[\"Edit Fields2\"].json[\"nome\"] }}"
+            },
+            {
+              "name": "last_name",
+              "value": "={{ $node[\"Edit Fields2\"].json[\"sobrenome\"] }}"
+            },
+            {
+              "name": "has_opt_in_sms",
+              "value": "true"
+            },
+            {
+              "name": "has_opt_in_email",
+              "value": "true"
+            },
+            {
+              "name": "consent_phrase",
+              "value": "Olá, aqui é a Fabiana. Posso ter seu contato?"
+            },
+            {
+              "name": "phone",
+              "value": "={{ $node[\"Edit Fields2\"].json[\"telefone\"] }}"
+            },
+            {
+              "name": "email",
+              "value": "."
+            },
+            {
+              "name": "whatsapp_phone",
+              "value": "={{ $node[\"Edit Fields2\"].json[\"telefone\"] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "4c82b4c7-6be9-4ceb-903b-179c6af4d525",
+      "name": "cria_contato_manychat",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        4000,
+        820
+      ],
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "0b43ebf2-3b3b-4851-b3ff-a91252309dfd",
+              "leftValue": "={{ $node[\"cria_contato_manychat\"].json[\"error\"][\"message\"] }}",
+              "rightValue": "The input value is not a valid WhatsApp ID",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "b8da9ac3-0fb1-4729-9d54-52e5cbdf1eb8",
+      "name": "verifica_whatsapp",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        4420,
+        820
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.manychat.com/fb/subscriber/updateSubscriber",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "authorization",
+              "value": "=Bearer {{ $node[\"Edit Fields2\"].json[\"key\"] }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "first_name",
+              "value": "={{ $node[\"Edit Fields2\"].json[\"nome\"] }}"
+            },
+            {
+              "name": "last_name",
+              "value": "={{ $node[\"Edit Fields2\"].json[\"sobrenome\"] }}"
+            },
+            {
+              "name": "has_opt_in_sms",
+              "value": "true"
+            },
+            {
+              "name": "has_opt_in_email",
+              "value": "true"
+            },
+            {
+              "name": "consent_phrase",
+              "value": "Olá, aqui é a Fabiana. Posso ter seu contato?"
+            },
+            {
+              "name": "whatsapp_phone",
+              "value": "={{ $node[\"Edit Fields2\"].json[\"telefone\"] }}"
+            },
+            {
+              "name": "phone",
+              "value": "={{ $node[\"Edit Fields2\"].json[\"telefone\"] }}"
+            },
+            {
+              "name": "email",
+              "value": "."
+            },
+            {
+              "name": "subscriber_id",
+              "value": "={{ $json[\"data\"][\"0\"][\"id\"] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "1dd75aba-048b-462a-9455-b725dad2ba2f",
+      "name": "atualiza_contato_manychat",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        4460,
+        1080
+      ],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.manychat.com/fb/subscriber/setCustomField",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "authorization",
+              "value": "=Bearer {{ $node[\"Edit Fields2\"].json[\"key\"] }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "subscriber_id",
+              "value": "={{\n  $node[\"cria_contato_manychat\"].runIndex >= 0 \n    ? $node[\"cria_contato_manychat\"].json[\"data\"][\"id\"]\n    : $node[\"procura_id_manychat_pelo_telefone1\"].runIndex >= 0 \n      ? $node[\"procura_id_manychat_pelo_telefone1\"].json[\"data\"][\"0\"][\"id\"]\n              : null\n}}"
+            },
+            {
+              "name": "field_id",
+              "value": "13217628"
+            },
+            {
+              "name": "field_value",
+              "value": "={{ $node[\"Edit Fields2\"].json[\"telefone\"] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "f02e9dcd-14db-4b87-a841-c3d35cd5e8fa",
+      "name": "define_campo_telefone",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        4720,
+        1080
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "6ad2b259-0a46-4fa5-b0cf-09a1c7d865e5",
+              "leftValue": "={{ $json.data[0].tags }}",
+              "rightValue": "leads_Workshop_PM",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "e6aea5ef-6104-4d67-9995-ce12951aca88",
+              "leftValue": "={{ $json.data[0].tags[0] }}",
+              "rightValue": "recebeu_recuperacao_WPM",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "id": "0be9f4f9-2974-403c-a593-db41ad597e02",
+      "name": "If",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        3920,
+        1060
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "7eda01f4-0ba9-43f2-b2af-2c5f0ca44ecd",
+      "name": "No Operation, do nothing2",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        4160,
+        960
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $node[\"procura_id_manychat_pelo_telefone1\"].json[\"data\"] }}",
+              "operation": "isEmpty"
+            }
+          ]
+        }
+      },
+      "id": "18bb5e7e-bf59-47be-9954-86cb9a40f526",
+      "name": "nao_encontrou_telefone1",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        3740,
+        900
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "b1a0cbdf-132f-4e52-ba8b-608fdace9b05",
+      "name": "fim1",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        5160,
+        1080
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://api.manychat.com/fb/subscriber/findByCustomField",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "field_id",
+              "value": "13217628"
+            },
+            {
+              "name": "field_value",
+              "value": "={{ $node[\"Edit Fields2\"].json[\"telefone\"] }}"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "accept",
+              "value": "application/json"
+            },
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $node[\"Edit Fields2\"].json[\"key\"] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "d8aabc30-3129-4002-aae1-73d465c24709",
+      "name": "procura_id_manychat_pelo_telefone1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        3520,
+        900
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "c53e209f-3f99-47cf-ac2c-48e2744c2567",
+              "name": "nome",
+              "value": "={{ $item(\"0\").$node[\"pesquisa_cadastro\"].json[\"nome\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "6a122e24-9278-4fa5-aba6-ea01b413ed09",
+              "name": "telefone",
+              "value": "={{ $item(\"0\").$node[\"pesquisa_cadastro\"].json[\"telefone\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "af5246e1-afa0-4fc2-9a07-cf21cfc43f0b",
+              "name": "data",
+              "value": "={{ $now }}",
+              "type": "string"
+            },
+            {
+              "id": "00fa81b1-b695-4099-973d-712c2f2a2a99",
+              "name": "sobrenome",
+              "value": "={{ $item(\"0\").$node[\"pesquisa_cadastro\"].json[\"sobrenome\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "e5118f3a-25f0-41ac-ac2e-aba11545abd2",
+              "name": "key",
+              "value": "900578:b58cb2c051a53536a248977b8c3a45d4",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "28f5d154-4ee1-46bc-9b0b-a4fbdd43c2f7",
+      "name": "Edit Fields2",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3320,
+        900
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.manychat.com/fb/subscriber/addTag",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "authorization",
+              "value": "=Bearer {{ $node[\"Edit Fields2\"].json[\"key\"] }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "subscriber_id",
+              "value": "={{\n  $node[\"cria_contato_manychat\"].runIndex >= 0 \n    ? $node[\"cria_contato_manychat\"].json[\"data\"][\"id\"]\n    : $node[\"procura_id_manychat_pelo_telefone1\"].runIndex >= 0 \n      ? $node[\"procura_id_manychat_pelo_telefone1\"].json[\"data\"][\"0\"][\"id\"]\n              : null\n}}"
+            },
+            {
+              "name": "tag_id",
+              "value": "67058817"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "e444416a-f0ec-4bec-bf79-2a496f345c75",
+      "name": "tra_jul_2025_entrou_no_grupo",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        4940,
+        1080
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "cadastros",
+        "limit": 1,
+        "matchType": "allFilters",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "id_user",
+              "condition": "eq",
+              "keyValue": "={{ $item(\"0\").$node[\"pesquisa_user1\"].json[\"id\"] }}"
+            }
+          ]
+        }
+      },
+      "id": "69bebdcf-b8ea-44fe-aa79-ccf23bb33811",
+      "name": "pesquisa_cadastro1",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        2860,
+        1360
+      ],
+      "executeOnce": false,
+      "alwaysOutputData": true,
+      "credentials": {
+        "supabaseApi": {
+          "id": "06funpVK0RasJnc4",
+          "name": "Supabase - Fabiana Tomé"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "f7c5f42f-d024-4e8a-8208-cf79ae590492",
+              "leftValue": "={{ $item(\"0\").$node[\"pesquisa_cadastro1\"].json[\"id\"] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "number",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "e6d59233-bbe7-44a5-8c50-3abc93775939",
+      "name": "If3",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        3060,
+        1360
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.manychat.com/fb/subscriber/createSubscriber",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "authorization",
+              "value": "=Bearer {{ $node[\"Edit Fields5\"].json[\"key\"] }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "first_name",
+              "value": "={{ $node[\"Edit Fields5\"].json[\"nome\"] }}"
+            },
+            {
+              "name": "last_name",
+              "value": "={{ $node[\"Edit Fields5\"].json[\"sobrenome\"] }}"
+            },
+            {
+              "name": "has_opt_in_sms",
+              "value": "true"
+            },
+            {
+              "name": "has_opt_in_email",
+              "value": "true"
+            },
+            {
+              "name": "consent_phrase",
+              "value": "Olá, aqui é a Fabiana. Posso ter seu contato?"
+            },
+            {
+              "name": "phone",
+              "value": "={{ $node[\"Edit Fields5\"].json[\"telefone\"] }}"
+            },
+            {
+              "name": "email",
+              "value": "."
+            },
+            {
+              "name": "whatsapp_phone",
+              "value": "={{ $node[\"Edit Fields5\"].json[\"telefone\"] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "ddb1b126-9594-4b4a-b2b0-241049ad5dde",
+      "name": "cria_contato_manychat1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        4080,
+        1280
+      ],
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "0b43ebf2-3b3b-4851-b3ff-a91252309dfd",
+              "leftValue": "={{ $node[\"cria_contato_manychat1\"].json[\"error\"][\"message\"] }}",
+              "rightValue": "The input value is not a valid WhatsApp ID",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "8f0c1d5f-98c7-4522-b1e4-f677fd51fa14",
+      "name": "verifica_whatsapp1",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        4500,
+        1280
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.manychat.com/fb/subscriber/updateSubscriber",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "authorization",
+              "value": "=Bearer {{ $node[\"Edit Fields5\"].json[\"key\"] }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "first_name",
+              "value": "={{ $node[\"Edit Fields5\"].json[\"nome\"] }}"
+            },
+            {
+              "name": "last_name",
+              "value": "={{ $node[\"Edit Fields5\"].json[\"sobrenome\"] }}"
+            },
+            {
+              "name": "has_opt_in_sms",
+              "value": "true"
+            },
+            {
+              "name": "has_opt_in_email",
+              "value": "true"
+            },
+            {
+              "name": "consent_phrase",
+              "value": "Olá, aqui é a Fabiana. Posso ter seu contato?"
+            },
+            {
+              "name": "whatsapp_phone",
+              "value": "={{ $node[\"Edit Fields5\"].json[\"telefone\"] }}"
+            },
+            {
+              "name": "phone",
+              "value": "={{ $node[\"Edit Fields5\"].json[\"telefone\"] }}"
+            },
+            {
+              "name": "email",
+              "value": "."
+            },
+            {
+              "name": "subscriber_id",
+              "value": "={{ $json[\"data\"][\"0\"][\"id\"] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "bcc8c55d-a447-4b24-b44c-97c9d9ba5e68",
+      "name": "atualiza_contato_manychat1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        4540,
+        1540
+      ],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.manychat.com/fb/subscriber/setCustomField",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "authorization",
+              "value": "=Bearer {{ $node[\"Edit Fields5\"].json[\"key\"] }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "subscriber_id",
+              "value": "={{\n  $node[\"cria_contato_manychat1\"].runIndex >= 0 \n    ? $node[\"cria_contato_manychat1\"].json[\"data\"][\"id\"]\n    : $node[\"procura_id_manychat_pelo_telefone2\"].runIndex >= 0 \n      ? $node[\"procura_id_manychat_pelo_telefone2\"].json[\"data\"][\"0\"][\"id\"]\n              : null\n}}"
+            },
+            {
+              "name": "field_id",
+              "value": "13217628"
+            },
+            {
+              "name": "field_value",
+              "value": "={{ $node[\"Edit Fields5\"].json[\"telefone\"] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "fa5f6074-e1fc-4e7d-9d63-8fce5034a4fb",
+      "name": "define_campo_telefone1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        4800,
+        1540
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "6ad2b259-0a46-4fa5-b0cf-09a1c7d865e5",
+              "leftValue": "={{ $json.data[0].tags }}",
+              "rightValue": "leads_Workshop_PM",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "e6aea5ef-6104-4d67-9995-ce12951aca88",
+              "leftValue": "={{ $json.data[0].tags[0] }}",
+              "rightValue": "recebeu_recuperacao_WPM",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "id": "1bb2b54c-7c37-484e-8901-102da2c0e626",
+      "name": "If1",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        4000,
+        1520
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "b1bf8b60-2c32-4fec-84c8-211c53131b1e",
+      "name": "No Operation, do nothing",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        4240,
+        1420
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $node[\"procura_id_manychat_pelo_telefone2\"].json[\"data\"] }}",
+              "operation": "isEmpty"
+            }
+          ]
+        }
+      },
+      "id": "2e573c4e-d232-45ff-ad15-59c781354f6b",
+      "name": "nao_encontrou_telefone2",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        3820,
+        1360
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "e5c2fa92-4620-40cf-bffc-7c838738ed16",
+      "name": "fim2",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        5240,
+        1540
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://api.manychat.com/fb/subscriber/findByCustomField",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "field_id",
+              "value": "13217628"
+            },
+            {
+              "name": "field_value",
+              "value": "={{ $node[\"Edit Fields5\"].json[\"telefone\"] }}"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "accept",
+              "value": "application/json"
+            },
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $node[\"Edit Fields5\"].json[\"key\"] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "ca1182b0-e9b4-4032-9cd3-b6d71635fb93",
+      "name": "procura_id_manychat_pelo_telefone2",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        3600,
+        1360
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "c53e209f-3f99-47cf-ac2c-48e2744c2567",
+              "name": "nome",
+              "value": "={{ $item(\"0\").$node[\"pesquisa_cadastro1\"].json[\"nome\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "6a122e24-9278-4fa5-aba6-ea01b413ed09",
+              "name": "telefone",
+              "value": "={{ $item(\"0\").$node[\"pesquisa_cadastro1\"].json[\"telefone\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "af5246e1-afa0-4fc2-9a07-cf21cfc43f0b",
+              "name": "data",
+              "value": "={{ $now }}",
+              "type": "string"
+            },
+            {
+              "id": "00fa81b1-b695-4099-973d-712c2f2a2a99",
+              "name": "sobrenome",
+              "value": "={{ $item(\"0\").$node[\"pesquisa_cadastro1\"].json[\"sobrenome\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "e5118f3a-25f0-41ac-ac2e-aba11545abd2",
+              "name": "key",
+              "value": "900578:b58cb2c051a53536a248977b8c3a45d4",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "09f52dbe-eb37-4392-8cc8-a06a6576e160",
+      "name": "Edit Fields5",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3400,
+        1360
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.manychat.com/fb/subscriber/addTag",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "authorization",
+              "value": "=Bearer {{ $node[\"Edit Fields5\"].json[\"key\"] }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "subscriber_id",
+              "value": "={{\n  $node[\"cria_contato_manychat1\"].runIndex >= 0 \n    ? $node[\"cria_contato_manychat1\"].json[\"data\"][\"id\"]\n    : $node[\"procura_id_manychat_pelo_telefone2\"].runIndex >= 0 \n      ? $node[\"procura_id_manychat_pelo_telefone2\"].json[\"data\"][\"0\"][\"id\"]\n              : null\n}}"
+            },
+            {
+              "name": "tag_id",
+              "value": "67059515"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "1b3146a1-dadc-40ad-b91f-708b54c7c41b",
+      "name": "tra_jul_2025_saiu_do_grupo",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        5020,
+        1540
+      ]
+    }
+  ],
+  "pinData": {
+    "Webhook1": [
+      {
+        "json": {
+          "headers": {
+            "host": "webhook.fabianatome.com.br",
+            "user-agent": "axios/1.7.7",
+            "content-length": "374",
+            "accept": "application/json, text/plain, */*",
+            "accept-encoding": "gzip, compress, deflate, br",
+            "content-type": "application/json",
+            "sendtok": "B72A8131333C9C63332E95A712285EB85D354558A7",
+            "x-forwarded-for": "137.131.172.56",
+            "x-forwarded-host": "webhook.fabianatome.com.br",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "075fd767e3c1",
+            "x-real-ip": "137.131.172.56"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "id": "QqKLnStNW8pAjPP8QMXk",
+            "event": "group.updated.members.added",
+            "data": {
+              "campaignName": "[JUL25] Semana da Prática Tributária",
+              "groupName": "⚖️ Semana da Prática Tributária #1",
+              "groupJid": "120363421080809309@g.us",
+              "groupId": "ZsLhnpqpToYWnlZxnh35",
+              "campaignId": "GLPXdwAUrUqSXXTXyqII",
+              "number": "5527998210071",
+              "createdAt": "2025-06-23T14:07:31.833Z"
+            },
+            "version": "1.0.0"
+          },
+          "webhookUrl": "https://webhook.fabianatome.com.br/webhook/jul25",
+          "executionMode": "production"
+        }
+      }
+    ]
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-08-16T17:47:16.062Z",
+      "createdAt": "2025-08-16T17:47:16.062Z",
+      "role": "workflow:owner",
+      "workflowId": "GJj8XwZNBLQ3EYGR",
+      "projectId": "tP5lcLj6t4StcK5B"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2025-08-16T17:47:16.062Z",
+  "versionId": "13dcbd1b-a68c-461d-a1ed-9c3b670a553d"
+}
