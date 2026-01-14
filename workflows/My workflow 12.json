@@ -1,0 +1,95 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Activate a workflow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-12-05T23:27:01.012Z",
+  "id": "qVbyL48A6eLuXS4R",
+  "isArchived": true,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "My workflow 12",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 1
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        0,
+        0
+      ],
+      "id": "cbe229f4-2e51-4738-a2b3-188babbc4690",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "operation": "activate",
+        "workflowId": {
+          "__rl": true,
+          "value": "HkEZreRL2ELThpOR",
+          "mode": "list",
+          "cachedResultName": "[Authlike] teste01 (#HkEZreRL2ELThpOR)"
+        },
+        "requestOptions": {}
+      },
+      "type": "n8n-nodes-base.n8n",
+      "typeVersion": 1,
+      "position": [
+        208,
+        0
+      ],
+      "id": "cef0c673-c563-4a66-a694-97e1985dc69a",
+      "name": "Activate a workflow",
+      "credentials": {
+        "n8nApi": {
+          "id": "ozLE8Y94AKuf0yuQ",
+          "name": "n8n account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-12-05T23:27:01.012Z",
+      "createdAt": "2025-12-05T23:27:01.012Z",
+      "role": "workflow:owner",
+      "workflowId": "qVbyL48A6eLuXS4R",
+      "projectId": "tP5lcLj6t4StcK5B"
+    }
+  ],
+  "staticData": {
+    "node:Schedule Trigger": {
+      "recurrenceRules": []
+    }
+  },
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2025-12-05T23:36:29.852Z",
+  "versionId": "7a64ef26-a5d5-46de-a84f-694a4cea4950"
+}
