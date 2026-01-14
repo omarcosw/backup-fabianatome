@@ -1,0 +1,257 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Get a document1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search files and folders1": {
+      "main": [
+        [
+          {
+            "node": "Get a document1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get a document1": {
+      "main": [
+        [
+          {
+            "node": "Code1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-11-05T17:57:55.481Z",
+  "id": "p7C9wSoHolbPkFS4",
+  "isArchived": false,
+  "meta": null,
+  "name": "teste igor",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -720,
+        288
+      ],
+      "id": "12805dc7-155d-40e7-8d28-1ee0fc174bf6",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "returnAll": true,
+        "filter": {
+          "folderId": {
+            "__rl": true,
+            "value": "1ywGXlc6E3Vc7WArLhBCdewsG5G3aiGe5",
+            "mode": "list",
+            "cachedResultName": "Modulo 26 -  LIVES EXCLUSIVAS (AULAS COMPLEMENTARES)",
+            "cachedResultUrl": "https://drive.google.com/drive/folders/1ywGXlc6E3Vc7WArLhBCdewsG5G3aiGe5"
+          }
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        -496,
+        288
+      ],
+      "id": "6b742784-e462-428a-894d-385869e24089",
+      "name": "Search files and folders1",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "2QobK2TUrQea7DlZ",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "documentURL": "=1zymfXbtQlA_aH4QpXUeCm7P6iHk_Rtx0ClEL-l3hrQ4"
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        -240,
+        288
+      ],
+      "id": "cfc8113b-9c85-48bd-93f9-4acecc7e74ce",
+      "name": "Get a document1",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "u69VoKCm2y4Ogvjx",
+          "name": "Google Docs account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Função para extrair informações de partes dos documentos\nfunction extractDocumentParts(documents) {\n  const results = [];\n  \n  // Itera sobre cada documento\n  for (const doc of documents) {\n    try {\n      const content = doc.content || '';\n      \n      // Regex para encontrar padrões de \"Part\" ou \"Parte\" seguido de número\n      // Suporta variações: \"Part 1\", \"Parte 1\", \"Part1\", \"Parte1\", \"- Part 1\", \"- Parte 1\"\n      const partPattern = /(?:Part|Parte)\\s*(\\d+)/gi;\n      \n      // Encontra todas as ocorrências\n      const matches = content.matchAll(partPattern);\n      const partNumbers = new Set();\n      \n      // Extrai os números únicos das partes\n      for (const match of matches) {\n        const partNumber = parseInt(match[1], 10);\n        if (!isNaN(partNumber)) {\n          partNumbers.add(partNumber);\n        }\n      }\n      \n      // Extrai o título do documento\n      // Procura pela primeira linha que contém \"Módulo\" e termina com \"Part\" ou \"Parte\"\n      const titlePattern = /^(.+?)\\s*-\\s*(?:Part|Parte)\\s*\\d+/im;\n      const titleMatch = content.match(titlePattern);\n      \n      let title = 'Título não identificado';\n      if (titleMatch && titleMatch[1]) {\n        title = titleMatch[1].trim();\n      } else {\n        // Tenta pegar apenas a primeira linha significativa\n        const lines = content.split('\\n').filter(line => line.trim().length > 0);\n        if (lines.length > 0) {\n          // Remove qualquer menção a \"Part\" ou \"Parte\" da primeira linha\n          title = lines[0].replace(/\\s*-?\\s*(?:Part|Parte)\\s*\\d+/gi, '').trim();\n        }\n      }\n      \n      // Conta o total de partes (o maior número encontrado)\n      const totalParts = partNumbers.size > 0 ? Math.max(...partNumbers) : 0;\n      \n      results.push({\n        documentId: doc.documentId || 'ID não disponível',\n        titulo: title,\n        totalPartes: totalParts,\n        partesEncontradas: Array.from(partNumbers).sort((a, b) => a - b)\n      });\n      \n    } catch (error) {\n      results.push({\n        documentId: doc.documentId || 'ID não disponível',\n        titulo: 'Erro ao processar documento',\n        totalPartes: 0,\n        erro: error.message,\n        partesEncontradas: []\n      });\n    }\n  }\n  \n  return results;\n}\n\n// Código principal para n8n\nconst inputData = $input.all();\nconst allResults = [];\n\n// Processa cada item de entrada\nfor (const item of inputData) {\n  // Verifica se o item contém um array de documentos\n  const documents = Array.isArray(item.json) ? item.json : [item.json];\n  \n  const results = extractDocumentParts(documents);\n  allResults.push(...results);\n}\n\n// Retorna o resultado\nreturn allResults.map(result => ({\n  json: result\n}));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -16,
+        288
+      ],
+      "id": "b85376fc-83a3-4a66-a061-8611cf425314",
+      "name": "Code1",
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "81f45828-8947-46a9-b257-25535f04c694",
+              "name": "totalPartes",
+              "value": "={{ $json.totalPartes }}",
+              "type": "number"
+            },
+            {
+              "id": "6e9dd359-0496-4c67-b276-d47583182567",
+              "name": "totalPartes",
+              "value": "={{ $json.totalPartes }}",
+              "type": "number"
+            },
+            {
+              "id": "7fba260a-7db9-4ad9-b104-336e6a16025a",
+              "name": "totalPartes",
+              "value": "={{ $json.totalPartes }}",
+              "type": "number"
+            },
+            {
+              "id": "570458d7-9588-4a35-93db-27abfbd70545",
+              "name": "totalPartes",
+              "value": "={{ $json.totalPartes }}",
+              "type": "number"
+            },
+            {
+              "id": "71fe8c73-623e-48de-a016-383e9633673b",
+              "name": "totalPartes",
+              "value": "={{ $json.totalPartes }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        192,
+        288
+      ],
+      "id": "4a1bb79b-d396-4202-8651-73dd30748ae4",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Código para somar totalPartes no n8n\nconst inputData = $input.all();\nlet somaTotal = 0;\n\n// Itera sobre todos os itens e soma os valores de totalPartes\nfor (const item of inputData) {\n  const totalPartes = item.json.totalPartes || 0;\n  somaTotal += totalPartes;\n}\n\n// Retorna o resultado\nreturn [{\n  json: {\n    totalDocumentos: inputData.length,\n    somaTotal: somaTotal,\n    detalhes: inputData.map(item => ({\n      totalPartes: item.json.totalPartes || 0\n    }))\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        400,
+        288
+      ],
+      "id": "d3c41311-0f99-4436-a3b6-b36122d03fbf",
+      "name": "Code",
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e56279e8-2d6e-4af4-8684-35699f647004",
+              "name": "somaTotal",
+              "value": "={{ $json.somaTotal }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        576,
+        288
+      ],
+      "id": "47da6643-342a-4b99-85fc-4660d5b8ac26",
+      "name": "Edit Fields1"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-11-05T17:57:55.481Z",
+      "createdAt": "2025-11-05T17:57:55.481Z",
+      "role": "workflow:owner",
+      "workflowId": "p7C9wSoHolbPkFS4",
+      "projectId": "tP5lcLj6t4StcK5B"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-11-06T15:31:46.481Z",
+  "versionId": "062741e7-eeb0-45fa-bf0f-4dff071ac6a3"
+}
