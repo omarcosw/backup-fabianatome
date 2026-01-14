@@ -1,0 +1,576 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "Schedule Trigger2": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger3": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code1": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet1": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "Code1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent1": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request2": {
+      "main": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-10-26T03:36:09.379Z",
+  "id": "64R5y8C0hdLSEaiB",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "RELATÓRIO DE MÉTRICAS - ONTEM & HOJE",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 8
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        224,
+        256
+      ],
+      "id": "23d13762-79b2-46b9-b5a5-3fe66608c2b4",
+      "name": "Schedule Trigger2"
+    },
+    {
+      "parameters": {
+        "content": "## REPORT MÉTRICAS - GRUPO - ONTEM",
+        "height": 620,
+        "width": 1560,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "332d2245-d71d-4d11-99b7-3adc0b8f8b03",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "jsCode": "return items.map(({ json: r }) => {\n  // utilitários\n  const toNum = (v) => {\n    const n = parseFloat(v);\n    return isNaN(n) ? 0 : n;\n  };\n  const formatCurrency = (val) => {\n    const num = toNum(val);\n    return `R$ ${num.toFixed(2).replace('.', ',')}`;\n  };\n  const formatPercent = (val, dec = 1) => {\n    const num = toNum(val) * 100;\n    return `${num.toFixed(dec).replace('.', ',')}%`;\n  };\n\n  // dados do input\n  const data = r[\"Data\"] || \"\";\n  const investimentoFb = toNum(r[\"Investimento FB\"]);\n  const impressoesFb   = toNum(r[\"Impressões FB\"]);\n  const alcanceFb      = toNum(r[\"Alcance\"]);\n  const cliquesFb      = toNum(r[\"Cliques FB\"]);\n  const ctrFb          = toNum(r[\"CTR\"]);\n  const cpcFb          = toNum(r[\"CPC FB\"]);\n  const cpmFb          = toNum(r[\"CPM\"]);\n  const pageview       = toNum(r[\"Pageview\"]);\n  const leads          = toNum(r[\"Leads\"]);\n  const cpl            = toNum(r[\"CPL\"]);\n  const connectRate    = toNum(r[\"Connect Rate\"]);\n  const convLp         = toNum(r[\"Conv. LP\"]);\n\n  // mensagem\n  const msg = `\n*FACEBOOK — RESUMO DE ONTEM*\n📅 Data: ${data || '(sem data)'}\n\n📈 Alcance e Tráfego\n• Impressões: ${impressoesFb.toLocaleString('pt-BR')}\n• Alcance: ${alcanceFb.toLocaleString('pt-BR')}\n• Cliques: ${cliquesFb.toLocaleString('pt-BR')}\n• Pageviews: ${pageview.toLocaleString('pt-BR')}\n• Ctr: ${formatPercent(ctrFb)}\n• Connect rate: ${formatPercent(connectRate)}\n• Conv. lp: ${formatPercent(convLp)}\n\n💰 Custos e Eficiência\n• Investimento FB: ${formatCurrency(investimentoFb)}\n• Cpm: ${formatCurrency(cpmFb)}\n• Cpc: ${formatCurrency(cpcFb)}\n• Cpl: ${formatCurrency(cpl)}\n\n🧲 Leads\n• Leads: ${leads.toLocaleString('pt-BR')}\n`.trim();\n\n  return { json: { output: msg } };\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        624,
+        256
+      ],
+      "id": "89095625-3b2c-486d-84ff-60c95bbd4aeb",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://evolution.bilhon.com/message/sendText/5527998210071",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "4D1BBCB94F4A-4357-8E14-A5A8E121EE26"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "number",
+              "value": "120363417719959910@g.us"
+            },
+            {
+              "name": "text",
+              "value": "={{ $json[\"output\"] }}"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1216,
+        256
+      ],
+      "id": "0f60a8dd-f334-4eb8-ae84-b24a0b26af4d",
+      "name": "HTTP Request",
+      "retryOnFail": true,
+      "waitBetweenTries": 5000
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 18
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        224,
+        976
+      ],
+      "id": "1344fe4f-ad9a-4735-bf1b-4a86068536b6",
+      "name": "Schedule Trigger3"
+    },
+    {
+      "parameters": {
+        "content": "## REPORT MÉTRICAS - GRUPO - HOJE",
+        "height": 620,
+        "width": 1560,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        0,
+        720
+      ],
+      "id": "eb10c2a7-30ae-4083-8ae6-008b7df92a4c",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "jsCode": "return items.map(({ json: r }) => {\n  // utilitários\n  const toNum = (v) => {\n    const n = parseFloat(v);\n    return isNaN(n) ? 0 : n;\n  };\n  const formatCurrency = (val) => {\n    const num = toNum(val);\n    return `R$ ${num.toFixed(2).replace('.', ',')}`;\n  };\n  const formatPercent = (val, dec = 1) => {\n    const num = toNum(val) * 100;\n    return `${num.toFixed(dec).replace('.', ',')}%`;\n  };\n\n  // dados do input\n  const data = r[\"Data\"] || \"\";\n  const investimentoFb = toNum(r[\"Investimento FB\"]);\n  const impressoesFb   = toNum(r[\"Impressões FB\"]);\n  const alcanceFb      = toNum(r[\"Alcance\"]);\n  const cliquesFb      = toNum(r[\"Cliques FB\"]);\n  const ctrFb          = toNum(r[\"CTR\"]);\n  const cpcFb          = toNum(r[\"CPC FB\"]);\n  const cpmFb          = toNum(r[\"CPM\"]);\n  const pageview       = toNum(r[\"Pageview\"]);\n  const leads          = toNum(r[\"Leads\"]);\n  const cpl            = toNum(r[\"CPL\"]);\n  const connectRate    = toNum(r[\"Connect Rate\"]);\n  const convLp         = toNum(r[\"Conv. LP\"]);\n\n  // mensagem\n  const msg = `\n*FACEBOOK — RESUMO DE HOJE*\n📅 Data: ${data || '(sem data)'}\n\n📈 Alcance e Tráfego\n• Impressões: ${impressoesFb.toLocaleString('pt-BR')}\n• Alcance: ${alcanceFb.toLocaleString('pt-BR')}\n• Cliques: ${cliquesFb.toLocaleString('pt-BR')}\n• Pageviews: ${pageview.toLocaleString('pt-BR')}\n• Ctr: ${formatPercent(ctrFb)}\n• Connect rate: ${formatPercent(connectRate)}\n• Conv. lp: ${formatPercent(convLp)}\n\n💰 Custos e Eficiência\n• Investimento FB: ${formatCurrency(investimentoFb)}\n• Cpm: ${formatCurrency(cpmFb)}\n• Cpc: ${formatCurrency(cpcFb)}\n• Cpl: ${formatCurrency(cpl)}\n\n🧲 Leads\n• Leads: ${leads.toLocaleString('pt-BR')}\n`.trim();\n\n  return { json: { output: msg } };\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        608,
+        976
+      ],
+      "id": "92e91c69-cb84-45f1-9c05-913eb5bce9ed",
+      "name": "Code1"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1w-nIPAZIQ5J2UbHVrBa7Zm_u3J65IMX-mfvu_VkpwM4",
+          "mode": "list",
+          "cachedResultName": "TRA_NOV_2025 - Lançamento",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1w-nIPAZIQ5J2UbHVrBa7Zm_u3J65IMX-mfvu_VkpwM4/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1828686878,
+          "mode": "list",
+          "cachedResultName": "relatorio",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1w-nIPAZIQ5J2UbHVrBa7Zm_u3J65IMX-mfvu_VkpwM4/edit#gid=1828686878"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Data",
+              "lookupValue": "={{(() => {\n  const date = new Date();\n  date.setDate(date.getDate() - 1);\n  const yyyy = date.getFullYear();\n  const mm = String(date.getMonth() + 1).padStart(2, '0');\n  const dd = String(date.getDate()).padStart(2, '0');\n  return `${yyyy}-${mm}-${dd}`;\n})()}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        432,
+        256
+      ],
+      "id": "56c99b74-72cd-4098-9a59-77e3dcc99a81",
+      "name": "Get row(s) in sheet1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "TVPRos8AAlC7U017",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "https://evolution.fabianatome.com.br/group/fetchAllGroups/marcos?getParticipants=true",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "260E1021118C-4A44-982E-829492BEAC26"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        960,
+        1776
+      ],
+      "id": "c69f5897-6b6d-4bd5-af1a-edca85590451",
+      "name": "HTTP Request3",
+      "retryOnFail": true,
+      "waitBetweenTries": 5000
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1w-nIPAZIQ5J2UbHVrBa7Zm_u3J65IMX-mfvu_VkpwM4",
+          "mode": "list",
+          "cachedResultName": "TRA_NOV_2025 - Lançamento",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1w-nIPAZIQ5J2UbHVrBa7Zm_u3J65IMX-mfvu_VkpwM4/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1828686878,
+          "mode": "list",
+          "cachedResultName": "relatorio",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1w-nIPAZIQ5J2UbHVrBa7Zm_u3J65IMX-mfvu_VkpwM4/edit#gid=1828686878"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Data",
+              "lookupValue": "={{ $now.format('yyyy-MM-dd') }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        416,
+        976
+      ],
+      "id": "29c287e6-eb41-44e1-847a-534c3499f95b",
+      "name": "Get row(s) in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "TVPRos8AAlC7U017",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://evolution.bilhon.com/message/sendText/5527998210071",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "4D1BBCB94F4A-4357-8E14-A5A8E121EE26"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "number",
+              "value": "120363417719959910@g.us"
+            },
+            {
+              "name": "text",
+              "value": "={{ $json[\"output\"] }}"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        784,
+        976
+      ],
+      "id": "a7e7dea8-9459-4c21-9298-df0dc214ee19",
+      "name": "HTTP Request2",
+      "retryOnFail": true,
+      "waitBetweenTries": 5000
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $item(\"0\").$node[\"Code1\"].json[\"output\"] }}",
+        "options": {
+          "systemMessage": "=<AgenteIA>\n  <Identidade>\n    <Nome>Vitória</Nome>\n    <Papel>Especialista em tráfego pago e análise de dados</Papel>\n    <Tom>Bem-humorada, inteligente e descontraída</Tom>\n  </Identidade>\n\n  <InstrucoesGerais>\n    <Contexto>\n      Você vai analisar as métricas recebidas do node Code1 no caminho:\n      \"{{ $item(\"0\").$node[\"Code1\"].json[\"output\"] }}\"\n    </Contexto>\n    <Objetivo>\n      Avaliar o desempenho das campanhas de hoje e trazer insights práticos.\n    </Objetivo>\n    <Tarefas>\n      <Tarefa>1. Comente de forma leve e divertida os resultados do dia.</Tarefa>\n      <Tarefa>2. Dê considerações de melhoria com base nos números.</Tarefa>\n      <Tarefa>3. Traga 3 dicas objetivas para melhorar os resultados de amanhã.</Tarefa>\n    </Tarefas>\n  </InstrucoesGerais>\n\n  <FormatoDaResposta>\n    <Introducao>\n      Boa tarde, meu time querido do meu coração ♥️.  \n      Segue as métricas do Face ADS no dia de hoje ({{ $now.format('dd/MM/yyyy') }}):\n    </Introducao>\n\n    <Corpo>\n      • Faça uma análise divertida e inteligente das métricas recebidas.  \n      • Destaque o que está indo bem e o que precisa de ajustes.  \n      • Apresente 3 dicas práticas e engraçadas, mantendo o tom leve e motivador.\n    </Corpo>\n\n    <Encerramento>\n      Bora fazer algumas correções para que amanhã seja melhor que hoje.  \n      Um cheroooo ♥️\n    </Encerramento>\n  </FormatoDaResposta>\n</AgenteIA>"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        976,
+        976
+      ],
+      "id": "c3a35dda-bc8d-4ba2-b500-41691627fc6e",
+      "name": "AI Agent1"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        848,
+        1184
+      ],
+      "id": "5de6bf45-c89c-4a26-882d-a7d3618877a3",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "FWqn0IMXX1HmDrEh",
+          "name": "IA SUPORTE"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://evolution.bilhon.com/message/sendText/5527998210071",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "4D1BBCB94F4A-4357-8E14-A5A8E121EE26"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "number",
+              "value": "120363417719959910@g.us"
+            },
+            {
+              "name": "text",
+              "value": "={{ $json[\"output\"] }}"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1312,
+        976
+      ],
+      "id": "fb04e51f-f6f1-4ad9-945c-29a2523530aa",
+      "name": "HTTP Request4",
+      "retryOnFail": true,
+      "waitBetweenTries": 5000
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $item(\"0\").$node[\"Code\"].json[\"output\"] }}",
+        "options": {
+          "systemMessage": "=<AgenteIA>\n  <Identidade>\n    <Nome>Vitória</Nome>\n    <Papel>Especialista em tráfego pago e análise de dados</Papel>\n    <Tom>Bem-humorada, inteligente e motivacional</Tom>\n  </Identidade>\n\n  <InstrucoesGerais>\n    <Contexto>\n      Você vai analisar as métricas recebidas do node Code1 no caminho:\n      \"{{ $item(\"0\").$node[\"Code\"].json[\"output\"] }}\"\n    </Contexto>\n    <Objetivo>\n      Avaliar o desempenho das campanhas do dia anterior e trazer insights práticos para o novo dia.\n    </Objetivo>\n    <Tarefas>\n      <Tarefa>1. Comece a mensagem de forma empolgante e motivacional, como uma amiga animada falando com o time.</Tarefa>\n      <Tarefa>2. Faça uma análise leve e engraçada das métricas do dia anterior.</Tarefa>\n      <Tarefa>3. Dê 3 dicas práticas e criativas para melhorar os resultados do dia de hoje.</Tarefa>\n      <Tarefa>4. Mantenha sempre um tom positivo e de incentivo, mesmo se os resultados estiverem ruins.</Tarefa>\n    </Tarefas>\n  </InstrucoesGerais>\n\n  <FormatoDaResposta>\n    <Introducao>\n      Bom dia, meu time lindo ♥️  \n      Bora acordar pra fazer acontecer! 💪  \n      *Frase motivacional (exemplo: \"O sucesso é construído com consistência, não com sorte!\")*  \n      Segue o resumo das métricas do Face ADS de ontem ({{ $now.minus({ days: 1 }).format('dd/MM/yyyy') }}):\n    </Introducao>\n\n    <Corpo>\n      • Faça uma análise divertida e descontraída das métricas recebidas.  \n      • Destaque os pontos fortes e o que precisa de ajustes.  \n      • Apresente 3 dicas práticas e engraçadas para o dia de hoje, incentivando a melhoria contínua.\n    </Corpo>\n\n    <Encerramento>\n      Bora fazer algumas correções para que hoje seja melhor que ontem.  \n      Um cheroooo ♥️\n    </Encerramento>\n  </FormatoDaResposta>\n</AgenteIA>"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        848,
+        256
+      ],
+      "id": "694fd3bf-783d-40fd-a80b-9595af5a3887",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        752,
+        480
+      ],
+      "id": "01ae7ecd-448d-4a74-881a-19b522b3d49c",
+      "name": "OpenAI Chat Model1",
+      "credentials": {
+        "openAiApi": {
+          "id": "FWqn0IMXX1HmDrEh",
+          "name": "IA SUPORTE"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-10-26T03:36:09.379Z",
+      "createdAt": "2025-10-26T03:36:09.379Z",
+      "role": "workflow:owner",
+      "workflowId": "64R5y8C0hdLSEaiB",
+      "projectId": "tP5lcLj6t4StcK5B"
+    }
+  ],
+  "staticData": {
+    "node:Schedule Trigger2": {
+      "recurrenceRules": []
+    },
+    "node:Schedule Trigger3": {
+      "recurrenceRules": []
+    }
+  },
+  "tags": [],
+  "triggerCount": 2,
+  "updatedAt": "2025-11-15T01:07:51.577Z",
+  "versionId": "5ca2abfe-b410-4dbf-9189-547120a8fb96"
+}
