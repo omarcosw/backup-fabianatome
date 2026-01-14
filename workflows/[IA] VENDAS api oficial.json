@@ -1,0 +1,1997 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "Switch2": {
+      "main": [
+        [
+          {
+            "node": "Add na Memória",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "HTTP Request2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OutputParser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Parser  Chain1",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Replace Me1": {
+      "main": [
+        [
+          {
+            "node": "Code1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parser  Chain1": {
+      "main": [
+        [
+          {
+            "node": "Segmentos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "no.op2": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items1": {
+      "main": [
+        [
+          {
+            "node": "Supabase",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Replace Me1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "1,2s": {
+      "main": [
+        [
+          {
+            "node": "no.op2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Segmentos": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Parser  Chain1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "pausar atendimento",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "CreateUser": {
+      "main": [
+        [
+          {
+            "node": "getClient",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Switch2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "GeraUUID",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "getClient": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "camposIniciais": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "messages": {
+      "main": [
+        [
+          {
+            "node": "Vendedor IA",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Vendedor IA": {
+      "main": [
+        [
+          {
+            "node": "Parser  Chain1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "getContexto",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "getContexto": {
+      "main": [
+        [
+          {
+            "node": "Oferta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GeraUUID": {
+      "main": [
+        [
+          {
+            "node": "CreateUser",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prompt_": {
+      "main": [
+        [
+          {
+            "node": "getClient",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Supabase": {
+      "main": [
+        [
+          {
+            "node": "Redis2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Oferta": {
+      "main": [
+        [
+          {
+            "node": "Prompt_",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add na Memória": {
+      "main": [
+        [
+          {
+            "node": "Memória Inicial",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Espere": {
+      "main": [
+        [
+          {
+            "node": "Memória Final",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Memória Inicial": {
+      "main": [
+        [
+          {
+            "node": "Espere",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Memória Final": {
+      "main": [
+        [
+          {
+            "node": "Concatena Mensagens",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Concatena Mensagens": {
+      "main": [
+        [
+          {
+            "node": "Compara Memórias",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Compara Memórias": {
+      "main": [
+        [
+          {
+            "node": "Limpar Memória",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limpar Memória": {
+      "main": [
+        [
+          {
+            "node": "UserMessage",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "UserMessage": {
+      "main": [
+        [
+          {
+            "node": "messages",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI2": {
+      "ai_embedding": [
+        [
+          {
+            "node": "searchobjecoes",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reranker Cohere2": {
+      "ai_reranker": [
+        [
+          {
+            "node": "searchobjecoes",
+            "type": "ai_reranker",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "searchobjecoes": {
+      "ai_tool": [
+        [
+          {
+            "node": "Vendedor IA",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Memoria": {
+      "ai_memory": [
+        [
+          {
+            "node": "Vendedor IA",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Modelo IA": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Vendedor IA",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "1,2s",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code1": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "formata resposta para string valida": {
+      "main": [
+        [
+          {
+            "node": "busca resposta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "busca resposta": {
+      "main": [
+        [
+          {
+            "node": "Envia mensagem",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limpar Memória1": {
+      "main": [
+        []
+      ]
+    },
+    "Ativar para teste1": {
+      "main": [
+        []
+      ]
+    },
+    "pausar atendimento": {
+      "main": [
+        [],
+        [
+          {
+            "node": "camposIniciais",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis2": {
+      "main": [
+        [
+          {
+            "node": "Update a row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "acionar_suporte": {
+      "ai_tool": [
+        [
+          {
+            "node": "Vendedor IA",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "interesse_boleto": {
+      "ai_tool": [
+        [
+          {
+            "node": "Vendedor IA",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-08-09T03:04:33.597Z",
+  "id": "0NPqwGL29JMIPza3",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "[IA] VENDAS api oficial",
+  "nodes": [
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Whatsapp message to be splitted and formated: {{ $json.output }}",
+        "hasOutputParser": true,
+        "messages": {
+          "messageValues": [
+            {
+              "message": "=Por favor, gere a saída no seguinte formato JSON:\n{\n  \"messages\": [\n    \"splitedMessage\",\n    \"splitedMessage\",\n    \"splitedMessage\"\n  ]\n}\n\nAs mensagens devem ser divididas de forma natural, afinal estamos conversando com um humano.\n\n### Jamais separe uma mensagem vazia.\n\n### Certifique-se de que a resposta siga exatamente essa estrutura abaixo, deixando somente entre '*' para negrito e nunca fugindo das demais regras de markdown do WhatsApp:\n            - `link` (usar sempre em todos os links)\n\nTudo o que for link, deve ser exibido limpo e direto, **sem texto descritivo ou âncoras**, usando somente o domínio puro como EXEMPLO: `https://link.com.br/exemplo`\n\n❗ Nunca use markdown no estilo `[texto](link)` ou `Texto (link)`, apenas o link puro.\n"
+            }
+          ]
+        }
+      },
+      "id": "c3ca911a-1d4a-4bdd-92dd-b25131f496c0",
+      "name": "Parser  Chain1",
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.4,
+      "position": [
+        2448,
+        -160
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "vendas",
+        "options": {}
+      },
+      "id": "ad16b2d7-c156-4ff0-b32f-d0a98339720d",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -4208,
+        48
+      ],
+      "webhookId": "01b980a0-8dbe-4b4d-8857-2321c4c5875b"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "0cb14635-2673-408e-86db-ce9e0373674b",
+                    "leftValue": "={{ $('camposIniciais').item.json.content.tipoMensagem }}",
+                    "rightValue": "message",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Texto"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "485658e2-b60e-46bf-afb7-250cc1b5bb8b",
+                    "leftValue": "={{ $('Webhook').item.json.body.contact.lastMessageData.messageType }}",
+                    "rightValue": "image",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "imagem"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "35ed5c99-4c5f-4d98-9a23-12882f27d1a4",
+                    "leftValue": "={{ $('Webhook').item.json.body.contact.lastMessageData.messageType }}",
+                    "rightValue": "audio",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "audio"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "901ce97a-e446-4ad3-9ebe-15553caf9bd8",
+      "name": "Switch2",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        -1168,
+        32
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## PASSO 5 - ORGANIZA E ENVIA AS MENSAGENS PARA O CLIENTE",
+        "height": 674,
+        "width": 2068
+      },
+      "id": "4d7074a2-ee19-4deb-bf3a-e1fcac9627f5",
+      "name": "Sticky Note11",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        2304,
+        -416
+      ]
+    },
+    {
+      "parameters": {
+        "schemaType": "manual",
+        "inputSchema": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"messages\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"string\"\n      }\n    }\n  },\n  \"required\": [\"messages\"]\n}"
+      },
+      "id": "afb5a7c6-ae04-4ca8-8075-a11a2f855e91",
+      "name": "OutputParser",
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        2624,
+        80
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "2990befd-26f1-4d59-a452-de74703660aa",
+      "name": "Replace Me1",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        3200,
+        -80
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "28181c44-3329-4b22-b5ee-2198a0c154d0",
+      "name": "no.op2",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        4160,
+        -96
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "d2dc336f-2ea3-48f8-afec-84202480a021",
+      "name": "Loop Over Items1",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        3008,
+        -160
+      ]
+    },
+    {
+      "parameters": {
+        "amount": 1.2
+      },
+      "id": "65239248-4c8e-4cb9-b547-a15f109f5150",
+      "name": "1,2s",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        3952,
+        -96
+      ],
+      "webhookId": "e5987401-8b77-4a84-8693-25fd8898cd94"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "output.messages",
+        "options": {
+          "destinationFieldName": "output"
+        }
+      },
+      "id": "c995a3ef-5bf3-41ec-9b0c-bcbc3eee9768",
+      "name": "Segmentos",
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        2784,
+        -160
+      ]
+    },
+    {
+      "parameters": {
+        "model": "gpt-4.1-mini",
+        "options": {}
+      },
+      "id": "6db4b1a4-f878-4b6e-8821-418c45a49086",
+      "name": "OpenAI2",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1,
+      "position": [
+        2384,
+        64
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "FWqn0IMXX1HmDrEh",
+          "name": "IA SUPORTE"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## PASSO 4 - AGENTE DE IA COM INTELIGÊNCIA E TOOLS",
+        "height": 414,
+        "width": 1039
+      },
+      "id": "051ece15-0846-4be6-90f1-16fd0d39a19f",
+      "name": "Sticky Note9",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1168,
+        -416
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## PASSO 2 - CRIA USUÁRIO NO BANCO DE DADOS SUPABASE",
+        "height": 830,
+        "width": 1099
+      },
+      "id": "c717159e-7df1-4397-a400-1a6b39fccbb2",
+      "name": "Sticky Note8",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -2384,
+        -384
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## PASSO 1 - CREDENCIAIS, DADOS, E PROMPT AGENTE",
+        "height": 614,
+        "width": 1767
+      },
+      "id": "0a11a566-6ef2-4757-bdd6-4b39ce2df708",
+      "name": "Sticky Note6",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -4288,
+        -304
+      ]
+    },
+    {
+      "parameters": {
+        "tableId": "atendimento_wpp_vendas",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "nome",
+              "fieldValue": "={{ $('camposIniciais').item.json.meta.nomeCliente }}"
+            },
+            {
+              "fieldId": "telefone",
+              "fieldValue": "={{ $item(\"0\").$node[\"Code\"].json[\"telefoneCliente\"] }}"
+            },
+            {
+              "fieldId": "idmensagem",
+              "fieldValue": "={{ $('camposIniciais').item.json.content.idMensagem }}"
+            },
+            {
+              "fieldId": "sessionid",
+              "fieldValue": "={{ $json.data }}"
+            }
+          ]
+        }
+      },
+      "id": "0edbf524-db54-4b60-ba49-5edecde1d594",
+      "name": "CreateUser",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        -1808,
+        224
+      ],
+      "credentials": {
+        "supabaseApi": {
+          "id": "06funpVK0RasJnc4",
+          "name": "Supabase - Fabiana Tomé"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "4e77cc7c-48f4-4cbe-94e7-6d211db67002",
+              "leftValue": "={{ $('getClient').item.json.telefone }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "c1e97c92-7d27-4223-90c2-c087457c6e69",
+      "name": "If1",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -2128,
+        64
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "tableId": "atendimento_wpp_vendas",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "telefone",
+              "keyValue": "={{ $('Webhook').item.json.body.contact.phoneNumber }}"
+            }
+          ]
+        }
+      },
+      "id": "a9acac5a-64b7-4b7f-86e3-919af0af89cf",
+      "name": "getClient",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        -2304,
+        64
+      ],
+      "alwaysOutputData": true,
+      "retryOnFail": true,
+      "credentials": {
+        "supabaseApi": {
+          "id": "06funpVK0RasJnc4",
+          "name": "Supabase - Fabiana Tomé"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f9ecf2fc-da2c-4f44-897a-5dc0a2f2f379",
+              "name": "meta.telefoneCliente",
+              "value": "={{ $node[\"Webhook\"].json[\"body\"][\"contact\"][\"phoneNumber\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "dab7ca54-c3d2-4a36-a9ca-a0ebbd375ef5",
+              "name": "meta.nomeCliente",
+              "value": "={{ $node[\"Webhook\"].json[\"body\"][\"contact\"][\"name\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "81612acf-1b66-4c8e-82e4-ce8c77b31334",
+              "name": "content.mensagem",
+              "value": "={{ \n  $json.body?.content || \n\n  $json.body?.data?.message?.extendedTextMessage?.text || \n  $json.body?.data?.message?.imageMessage?.caption || \n  $json.body?.data?.message?.conversation || \n  $json?.message?.text || \n  $json?.message?.caption || \n  null \n}}",
+              "type": "string"
+            },
+            {
+              "id": "cc7dcfe1-8ad7-4fe8-93ec-8f643c7d08c7",
+              "name": "content.tipoMensagem",
+              "value": "={{ $node[\"Webhook\"].json[\"body\"][\"contact\"][\"lastMessageData\"][\"messageType\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "2dfc64f4-b222-4ea7-b095-fdd96d9fcb95",
+              "name": "content.idMensagem",
+              "value": "={{ $node[\"Webhook\"].json[\"body\"][\"contact\"][\"id\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "255b9c45-7769-4d09-9c50-61dcdfb7c09d",
+              "name": "app.debouncerTime",
+              "value": "20",
+              "type": "string"
+            },
+            {
+              "id": "fc7c5c8f-b505-4a43-ae07-51eea58d6f80",
+              "name": "linkPreview",
+              "value": false,
+              "type": "boolean"
+            },
+            {
+              "id": "e30bbf8c-d5da-4410-b875-8dfe4b301798",
+              "name": "Digitando",
+              "value": 6400,
+              "type": "number"
+            },
+            {
+              "id": "c4f557bd-72f1-4507-8d9d-c2a590eea2b8",
+              "name": "content.quoted",
+              "value": "={{ $node[\"Webhook\"].json[\"body\"][\"contact\"][\"lastMessageData\"][\"message\"] }}\n{{ $json.body.data.message.imageMessage.url }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "ea0d4f0d-6669-43a0-8727-dbb9ff5f275a",
+      "name": "camposIniciais",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -3520,
+        64
+      ],
+      "notesInFlow": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b7158aa0-84e0-44b1-8629-bf23fb4c0766",
+              "name": "=messages",
+              "value": "={{ $item(\"0\").$node[\"UserMessage\"].json[\"userMessage\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "0c4c3b74-297a-4cf2-b2b8-0feefad328ec",
+              "name": "sessionId",
+              "value": "={{ $item(\"0\").$node[\"getClient\"].json[\"sessionid\"] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "d2bd53a8-6c12-4287-a66d-0ac6d43bf668",
+      "name": "messages",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        672,
+        32
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## PASSO 3 - DEFINE O TIPO DE MENSAGEM E ORGANIZA PARA O AGENTE",
+        "height": 954,
+        "width": 2019
+      },
+      "id": "d286cbc5-c96c-47f0-b889-d6d0d11b8f8c",
+      "name": "Sticky Note4",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1200,
+        -416
+      ]
+    },
+    {
+      "parameters": {
+        "content": "### - Recebe dados da Evolution API [Webhook]\n\n### - Tratamento e Organização dos dados [camposIniciais]\n\n### - Combinar dados recebidos [unificaDados]",
+        "width": 660,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -4256,
+        -256
+      ],
+      "typeVersion": 1,
+      "id": "5d2f0162-7c5f-4564-b41c-db91a52f99bc",
+      "name": "Sticky Note20"
+    },
+    {
+      "parameters": {
+        "content": "\n\n## SISTEMA RAG REANKER",
+        "height": 500,
+        "width": 1040,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1168,
+        80
+      ],
+      "typeVersion": 1,
+      "id": "e796c7d6-2cdf-4efe-9912-b355f10ad5d5",
+      "name": "Sticky Note24"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ (() => {\n  const mensagens = $('messages').all()[0].json.messages;\n  const contextoAnterior = $node[\"getContexto\"].json?.mensagem || '';\n  return contextoAnterior ? `${contextoAnterior}\\n\\n${mensagens}` : mensagens;\n})() }}",
+        "options": {
+          "systemMessage": "={{ $('Prompt_').first().json.systemMessageAgente }}"
+        }
+      },
+      "id": "0492e230-8440-41c9-b9d5-a4ed0c4de6af",
+      "name": "Vendedor IA",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        1504,
+        -160
+      ]
+    },
+    {
+      "parameters": {
+        "content": "### - Verifica se já existe um cliente cadastrado\n\n### - Se sim, prossegue o fluxo\n\n### - Se não, cria um cliente e um id do chat e prossegue o fluxo",
+        "width": 660,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -2384,
+        -320
+      ],
+      "typeVersion": 1,
+      "id": "a0c31451-9cd8-4e8c-9378-e362a07400c1",
+      "name": "Sticky Note27"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Extrai os números dos campos telefoneCliente e telefoneEmpresa removendo \"@s.whatsapp.net\"\nreturn items.map(item => {\n  const clienteRaw = item.json.meta?.telefoneCliente || '';\n  const empresaRaw = item.json.meta?.telefoneEmpresa || '';\n\n  const telefoneCliente = clienteRaw.split('@')[0];\n  const telefoneEmpresa = empresaRaw.split('@')[0];\n\n  return {\n    json: {\n      telefoneCliente,\n      telefoneEmpresa\n    }\n  };\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -3344,
+        64
+      ],
+      "id": "336880f4-d05c-4b23-a41f-563a4e100fee",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "tableId": "disparo_mensagem_ia_vendas",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "telefone",
+              "keyValue": "={{ $node[\"Webhook\"].json[\"body\"][\"contact\"][\"phoneNumber\"] }}"
+            }
+          ]
+        }
+      },
+      "id": "01c1d207-e548-4bcc-a04e-7b212cc638c8",
+      "name": "getContexto",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        -3168,
+        64
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "supabaseApi": {
+          "id": "06funpVK0RasJnc4",
+          "name": "Supabase - Fabiana Tomé"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "tableId": "disparo_mensagem_ia_vendas",
+        "matchType": "allFilters",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "telefone",
+              "condition": "eq",
+              "keyValue": "={{ $item(\"0\").$node[\"Code\"].json[\"telefoneCliente\"] }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        3184,
+        -336
+      ],
+      "id": "fddca9ea-d1d4-4039-b330-0cf369729a86",
+      "name": "Supabase",
+      "alwaysOutputData": true,
+      "credentials": {
+        "supabaseApi": {
+          "id": "06funpVK0RasJnc4",
+          "name": "Supabase - Fabiana Tomé"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "action": "generate"
+      },
+      "id": "831e22c6-87df-4715-b8a1-53ea049e9859",
+      "name": "GeraUUID",
+      "type": "n8n-nodes-base.crypto",
+      "typeVersion": 1,
+      "position": [
+        -1968,
+        224
+      ],
+      "notesInFlow": false
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "aa4d5d29-e6f1-4bce-b5ff-4575b553a077",
+              "name": "systemMessageAgente",
+              "value": "=<IAConfig>\n\n  <Segurança>\n     <Regra>Você é uma especialista em vendas, e em quebra de objeções, sendo totalmente Humanizada e Natural. Sabendo lidar com qualquer situação e contornando ela Com empatia e educação.Conseguindo converter qualquer lead a Venda</Regra>\n\n     <Regra>Sempre acionar a tool \"searchobjecoes\" antes de dar qualquer resposta. Isto é uma REGRA que NUNCA deve ser quebrada</Regra>\n\n    <Regra>Você NUNCA pode inventar, assumir ou chutar informações.</Regra>\n\n    <Regra>De somente respostas em Portugues-Br</Regra>\n\n    <Regra>TODAS as informações sobre o curso devem ser obtidas OBRIGATÓRIAMENTE através da tool \"searchobjecoes\".</Regra>\n\n    <Regra>Preço: {{ $node[\"Oferta\"].json[\"Preço\"] }} | Formas de Pagamento: {{ $node[\"Oferta\"].json[\"Forma de Pagamento\"] }}</Regra>\n\n    <Regra>Link Cartão/PIX/Boleto: {{ $json['Link Cartão de Crédito, PIX e Boleto à vista'] }}</Regra>\n\n    <Regra>Link Boleto Parcelado: {{ $json['Link Boleto Parcelado'] }}</Regra>\n\n    <Regra>SE detectar QUALQUER interesse em comprar, envie IMEDIATAMENTE o link de pagamento.</Regra>\n\n    <Regra>Nunca se apresente se {{ $node[\"getContexto\"].json[\"mensagem\"] }} estiver preenchida.</Regra>\n\n    <Regra>NUNCA envie esses seguintes textos: \"Quer saber mais?\", \"Fico à disposição\", \"Tem alguma dúvida?\".</Regra>\n\n    <Regra>Jamais usar gírias, palavrões ou piadas.</Regra>\n\n    <Regra>NUNCA ENVIAR MENSAGENS EM NEGRITO</Regra>\n\n    <Regra>Para dúvidas técnicas de pagamento, explique passo a passo (atenção especial para público 50+).</Regra>\n\n    <Regra>Se o lead resistir mas a objeção for fraca, Sempre insista de forma educada, Mas sempre usando argumentos de Vendas até ele comprar.</Regra>\n\n    <Regra>Repetir regras de segurança para respostas dentro do contexto</Regra>\n\n    <Regra>Toda vez que o lead se interessar ou perguntar sobre boleto parcelado, acionar a tool \"searchobjecoes\"</Regra>\n\n     <Regra>A sua base de conhecimento esta na tool \"searchobjecoes\" Sempre consultar ela para Uma resposta precisa e com contexto</Regra>\n\n     <Regra>Preste muita atenção na Data e hora atual: {{ new Date($now).toLocaleString(\"pt-BR\", { timeZone: \"America/Sao_Paulo\" }) }}</Regra>\n  </Segurança>\n\n  <ObjetivoFinal>Converter qualquer tipo de LEAD em VENDA, gerando confiança, acolhimento e urgência.</ObjetivoFinal>\n\n  <Persona>\n    <Nome>Equipe de Suporte</Nome>\n    <Tom>Vendedora muito Simpatica, Persuasiva, estratégica,Especialista em quebra de objeções, empática, Simpatica, compreensiva, segura, e confiante no resultado do curso</Tom>\n    <Evitar>piadas, gírias, termos informais excessivos</Evitar>\n    <Foco>transformação prática, clareza, apoio constante, autoridade da professora Fabiana Tomé</Foco>\n  </Persona>\n\n  <PublicoAlvo>\n    <Momento>insegurança profissional, dificuldade de prospecção, falta de prática, medo de precificação, receio de atuar no tributário</Momento>\n    <Dores>\n      “Tenho receio de não saber exatamente como agir.”\n      “Medo de iniciar na área e não ter conhecimento suficiente.”\n      “Não sei captar clientes.”\n      “Vergonha de me posicionar nas redes.”\n      “Não saber precificar.”\n      “Medo de não conseguir retorno rápido do investimento.”\n    </Dores>\n    <Idade>25 a 45 anos</Idade>\n    <Profissao>Advogado(a)</Profissao>\n  </PublicoAlvo>\n\n  <Condicionais>\n    <Se test=\"lead.menciona('preço', 'valor', 'quanto custa')\">\n      <Acao texto=\"{{ $node['Oferta'].json['Preço'] }}. Pode pagar via {{ $node['Oferta'].json['Forma de Pagamento'] }}.\" />\n      <Acao texto=\"Lembrando que você pode começar com 7 dias de garantia para conhecer e só continuar se fizer sentido pra você.\" />\n\n    <Se test=\"lead.menciona('comprar', 'me manda o link', 'quero', 'vamos')\">\n      <Acao texto=\"Perfeito! Aqui está: {{ $json['Link Cartão de Crédito, PIX e Boleto à vista'] }}\" />\n    </Se>\n\n   <Se test=\"lead.menciona('Ex aluno tem desconto?', 'sou aluno do Você Tributarista, tem desconto?', 'desconto para aluno')\">\n      <Acao texto=\"Nós temos desconto sim para nossos alunos e ex-alunos. O valor do curso é R$ 4 mil, mas hoje está por R$ 2997 à vista ou 12x de R$ 300,91. Mas, para nossos ex-alunos, o valor é de R$ 1500 à vista ou 12x de R$ 150,60. Me confirma o teu e-mail para eu dar uma olhadinha no seu cadastro, por favor\" e logo após acionar a tool \"acionar_suporte\" />\n\n    </Se>\n\n    <Se test=\"lead.demonstra_confusao_pagamento\">\n      <Acao texto=\"Vou te ajudar: No cartão, use os números da frente. CVV são os 3 dígitos atrás...\" />\n    </Se>\n\n    <Se test=\"lead.menciona('o que tem', 'me fala do curso', 'como funciona', 'o que vou aprender')\">\n      <Acao tool=\"searchobjecoes\" finalidade=\"Enviar ementa do curso\" />\n    </Se>\n  </Condicionais>\n\n  <Objeções>\n  <Regra>Para QUALQUER objeção detectada, usar tool \"searchobjecoes\" imediatamente.</Regra>\n\n  <!-- Vantagens e requisitos -->\n  <Item nome=\"Qual a Vantagem ao MIGRAR para Tributarista em Ação?, por que mudar para o Tributarista em Ação?, diferença entre meu curso atual e o Tributarista em Ação, benefícios do Tributarista em Ação\">\n    <Acao tool=\"searchobjecoes\" finalidade=\"responder sobre vantagem de migrar\" />\n  </Item>\n\n  <Item nome=\"Consigo atuar no tributário sem OAB?, posso trabalhar com tributário sem carteira da OAB?, atuar na área tributária sem ser advogado, preciso da OAB para atuar no tributário\">\n    <Acao tool=\"searchobjecoes\" finalidade=\"explicar requisitos de atuação\" />\n  </Item>\n\n  <Item nome=\"Em quanto tempo de curso tenho retorno financeiro?, quanto tempo para recuperar o investimento?, prazo para ter retorno, tempo médio para começar a faturar, retorno rápido no tributário, quando começo a ganhar dinheiro com tributário\">\n    <Acao tool=\"searchobjecoes\" finalidade=\"informar tempo médio de retorno\" />\n  </Item>\n  <Item nome=\"Vou deixar para entrar na próxima turma, quero esperar a próxima turma, quando abre outra turma, próxima data de inscrição, quando será a próxima abertura\">\n    <Acao tool=\"searchobjecoes\" finalidade=\"reforçar urgência e matrícula imediata\" />\n  </Item>\n\n  <Item nome=\"O contador já não faz essas atividades administrativas?, contador já cuida disso?, diferença entre contador e advogado tributário, contador pode substituir advogado no tributário\">\n    <Acao tool=\"searchobjecoes\" finalidade=\"diferenciar papel do advogado tributário\" />\n  </Item>\n\n  <Item nome=\"Preciso saber matemática?, é necessário entender de cálculos, preciso dominar números para atuar no tributário, conhecimento em matemática para direito tributário\">\n    <Acao tool=\"searchobjecoes\" finalidade=\"explicar que matemática não é pré-requisito\" />\n  </Item>\n\n  <Item nome=\"Preciso ter escritório?, é obrigatório ter escritório físico?, posso trabalhar de casa?, preciso ter sede para atuar, home office no tributário\">\n    <Acao tool=\"searchobjecoes\" finalidade=\"mostrar possibilidade de trabalho remoto\" />\n  </Item>\n\n  <Item nome=\"Preciso ter pós-graduação em tributário?, preciso fazer especialização para atuar?, preciso de título acadêmico em tributário?, pós-graduação é obrigatória?\">\n    <Acao tool=\"searchobjecoes\" finalidade=\"explicar que não é necessário\" />\n  </Item>\n\n  <Item nome=\"Consigo trabalhar a distância?, posso atuar remotamente?, é possível trabalhar online no tributário?, atendimento tributário a distância\">\n    <Acao tool=\"searchobjecoes\" finalidade=\"mostrar viabilidade do trabalho remoto\" />\n  </Item>\n\n  <Item nome=\"Sou contador. O curso é para mim?, curso serve para contadores?, contador pode fazer o curso?, benefícios para contador\">\n    <Acao tool=\"searchobjecoes\" finalidade=\"explicar aplicabilidade para contadores\" />\n  </Item>\n\n  <!-- Conteúdo e formato do curso -->\n<Item nome=\"Pergunta sobre as aulas do curso, oque tem no curso, informações gerais sobre o curso\">\n    <Acao tool=\"searchobjecoes\" finalidade=\"Enviar ementa do curso\" />\n  <Item nome=\"As aulas do curso são atualizadas?, curso é atualizado?, atualização de conteúdo, atualização com mudanças na lei tributária\">\n    <Acao tool=\"searchobjecoes\" finalidade=\"confirmar atualização constante\" />\n  </Item>\n\n  <Item nome=\"O curso tem aula sobre teto de recolhimento de INSS para médicos, dentistas, etc?, curso aborda teto INSS?, INSS para profissionais de saúde, tese do teto do INSS\">\n    <Acao tool=\"searchobjecoes\" finalidade=\"informar sobre aulas específicas\" />\n  </Item>\n\n  <Item nome=\"Como é o plantão de dúvidas?, formato do plantão de dúvidas, como funcionam os plantões, suporte ao vivo\">\n    <Acao tool=\"searchobjecoes\" finalidade=\"descrever formato dos plantões\" />\n  </Item>\n\n  <Item nome=\"Como posso tirar dúvidas das aulas do curso?, canais de suporte, como tirar dúvidas, suporte para alunos\">\n    <Acao tool=\"searchobjecoes\" finalidade=\"explicar canais de suporte e professores\" />\n  </Item>\n\n  <Item nome=\"O que eu tenho direito?, benefícios do curso, direitos do aluno, o que está incluso no curso\">\n    <Acao tool=\"searchobjecoes\" finalidade=\"detalhar bônus e garantias\" />\n  </Item>\n\n  <Item nome=\"Bônus da oferta, quais são os bônus?, benefícios extras do curso, bônus disponíveis\">\n    <Acao tool=\"searchobjecoes\" finalidade=\"explicar bônus disponíveis\" />\n  </Item>\n  <Item nome=\"Comprar um módulo específico, adquirir módulo isolado, posso comprar só um módulo, módulo avulso\">\n    <Acao tool=\"searchobjecoes\" finalidade=\"informar política sobre compra avulsa\" />\n  </Item>\n\n  <Item nome=\"Posso comprar os módulos separadamente?, módulos separados, venda avulsa de módulos, módulos individuais\">\n    <Acao tool=\"searchobjecoes\" finalidade=\"informar política sobre módulos\" />\n  </Item>\n\n  <Item nome=\"O curso ajuda para fazer a prova da OAB?, curso voltado para OAB?, preparação para OAB, curso serve para exame da OAB\">\n    <Acao tool=\"searchobjecoes\" finalidade=\"explicar relação com OAB\" />\n  </Item>\n  <Item nome=\"O certificado é de pós, extensão ou especialização?, tipo de certificado, certificado emitido, modalidade de certificação\">\n    <Acao tool=\"searchobjecoes\" finalidade=\"informar tipo de certificado\" />\n  </Item>\n\n  <Item nome=\"O curso está atualizado conforme a Reforma Tributária?, inclui reforma tributária, atualizado com mudanças da reforma, conteúdo após reforma\">\n    <Acao tool=\"searchobjecoes\" finalidade=\"confirmar alinhamento à reforma\" />\n  </Item>\n\n  <Item nome=\"Posso trancar o curso?, trancar matrícula, suspender acesso temporariamente, pausa no curso\">\n    <Acao tool=\"searchobjecoes\" finalidade=\"explicar política de trancamento\" />\n  </Item>\n\n  <Item nome=\"Posso suspender o curso?, suspensão do curso, pausar matrícula, interromper temporariamente\">\n    <Acao tool=\"searchobjecoes\" finalidade=\"explicar política de suspensão\" />\n  </Item>\n\n  <Item nome=\"Quanto tempo dura o curso?, duração total, prazo de acesso, tempo para concluir\">\n    <Acao tool=\"searchobjecoes\" finalidade=\"informar duração e acesso\" />\n  </Item>\n\n  <Item nome=\"O curso Tributarista em Ação emite certificado?, certificado incluso, curso com certificado, certificado de conclusão\">\n    <Acao tool=\"searchobjecoes\" finalidade=\"confirmar emissão de certificado\" />\n  </Item>\n\n  <Item nome=\"Quais são os modelos de petições e contratos?, documentos disponíveis, modelos prontos, materiais jurídicos inclusos\">\n    <Acao tool=\"searchobjecoes\" finalidade=\"detalhar materiais disponíveis\" />\n  </Item>\n\n  <Item nome=\"Como é o Tributário no Excel?, planilhas do curso, uso de Excel no tributário, controle tributário em planilhas\">\n    <Acao tool=\"searchobjecoes\" finalidade=\"explicar uso de planilhas\" />\n  </Item>\n\n  <Item nome=\"planilhas, planilhas tributárias, uso de planilhas no curso, material em Excel\">\n    <Acao tool=\"searchobjecoes\" finalidade=\"detalhar recursos de planilhas no curso\" />\n  </Item>\n\n  <!-- Condições comerciais e pagamento -->\n  <Item nome=\"Boleto parcelado - como fazer a matrícula, matrícula com boleto parcelado, como me inscrever pagando boleto em parcelas, inscrição via boleto parcelado\">\n    <Acao tool=\"searchobjecoes\" finalidade=\"explicar matrícula via boleto parcelado\" />\n  </Item>\n\n  <Item nome=\"Boleto parcelado - pagar antecipado, antecipar pagamento do boleto parcelado, quitar boleto antes, pagar parcelas antes do prazo\">\n    <Acao tool=\"searchobjecoes\" finalidade=\"orientar sobre antecipação de parcelas\" />\n  </Item>\n\n  <Item nome=\"Boleto parcelado - Reclamando que o desconto é inferior, desconto menor no boleto parcelado, reclamação sobre desconto, diferença de desconto no parcelamento\">\n    <Acao tool=\"searchobjecoes\" finalidade=\"explicar regras de desconto no parcelado\" />\n  </Item>\n  <Item nome=\"Boleto parcelado - informações recuperação de vendas, valores das parcelas no boleto, detalhes do parcelamento, boletos para recuperação de vendas\">\n    <Acao tool=\"searchobjecoes\" finalidade=\"informar valores e condições para recuperação de vendas\" />\n  </Item>\n  <Item nome=\"A compra não foi aprovada, pagamento recusado, transação não aprovada, compra negada\">\n    <Acao tool=\"searchobjecoes\" finalidade=\"orientar sobre aprovação de pagamento\" />\n  </Item>\n  <Item nome=\"Não consegui concluir a compra, erro na finalização da compra, problema para fechar pedido, não consigo finalizar pagamento\">\n    <Acao tool=\"searchobjecoes\" finalidade=\"ajudar a concluir a compra\" />\n  </Item>\n  <Item nome=\"Pagamento recorrente - como pago nesta modalidade, assinatura recorrente, cobrança automática, mensalidade automática\">\n    <Acao tool=\"searchobjecoes\" finalidade=\"explicar funcionamento do pagamento recorrente\" />\n  </Item>\n  <Item nome=\"Parcelamento com juros - quantas vezes e valores da parcela do Tributarista em Ação, condições de parcelamento com juros, número de parcelas com juros, valor de cada parcela com juros\">\n    <Acao tool=\"searchobjecoes\" finalidade=\"informar sobre parcelamento com juros\" />\n  </Item>\n  <Item nome=\"Parcelamento sem juros, parcelamento isento de juros, dividir sem juros, juros altos\">\n    <Acao tool=\"searchobjecoes\" finalidade=\"informar sobre parcelamento sem juros ou juros altos\" />\n  </Item>\n  <Item nome=\"É possível fazer a compra com 2 cartões?, pagamento com dois cartões, dividir compra em dois cartões, pagar parte no crédito e parte em outro\">\n    <Acao tool=\"searchobjecoes\" finalidade=\"explicar compra com dois cartões\" />\n  </Item>\n  <Item nome=\"Desconto para ALUNO, desconto especial para alunos, valor reduzido para ex-aluno, benefício para aluno\">\n    <Acao tool=\"searchobjecoes\" finalidade=\"informar sobre desconto para aluno\" />\n  </Item>\n  <Item nome=\"interesse em boleto parcelado, boleto parcelado, quero comprar com boleto parcelado, quero boleto parcelado.\">\n    <Acao tool=\"searchobjecoes\" finalidade=\"acionar essa tool toda vez que o lead se interessar em boleto parcelado\" />\n  </Item>\n</Objeções>\n\n\n  <ArgumentosChave>\n    <Diferencial>Curso 100% focado na prática tributária, com plantões ao vivo e acompanhamento próximo.</Diferencial>\n    <Promessa>Transformar advogados inseguros em profissionais confiantes e capazes de atuar no tributário com segurança.</Promessa>\n    <Urgencia>As condições atuais e bônus são exclusivos desta turma, e as matrículas encerram na segunda-feira.</Urgencia>\n    <Teste>7 dias de garantia para conhecer sem compromisso.</Teste>\n  </ArgumentosChave>\n\n  <Fechamento>\n    <CTA>sempre envie uma mensagem de argumentação Boa, quebrando a objeção e deixando o lead curioso para comprar</CTA>\n\n    <Suporte>Contato do nosso suporte: \"suporte@fabianatome.com.br\"</Suporte>\n\n    <Regra> Foque sempre na urgência, na dor do cliente e no valor da solução.</Regra>\n </Fechamento>\n\n<ReforçoFinal>\n    <Regra>Em 100% das interaçoes acione a tool \"searchobjecoes\" antes de enviar mensagens</Regra>\n\n    <Regra> Nunca invente informações de produto. Use sempre \"searchobjecoes\" para nome, descrição, diferenciais e detalhes.</Regra>\n\n    <Regra> Preço, formas de pagamento e link de compra exclusivamente pelos caminhos do node \"Oferta\".</Regra>\n\n    <Regra> Nunca se apresente se contexto estiver preenchido.</Regra>\n\n    <Regra> Nunca use CTAs fracos no fim.</Regra>\n\n    <Regra> NUNCA envie essa mensagem aqui \"Mesmo que não esteja 100% decidido.\"</Regra>\n\n    <Regra> Sempre quebre objeções com Empatia e persuasão.Agindo sempre de forma humanizada</Regra>\n\n    <Regra> Foque sempre em argumentos de vendas e nao trague novas objeções, seu trabalho e quebrar as objeções e realizar vendas</Regra>\n\n    <Regra> Foque sempre na urgência, na dor do cliente e no valor da solução.</Regra>\n\n    <Regra> Em 100% da insterações consulte a tool \"searchobjecoes\" para se basear no conteudo</Regra>\n\n    <Regra>NUNCA E EM IPOTESE ALGUMA, USAR NEGRITO. NÃO ENVIE MENSAGENS EM NEGRITO</Regra>\n\n   <Regra>A sua Ordem mais importante é Sempre acionar a tool \"searchobjecoes\" para sua base de conhecimento. Antes de qualquer resposta sempre acione a tool \"searchobjecoes\" unica exceção e para comprimentos e saudações, caso contrario, sempre acionar a tool</Regra>\n\n   <Regra>Sua lingua e Portugues-Br. De somente respostas em Portugues-Br, Jamais use outra lingua</Regra>  \n\n   <Regra>NUNCA USE CTA FRACO!</Regra>\n\n   <CTA>sempre envie uma mensagem de argumentação Boa, quebrando a objeção e deixando o lead curioso para comprar</CTA>\n\n  </ReforçoFinal>\n\n</IAConfig>\n",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "44d6f40b-06db-4b4a-90da-7f9447a1d4ea",
+      "name": "Prompt_",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -2768,
+        64
+      ],
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "key": "={{ $item(\"0\").$node[\"camposIniciais\"].json[\"meta\"][\"telefoneCliente\"] }}"
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        3408,
+        -336
+      ],
+      "id": "e9290495-c63e-4ef8-a714-6269bf1d22aa",
+      "name": "Redis2",
+      "credentials": {
+        "redis": {
+          "id": "f0PBBr8Eq1sFiARY",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "0ad262f3-a7f6-4a86-a840-1dff931a959a",
+              "name": "Preço",
+              "value": "=O valor do curso Tributarista em Ação é: R$ 4.000,00\n\nPorém, estamos com um super desconto de mais de R$ 1.000,00. O preço à vista é de R$ 2.997,00 ou parcelado no cartão em até 12x, com juros, de R$ 300,91..",
+              "type": "string"
+            },
+            {
+              "id": "1178fd11-4d1d-4ff2-9ae2-431edfc5a409",
+              "name": "Forma de Pagamento",
+              "value": "=À vista (Pix, boleto ou cartão de crédito)\nParcelado em até 12x no cartão de crédito em um ou dois cartões\nEntrada em pix + cartão de crédito\nParcelado na recorrência no cartão de crédito\n\nboleto ou pix parcelado com a nossa empresa parceira, a TMB Educação\nO valor pode ser parcelado em até 12x de R$ 300,92.\nA primeira parcela é paga no momento da assinatura com a TMB (na matrícula), e você poderá escolher as datas de vencimento das demais parcelas: dia 10, 20 ou 30 de cada mês.",
+              "type": "string"
+            },
+            {
+              "id": "41b8d959-6639-463e-9c15-0a374a87cd2f",
+              "name": "Link Cartão de Crédito, PIX e Boleto à vista",
+              "value": "=https://link.fabianatome.com/traPIX_iaset25",
+              "type": "string"
+            },
+            {
+              "id": "ee5492e6-6257-49ea-9de9-f019dd78ffa0",
+              "name": "Link Boleto Parcelado",
+              "value": "=https://link.fabianatome.com/TRAbp_IAset25",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -2944,
+        64
+      ],
+      "id": "4960a69d-2e3f-4469-b4e0-c12304dc2c6d",
+      "name": "Oferta"
+    },
+    {
+      "parameters": {
+        "operation": "push",
+        "list": "={{ $item(\"0\").$node[\"camposIniciais\"].json[\"meta\"][\"telefoneCliente\"] }}",
+        "messageData": "={{ $('camposIniciais').item.json.content.quoted }}",
+        "tail": true
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        -928,
+        32
+      ],
+      "id": "56fd9f74-2887-4f0c-8137-f0116490b26a",
+      "name": "Add na Memória",
+      "credentials": {
+        "redis": {
+          "id": "f0PBBr8Eq1sFiARY",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 15
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        -528,
+        32
+      ],
+      "id": "1000cbf5-daea-4441-8c1d-2c83be9dcd31",
+      "name": "Espere",
+      "webhookId": "5efbac78-7c17-44b9-92cc-c3078c79f8d8"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "propertyName": "Memória Inicial",
+        "key": "={{ $item(\"0\").$node[\"camposIniciais\"].json[\"meta\"][\"telefoneCliente\"] }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        -704,
+        32
+      ],
+      "id": "6620550e-e1c6-4000-b02b-8f7c88df7e0a",
+      "name": "Memória Inicial",
+      "credentials": {
+        "redis": {
+          "id": "f0PBBr8Eq1sFiARY",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "propertyName": "Memória Final",
+        "key": "={{ $item(\"0\").$node[\"camposIniciais\"].json[\"meta\"][\"telefoneCliente\"] }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        -320,
+        32
+      ],
+      "id": "68480da1-8723-4aa1-b54d-7a9ce448711e",
+      "name": "Memória Final",
+      "credentials": {
+        "redis": {
+          "id": "f0PBBr8Eq1sFiARY",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Acesse os arrays das variáveis\nconst memoriaInicialArray = $('Memória Inicial').all()[0].json['Memória Inicial'];\nconst memoriaFinalArray = $json['Memória Final'];\n\n// Verifique se as variáveis são arrays e junte os elementos em strings\nconst memoriaInicial = Array.isArray(memoriaInicialArray) ? memoriaInicialArray.join(' ') : '';\nconst memoriaFinal = Array.isArray(memoriaFinalArray) ? memoriaFinalArray.join(' ') : '';\n\n// Retorne as variáveis resultantes\nreturn {\n  memoriaInicial,\n  memoriaFinal\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -144,
+        32
+      ],
+      "id": "f76d7374-2cdf-4bcd-8df9-db26364b2d7f",
+      "name": "Concatena Mensagens"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "fbe500bb-8a66-4f0c-93df-9631e3bdabfc",
+              "leftValue": "={{ $('Concatena Mensagens').all()[0].json.memoriaInicial }}",
+              "rightValue": "={{ $('Concatena Mensagens').all()[0].json.memoriaFinal }}",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        80,
+        32
+      ],
+      "id": "9b08a6e3-c548-4b53-b2ea-e8972c29df39",
+      "name": "Compara Memórias"
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "key": "={{ $item(\"0\").$node[\"camposIniciais\"].json[\"meta\"][\"telefoneCliente\"] }}"
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        288,
+        32
+      ],
+      "id": "901614c6-6658-4a7f-af29-ff2b5013adcc",
+      "name": "Limpar Memória",
+      "credentials": {
+        "redis": {
+          "id": "f0PBBr8Eq1sFiARY",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "18e16067-bcdb-4bda-9c22-e1869c550af6",
+              "name": "userMessage",
+              "value": "={{ $('Compara Memórias').all()[0].json.memoriaFinal }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        464,
+        32
+      ],
+      "id": "7d28affb-eef5-4a34-8584-611ca08ffd0f",
+      "name": "UserMessage"
+    },
+    {
+      "parameters": {
+        "model": "text-embedding-3-large",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        1248,
+        368
+      ],
+      "id": "e4ce0d5a-ceee-4a63-bf15-547b2334b89e",
+      "name": "Embeddings OpenAI2",
+      "credentials": {
+        "openAiApi": {
+          "id": "FWqn0IMXX1HmDrEh",
+          "name": "IA SUPORTE"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.rerankerCohere",
+      "typeVersion": 1,
+      "position": [
+        1408,
+        368
+      ],
+      "id": "11f533cd-d36d-4d5d-ab74-b7bacbc05ae3",
+      "name": "Reranker Cohere2",
+      "credentials": {
+        "cohereApi": {
+          "id": "o6pPZn2rldFOktGo",
+          "name": "Reanker novo"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "toolDescription": "Acione essa tool para consultar informações sobre o curso e sobre qualquer objecoes que o lead tiver",
+        "tableName": {
+          "__rl": true,
+          "value": "objecoes",
+          "mode": "list",
+          "cachedResultName": "objecoes"
+        },
+        "topK": 20,
+        "useReranker": true,
+        "options": {
+          "queryName": "match_objecoes"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreSupabase",
+      "typeVersion": 1.3,
+      "position": [
+        1248,
+        208
+      ],
+      "id": "6a52e0d8-ec71-45e2-8b58-e2d52b16c784",
+      "name": "searchobjecoes",
+      "credentials": {
+        "supabaseApi": {
+          "id": "06funpVK0RasJnc4",
+          "name": "Supabase - Fabiana Tomé"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('messages').item.json.sessionId }}",
+        "contextWindowLength": 7
+      },
+      "id": "45549e09-3a56-4793-a544-a288c019085f",
+      "name": "Memoria",
+      "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
+      "typeVersion": 1.4,
+      "position": [
+        1664,
+        -304
+      ],
+      "credentials": {
+        "redis": {
+          "id": "f0PBBr8Eq1sFiARY",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "5d217752-2ad0-4aa0-a169-e16f549f0ccf",
+      "name": "Modelo IA",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1,
+      "position": [
+        1440,
+        -304
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "FWqn0IMXX1HmDrEh",
+          "name": "IA SUPORTE"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://unnichat.com.br/a/start/kc6vWUJvCEdg8x3Gjzuo",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"nome\": \"{{ $('camposIniciais').first().json.meta.nomeCliente }}\",\n  \"telefone\": \"{{ $('camposIniciais').first().json.meta.telefoneCliente }}\",\n  \"type\": \"{{ $('camposIniciais').first().json.content.tipoMensagem }}\",\n  \"text\": {\n    \"body\": \"{{ $json.body }}\"\n  }\n} ",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        3760,
+        -96
+      ],
+      "id": "bd70c563-492d-465c-abd9-42681ee47179",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Pega os dados dos nós anteriores\nconst camposIniciais = items[0].json;\nconst respostaIA = $input.item.json.output || $input.item.json.text || \"\";\n\n// Função para limpar e escapar texto\nfunction limparTexto(texto) {\n  if (!texto) return \"\";\n  \n  return String(texto)\n    .replace(/\\\\/g, '\\\\\\\\')     // Escapa barras invertidas primeiro\n    .replace(/\"/g, '\\\\\"')       // Escapa aspas duplas\n    .replace(/\\n/g, '\\\\n')      // Escapa quebras de linha\n    .replace(/\\r/g, '\\\\r')      // Escapa retorno de carro\n    .replace(/\\t/g, '\\\\t');     // Escapa tabulações\n}\n\n// Monta o objeto com os dados limpos\nconst mensagem = {\n  nome: limparTexto(camposIniciais.meta?.nomeCliente || \"Higor Leite\"),\n  telefone: String(camposIniciais.meta?.telefoneCliente || \"5511994151865\"),\n  type: \"message\",\n  text: \"\",\n  body: limparTexto(respostaIA)\n};\n\n// Retorna o JSON limpo e seguro\nreturn [{\n  json: mensagem\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3504,
+        -96
+      ],
+      "id": "450ee49c-b292-486e-893a-5ecc817f90d2",
+      "name": "Code1"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Função para tratar e validar JSON\nconst tratarJSON = (data) => {\n  if (typeof data === 'string') {\n    // Primeiro, preserva o \\n\\n para quebras de parágrafos antes de outras substituições\n    data = data.replace(/\\n\\n/g, '<<PARAGRAPH>>'); // Temporariamente substituímos \\n\\n por um marcador\n\n    // Remove quebras de linha, espaços desnecessários, caracteres indesejados, números e aspas,\n    // mas preserva o marcador de parágrafo\n    data = data\n      .replace(/(\\r\\n|\\n|\\r)/gm, ' ') // Remove quebras de linha (exceto o marcador de parágrafo)\n      .replace(/\\s{2,}/g, ' ')        // Remove espaços extras\n      .replace(/[*#]/g, '')           // Remove \"*\" e \"#\"\n      .replace(/(?<=\\n)\\d/g, '-')     // Substitui números apenas se precedidos por \"\\n\"\n      .replace(/\"/g, '')              // Remove todas as aspas\n      .trim();                        // Remove espaços do início/fim\n\n    // Restaura o marcador de parágrafo para \\n\\n\n    data = data.replace(/<<PARAGRAPH>>/g, '\\n\\n');\n\n    return data;\n  } else if (Array.isArray(data)) {\n    // Itera sobre arrays\n    return data.map(tratarJSON);\n  } else if (typeof data === 'object' && data !== null) {\n    // Itera sobre objetos\n    return Object.keys(data).reduce((novoObjeto, chave) => {\n      novoObjeto[chave] = tratarJSON(data[chave]);\n      return novoObjeto;\n    }, {});\n  }\n  // Retorna outros tipos (números, booleanos) sem alterações\n  return data;\n};\n\n// Processa os itens do n8n\nreturn items.map(item => {\n  // Garante que o JSON do item atual está tratado\n  const jsonTratado = tratarJSON(item.json);\n\n  // Retorna o objeto processado\n  return { json: jsonTratado };\n});\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2944,
+        -928
+      ],
+      "id": "b4c1dd7f-d30a-4bfb-8ea4-a2c7be604249",
+      "name": "formata resposta para string valida",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "50a4f37b-9f7b-4540-802c-d828dc9c02c6",
+              "name": "output",
+              "value": "={{ $json.output }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3152,
+        -928
+      ],
+      "id": "1cb24a05-963f-4e22-87ca-913f1a1c4437",
+      "name": "busca resposta",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://{{ $('When Executed by Another Workflow').first().json.instancia }}.jurisistemacred.com.br/message/sendText/{{ $('When Executed by Another Workflow').first().json.instancia }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "=hTzYmj3Yxw4SLxpZd8a9tLokVBNn2X9xrkE6jqq"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"number\": \"{{ $('When Executed by Another Workflow').first().json.telefone }}\",\n  \"options\": {\n    \"delay\": 2800,\n    \"presence\": \"composing\"\n  },\n  \"textMessage\": {\n  \"text\": \"{{ $json.toJsonString().slice(+11, -2)}}\"\n  }\n}",
+        "options": {
+          "allowUnauthorizedCerts": true,
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "id": "147fc53b-2225-411f-a509-37a78011723d",
+      "name": "Envia mensagem",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        3344,
+        -928
+      ],
+      "alwaysOutputData": false,
+      "disabled": true,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "key": "=bd7a8798-20b0-4dc5-9453-0ce6b455a888\n"
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        -2944,
+        -736
+      ],
+      "id": "e808dfab-e79e-4b74-a867-8fecf6a6a5c8",
+      "name": "Limpar Memória1",
+      "credentials": {
+        "redis": {
+          "id": "f0PBBr8Eq1sFiARY",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "2db4fa36-c506-4e4c-9f74-8ebe506d96cf",
+              "leftValue": "={{ $item(\"0\").$node[\"Webhook\"].json[\"body\"][\"contact\"][\"phoneNumber\"] }}",
+              "rightValue": "5511984151865",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "02fcdf55-9721-4499-8bdf-00592250fa62",
+              "leftValue": "={{ $item(\"0\").$node[\"Webhook\"].json[\"body\"][\"contact\"][\"phoneNumber\"] }}",
+              "rightValue": "=5527998210071",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "ff998928-569f-47ad-ae4e-ed82b5991d07",
+              "leftValue": "={{ $item(\"0\").$node[\"Webhook\"].json[\"body\"][\"contact\"][\"phoneNumber\"] }}",
+              "rightValue": "558599940507",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "4117b4f3-f775-4687-9dbc-5c9190151ca2",
+              "leftValue": "={{ $item(\"0\").$node[\"Webhook\"].json[\"body\"][\"contact\"][\"phoneNumber\"] }}",
+              "rightValue": "558494618525",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "b82c2f1e-c68b-456a-81e9-11a8ac3bfaae",
+              "leftValue": "={{ $item(\"0\").$node[\"Webhook\"].json[\"body\"][\"contact\"][\"phoneNumber\"] }}",
+              "rightValue": "558499134133",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -3248,
+        -176
+      ],
+      "id": "2212cae9-7491-4494-ac28-df087a5ae9d0",
+      "name": "Ativar para teste1",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://unnichat.com.br/a/start/kc6vWUJvCEdg8x3Gjzuo",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"nome\": \"{{ $('camposIniciais').first().json.meta.nomeCliente }}\",\n  \"telefone\": \"{{ $('camposIniciais').first().json.meta.telefoneCliente }}\",\n  \"type\": \"{{ $('camposIniciais').first().json.content.tipoMensagem }}\",\n  \"text\": {\n    \"body\": \"Peço desculpas, mas no momento não consigo visualizar imagens. Poderia descrever o que está acontecendo?\"\n  }\n} ",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -944,
+        -208
+      ],
+      "id": "ea4ab702-7f42-49dd-997d-bfb3ce843549",
+      "name": "HTTP Request1"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://unnichat.com.br/a/start/kc6vWUJvCEdg8x3Gjzuo",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"nome\": \"{{ $('camposIniciais').first().json.meta.nomeCliente }}\",\n  \"telefone\": \"{{ $('camposIniciais').first().json.meta.telefoneCliente }}\",\n  \"type\": \"{{ $('camposIniciais').first().json.content.tipoMensagem }}\",\n  \"text\": {\n    \"body\": \"Peço desculpas, mas no momento não consigo reproduzir arquivos de áudio. Poderia transcrever ou descrever o que está acontecendo?\"\n  }\n} ",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -944,
+        272
+      ],
+      "id": "6de1224f-3def-4076-b52c-f83727d35cc2",
+      "name": "HTTP Request2"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "b82c2f1e-c68b-456a-81e9-11a8ac3bfaae",
+              "leftValue": "={{ $json.body.contact.tags }}",
+              "rightValue": "pausar atendimento",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "2945b433-7bf4-46cd-b937-9458c4d1120c",
+              "leftValue": "={{ $json.body.contact.tags }}",
+              "rightValue": "virou_aluno",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "45b07649-5fca-4aae-ae7a-7d0a389a7369",
+              "leftValue": "={{ $json.body.contact.tags }}",
+              "rightValue": "obter_desconto",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -4000,
+        48
+      ],
+      "id": "5b0af786-a0e5-4f9f-8be1-63fd5baee156",
+      "name": "pausar atendimento"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "tableId": "atendimento_wpp_vendas",
+        "matchType": "allFilters",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "telefone",
+              "condition": "eq",
+              "keyValue": "={{ $item(\"0\").$node[\"Code\"].json[\"telefoneCliente\"] }}"
+            }
+          ]
+        },
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "ultima_mensagem",
+              "fieldValue": "={{ $now }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        3648,
+        -352
+      ],
+      "id": "13e01d04-b01b-4d39-853d-5e2641c843dd",
+      "name": "Update a row",
+      "credentials": {
+        "supabaseApi": {
+          "id": "06funpVK0RasJnc4",
+          "name": "Supabase - Fabiana Tomé"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "toolDescription": "acione essa tool toda vez que o lead perguntar se tem desconto para quem e aluno ou ex aluno",
+        "method": "POST",
+        "url": "https://unnichat.com.br/a/start/BuP6b0ryuJd02mYeqCyE",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"nome\": \"{{ $('camposIniciais').first().json.meta.nomeCliente }}\",\n  \"telefone\": \"{{ $('camposIniciais').first().json.meta.telefoneCliente }}\",\n  \"type\": \"{{ $('camposIniciais').first().json.content.tipoMensagem }}\",\n  \"text\": {\n    \"body\": \"acionar_suporte\"\n  }\n} ",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        1888,
+        224
+      ],
+      "id": "3c6ae772-21c1-48c5-b059-38f91315923e",
+      "name": "acionar_suporte"
+    },
+    {
+      "parameters": {
+        "toolDescription": "acione essa tool toda vez que o lead perguntar ou se interessar por por boleto parcelado",
+        "method": "POST",
+        "url": "https://unnichat.com.br/a/start/dgxm01y1lj8xC1SdGbCJ",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"nome\": \"{{ $('camposIniciais').first().json.meta.nomeCliente }}\",\n  \"telefone\": \"{{ $('camposIniciais').first().json.meta.telefoneCliente }}\",\n  \"type\": \"{{ $('camposIniciais').first().json.content.tipoMensagem }}\",\n  \"text\": {\n    \"body\": \"interesse_boleto\"\n  }\n} ",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        1680,
+        240
+      ],
+      "id": "ed6bf9a7-d6ef-4bb7-b6ba-c85c3ec35a6b",
+      "name": "interesse_boleto",
+      "disabled": true
+    }
+  ],
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "webhook.fabianatome.com.br",
+            "user-agent": "axios/1.11.0",
+            "content-length": "496",
+            "accept": "application/json, text/plain, */*",
+            "accept-encoding": "gzip, compress, deflate, br",
+            "content-type": "application/json",
+            "x-forwarded-for": "34.34.231.120",
+            "x-forwarded-host": "webhook.fabianatome.com.br",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "3e4b5a65d457",
+            "x-real-ip": "34.34.231.120"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "contact": {
+              "id": "019889fb-1a48-75d9-bb49-7a7cf36b9f3e",
+              "name": "Higao",
+              "email": "",
+              "phoneNumber": "5511984151865",
+              "tags": "TRA_SET_2025_LEAD, CLICOU GARANTIR MATRICULA, obter_desconto, boleto_parcelado",
+              "fields": {
+                "mensagem": "Para confirmar sua matrícula e aplicar o desconto, por favor, me informe seu e-mail para que eu possa verificar seu cadastro."
+              },
+              "lastMessage": "entendi",
+              "lastMessageData": {
+                "message": "entendi",
+                "messageType": "message"
+              },
+              "instaName": ""
+            },
+            "event_date": 1758227179,
+            "triggerData": {}
+          },
+          "webhookUrl": "https://webhook.fabianatome.com.br/webhook/vendas",
+          "executionMode": "production"
+        }
+      }
+    ]
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-08-09T03:04:33.597Z",
+      "createdAt": "2025-08-09T03:04:33.597Z",
+      "role": "workflow:owner",
+      "workflowId": "0NPqwGL29JMIPza3",
+      "projectId": "tP5lcLj6t4StcK5B"
+    }
+  ],
+  "staticData": null,
+  "tags": [
+    {
+      "updatedAt": "2025-08-21T20:51:48.346Z",
+      "createdAt": "2025-08-21T20:51:48.346Z",
+      "id": "ovUuYn0yxvhdOdZy",
+      "name": "API OFICIAL"
+    },
+    {
+      "updatedAt": "2025-08-01T15:01:01.059Z",
+      "createdAt": "2025-08-01T15:01:01.059Z",
+      "id": "pxsFvNO5bPBvSJZW",
+      "name": "VENDAS"
+    },
+    {
+      "updatedAt": "2025-07-28T18:40:41.569Z",
+      "createdAt": "2025-07-28T18:40:41.569Z",
+      "id": "MXdjGQQn0TxQ2tbH",
+      "name": "IA"
+    }
+  ],
+  "triggerCount": 1,
+  "updatedAt": "2025-10-17T20:20:13.619Z",
+  "versionId": "8cd13504-8488-4605-ac44-d2e16eac3768"
+}
