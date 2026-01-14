@@ -1,0 +1,636 @@
+{
+  "active": true,
+  "activeVersion": {
+    "updatedAt": "2025-12-03T22:27:37.573Z",
+    "createdAt": "2025-12-03T22:27:37.573Z",
+    "versionId": "c7fa5726-3662-4ccd-81e7-a1b760704979",
+    "workflowId": "K3O7PDRkhkdRNz2p",
+    "nodes": [
+      {
+        "parameters": {
+          "httpMethod": "POST",
+          "path": "tra_nov_25_rec_tmb",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.webhook",
+        "typeVersion": 2,
+        "position": [
+          -864,
+          208
+        ],
+        "id": "8271bd3f-30ee-4e21-beaa-887ce9fb1af5",
+        "name": "Webhook",
+        "webhookId": "b93c75a8-10c1-4646-8d91-4783b9dc91f6"
+      },
+      {
+        "parameters": {
+          "url": "https://fabianatome.api-us1.com/api/3/contacts",
+          "sendQuery": true,
+          "queryParameters": {
+            "parameters": [
+              {
+                "name": "email",
+                "value": "={{ $json[\"body\"][\"email\"] }}"
+              }
+            ]
+          },
+          "sendHeaders": true,
+          "headerParameters": {
+            "parameters": [
+              {
+                "name": "Api-Token",
+                "value": "633f6e21dac84c73a548cdb3c300de08d58c0c61fd6e675b7a8bc93dc05cd831ac0d53c6"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "ef3cb69f-50cd-4c84-b99e-6c5ae0d87ba8",
+        "name": "HTTP Request1",
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [
+          -656,
+          208
+        ]
+      },
+      {
+        "parameters": {
+          "errorMessage": "An error ocurred!"
+        },
+        "id": "66e453d4-25f8-4606-974f-21631738da6c",
+        "name": "Stop and Error3",
+        "type": "n8n-nodes-base.stopAndError",
+        "typeVersion": 1,
+        "position": [
+          144,
+          384
+        ]
+      },
+      {
+        "parameters": {
+          "errorMessage": "An error ocurred!"
+        },
+        "id": "360e7123-8a30-482b-a970-e3798c2ef1a9",
+        "name": "Stop and Error2",
+        "type": "n8n-nodes-base.stopAndError",
+        "typeVersion": 1,
+        "position": [
+          144,
+          32
+        ]
+      },
+      {
+        "parameters": {
+          "operation": "update",
+          "contactId": "={{ $json[\"contacts\"][\"0\"][\"id\"] }}",
+          "updateFields": {
+            "email": "={{ $node[\"Webhook\"].json[\"body\"][\"email\"] }}",
+            "firstName": "={{ $node[\"Webhook\"].json[\"body\"][\"cliente\"] }}",
+            "phone": "={{ $node[\"Webhook\"].json[\"body\"][\"telefones\"] }}"
+          }
+        },
+        "id": "dc19629c-759b-4bc1-b2fb-f885603f1aa4",
+        "name": "atualiza_contato_no_ac2",
+        "type": "n8n-nodes-base.activeCampaign",
+        "typeVersion": 1,
+        "position": [
+          -176,
+          64
+        ],
+        "credentials": {
+          "activeCampaignApi": {
+            "id": "4EetjSxVIE3QPLxy",
+            "name": "ActiveCampaign - fabianatome"
+          }
+        },
+        "onError": "continueErrorOutput"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict"
+            },
+            "conditions": [
+              {
+                "id": "2130aa22-e19a-4662-8a2e-b43d36facf6d",
+                "leftValue": "={{ $json[\"contacts\"][\"0\"][\"id\"] }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "string",
+                  "operation": "exists",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "id": "e6f7b025-7e9a-4f53-b938-0c9dab2f2202",
+        "name": "If2",
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2,
+        "position": [
+          -416,
+          208
+        ]
+      },
+      {
+        "parameters": {
+          "email": "={{ $node[\"Webhook\"].json[\"body\"][\"email\"] }}",
+          "updateIfExists": true,
+          "additionalFields": {
+            "firstName": "={{ $node[\"Webhook\"].json[\"body\"][\"cliente\"] }}",
+            "phone": "={{ $node[\"Webhook\"].json[\"body\"][\"telefones\"] }}"
+          }
+        },
+        "id": "e46738ee-823a-48ee-8fc1-6d8863a0c7ed",
+        "name": "cria_contato_no_ac2",
+        "type": "n8n-nodes-base.activeCampaign",
+        "typeVersion": 1,
+        "position": [
+          -176,
+          352
+        ],
+        "credentials": {
+          "activeCampaignApi": {
+            "id": "4EetjSxVIE3QPLxy",
+            "name": "ActiveCampaign - fabianatome"
+          }
+        },
+        "onError": "continueErrorOutput"
+      },
+      {
+        "parameters": {
+          "resource": "contactTag",
+          "tagId": "746",
+          "contactId": "={{ $json[\"id\"] }}"
+        },
+        "id": "3e876676-702b-4f52-acb2-63d29fcd30dc",
+        "name": "tag_compra_aprovada12",
+        "type": "n8n-nodes-base.activeCampaign",
+        "typeVersion": 1,
+        "position": [
+          144,
+          208
+        ],
+        "credentials": {
+          "activeCampaignApi": {
+            "id": "4EetjSxVIE3QPLxy",
+            "name": "ActiveCampaign - fabianatome"
+          }
+        }
+      }
+    ],
+    "connections": {
+      "HTTP Request1": {
+        "main": [
+          [
+            {
+              "node": "If2",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "atualiza_contato_no_ac2": {
+        "main": [
+          [
+            {
+              "node": "tag_compra_aprovada12",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Stop and Error2",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If2": {
+        "main": [
+          [
+            {
+              "node": "atualiza_contato_no_ac2",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "cria_contato_no_ac2",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "cria_contato_no_ac2": {
+        "main": [
+          [
+            {
+              "node": "tag_compra_aprovada12",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Stop and Error3",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Webhook": {
+        "main": [
+          [
+            {
+              "node": "HTTP Request1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "system migration",
+    "name": null,
+    "description": null,
+    "autosaved": false
+  },
+  "activeVersionId": "c7fa5726-3662-4ccd-81e7-a1b760704979",
+  "connections": {
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "If2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "atualiza_contato_no_ac2": {
+      "main": [
+        [
+          {
+            "node": "tag_compra_aprovada12",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Stop and Error2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If2": {
+      "main": [
+        [
+          {
+            "node": "atualiza_contato_no_ac2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "cria_contato_no_ac2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "cria_contato_no_ac2": {
+      "main": [
+        [
+          {
+            "node": "tag_compra_aprovada12",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Stop and Error3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-07-21T02:24:36.542Z",
+  "id": "K3O7PDRkhkdRNz2p",
+  "isArchived": false,
+  "meta": null,
+  "name": "[TRA_NOV2025] [Recuperação TMB]",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "tra_nov_25_rec_tmb",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -864,
+        208
+      ],
+      "id": "8271bd3f-30ee-4e21-beaa-887ce9fb1af5",
+      "name": "Webhook",
+      "webhookId": "b93c75a8-10c1-4646-8d91-4783b9dc91f6"
+    },
+    {
+      "parameters": {
+        "url": "https://fabianatome.api-us1.com/api/3/contacts",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "email",
+              "value": "={{ $json[\"body\"][\"email\"] }}"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Api-Token",
+              "value": "633f6e21dac84c73a548cdb3c300de08d58c0c61fd6e675b7a8bc93dc05cd831ac0d53c6"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "ef3cb69f-50cd-4c84-b99e-6c5ae0d87ba8",
+      "name": "HTTP Request1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -656,
+        208
+      ]
+    },
+    {
+      "parameters": {
+        "errorMessage": "An error ocurred!"
+      },
+      "id": "66e453d4-25f8-4606-974f-21631738da6c",
+      "name": "Stop and Error3",
+      "type": "n8n-nodes-base.stopAndError",
+      "typeVersion": 1,
+      "position": [
+        144,
+        384
+      ]
+    },
+    {
+      "parameters": {
+        "errorMessage": "An error ocurred!"
+      },
+      "id": "360e7123-8a30-482b-a970-e3798c2ef1a9",
+      "name": "Stop and Error2",
+      "type": "n8n-nodes-base.stopAndError",
+      "typeVersion": 1,
+      "position": [
+        144,
+        32
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "contactId": "={{ $json[\"contacts\"][\"0\"][\"id\"] }}",
+        "updateFields": {
+          "email": "={{ $node[\"Webhook\"].json[\"body\"][\"email\"] }}",
+          "firstName": "={{ $node[\"Webhook\"].json[\"body\"][\"cliente\"] }}",
+          "phone": "={{ $node[\"Webhook\"].json[\"body\"][\"telefones\"] }}"
+        }
+      },
+      "id": "dc19629c-759b-4bc1-b2fb-f885603f1aa4",
+      "name": "atualiza_contato_no_ac2",
+      "type": "n8n-nodes-base.activeCampaign",
+      "typeVersion": 1,
+      "position": [
+        -176,
+        64
+      ],
+      "credentials": {
+        "activeCampaignApi": {
+          "id": "4EetjSxVIE3QPLxy",
+          "name": "ActiveCampaign - fabianatome"
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "2130aa22-e19a-4662-8a2e-b43d36facf6d",
+              "leftValue": "={{ $json[\"contacts\"][\"0\"][\"id\"] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "e6f7b025-7e9a-4f53-b938-0c9dab2f2202",
+      "name": "If2",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        -416,
+        208
+      ]
+    },
+    {
+      "parameters": {
+        "email": "={{ $node[\"Webhook\"].json[\"body\"][\"email\"] }}",
+        "updateIfExists": true,
+        "additionalFields": {
+          "firstName": "={{ $node[\"Webhook\"].json[\"body\"][\"cliente\"] }}",
+          "phone": "={{ $node[\"Webhook\"].json[\"body\"][\"telefones\"] }}"
+        }
+      },
+      "id": "e46738ee-823a-48ee-8fc1-6d8863a0c7ed",
+      "name": "cria_contato_no_ac2",
+      "type": "n8n-nodes-base.activeCampaign",
+      "typeVersion": 1,
+      "position": [
+        -176,
+        352
+      ],
+      "credentials": {
+        "activeCampaignApi": {
+          "id": "4EetjSxVIE3QPLxy",
+          "name": "ActiveCampaign - fabianatome"
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "resource": "contactTag",
+        "tagId": "746",
+        "contactId": "={{ $json[\"id\"] }}"
+      },
+      "id": "3e876676-702b-4f52-acb2-63d29fcd30dc",
+      "name": "tag_compra_aprovada12",
+      "type": "n8n-nodes-base.activeCampaign",
+      "typeVersion": 1,
+      "position": [
+        144,
+        208
+      ],
+      "credentials": {
+        "activeCampaignApi": {
+          "id": "4EetjSxVIE3QPLxy",
+          "name": "ActiveCampaign - fabianatome"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "webhook.fabianatome.com.br",
+            "user-agent": "TMB Webhook",
+            "content-length": "1693",
+            "accept": "application/json, text/json, text/x-json, text/javascript, application/xml, text/xml",
+            "accept-encoding": "gzip, deflate",
+            "cache-control": "no-cache",
+            "content-type": "application/json",
+            "request-context": "appId=cid-v1:37110701-0fcd-4560-a4d1-2e4ffb42e807",
+            "request-id": "|5a6878bb1df8d29a689a52ad02dcd03b.6522f5d8e2860c18.",
+            "traceparent": "00-5a6878bb1df8d29a689a52ad02dcd03b-6522f5d8e2860c18-00",
+            "x-forwarded-for": "13.89.56.149",
+            "x-forwarded-host": "webhook.fabianatome.com.br",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "075fd767e3c1",
+            "x-real-ip": "13.89.56.149"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "produtor": "Fabiana Del Padre Tome IBATRI",
+            "lancamento": "Tributarista em Ação JUL2025",
+            "provedor_negociado": "TMB",
+            "pedido": 1640688,
+            "status_pedido": "Boleto Gerado",
+            "fase_checkout": "Aguardando Pagamento",
+            "cliente": "PEDRO FELIPE QUEROBIM",
+            "documento": "05067203145",
+            "email": "pedrofelipequerobim@gmail.com",
+            "score": null,
+            "probabilidade_inadimplencia": null,
+            "endereco_complemento": "",
+            "valor_principal": 3198,
+            "parcelas": 11,
+            "valor_entrada": 266.5,
+            "valor_parcela": 266.5,
+            "valor_total": 3198,
+            "taxa_administracao": 5,
+            "criado_em": "2025-07-21T00:00:00",
+            "data_efetivado": null,
+            "vendedor": null,
+            "titulo": "Valor cheio - R$ 3.198 ou 12x de R$ 300,92",
+            "code": "1QI96344FT",
+            "endereco_completo": "Rua Jorge do carmo,120,  Vila jabour - Ribas do Rio Pardo/MS CEP:79180-000 BR",
+            "telefones": "+5567998379329",
+            "telefone_ativo": "+5567998379329",
+            "lancamento_id": 21892,
+            "id_externo": null,
+            "risco_compartilhado_em": "2025-07-21T07:33:02.934507-03:00",
+            "avalista_nome": null,
+            "avalista_telefone": null,
+            "avalista_email": null,
+            "avalista_documento": null,
+            "avalista_score": null,
+            "probabilidade_inadimplencia_avalista": null,
+            "avalista_data_nascimento": null,
+            "nascimento": "2000-06-24T00:00:00",
+            "id": 1640688,
+            "contrato": null,
+            "produtor_id": 5259,
+            "observacoes": null,
+            "status_financeiro": null,
+            "status_cobranca": null,
+            "status_juridico": null,
+            "utm_source": "suporteTarso",
+            "utm_medium": "suporteTarso",
+            "utm_content": "suporteTarso",
+            "utm_campaign": "TRAJUL25",
+            "melhor_dia_pagamento": 30,
+            "url_boleto_entrada": "https://www.asaas.com/i/089s6sj7329lcpzk"
+          },
+          "webhookUrl": "https://webhook.fabianatome.com.br/webhook/tra_jul_25_rec_tmb",
+          "executionMode": "production"
+        }
+      }
+    ]
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-07-21T02:24:36.542Z",
+      "createdAt": "2025-07-21T02:24:36.542Z",
+      "role": "workflow:owner",
+      "workflowId": "K3O7PDRkhkdRNz2p",
+      "projectId": "tP5lcLj6t4StcK5B"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2025-11-18T14:33:55.366Z",
+  "versionId": "c7fa5726-3662-4ccd-81e7-a1b760704979"
+}
