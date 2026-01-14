@@ -1,0 +1,495 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Code1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "dados_da_compra1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code1": {
+      "main": [
+        [
+          {
+            "node": "dados_da_compra1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GeraUUID": {
+      "main": [
+        [
+          {
+            "node": "CreateUser",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "CreateUser": {
+      "main": [
+        [
+          {
+            "node": "get.conversa",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "update_mensagem/evento",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "GeraUUID",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get.conversa": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "update_mensagem/evento": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "get.conversa",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-08-11T17:31:42.867Z",
+  "id": "Q50kCpXTCxIkgkm6",
+  "isArchived": true,
+  "meta": null,
+  "name": "[IA] [TMB] Recuperação de vendas",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "rectmb",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -1800,
+        160
+      ],
+      "id": "9d7be68f-e3c2-4fe5-9254-888fbd02f200",
+      "name": "Webhook",
+      "webhookId": "60a82d47-37b6-4464-a0c2-6b8ef4f91319"
+    },
+    {
+      "parameters": {
+        "keepOnlySet": true,
+        "values": {
+          "string": [
+            {
+              "name": "nome",
+              "value": "={{ $item(\"0\").$node[\"Code1\"].json[\"transformed\"][\"firstName\"] }}"
+            },
+            {
+              "name": "email",
+              "value": "={{ $item(\"0\").$node[\"Code1\"].json[\"transformed\"][\"email\"] }}"
+            },
+            {
+              "name": "nome_produto",
+              "value": "={{ $item(\"0\").$node[\"Code1\"].json[\"body\"][\"data\"][\"product\"][\"name\"] }}"
+            },
+            {
+              "name": "transaction_id",
+              "value": "={{ $item(\"0\").$node[\"Code1\"].json[\"body\"][\"id\"] }}"
+            },
+            {
+              "name": "product_id",
+              "value": "={{ $item(\"0\").$node[\"Code1\"].json[\"body\"][\"data\"][\"product\"][\"id\"] }}"
+            },
+            {
+              "name": "data",
+              "value": "={{ $now.format('yyyy-MM-dd HH:mm') }}"
+            },
+            {
+              "name": "sobrenome",
+              "value": "={{ $item(\"0\").$node[\"Code1\"].json[\"transformed\"][\"lastName\"] }}"
+            },
+            {
+              "name": "telefone",
+              "value": "={{ $item(\"0\").$node[\"Code1\"].json[\"transformed\"][\"phone\"] }}"
+            },
+            {
+              "name": "oferta",
+              "value": "={{ $item(\"0\").$node[\"Webhook\"].json[\"body\"][\"data\"][\"offer\"][\"code\"] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "13c3e78b-76da-4f6c-8c56-9395b00a6cef",
+      "name": "dados_da_compra1",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 2,
+      "position": [
+        -1260,
+        160
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Função auxiliar para buscar valor em qualquer lugar do objeto por nome da chave\nfunction findValue(obj, keyName) {\n  if (!obj || typeof obj !== 'object') return undefined;\n  if (obj.hasOwnProperty(keyName)) return obj[keyName];\n  \n  for (const key in obj) {\n    const value = findValue(obj[key], keyName);\n    if (value !== undefined) return value;\n  }\n  return undefined;\n}\n\n// Processamento dinâmico\nreturn items.map(item => {\n  const data = item.json;\n\n  // Buscar informações independentemente da posição no JSON\n  const phoneRaw = findValue(data, 'phone') || findValue(data, 'checkout_phone') || '';\n  const emailRaw = findValue(data, 'email') || '';\n  const nameRaw = findValue(data, 'name') || '';\n\n  // Garantir que o telefone começa com \"55\"\n  let phone = phoneRaw.toString();\n  if (!phone.startsWith('55') && phone.length > 0) {\n    phone = '55' + phone;\n  }\n\n  // Email em minúsculo\n  const email = emailRaw.toString().toLowerCase();\n\n  // Separar nome e sobrenome\n  const [firstName, ...rest] = nameRaw.trim().split(' ');\n  const lastName = rest.join(' ');\n\n  return {\n    json: {\n      ...item.json,\n      transformed: {\n        phone,\n        email,\n        firstName,\n        lastName\n      }\n    }\n  };\n});\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1480,
+        160
+      ],
+      "id": "204e0087-a4c1-488b-8f69-a79ce1351792",
+      "name": "Code1"
+    },
+    {
+      "parameters": {
+        "action": "generate"
+      },
+      "id": "7b867d80-6c44-4cf5-8ca4-5914408d5b8f",
+      "name": "GeraUUID",
+      "type": "n8n-nodes-base.crypto",
+      "typeVersion": 1,
+      "position": [
+        -400,
+        260
+      ],
+      "notesInFlow": false
+    },
+    {
+      "parameters": {
+        "tableId": "disparo_mensagem_ia_vendas",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "nome",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados_da_compra1\"].json[\"nome\"] }}"
+            },
+            {
+              "fieldId": "telefone",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados_da_compra1\"].json[\"telefone\"] }}"
+            },
+            {
+              "fieldId": "sobrenome",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados_da_compra1\"].json[\"sobrenome\"] }}"
+            },
+            {
+              "fieldId": "created_at",
+              "fieldValue": "={{ $now }}"
+            },
+            {
+              "fieldId": "email",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados_da_compra1\"].json[\"email\"] }}"
+            },
+            {
+              "fieldId": "evento",
+              "fieldValue": "Carrinho Abandonado"
+            },
+            {
+              "fieldId": "produto",
+              "fieldValue": "={{ $item(\"0\").$node[\"Webhook\"].json[\"body\"][\"data\"][\"product\"][\"name\"] }}"
+            },
+            {
+              "fieldId": "id_produto",
+              "fieldValue": "={{ $item(\"0\").$node[\"Webhook\"].json[\"body\"][\"data\"][\"product\"][\"id\"] }}"
+            },
+            {
+              "fieldId": "oferta",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados_da_compra1\"].json[\"oferta\"] }}"
+            },
+            {
+              "fieldId": "mensagem",
+              "fieldValue": "=Olá, {{ $item(\"0\").$node[\"get.conversa\"].json[\"nome\"] }}, tudo bem? \n\nSou assistente virtual da Professora Fabiana Tomé e estou aqui para te ajudar no que for possível.\n\nVi que você entrou na página de pagamento na Hotmart, mas por algum motivo não finalizou a sua matrícula no Tributarista em Ação.\n\nAconteceu algo, sentiu alguma dificuldade ou ficou com alguma dúvida? \nCaso precise, estou à disposição para te ajudar a finalizar sua inscrição.\n\nSe você já concluiu a matrícula, por favor, desconsidere esta mensagem.\nUma nova fase está começando para quem decidiu dar o primeiro passo no Tributário."
+            }
+          ]
+        }
+      },
+      "id": "a72a53dd-4e6f-4de4-966e-eff5ddd886cd",
+      "name": "CreateUser",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        -240,
+        260
+      ],
+      "credentials": {
+        "supabaseApi": {
+          "id": "06funpVK0RasJnc4",
+          "name": "Supabase - Fabiana Tomé"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "4e77cc7c-48f4-4cbe-94e7-6d211db67002",
+              "leftValue": "={{ $('get.conversa').item.json.telefone }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "cf5f6471-5431-42d8-981a-0f7ab915e682",
+      "name": "If1",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -620,
+        160
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "disparo_mensagem_ia_vendas",
+        "limit": 1,
+        "matchType": "allFilters",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "telefone",
+              "condition": "eq",
+              "keyValue": "={{ $item(\"0\").$node[\"dados_da_compra1\"].json[\"telefone\"] }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        160
+      ],
+      "id": "266da61d-c8f5-41a1-8807-a1ac44a3c8c2",
+      "name": "get.conversa",
+      "alwaysOutputData": true,
+      "credentials": {
+        "supabaseApi": {
+          "id": "06funpVK0RasJnc4",
+          "name": "Supabase - Fabiana Tomé"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "tableId": "disparo_mensagem_ia_vendas",
+        "matchType": "allFilters",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "telefone",
+              "condition": "eq",
+              "keyValue": "={{ $item(\"0\").$node[\"Edit Fields\"].json[\"output\"][\"numero\"] }}"
+            },
+            {
+              "keyName": "id",
+              "condition": "eq",
+              "keyValue": "={{ $item(\"0\").$node[\"If1\"].json[\"id\"] }}"
+            }
+          ]
+        },
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "mensagem",
+              "fieldValue": "=Olá, {{ $item(\"0\").$node[\"get.conversa\"].json[\"nome\"] }}, tudo bem? \n\nSou assistente virtual da Professora Fabiana Tomé e estou aqui para te ajudar no que for possível.\n\nVi que você entrou na página de pagamento na Hotmart, mas por algum motivo não finalizou a sua matrícula no Tributarista em Ação.\n\nAconteceu algo, sentiu alguma dificuldade ou ficou com alguma dúvida? \nCaso precise, estou à disposição para te ajudar a finalizar sua inscrição.\n\nSe você já concluiu a matrícula, por favor, desconsidere esta mensagem.\nUma nova fase está começando para quem decidiu dar o primeiro passo no Tributário."
+            },
+            {
+              "fieldId": "produto",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados_da_compra1\"].json[\"nome_produto\"] }}"
+            },
+            {
+              "fieldId": "id_produto",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados_da_compra1\"].json[\"product_id\"] }}"
+            },
+            {
+              "fieldId": "evento",
+              "fieldValue": "Carrinho Abandonado"
+            },
+            {
+              "fieldId": "oferta",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados_da_compra1\"].json[\"oferta\"] }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        -400,
+        80
+      ],
+      "id": "659ceb46-fa75-43da-8188-63ddf68a46a4",
+      "name": "update_mensagem/evento",
+      "credentials": {
+        "supabaseApi": {
+          "id": "06funpVK0RasJnc4",
+          "name": "Supabase - Fabiana Tomé"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://unnichat.com.br/a/start/869l6SFyM2WElPQyK9b2",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"nome\": \"{{ $item(\"0\").$node[\"Edit Fields\"].json[\"output\"][\"nam\"] }}\",\n  \"telefone\": \"{{ $item(\"0\").$node[\"Edit Fields\"].json[\"output\"][\"numero\"] }}\",\n  \"type\": \"message\",\n  \"text\": {\n    \"body\": \"recuperacao\"\n  }\n} ",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -160,
+        60
+      ],
+      "id": "cdfc22af-c349-48d3-ba55-80738d7bad36",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "025e6878-612d-4c76-94d7-19f6a9e74418",
+              "name": "output.numero",
+              "value": "={{ $item(\"0\").$node[\"dados_da_compra1\"].json[\"telefone\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "4786db0a-53f1-4e4e-87ac-c9cedc8e62ab",
+              "name": "output.nam",
+              "value": "={{ $item(\"0\").$node[\"dados_da_compra1\"].json[\"nome\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "a9925528-1b2c-4c6e-85fa-499ee4b90881",
+              "name": "linkPreview",
+              "value": false,
+              "type": "boolean"
+            },
+            {
+              "id": "2b2b6094-b11d-482f-9022-27ce0f643b7c",
+              "name": "delay",
+              "value": "1200",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1040,
+        160
+      ],
+      "id": "a0b728b1-038b-4049-8358-fa9a08c1fdf1",
+      "name": "Edit Fields"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-08-11T17:31:42.867Z",
+      "createdAt": "2025-08-11T17:31:42.867Z",
+      "role": "workflow:owner",
+      "workflowId": "Q50kCpXTCxIkgkm6",
+      "projectId": "tP5lcLj6t4StcK5B"
+    }
+  ],
+  "staticData": null,
+  "tags": [
+    {
+      "updatedAt": "2025-08-01T15:01:01.059Z",
+      "createdAt": "2025-08-01T15:01:01.059Z",
+      "id": "pxsFvNO5bPBvSJZW",
+      "name": "VENDAS"
+    },
+    {
+      "updatedAt": "2025-07-28T18:40:41.569Z",
+      "createdAt": "2025-07-28T18:40:41.569Z",
+      "id": "MXdjGQQn0TxQ2tbH",
+      "name": "IA"
+    }
+  ],
+  "triggerCount": 0,
+  "updatedAt": "2025-08-11T18:54:14.711Z",
+  "versionId": "838707c2-3353-4854-9861-df567994ea89"
+}
