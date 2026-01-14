@@ -1,0 +1,2890 @@
+{
+  "active": true,
+  "activeVersion": {
+    "updatedAt": "2026-01-05T14:44:06.881Z",
+    "createdAt": "2026-01-05T14:28:49.004Z",
+    "versionId": "3cf6ea1f-a1da-4084-9d1e-ae4439f05c2d",
+    "workflowId": "XFUQit5aq52yNeXx",
+    "nodes": [
+      {
+        "parameters": {
+          "operation": "get",
+          "tableId": "grupos",
+          "filters": {
+            "conditions": [
+              {
+                "keyName": "nome",
+                "keyValue": "={{ $('Webhook1').item.json.body.data.groupName }}"
+              },
+              {
+                "keyName": "evento",
+                "keyValue": "=[TRA_FEV_2026] - [CAPTAÇÃO]"
+              }
+            ]
+          }
+        },
+        "id": "8e58d32f-558b-44bd-b3fc-ae1ab4339961",
+        "name": "pesquisa_grupo",
+        "type": "n8n-nodes-base.supabase",
+        "typeVersion": 1,
+        "position": [
+          544,
+          1328
+        ],
+        "alwaysOutputData": true,
+        "credentials": {
+          "supabaseApi": {
+            "id": "06funpVK0RasJnc4",
+            "name": "Supabase - Fabiana Tomé"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "tableId": "grupos",
+          "fieldsUi": {
+            "fieldValues": [
+              {
+                "fieldId": "nome",
+                "fieldValue": "={{ $('Edit Fields1').item.json.nome_grupo }}"
+              },
+              {
+                "fieldId": "evento",
+                "fieldValue": "={{ $('Edit Fields1').item.json.evento1 }}"
+              },
+              {
+                "fieldId": "id_group",
+                "fieldValue": "={{ $('Edit Fields1').item.json.id }}"
+              }
+            ]
+          }
+        },
+        "id": "85e79370-854d-4fe3-b043-84c729a8421d",
+        "name": "cria_grupo",
+        "type": "n8n-nodes-base.supabase",
+        "typeVersion": 1,
+        "position": [
+          672,
+          1552
+        ],
+        "credentials": {
+          "supabaseApi": {
+            "id": "06funpVK0RasJnc4",
+            "name": "Supabase - Fabiana Tomé"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "581911f4-1edc-4223-9d0b-63a4a0c51264",
+                "name": "id_campanha",
+                "value": "={{ $json[\"body\"][\"data\"][\"campaignId\"] }}",
+                "type": "string"
+              },
+              {
+                "id": "8b54b9dd-4c63-4385-ae7b-0abb12662c7c",
+                "name": "nome_campanha",
+                "value": "={{ $json[\"body\"][\"data\"][\"campaignName\"] }}",
+                "type": "string"
+              },
+              {
+                "id": "f345ee1e-809f-49fa-b63c-50987289cc29",
+                "name": "nome_grupo",
+                "value": "={{ $json[\"body\"][\"data\"][\"groupName\"] }}",
+                "type": "string"
+              },
+              {
+                "id": "644349ad-b239-4d9f-823a-645498fcef5a",
+                "name": "número_participante",
+                "value": "={{ $json[\"body\"][\"data\"][\"number\"] }}",
+                "type": "string"
+              },
+              {
+                "id": "4b6b96d1-c81b-4758-ab8e-150a033261db",
+                "name": "data_que_entrou",
+                "value": "={{ $json[\"body\"][\"data\"][\"createdAt\"] }}",
+                "type": "string"
+              },
+              {
+                "id": "41c907e1-b28a-41ce-aa48-3ad3e5e6763a",
+                "name": "evento",
+                "value": "={{ $node[\"Webhook1\"].json[\"body\"][\"event\"] }}",
+                "type": "string"
+              },
+              {
+                "id": "2b0020cf-fbd5-40a4-bd2a-c4966e981b9e",
+                "name": "id",
+                "value": "={{ $node[\"Webhook1\"].json[\"body\"][\"id\"] }}",
+                "type": "string"
+              },
+              {
+                "id": "8e4a3609-de2b-4836-ae66-8e4fc6fc1bab",
+                "name": "evento1",
+                "value": "[TRA_FEV_2026] - [CAPTAÇÃO]",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "1b100786-05b1-41e6-aaa4-486c4d284a01",
+        "name": "Edit Fields1",
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          304,
+          1328
+        ]
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 1
+            },
+            "conditions": [
+              {
+                "id": "dd359e72-da78-43bb-84a7-1b0911d82aa5",
+                "leftValue": "={{ $node[\"pesquisa_user1\"].json[\"id\"] }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "number",
+                  "operation": "exists",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "id": "e7746620-b87e-4fd1-bcb1-b3e5bd59daec",
+        "name": "encontrou_user1",
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2,
+        "position": [
+          1408,
+          1312
+        ]
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 1
+            },
+            "conditions": [
+              {
+                "id": "dd359e72-da78-43bb-84a7-1b0911d82aa5",
+                "leftValue": "={{ $node[\"pesquisa_lead_nos_grupos1\"].json[\"id\"] }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "number",
+                  "operation": "exists",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "id": "3377243b-4cac-46df-af13-8a3c261a7edb",
+        "name": "encontrou_lead_no_grupo1",
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2,
+        "position": [
+          2240,
+          1280
+        ]
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 1
+            },
+            "conditions": [
+              {
+                "id": "65b5bcdb-1d2b-4071-82e8-87166a50612b",
+                "leftValue": "={{ $node[\"Edit Fields1\"].json[\"evento\"] }}",
+                "rightValue": "=group.updated.members.added",
+                "operator": {
+                  "type": "string",
+                  "operation": "equals",
+                  "name": "filter.operator.equals"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "id": "ad3cc646-05fb-4392-b781-8fd5f5049058",
+        "name": "entrou_no_grupo2",
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2,
+        "position": [
+          2400,
+          1072
+        ]
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 1
+            },
+            "conditions": [
+              {
+                "id": "65b5bcdb-1d2b-4071-82e8-87166a50612b",
+                "leftValue": "={{ $node[\"Edit Fields1\"].json[\"evento\"] }}",
+                "rightValue": "=group.updated.members.added",
+                "operator": {
+                  "type": "string",
+                  "operation": "equals",
+                  "name": "filter.operator.equals"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "id": "1166d014-9e16-42f7-bafc-e426a9999cd6",
+        "name": "entrou_no_grupo3",
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2,
+        "position": [
+          2400,
+          1440
+        ]
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 1
+            },
+            "conditions": [
+              {
+                "id": "dd359e72-da78-43bb-84a7-1b0911d82aa5",
+                "leftValue": "={{ $json.id_group }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "string",
+                  "operation": "exists",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "id": "3f114517-e02d-4210-8ba7-aadf576f6944",
+        "name": "encontrou_grupo",
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2,
+        "position": [
+          928,
+          1328
+        ]
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "581911f4-1edc-4223-9d0b-63a4a0c51264",
+                "name": "nome_grupo",
+                "value": "={{ $node[\"Edit Fields1\"].json[\"nome_grupo\"] }}",
+                "type": "string"
+              },
+              {
+                "id": "8b54b9dd-4c63-4385-ae7b-0abb12662c7c",
+                "name": "telefone_participante",
+                "value": "={{ $item(\"0\").$node[\"Merge\"].json[\"telefone\"] }}",
+                "type": "string"
+              },
+              {
+                "id": "4b6b96d1-c81b-4758-ab8e-150a033261db",
+                "name": "data_que_entrou",
+                "value": "={{ $node[\"Edit Fields1\"].json[\"data_que_entrou\"] }}",
+                "type": "string"
+              },
+              {
+                "id": "41c907e1-b28a-41ce-aa48-3ad3e5e6763a",
+                "name": "id",
+                "value": "={{ $node[\"Edit Fields1\"].json[\"id\"] }}",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "a9d0b762-7ace-42b7-a7d7-c979e36e578f",
+        "name": "Edit Fields3",
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          3184,
+          1216
+        ]
+      },
+      {
+        "parameters": {
+          "content": "# CADASTRA CONTATO QUE ENTROU OU SAIU DOS GRUPOS NO BANCO DE DADOS",
+          "height": 1007,
+          "width": 4974,
+          "color": 3
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "position": [
+          0,
+          832
+        ],
+        "typeVersion": 1,
+        "id": "5b2434ed-7f61-44f4-ab0c-7919b5616178",
+        "name": "Sticky Note"
+      },
+      {
+        "parameters": {
+          "httpMethod": "POST",
+          "path": "tra_fev_2026_sendflow",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.webhook",
+        "typeVersion": 2,
+        "position": [
+          80,
+          1328
+        ],
+        "id": "0e928e36-e103-47a1-90e7-bf2473220532",
+        "name": "Webhook1",
+        "webhookId": "84c9080c-cd6e-4dfd-80d1-bf3103b84d5d"
+      },
+      {
+        "parameters": {
+          "operation": "getAll",
+          "tableId": "users",
+          "limit": 1,
+          "filters": {
+            "conditions": [
+              {
+                "keyName": "telefone",
+                "condition": "eq",
+                "keyValue": "={{ $item(\"0\").$node[\"Edit Fields1\"].json[\"número_participante\"] }}"
+              }
+            ]
+          }
+        },
+        "id": "bf07b1d8-92c4-43b1-8b30-d691e2b771ab",
+        "name": "pesquisa_user1",
+        "type": "n8n-nodes-base.supabase",
+        "typeVersion": 1,
+        "position": [
+          1216,
+          1312
+        ],
+        "alwaysOutputData": true,
+        "credentials": {
+          "supabaseApi": {
+            "id": "06funpVK0RasJnc4",
+            "name": "Supabase - Fabiana Tomé"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "update",
+          "tableId": "contatos_grupos",
+          "filters": {
+            "conditions": [
+              {
+                "keyName": "id_user",
+                "condition": "eq",
+                "keyValue": "={{ $item(\"0\").$node[\"pesquisa_lead_nos_grupos1\"].json[\"id_user\"] }}"
+              }
+            ]
+          },
+          "fieldsUi": {
+            "fieldValues": [
+              {
+                "fieldId": "data_entrada",
+                "fieldValue": "={{ $now }}"
+              },
+              {
+                "fieldId": "status",
+                "fieldValue": "No Grupo"
+              },
+              {
+                "fieldId": "nome_grupo",
+                "fieldValue": "={{ $item(\"0\").$node[\"Edit Fields1\"].json[\"nome_grupo\"] }}"
+              },
+              {
+                "fieldId": "evento",
+                "fieldValue": "={{ $item(\"0\").$node[\"Edit Fields1\"].json[\"evento1\"] }}"
+              }
+            ]
+          }
+        },
+        "id": "7015f010-d80e-4208-8330-769f4ae9a90e",
+        "name": "update_entrou_no_grupo1",
+        "type": "n8n-nodes-base.supabase",
+        "typeVersion": 1,
+        "position": [
+          2624,
+          960
+        ],
+        "credentials": {
+          "supabaseApi": {
+            "id": "06funpVK0RasJnc4",
+            "name": "Supabase - Fabiana Tomé"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "update",
+          "tableId": "contatos_grupos",
+          "filters": {
+            "conditions": [
+              {
+                "keyName": "id_user",
+                "condition": "eq",
+                "keyValue": "={{ $item(\"0\").$node[\"pesquisa_lead_nos_grupos1\"].json[\"id_user\"] }}"
+              }
+            ]
+          },
+          "fieldsUi": {
+            "fieldValues": [
+              {
+                "fieldId": "data_saida",
+                "fieldValue": "={{ $now }}"
+              },
+              {
+                "fieldId": "status",
+                "fieldValue": "Saiu do Grupo"
+              },
+              {
+                "fieldId": "nome_grupo",
+                "fieldValue": "={{ $item(\"0\").$node[\"Edit Fields1\"].json[\"nome_grupo\"] }}"
+              },
+              {
+                "fieldId": "evento",
+                "fieldValue": "={{ $item(\"0\").$node[\"Edit Fields1\"].json[\"evento1\"] }}"
+              }
+            ]
+          }
+        },
+        "id": "6ae4f1da-8181-4b20-a176-88fccb49c0a3",
+        "name": "update_saiu_do_grupo1",
+        "type": "n8n-nodes-base.supabase",
+        "typeVersion": 1,
+        "position": [
+          2640,
+          1152
+        ],
+        "credentials": {
+          "supabaseApi": {
+            "id": "06funpVK0RasJnc4",
+            "name": "Supabase - Fabiana Tomé"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "getAll",
+          "tableId": "contatos_grupos",
+          "limit": 1,
+          "matchType": "allFilters",
+          "filters": {
+            "conditions": [
+              {
+                "keyName": "numero",
+                "condition": "eq",
+                "keyValue": "={{ $json[\"telefone\"] }}"
+              },
+              {
+                "keyName": "nome_grupo",
+                "condition": "eq",
+                "keyValue": "={{ $item(\"0\").$node[\"Edit Fields1\"].json[\"nome_grupo\"] }}"
+              }
+            ]
+          }
+        },
+        "id": "6bcef424-2827-4b11-949b-9c1818b97ab6",
+        "name": "pesquisa_lead_nos_grupos1",
+        "type": "n8n-nodes-base.supabase",
+        "typeVersion": 1,
+        "position": [
+          2048,
+          1280
+        ],
+        "alwaysOutputData": true,
+        "credentials": {
+          "supabaseApi": {
+            "id": "06funpVK0RasJnc4",
+            "name": "Supabase - Fabiana Tomé"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "tableId": "contatos_grupos",
+          "fieldsUi": {
+            "fieldValues": [
+              {
+                "fieldId": "data_entrada",
+                "fieldValue": "={{ $now }}"
+              },
+              {
+                "fieldId": "status",
+                "fieldValue": "No Grupo"
+              },
+              {
+                "fieldId": "nome_grupo",
+                "fieldValue": "={{ $item(\"0\").$node[\"Edit Fields1\"].json[\"nome_grupo\"] }}"
+              },
+              {
+                "fieldId": "numero",
+                "fieldValue": "={{ $item(\"0\").$node[\"Merge\"].json[\"telefone\"] }}"
+              },
+              {
+                "fieldId": "id_grupo",
+                "fieldValue": "={{ $item(\"0\").$node[\"pesquisa_grupo\"].json[\"id\"] }}"
+              },
+              {
+                "fieldId": "id_user",
+                "fieldValue": "={{ $item(\"0\").$node[\"pesquisa_user1\"].json[\"id\"] }}"
+              },
+              {
+                "fieldId": "evento",
+                "fieldValue": "={{ $item(\"0\").$node[\"Edit Fields1\"].json[\"evento1\"] }}"
+              }
+            ]
+          }
+        },
+        "id": "3dd40eb6-4de7-472c-af67-f406e88df79d",
+        "name": "insere_lead_na_tabela_leads_nos_grupos2",
+        "type": "n8n-nodes-base.supabase",
+        "typeVersion": 1,
+        "position": [
+          2656,
+          1328
+        ],
+        "credentials": {
+          "supabaseApi": {
+            "id": "06funpVK0RasJnc4",
+            "name": "Supabase - Fabiana Tomé"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "tableId": "contatos_grupos",
+          "fieldsUi": {
+            "fieldValues": [
+              {
+                "fieldId": "data_saida",
+                "fieldValue": "={{ $now }}"
+              },
+              {
+                "fieldId": "status",
+                "fieldValue": "Saiu do Grupo"
+              },
+              {
+                "fieldId": "nome_grupo",
+                "fieldValue": "={{ $item(\"0\").$node[\"Edit Fields1\"].json[\"nome_grupo\"] }}"
+              },
+              {
+                "fieldId": "numero",
+                "fieldValue": "={{ $item(\"0\").$node[\"Merge\"].json[\"telefone\"] }}"
+              },
+              {
+                "fieldId": "id_grupo",
+                "fieldValue": "={{ $item(\"0\").$node[\"pesquisa_grupo\"].json[\"id\"] }}"
+              },
+              {
+                "fieldId": "id_user",
+                "fieldValue": "={{ $item(\"0\").$node[\"pesquisa_user1\"].json[\"id\"] }}"
+              },
+              {
+                "fieldId": "evento",
+                "fieldValue": "={{ $item(\"0\").$node[\"Edit Fields1\"].json[\"evento1\"] }}"
+              }
+            ]
+          }
+        },
+        "id": "30e60e6a-1f1d-4221-99b3-37951aecd299",
+        "name": "insere_lead_na_tabela_leads_nos_grupos3",
+        "type": "n8n-nodes-base.supabase",
+        "typeVersion": 1,
+        "position": [
+          2688,
+          1552
+        ],
+        "credentials": {
+          "supabaseApi": {
+            "id": "06funpVK0RasJnc4",
+            "name": "Supabase - Fabiana Tomé"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "amount": 2
+        },
+        "type": "n8n-nodes-base.wait",
+        "typeVersion": 1.1,
+        "position": [
+          848,
+          1552
+        ],
+        "id": "f898913a-795a-4ff4-b8ff-1585e6e540cb",
+        "name": "Wait",
+        "webhookId": "57e713ba-fc95-4697-90e0-bf4fe71b9de1"
+      },
+      {
+        "parameters": {
+          "jsCode": "// Pega todos os itens de entrada\nreturn $input.all().map(item => {\n  // Pega o número do node \"Edit Fields1\"\n  const original = $node[\"Edit Fields1\"].json[\"número_participante\"];\n\n  // Se não existir, evita erro\n  if (!original) {\n    return { original: null, modificado: null };\n  }\n\n  // Adiciona o \"9\" após os 4 primeiros dígitos (DDI + DDD)\n  const modificado = original.replace(/^(\\d{4})/, '$19');\n\n  // Retorna os dois campos\n  return {\n    original,\n    modificado\n  };\n});\n"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          1184,
+          1632
+        ],
+        "id": "4a05ffb5-5bae-49bc-874c-a172b0317ff7",
+        "name": "Code"
+      },
+      {
+        "parameters": {
+          "operation": "getAll",
+          "tableId": "users",
+          "limit": 1,
+          "filters": {
+            "conditions": [
+              {
+                "keyName": "telefone",
+                "condition": "eq",
+                "keyValue": "={{ $json[\"modificado\"] }}"
+              }
+            ]
+          }
+        },
+        "id": "d92655fa-de43-46e7-8e9b-f9a0daf27c68",
+        "name": "pesquisa_user",
+        "type": "n8n-nodes-base.supabase",
+        "typeVersion": 1,
+        "position": [
+          1424,
+          1632
+        ],
+        "alwaysOutputData": true,
+        "credentials": {
+          "supabaseApi": {
+            "id": "06funpVK0RasJnc4",
+            "name": "Supabase - Fabiana Tomé"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 1
+            },
+            "conditions": [
+              {
+                "id": "dd359e72-da78-43bb-84a7-1b0911d82aa5",
+                "leftValue": "={{ $node[\"pesquisa_user\"].json[\"id\"] }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "number",
+                  "operation": "exists",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "id": "6dff1964-04e7-423e-91fb-00f8d593486a",
+        "name": "encontrou_user",
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2,
+        "position": [
+          1616,
+          1632
+        ]
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.merge",
+        "typeVersion": 3.2,
+        "position": [
+          1776,
+          1376
+        ],
+        "id": "29a09b48-5d02-47dc-a402-dba1d4016c1f",
+        "name": "Merge"
+      },
+      {
+        "parameters": {
+          "url": "https://fabianatome.api-us1.com/api/3/contacts",
+          "sendQuery": true,
+          "queryParameters": {
+            "parameters": [
+              {
+                "name": "email",
+                "value": "={{ $node[\"Edit Fields5\"].json[\"email\"] }}"
+              }
+            ]
+          },
+          "sendHeaders": true,
+          "headerParameters": {
+            "parameters": [
+              {
+                "name": "Api-Token",
+                "value": "633f6e21dac84c73a548cdb3c300de08d58c0c61fd6e675b7a8bc93dc05cd831ac0d53c6"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "4d3df318-cd9a-4eeb-b870-76f0fae84e8e",
+        "name": "HTTP Request1",
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [
+          3952,
+          1216
+        ]
+      },
+      {
+        "parameters": {
+          "errorMessage": "An error ocurred!"
+        },
+        "id": "4355a2ae-1d63-4dcd-b026-26a4cda6d0c6",
+        "name": "Stop and Error3",
+        "type": "n8n-nodes-base.stopAndError",
+        "typeVersion": 1,
+        "position": [
+          4752,
+          1392
+        ]
+      },
+      {
+        "parameters": {
+          "errorMessage": "An error ocurred!"
+        },
+        "id": "a75b0a07-77e1-4e63-89cb-69a648a4f5d0",
+        "name": "Stop and Error2",
+        "type": "n8n-nodes-base.stopAndError",
+        "typeVersion": 1,
+        "position": [
+          4752,
+          1040
+        ]
+      },
+      {
+        "parameters": {
+          "operation": "update",
+          "contactId": "={{ $json[\"contacts\"][\"0\"][\"id\"] }}",
+          "updateFields": {
+            "email": "={{ $node[\"Edit Fields5\"].json[\"email\"] }}",
+            "firstName": "={{ $node[\"Edit Fields5\"].json[\"nome\"] }}",
+            "lastName": "={{ $node[\"Edit Fields5\"].json[\"sobrenome\"] }}",
+            "phone": "={{ $node[\"Edit Fields5\"].json[\"telefone\"] }}"
+          }
+        },
+        "id": "ec0b9593-18c6-403b-81f5-7009247da83b",
+        "name": "atualiza_contato_no_ac2",
+        "type": "n8n-nodes-base.activeCampaign",
+        "typeVersion": 1,
+        "position": [
+          4432,
+          1072
+        ],
+        "credentials": {
+          "activeCampaignApi": {
+            "id": "4EetjSxVIE3QPLxy",
+            "name": "ActiveCampaign - fabianatome"
+          }
+        },
+        "onError": "continueErrorOutput"
+      },
+      {
+        "parameters": {
+          "email": "={{ $node[\"pesquisa_user\"].json[\"email\"] }}",
+          "updateIfExists": true,
+          "additionalFields": {
+            "firstName": "={{ $node[\"Edit Fields5\"].json[\"nome\"] }}",
+            "lastName": "={{ $node[\"Edit Fields5\"].json[\"sobrenome\"] }}",
+            "phone": "={{ $node[\"Edit Fields5\"].json[\"telefone\"] }}"
+          }
+        },
+        "id": "8e662c44-107b-472d-9038-db3f51761ad7",
+        "name": "cria_contato_no_ac2",
+        "type": "n8n-nodes-base.activeCampaign",
+        "typeVersion": 1,
+        "position": [
+          4432,
+          1360
+        ],
+        "credentials": {
+          "activeCampaignApi": {
+            "id": "4EetjSxVIE3QPLxy",
+            "name": "ActiveCampaign - fabianatome"
+          }
+        },
+        "onError": "continueErrorOutput"
+      },
+      {
+        "parameters": {
+          "resource": "contactTag",
+          "tagId": "772",
+          "contactId": "={{ $json[\"id\"] }}"
+        },
+        "id": "9cb48d87-11d3-4d52-843f-6db329ae8939",
+        "name": "tag_compra_aprovada12",
+        "type": "n8n-nodes-base.activeCampaign",
+        "typeVersion": 1,
+        "position": [
+          4752,
+          1216
+        ],
+        "credentials": {
+          "activeCampaignApi": {
+            "id": "4EetjSxVIE3QPLxy",
+            "name": "ActiveCampaign - fabianatome"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict"
+            },
+            "conditions": [
+              {
+                "id": "2130aa22-e19a-4662-8a2e-b43d36facf6d",
+                "leftValue": "={{ $json[\"contacts\"][\"0\"][\"id\"] }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "string",
+                  "operation": "exists",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "id": "7ceeabe1-398e-45cd-9098-ed50d143ee85",
+        "name": "If3",
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2,
+        "position": [
+          4192,
+          1216
+        ]
+      },
+      {
+        "parameters": {
+          "operation": "getAll",
+          "tableId": "cadastros",
+          "limit": 1,
+          "matchType": "allFilters",
+          "filters": {
+            "conditions": [
+              {
+                "keyName": "telefone",
+                "condition": "eq",
+                "keyValue": "={{ $json[\"telefone_participante\"] }}"
+              },
+              {
+                "keyName": "evento",
+                "condition": "eq",
+                "keyValue": "[TRA_FEV_2026] - [CAPTAÇÃO]"
+              }
+            ]
+          }
+        },
+        "id": "ce8a8626-a34c-43b4-b6a6-a4e1c8e63d9c",
+        "name": "pesquisa_cadastro1",
+        "type": "n8n-nodes-base.supabase",
+        "typeVersion": 1,
+        "position": [
+          3184,
+          1504
+        ],
+        "executeOnce": false,
+        "alwaysOutputData": true,
+        "credentials": {
+          "supabaseApi": {
+            "id": "06funpVK0RasJnc4",
+            "name": "Supabase - Fabiana Tomé"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "f7c5f42f-d024-4e8a-8208-cf79ae590492",
+                "leftValue": "={{ $item(\"0\").$node[\"pesquisa_cadastro1\"].json[\"id\"] }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "number",
+                  "operation": "exists",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "id": "4f71739d-c985-44f4-908f-4563abf23edc",
+        "name": "If",
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          3344,
+          1504
+        ]
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "c53e209f-3f99-47cf-ac2c-48e2744c2567",
+                "name": "nome",
+                "value": "={{ $item(\"0\").$node[\"pesquisa_cadastro1\"].json[\"nome\"] }}",
+                "type": "string"
+              },
+              {
+                "id": "6a122e24-9278-4fa5-aba6-ea01b413ed09",
+                "name": "telefone",
+                "value": "={{ $item(\"0\").$node[\"pesquisa_cadastro1\"].json[\"telefone\"] }}",
+                "type": "string"
+              },
+              {
+                "id": "af5246e1-afa0-4fc2-9a07-cf21cfc43f0b",
+                "name": "data",
+                "value": "={{ $now }}",
+                "type": "string"
+              },
+              {
+                "id": "00fa81b1-b695-4099-973d-712c2f2a2a99",
+                "name": "sobrenome",
+                "value": "={{ $item(\"0\").$node[\"pesquisa_cadastro1\"].json[\"sobrenome\"] }}",
+                "type": "string"
+              },
+              {
+                "id": "e5118f3a-25f0-41ac-ac2e-aba11545abd2",
+                "name": "key",
+                "value": "900578:b58cb2c051a53536a248977b8c3a45d4",
+                "type": "string"
+              },
+              {
+                "id": "c5c1a625-f3c4-4b5b-975a-c57be78b86ae",
+                "name": "email",
+                "value": "={{ $item(\"0\").$node[\"pesquisa_cadastro1\"].json[\"email\"] }}",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "1dc596df-9cd2-4c87-9634-ea58b88e8efe",
+        "name": "Edit Fields5",
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          3600,
+          1408
+        ]
+      }
+    ],
+    "connections": {
+      "pesquisa_grupo": {
+        "main": [
+          [
+            {
+              "node": "encontrou_grupo",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "cria_grupo": {
+        "main": [
+          [
+            {
+              "node": "Wait",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Edit Fields1": {
+        "main": [
+          [
+            {
+              "node": "pesquisa_grupo",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "encontrou_user1": {
+        "main": [
+          [
+            {
+              "node": "Merge",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Code",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "encontrou_lead_no_grupo1": {
+        "main": [
+          [
+            {
+              "node": "entrou_no_grupo2",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "entrou_no_grupo3",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "entrou_no_grupo2": {
+        "main": [
+          [
+            {
+              "node": "update_entrou_no_grupo1",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "update_saiu_do_grupo1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "entrou_no_grupo3": {
+        "main": [
+          [
+            {
+              "node": "insere_lead_na_tabela_leads_nos_grupos2",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "insere_lead_na_tabela_leads_nos_grupos3",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "encontrou_grupo": {
+        "main": [
+          [
+            {
+              "node": "pesquisa_user1",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "cria_grupo",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Webhook1": {
+        "main": [
+          [
+            {
+              "node": "Edit Fields1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "pesquisa_user1": {
+        "main": [
+          [
+            {
+              "node": "encontrou_user1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "update_entrou_no_grupo1": {
+        "main": [
+          [
+            {
+              "node": "Edit Fields3",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "update_saiu_do_grupo1": {
+        "main": [
+          [
+            {
+              "node": "Edit Fields3",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "pesquisa_lead_nos_grupos1": {
+        "main": [
+          [
+            {
+              "node": "encontrou_lead_no_grupo1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "insere_lead_na_tabela_leads_nos_grupos2": {
+        "main": [
+          [
+            {
+              "node": "Edit Fields3",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "insere_lead_na_tabela_leads_nos_grupos3": {
+        "main": [
+          [
+            {
+              "node": "Edit Fields3",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Edit Fields3": {
+        "main": [
+          [
+            {
+              "node": "pesquisa_cadastro1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Wait": {
+        "main": [
+          [
+            {
+              "node": "pesquisa_grupo",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Code": {
+        "main": [
+          [
+            {
+              "node": "pesquisa_user",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "pesquisa_user": {
+        "main": [
+          [
+            {
+              "node": "encontrou_user",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "encontrou_user": {
+        "main": [
+          [
+            {
+              "node": "Merge",
+              "type": "main",
+              "index": 1
+            }
+          ]
+        ]
+      },
+      "Merge": {
+        "main": [
+          [
+            {
+              "node": "pesquisa_lead_nos_grupos1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "HTTP Request1": {
+        "main": [
+          [
+            {
+              "node": "If3",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "atualiza_contato_no_ac2": {
+        "main": [
+          [
+            {
+              "node": "tag_compra_aprovada12",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Stop and Error2",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "cria_contato_no_ac2": {
+        "main": [
+          [
+            {
+              "node": "tag_compra_aprovada12",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Stop and Error3",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If3": {
+        "main": [
+          [
+            {
+              "node": "atualiza_contato_no_ac2",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "cria_contato_no_ac2",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "pesquisa_cadastro1": {
+        "main": [
+          [
+            {
+              "node": "If",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If": {
+        "main": [
+          [
+            {
+              "node": "Edit Fields5",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Edit Fields5": {
+        "main": [
+          [
+            {
+              "node": "HTTP Request1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "AuthLike ME",
+    "name": "Version 3cf6ea1f",
+    "description": "",
+    "autosaved": false
+  },
+  "activeVersionId": "3cf6ea1f-a1da-4084-9d1e-ae4439f05c2d",
+  "connections": {
+    "pesquisa_grupo": {
+      "main": [
+        [
+          {
+            "node": "encontrou_grupo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "cria_grupo": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "pesquisa_grupo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "encontrou_user1": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "encontrou_lead_no_grupo1": {
+      "main": [
+        [
+          {
+            "node": "entrou_no_grupo2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "entrou_no_grupo3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "entrou_no_grupo2": {
+      "main": [
+        [
+          {
+            "node": "update_entrou_no_grupo1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "update_saiu_do_grupo1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "entrou_no_grupo3": {
+      "main": [
+        [
+          {
+            "node": "insere_lead_na_tabela_leads_nos_grupos2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "insere_lead_na_tabela_leads_nos_grupos3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "encontrou_grupo": {
+      "main": [
+        [
+          {
+            "node": "pesquisa_user1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "cria_grupo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "pesquisa_user1": {
+      "main": [
+        [
+          {
+            "node": "encontrou_user1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "update_entrou_no_grupo1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "update_saiu_do_grupo1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "pesquisa_lead_nos_grupos1": {
+      "main": [
+        [
+          {
+            "node": "encontrou_lead_no_grupo1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "insere_lead_na_tabela_leads_nos_grupos2": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "insere_lead_na_tabela_leads_nos_grupos3": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields3": {
+      "main": [
+        [
+          {
+            "node": "pesquisa_cadastro1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "pesquisa_grupo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "pesquisa_user",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "pesquisa_user": {
+      "main": [
+        [
+          {
+            "node": "encontrou_user",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "encontrou_user": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "pesquisa_lead_nos_grupos1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "If3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "atualiza_contato_no_ac2": {
+      "main": [
+        [
+          {
+            "node": "tag_compra_aprovada12",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Stop and Error2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "cria_contato_no_ac2": {
+      "main": [
+        [
+          {
+            "node": "tag_compra_aprovada12",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Stop and Error3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If3": {
+      "main": [
+        [
+          {
+            "node": "atualiza_contato_no_ac2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "cria_contato_no_ac2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "pesquisa_cadastro1": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields5": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2026-01-02T23:42:08.494Z",
+  "id": "XFUQit5aq52yNeXx",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "[TRA_FEV_2026] - [CAPTAÇÃO] Sendflow",
+  "nodes": [
+    {
+      "parameters": {
+        "operation": "get",
+        "tableId": "grupos",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "nome",
+              "keyValue": "={{ $('Webhook1').item.json.body.data.groupName }}"
+            },
+            {
+              "keyName": "evento",
+              "keyValue": "=[TRA_FEV_2026] - [CAPTAÇÃO]"
+            }
+          ]
+        }
+      },
+      "id": "8e58d32f-558b-44bd-b3fc-ae1ab4339961",
+      "name": "pesquisa_grupo",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        544,
+        1328
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "supabaseApi": {
+          "id": "06funpVK0RasJnc4",
+          "name": "Supabase - Fabiana Tomé"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "tableId": "grupos",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "nome",
+              "fieldValue": "={{ $('Edit Fields1').item.json.nome_grupo }}"
+            },
+            {
+              "fieldId": "evento",
+              "fieldValue": "={{ $('Edit Fields1').item.json.evento1 }}"
+            },
+            {
+              "fieldId": "id_group",
+              "fieldValue": "={{ $('Edit Fields1').item.json.id }}"
+            }
+          ]
+        }
+      },
+      "id": "85e79370-854d-4fe3-b043-84c729a8421d",
+      "name": "cria_grupo",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        672,
+        1552
+      ],
+      "credentials": {
+        "supabaseApi": {
+          "id": "06funpVK0RasJnc4",
+          "name": "Supabase - Fabiana Tomé"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "581911f4-1edc-4223-9d0b-63a4a0c51264",
+              "name": "id_campanha",
+              "value": "={{ $json[\"body\"][\"data\"][\"campaignId\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "8b54b9dd-4c63-4385-ae7b-0abb12662c7c",
+              "name": "nome_campanha",
+              "value": "={{ $json[\"body\"][\"data\"][\"campaignName\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "f345ee1e-809f-49fa-b63c-50987289cc29",
+              "name": "nome_grupo",
+              "value": "={{ $json[\"body\"][\"data\"][\"groupName\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "644349ad-b239-4d9f-823a-645498fcef5a",
+              "name": "número_participante",
+              "value": "={{ $json[\"body\"][\"data\"][\"number\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "4b6b96d1-c81b-4758-ab8e-150a033261db",
+              "name": "data_que_entrou",
+              "value": "={{ $json[\"body\"][\"data\"][\"createdAt\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "41c907e1-b28a-41ce-aa48-3ad3e5e6763a",
+              "name": "evento",
+              "value": "={{ $node[\"Webhook1\"].json[\"body\"][\"event\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "2b0020cf-fbd5-40a4-bd2a-c4966e981b9e",
+              "name": "id",
+              "value": "={{ $node[\"Webhook1\"].json[\"body\"][\"id\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "8e4a3609-de2b-4836-ae66-8e4fc6fc1bab",
+              "name": "evento1",
+              "value": "[TRA_FEV_2026] - [CAPTAÇÃO]",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "1b100786-05b1-41e6-aaa4-486c4d284a01",
+      "name": "Edit Fields1",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        304,
+        1328
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "dd359e72-da78-43bb-84a7-1b0911d82aa5",
+              "leftValue": "={{ $node[\"pesquisa_user1\"].json[\"id\"] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "number",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "e7746620-b87e-4fd1-bcb1-b3e5bd59daec",
+      "name": "encontrou_user1",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        1408,
+        1312
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "dd359e72-da78-43bb-84a7-1b0911d82aa5",
+              "leftValue": "={{ $node[\"pesquisa_lead_nos_grupos1\"].json[\"id\"] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "number",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "3377243b-4cac-46df-af13-8a3c261a7edb",
+      "name": "encontrou_lead_no_grupo1",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        2240,
+        1280
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "65b5bcdb-1d2b-4071-82e8-87166a50612b",
+              "leftValue": "={{ $node[\"Edit Fields1\"].json[\"evento\"] }}",
+              "rightValue": "=group.updated.members.added",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "ad3cc646-05fb-4392-b781-8fd5f5049058",
+      "name": "entrou_no_grupo2",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        2400,
+        1072
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "65b5bcdb-1d2b-4071-82e8-87166a50612b",
+              "leftValue": "={{ $node[\"Edit Fields1\"].json[\"evento\"] }}",
+              "rightValue": "=group.updated.members.added",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "1166d014-9e16-42f7-bafc-e426a9999cd6",
+      "name": "entrou_no_grupo3",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        2400,
+        1440
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "dd359e72-da78-43bb-84a7-1b0911d82aa5",
+              "leftValue": "={{ $json.id_group }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "3f114517-e02d-4210-8ba7-aadf576f6944",
+      "name": "encontrou_grupo",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        928,
+        1328
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "581911f4-1edc-4223-9d0b-63a4a0c51264",
+              "name": "nome_grupo",
+              "value": "={{ $node[\"Edit Fields1\"].json[\"nome_grupo\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "8b54b9dd-4c63-4385-ae7b-0abb12662c7c",
+              "name": "telefone_participante",
+              "value": "={{ $item(\"0\").$node[\"Merge\"].json[\"telefone\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "4b6b96d1-c81b-4758-ab8e-150a033261db",
+              "name": "data_que_entrou",
+              "value": "={{ $node[\"Edit Fields1\"].json[\"data_que_entrou\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "41c907e1-b28a-41ce-aa48-3ad3e5e6763a",
+              "name": "id",
+              "value": "={{ $node[\"Edit Fields1\"].json[\"id\"] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "a9d0b762-7ace-42b7-a7d7-c979e36e578f",
+      "name": "Edit Fields3",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3184,
+        1216
+      ]
+    },
+    {
+      "parameters": {
+        "content": "# CADASTRA CONTATO QUE ENTROU OU SAIU DOS GRUPOS NO BANCO DE DADOS",
+        "height": 1007,
+        "width": 4974,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        0,
+        832
+      ],
+      "typeVersion": 1,
+      "id": "5b2434ed-7f61-44f4-ab0c-7919b5616178",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "tra_fev_2026_sendflow",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        80,
+        1328
+      ],
+      "id": "0e928e36-e103-47a1-90e7-bf2473220532",
+      "name": "Webhook1",
+      "webhookId": "84c9080c-cd6e-4dfd-80d1-bf3103b84d5d"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "users",
+        "limit": 1,
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "telefone",
+              "condition": "eq",
+              "keyValue": "={{ $item(\"0\").$node[\"Edit Fields1\"].json[\"número_participante\"] }}"
+            }
+          ]
+        }
+      },
+      "id": "bf07b1d8-92c4-43b1-8b30-d691e2b771ab",
+      "name": "pesquisa_user1",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        1216,
+        1312
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "supabaseApi": {
+          "id": "06funpVK0RasJnc4",
+          "name": "Supabase - Fabiana Tomé"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "tableId": "contatos_grupos",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "id_user",
+              "condition": "eq",
+              "keyValue": "={{ $item(\"0\").$node[\"pesquisa_lead_nos_grupos1\"].json[\"id_user\"] }}"
+            }
+          ]
+        },
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "data_entrada",
+              "fieldValue": "={{ $now }}"
+            },
+            {
+              "fieldId": "status",
+              "fieldValue": "No Grupo"
+            },
+            {
+              "fieldId": "nome_grupo",
+              "fieldValue": "={{ $item(\"0\").$node[\"Edit Fields1\"].json[\"nome_grupo\"] }}"
+            },
+            {
+              "fieldId": "evento",
+              "fieldValue": "={{ $item(\"0\").$node[\"Edit Fields1\"].json[\"evento1\"] }}"
+            }
+          ]
+        }
+      },
+      "id": "7015f010-d80e-4208-8330-769f4ae9a90e",
+      "name": "update_entrou_no_grupo1",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        2624,
+        960
+      ],
+      "credentials": {
+        "supabaseApi": {
+          "id": "06funpVK0RasJnc4",
+          "name": "Supabase - Fabiana Tomé"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "tableId": "contatos_grupos",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "id_user",
+              "condition": "eq",
+              "keyValue": "={{ $item(\"0\").$node[\"pesquisa_lead_nos_grupos1\"].json[\"id_user\"] }}"
+            }
+          ]
+        },
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "data_saida",
+              "fieldValue": "={{ $now }}"
+            },
+            {
+              "fieldId": "status",
+              "fieldValue": "Saiu do Grupo"
+            },
+            {
+              "fieldId": "nome_grupo",
+              "fieldValue": "={{ $item(\"0\").$node[\"Edit Fields1\"].json[\"nome_grupo\"] }}"
+            },
+            {
+              "fieldId": "evento",
+              "fieldValue": "={{ $item(\"0\").$node[\"Edit Fields1\"].json[\"evento1\"] }}"
+            }
+          ]
+        }
+      },
+      "id": "6ae4f1da-8181-4b20-a176-88fccb49c0a3",
+      "name": "update_saiu_do_grupo1",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        2640,
+        1152
+      ],
+      "credentials": {
+        "supabaseApi": {
+          "id": "06funpVK0RasJnc4",
+          "name": "Supabase - Fabiana Tomé"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "contatos_grupos",
+        "limit": 1,
+        "matchType": "allFilters",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "numero",
+              "condition": "eq",
+              "keyValue": "={{ $json[\"telefone\"] }}"
+            },
+            {
+              "keyName": "nome_grupo",
+              "condition": "eq",
+              "keyValue": "={{ $item(\"0\").$node[\"Edit Fields1\"].json[\"nome_grupo\"] }}"
+            }
+          ]
+        }
+      },
+      "id": "6bcef424-2827-4b11-949b-9c1818b97ab6",
+      "name": "pesquisa_lead_nos_grupos1",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        2048,
+        1280
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "supabaseApi": {
+          "id": "06funpVK0RasJnc4",
+          "name": "Supabase - Fabiana Tomé"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "tableId": "contatos_grupos",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "data_entrada",
+              "fieldValue": "={{ $now }}"
+            },
+            {
+              "fieldId": "status",
+              "fieldValue": "No Grupo"
+            },
+            {
+              "fieldId": "nome_grupo",
+              "fieldValue": "={{ $item(\"0\").$node[\"Edit Fields1\"].json[\"nome_grupo\"] }}"
+            },
+            {
+              "fieldId": "numero",
+              "fieldValue": "={{ $item(\"0\").$node[\"Merge\"].json[\"telefone\"] }}"
+            },
+            {
+              "fieldId": "id_grupo",
+              "fieldValue": "={{ $item(\"0\").$node[\"pesquisa_grupo\"].json[\"id\"] }}"
+            },
+            {
+              "fieldId": "id_user",
+              "fieldValue": "={{ $item(\"0\").$node[\"pesquisa_user1\"].json[\"id\"] }}"
+            },
+            {
+              "fieldId": "evento",
+              "fieldValue": "={{ $item(\"0\").$node[\"Edit Fields1\"].json[\"evento1\"] }}"
+            }
+          ]
+        }
+      },
+      "id": "3dd40eb6-4de7-472c-af67-f406e88df79d",
+      "name": "insere_lead_na_tabela_leads_nos_grupos2",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        2656,
+        1328
+      ],
+      "credentials": {
+        "supabaseApi": {
+          "id": "06funpVK0RasJnc4",
+          "name": "Supabase - Fabiana Tomé"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "tableId": "contatos_grupos",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "data_saida",
+              "fieldValue": "={{ $now }}"
+            },
+            {
+              "fieldId": "status",
+              "fieldValue": "Saiu do Grupo"
+            },
+            {
+              "fieldId": "nome_grupo",
+              "fieldValue": "={{ $item(\"0\").$node[\"Edit Fields1\"].json[\"nome_grupo\"] }}"
+            },
+            {
+              "fieldId": "numero",
+              "fieldValue": "={{ $item(\"0\").$node[\"Merge\"].json[\"telefone\"] }}"
+            },
+            {
+              "fieldId": "id_grupo",
+              "fieldValue": "={{ $item(\"0\").$node[\"pesquisa_grupo\"].json[\"id\"] }}"
+            },
+            {
+              "fieldId": "id_user",
+              "fieldValue": "={{ $item(\"0\").$node[\"pesquisa_user1\"].json[\"id\"] }}"
+            },
+            {
+              "fieldId": "evento",
+              "fieldValue": "={{ $item(\"0\").$node[\"Edit Fields1\"].json[\"evento1\"] }}"
+            }
+          ]
+        }
+      },
+      "id": "30e60e6a-1f1d-4221-99b3-37951aecd299",
+      "name": "insere_lead_na_tabela_leads_nos_grupos3",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        2688,
+        1552
+      ],
+      "credentials": {
+        "supabaseApi": {
+          "id": "06funpVK0RasJnc4",
+          "name": "Supabase - Fabiana Tomé"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 2
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        848,
+        1552
+      ],
+      "id": "f898913a-795a-4ff4-b8ff-1585e6e540cb",
+      "name": "Wait",
+      "webhookId": "57e713ba-fc95-4697-90e0-bf4fe71b9de1"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Pega todos os itens de entrada\nreturn $input.all().map(item => {\n  // Pega o número do node \"Edit Fields1\"\n  const original = $node[\"Edit Fields1\"].json[\"número_participante\"];\n\n  // Se não existir, evita erro\n  if (!original) {\n    return { original: null, modificado: null };\n  }\n\n  // Adiciona o \"9\" após os 4 primeiros dígitos (DDI + DDD)\n  const modificado = original.replace(/^(\\d{4})/, '$19');\n\n  // Retorna os dois campos\n  return {\n    original,\n    modificado\n  };\n});\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1184,
+        1632
+      ],
+      "id": "4a05ffb5-5bae-49bc-874c-a172b0317ff7",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "users",
+        "limit": 1,
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "telefone",
+              "condition": "eq",
+              "keyValue": "={{ $json[\"modificado\"] }}"
+            }
+          ]
+        }
+      },
+      "id": "d92655fa-de43-46e7-8e9b-f9a0daf27c68",
+      "name": "pesquisa_user",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        1424,
+        1632
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "supabaseApi": {
+          "id": "06funpVK0RasJnc4",
+          "name": "Supabase - Fabiana Tomé"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "dd359e72-da78-43bb-84a7-1b0911d82aa5",
+              "leftValue": "={{ $node[\"pesquisa_user\"].json[\"id\"] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "number",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "6dff1964-04e7-423e-91fb-00f8d593486a",
+      "name": "encontrou_user",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        1616,
+        1632
+      ]
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        1776,
+        1376
+      ],
+      "id": "29a09b48-5d02-47dc-a402-dba1d4016c1f",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "url": "https://fabianatome.api-us1.com/api/3/contacts",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "email",
+              "value": "={{ $node[\"Edit Fields5\"].json[\"email\"] }}"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Api-Token",
+              "value": "633f6e21dac84c73a548cdb3c300de08d58c0c61fd6e675b7a8bc93dc05cd831ac0d53c6"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "4d3df318-cd9a-4eeb-b870-76f0fae84e8e",
+      "name": "HTTP Request1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        3952,
+        1216
+      ]
+    },
+    {
+      "parameters": {
+        "errorMessage": "An error ocurred!"
+      },
+      "id": "4355a2ae-1d63-4dcd-b026-26a4cda6d0c6",
+      "name": "Stop and Error3",
+      "type": "n8n-nodes-base.stopAndError",
+      "typeVersion": 1,
+      "position": [
+        4752,
+        1392
+      ]
+    },
+    {
+      "parameters": {
+        "errorMessage": "An error ocurred!"
+      },
+      "id": "a75b0a07-77e1-4e63-89cb-69a648a4f5d0",
+      "name": "Stop and Error2",
+      "type": "n8n-nodes-base.stopAndError",
+      "typeVersion": 1,
+      "position": [
+        4752,
+        1040
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "contactId": "={{ $json[\"contacts\"][\"0\"][\"id\"] }}",
+        "updateFields": {
+          "email": "={{ $node[\"Edit Fields5\"].json[\"email\"] }}",
+          "firstName": "={{ $node[\"Edit Fields5\"].json[\"nome\"] }}",
+          "lastName": "={{ $node[\"Edit Fields5\"].json[\"sobrenome\"] }}",
+          "phone": "={{ $node[\"Edit Fields5\"].json[\"telefone\"] }}"
+        }
+      },
+      "id": "ec0b9593-18c6-403b-81f5-7009247da83b",
+      "name": "atualiza_contato_no_ac2",
+      "type": "n8n-nodes-base.activeCampaign",
+      "typeVersion": 1,
+      "position": [
+        4432,
+        1072
+      ],
+      "credentials": {
+        "activeCampaignApi": {
+          "id": "4EetjSxVIE3QPLxy",
+          "name": "ActiveCampaign - fabianatome"
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "email": "={{ $node[\"pesquisa_user\"].json[\"email\"] }}",
+        "updateIfExists": true,
+        "additionalFields": {
+          "firstName": "={{ $node[\"Edit Fields5\"].json[\"nome\"] }}",
+          "lastName": "={{ $node[\"Edit Fields5\"].json[\"sobrenome\"] }}",
+          "phone": "={{ $node[\"Edit Fields5\"].json[\"telefone\"] }}"
+        }
+      },
+      "id": "8e662c44-107b-472d-9038-db3f51761ad7",
+      "name": "cria_contato_no_ac2",
+      "type": "n8n-nodes-base.activeCampaign",
+      "typeVersion": 1,
+      "position": [
+        4432,
+        1360
+      ],
+      "credentials": {
+        "activeCampaignApi": {
+          "id": "4EetjSxVIE3QPLxy",
+          "name": "ActiveCampaign - fabianatome"
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "resource": "contactTag",
+        "tagId": "772",
+        "contactId": "={{ $json[\"id\"] }}"
+      },
+      "id": "9cb48d87-11d3-4d52-843f-6db329ae8939",
+      "name": "tag_compra_aprovada12",
+      "type": "n8n-nodes-base.activeCampaign",
+      "typeVersion": 1,
+      "position": [
+        4752,
+        1216
+      ],
+      "credentials": {
+        "activeCampaignApi": {
+          "id": "4EetjSxVIE3QPLxy",
+          "name": "ActiveCampaign - fabianatome"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "2130aa22-e19a-4662-8a2e-b43d36facf6d",
+              "leftValue": "={{ $json[\"contacts\"][\"0\"][\"id\"] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "7ceeabe1-398e-45cd-9098-ed50d143ee85",
+      "name": "If3",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        4192,
+        1216
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "cadastros",
+        "limit": 1,
+        "matchType": "allFilters",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "telefone",
+              "condition": "eq",
+              "keyValue": "={{ $json[\"telefone_participante\"] }}"
+            },
+            {
+              "keyName": "evento",
+              "condition": "eq",
+              "keyValue": "[TRA_FEV_2026] - [CAPTAÇÃO]"
+            }
+          ]
+        }
+      },
+      "id": "ce8a8626-a34c-43b4-b6a6-a4e1c8e63d9c",
+      "name": "pesquisa_cadastro1",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        3184,
+        1504
+      ],
+      "executeOnce": false,
+      "alwaysOutputData": true,
+      "credentials": {
+        "supabaseApi": {
+          "id": "06funpVK0RasJnc4",
+          "name": "Supabase - Fabiana Tomé"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "f7c5f42f-d024-4e8a-8208-cf79ae590492",
+              "leftValue": "={{ $item(\"0\").$node[\"pesquisa_cadastro1\"].json[\"id\"] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "number",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "4f71739d-c985-44f4-908f-4563abf23edc",
+      "name": "If",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        3344,
+        1504
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "c53e209f-3f99-47cf-ac2c-48e2744c2567",
+              "name": "nome",
+              "value": "={{ $item(\"0\").$node[\"pesquisa_cadastro1\"].json[\"nome\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "6a122e24-9278-4fa5-aba6-ea01b413ed09",
+              "name": "telefone",
+              "value": "={{ $item(\"0\").$node[\"pesquisa_cadastro1\"].json[\"telefone\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "af5246e1-afa0-4fc2-9a07-cf21cfc43f0b",
+              "name": "data",
+              "value": "={{ $now }}",
+              "type": "string"
+            },
+            {
+              "id": "00fa81b1-b695-4099-973d-712c2f2a2a99",
+              "name": "sobrenome",
+              "value": "={{ $item(\"0\").$node[\"pesquisa_cadastro1\"].json[\"sobrenome\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "e5118f3a-25f0-41ac-ac2e-aba11545abd2",
+              "name": "key",
+              "value": "900578:b58cb2c051a53536a248977b8c3a45d4",
+              "type": "string"
+            },
+            {
+              "id": "c5c1a625-f3c4-4b5b-975a-c57be78b86ae",
+              "name": "email",
+              "value": "={{ $item(\"0\").$node[\"pesquisa_cadastro1\"].json[\"email\"] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "1dc596df-9cd2-4c87-9634-ea58b88e8efe",
+      "name": "Edit Fields5",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3600,
+        1408
+      ]
+    }
+  ],
+  "pinData": {
+    "Webhook1": [
+      {
+        "json": {
+          "headers": {
+            "host": "webhook.fabianatome.com.br",
+            "user-agent": "axios/1.9.0",
+            "content-length": "447",
+            "accept": "application/json, text/plain, */*",
+            "accept-encoding": "gzip, compress, deflate, br",
+            "content-type": "application/json",
+            "sendtok": "D12AAD29D4A58EA1B1836FC083321F48171121BE1B",
+            "x-forwarded-for": "136.248.103.254",
+            "x-forwarded-host": "webhook.fabianatome.com.br",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "1783e14eebf4",
+            "x-real-ip": "136.248.103.254"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "id": "ShzaZL6gWAAbNTA8GdfE",
+            "event": "group.updated.members.added",
+            "data": {
+              "campaignName": "[FEV 26] 1 PÁGINAS - SEMANA DA PRÁTICA TRIBUTÁRIA",
+              "groupName": "#2 Semana da Prática Tributária (1)",
+              "groupJid": "120363405504460730@g.us",
+              "groupId": "4DziQ6uvGQt6t7U7X44Y",
+              "campaignId": "LL9fyJ3wzczKraxUYo67",
+              "number": "5511967675786",
+              "createdAt": "2026-01-05T14:05:54.431Z",
+              "createdAt_with_timezone_br": "2026-01-05T11:05:54.431-03:00"
+            },
+            "version": "1.0.0"
+          },
+          "webhookUrl": "https://webhook.fabianatome.com.br/webhook/tra_fev_2026_sendflow",
+          "executionMode": "production"
+        }
+      }
+    ]
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2026-01-02T23:42:08.494Z",
+      "createdAt": "2026-01-02T23:42:08.494Z",
+      "role": "workflow:owner",
+      "workflowId": "XFUQit5aq52yNeXx",
+      "projectId": "tP5lcLj6t4StcK5B"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2026-01-05T14:28:49.002Z",
+  "versionId": "3cf6ea1f-a1da-4084-9d1e-ae4439f05c2d"
+}
