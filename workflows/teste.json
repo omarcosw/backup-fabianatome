@@ -1,0 +1,592 @@
+{
+  "active": true,
+  "activeVersion": {
+    "updatedAt": "2025-12-03T22:27:37.573Z",
+    "createdAt": "2025-12-03T22:27:37.573Z",
+    "versionId": "b5e5d0ff-1735-46c9-b845-5759daad26ca",
+    "workflowId": "c5Tk5SP77CGYEwbx",
+    "nodes": [
+      {
+        "parameters": {
+          "httpMethod": "POST",
+          "path": "teste",
+          "responseMode": "responseNode",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.webhook",
+        "typeVersion": 2.1,
+        "position": [
+          -112,
+          0
+        ],
+        "id": "c3fda7c0-647a-4e20-a145-fdcd14f76a62",
+        "name": "Webhook",
+        "webhookId": "a9ae07fe-454e-4b5c-976c-49ae88e9da2d"
+      },
+      {
+        "parameters": {
+          "respondWith": "allIncomingItems",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.respondToWebhook",
+        "typeVersion": 1.4,
+        "position": [
+          464,
+          0
+        ],
+        "id": "b471c6d5-df05-4507-8b0a-45aa3b256378",
+        "name": "Respond to Webhook"
+      },
+      {
+        "parameters": {
+          "promptType": "define",
+          "text": "={{ $json.body.mensagem }}",
+          "options": {
+            "systemMessage": "=Voce se chama nina e faz o atendimento de suporte da fabiana tomé, sempre acione a tool \"searchinfo\"  para responder todas ass duvidas.\n\nSua base de cconhecimento esta na tool \"searchinfo\" sempre use ela "
+          }
+        },
+        "id": "f9a5ff56-075d-478f-924b-32f4eac499fb",
+        "name": "IA SUPORTE",
+        "type": "@n8n/n8n-nodes-langchain.agent",
+        "typeVersion": 1.7,
+        "position": [
+          128,
+          0
+        ]
+      },
+      {
+        "parameters": {
+          "model": "text-embedding-3-large",
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+        "typeVersion": 1.2,
+        "position": [
+          448,
+          464
+        ],
+        "id": "6fb50bbf-35c5-4426-9ac7-662a865019e2",
+        "name": "Embeddings1",
+        "credentials": {
+          "openAiApi": {
+            "id": "FWqn0IMXX1HmDrEh",
+            "name": "IA SUPORTE"
+          }
+        }
+      },
+      {
+        "parameters": {},
+        "type": "@n8n/n8n-nodes-langchain.rerankerCohere",
+        "typeVersion": 1,
+        "position": [
+          688,
+          480
+        ],
+        "id": "6a17d514-505d-4c00-b677-1d5307b52fc5",
+        "name": "Reranker1",
+        "credentials": {
+          "cohereApi": {
+            "id": "o6pPZn2rldFOktGo",
+            "name": "Reanker novo"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "mode": "retrieve-as-tool",
+          "toolName": "searchinfo",
+          "toolDescription": "Sempre acione essa função tool para todos os assuntos e duvidas dos alunos",
+          "tableName": {
+            "__rl": true,
+            "value": "info_gerais",
+            "mode": "list",
+            "cachedResultName": "info_gerais"
+          },
+          "topK": 30,
+          "useReranker": true,
+          "options": {
+            "queryName": "match_info_gerais"
+          }
+        },
+        "type": "@n8n/n8n-nodes-langchain.vectorStoreSupabase",
+        "typeVersion": 1.2,
+        "position": [
+          496,
+          336
+        ],
+        "id": "5449db2c-2873-41cf-999d-f3a506c3ee50",
+        "name": "searchinfo",
+        "credentials": {
+          "supabaseApi": {
+            "id": "06funpVK0RasJnc4",
+            "name": "Supabase - Fabiana Tomé"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "model": {
+            "__rl": true,
+            "value": "gpt-4o-mini",
+            "mode": "list",
+            "cachedResultName": "gpt-4o-mini"
+          },
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+        "typeVersion": 1.2,
+        "position": [
+          64,
+          208
+        ],
+        "id": "f06bbb4c-2067-4c14-85af-453ee0e2773f",
+        "name": "OpenAI Chat Model",
+        "credentials": {
+          "openAiApi": {
+            "id": "FWqn0IMXX1HmDrEh",
+            "name": "IA SUPORTE"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "content": "# RAG REANKER",
+          "height": 384,
+          "width": 480
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "position": [
+          400,
+          224
+        ],
+        "typeVersion": 1,
+        "id": "0d7c8117-bc07-43f1-b509-7808e09679de",
+        "name": "Sticky Note"
+      },
+      {
+        "parameters": {
+          "sessionIdType": "customKey",
+          "sessionKey": "1"
+        },
+        "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
+        "typeVersion": 1.5,
+        "position": [
+          240,
+          208
+        ],
+        "id": "543bcc7e-0b38-4748-9675-fa2749c349bf",
+        "name": "Redis Chat Memory",
+        "credentials": {
+          "redis": {
+            "id": "f0PBBr8Eq1sFiARY",
+            "name": "Redis account"
+          }
+        }
+      }
+    ],
+    "connections": {
+      "Webhook": {
+        "main": [
+          [
+            {
+              "node": "IA SUPORTE",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "IA SUPORTE": {
+        "main": [
+          [
+            {
+              "node": "Respond to Webhook",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Embeddings1": {
+        "ai_embedding": [
+          [
+            {
+              "node": "searchinfo",
+              "type": "ai_embedding",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Reranker1": {
+        "ai_reranker": [
+          [
+            {
+              "node": "searchinfo",
+              "type": "ai_reranker",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "searchinfo": {
+        "ai_tool": [
+          [
+            {
+              "node": "IA SUPORTE",
+              "type": "ai_tool",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "OpenAI Chat Model": {
+        "ai_languageModel": [
+          [
+            {
+              "node": "IA SUPORTE",
+              "type": "ai_languageModel",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Redis Chat Memory": {
+        "ai_memory": [
+          [
+            {
+              "node": "IA SUPORTE",
+              "type": "ai_memory",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "system migration",
+    "name": null,
+    "description": null,
+    "autosaved": false
+  },
+  "activeVersionId": "b5e5d0ff-1735-46c9-b845-5759daad26ca",
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "IA SUPORTE",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IA SUPORTE": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings1": {
+      "ai_embedding": [
+        [
+          {
+            "node": "searchinfo",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reranker1": {
+      "ai_reranker": [
+        [
+          {
+            "node": "searchinfo",
+            "type": "ai_reranker",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "searchinfo": {
+      "ai_tool": [
+        [
+          {
+            "node": "IA SUPORTE",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "IA SUPORTE",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis Chat Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "IA SUPORTE",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-09-02T21:52:00.615Z",
+  "id": "c5Tk5SP77CGYEwbx",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "teste",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "teste",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -112,
+        0
+      ],
+      "id": "c3fda7c0-647a-4e20-a145-fdcd14f76a62",
+      "name": "Webhook",
+      "webhookId": "a9ae07fe-454e-4b5c-976c-49ae88e9da2d"
+    },
+    {
+      "parameters": {
+        "respondWith": "allIncomingItems",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        464,
+        0
+      ],
+      "id": "b471c6d5-df05-4507-8b0a-45aa3b256378",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.body.mensagem }}",
+        "options": {
+          "systemMessage": "=Voce se chama nina e faz o atendimento de suporte da fabiana tomé, sempre acione a tool \"searchinfo\"  para responder todas ass duvidas.\n\nSua base de cconhecimento esta na tool \"searchinfo\" sempre use ela "
+        }
+      },
+      "id": "f9a5ff56-075d-478f-924b-32f4eac499fb",
+      "name": "IA SUPORTE",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        128,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "model": "text-embedding-3-large",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        448,
+        464
+      ],
+      "id": "6fb50bbf-35c5-4426-9ac7-662a865019e2",
+      "name": "Embeddings1",
+      "credentials": {
+        "openAiApi": {
+          "id": "FWqn0IMXX1HmDrEh",
+          "name": "IA SUPORTE"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.rerankerCohere",
+      "typeVersion": 1,
+      "position": [
+        688,
+        480
+      ],
+      "id": "6a17d514-505d-4c00-b677-1d5307b52fc5",
+      "name": "Reranker1",
+      "credentials": {
+        "cohereApi": {
+          "id": "o6pPZn2rldFOktGo",
+          "name": "Reanker novo"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "toolName": "searchinfo",
+        "toolDescription": "Sempre acione essa função tool para todos os assuntos e duvidas dos alunos",
+        "tableName": {
+          "__rl": true,
+          "value": "info_gerais",
+          "mode": "list",
+          "cachedResultName": "info_gerais"
+        },
+        "topK": 30,
+        "useReranker": true,
+        "options": {
+          "queryName": "match_info_gerais"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreSupabase",
+      "typeVersion": 1.2,
+      "position": [
+        496,
+        336
+      ],
+      "id": "5449db2c-2873-41cf-999d-f3a506c3ee50",
+      "name": "searchinfo",
+      "credentials": {
+        "supabaseApi": {
+          "id": "06funpVK0RasJnc4",
+          "name": "Supabase - Fabiana Tomé"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        64,
+        208
+      ],
+      "id": "f06bbb4c-2067-4c14-85af-453ee0e2773f",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "FWqn0IMXX1HmDrEh",
+          "name": "IA SUPORTE"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "# RAG REANKER",
+        "height": 384,
+        "width": 480
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        400,
+        224
+      ],
+      "typeVersion": 1,
+      "id": "0d7c8117-bc07-43f1-b509-7808e09679de",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "1"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
+      "typeVersion": 1.5,
+      "position": [
+        240,
+        208
+      ],
+      "id": "543bcc7e-0b38-4748-9675-fa2749c349bf",
+      "name": "Redis Chat Memory",
+      "credentials": {
+        "redis": {
+          "id": "f0PBBr8Eq1sFiARY",
+          "name": "Redis account"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "webhook.fabianatome.com.br",
+            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36",
+            "content-length": "177",
+            "accept": "*/*",
+            "accept-encoding": "gzip, deflate, br, zstd",
+            "accept-language": "pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7",
+            "content-type": "multipart/form-data; boundary=----WebKitFormBoundaryDCbp01Bd98hwUQJw",
+            "origin": "null",
+            "priority": "u=1, i",
+            "sec-ch-ua": "\"Chromium\";v=\"140\", \"Not=A?Brand\";v=\"24\", \"Google Chrome\";v=\"140\"",
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": "\"Windows\"",
+            "sec-fetch-dest": "empty",
+            "sec-fetch-mode": "cors",
+            "sec-fetch-site": "cross-site",
+            "x-forwarded-for": "187.32.32.237",
+            "x-forwarded-host": "webhook.fabianatome.com.br",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "3e4b5a65d457",
+            "x-real-ip": "187.32.32.237"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "mensagem": "tenho duvidas sobre o simples nacional"
+          },
+          "webhookUrl": "https://webhook.fabianatome.com.br/webhook/teste",
+          "executionMode": "production"
+        }
+      }
+    ]
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-09-02T21:52:00.615Z",
+      "createdAt": "2025-09-02T21:52:00.615Z",
+      "role": "workflow:owner",
+      "workflowId": "c5Tk5SP77CGYEwbx",
+      "projectId": "tP5lcLj6t4StcK5B"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2025-09-19T19:49:03.648Z",
+  "versionId": "b5e5d0ff-1735-46c9-b845-5759daad26ca"
+}
