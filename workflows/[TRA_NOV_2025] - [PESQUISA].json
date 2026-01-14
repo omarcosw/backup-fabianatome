@@ -1,0 +1,1869 @@
+{
+  "active": true,
+  "activeVersion": {
+    "updatedAt": "2025-12-03T22:27:37.573Z",
+    "createdAt": "2025-12-03T22:27:37.573Z",
+    "versionId": "4534b472-b4ed-454c-bd1e-d8d341e6581d",
+    "workflowId": "HuDRm022czE1CfCW",
+    "nodes": [
+      {
+        "parameters": {
+          "httpMethod": "POST",
+          "path": "tra_nov_2025_pesquisa",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.webhook",
+        "typeVersion": 2,
+        "position": [
+          -16,
+          -16
+        ],
+        "id": "7f99d20d-d599-4e27-9983-c02c4c2a65ce",
+        "name": "Webhook",
+        "webhookId": "c2bf7f10-e2ab-4e28-bdf5-513c7d244931"
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "bb839055-124b-4671-99e9-d13293daa8c7",
+                "name": "Responda onde você melhor se encaixa",
+                "value": "={{ $item(\"0\").$node[\"formata_dados\"].json[\"body\"][\"Responda onde você melhor se encaixa:\"] }}",
+                "type": "string"
+              },
+              {
+                "id": "b5b5da8a-46c5-44bd-acb3-3f246b420a53",
+                "name": "No momento você é",
+                "value": "={{ $item(\"0\").$node[\"formata_dados\"].json[\"body\"][\"No momento você é \"] }}{{ $item(\"0\").$node[\"formata_dados\"].json[\"body\"][\"Outra (escreva aqui)\"] }}",
+                "type": "string"
+              },
+              {
+                "id": "7b8ac769-0ee5-410d-849d-34385009029b",
+                "name": "Qual a sua experiência no Direito?",
+                "value": "={{ $item(\"0\").$node[\"formata_dados\"].json[\"body\"][\"Qual a sua experiência no Direito?\"] }}",
+                "type": "string"
+              },
+              {
+                "id": "406c5c3d-be5c-4dfa-a517-5854195431be",
+                "name": "O que mais te motiva a participar da Black Tributária Vitalício?",
+                "value": "={{ $item(\"0\").$node[\"formata_dados\"].json[\"body\"][\"O que mais te motiva a participar da Black Tributária Vitalício?\"] }}",
+                "type": "string"
+              },
+              {
+                "id": "1d0c0949-f472-4662-816b-e0eaf511f1b0",
+                "name": "Se na live do dia 03/11 a Professora Fabiana liberar o acesso vitalício com bônus exclusivos, qual seria sua decisão?",
+                "value": "={{ $node[\"Webhook\"].json[\"body\"][\"Qual a faixa de renda familiar (somando todas as pessoas que vivem com você)?\"] }}",
+                "type": "string"
+              },
+              {
+                "id": "39ac2ebc-5c00-4c88-80b4-862fb3df3a1b",
+                "name": "Qual forma de pagamento você prefere usar na Black Tributária?",
+                "value": "={{ $item(\"0\").$node[\"formata_dados\"].json[\"body\"][\"Qual forma de pagamento você prefere usar na Black Tributária?\"] }}",
+                "type": "string"
+              },
+              {
+                "id": "f329b60d-6c7f-4c54-9c56-c41fb2dacd6f",
+                "name": "Já reservou um valor para aproveitar a Black Tributária?",
+                "value": "={{ $item(\"0\").$node[\"formata_dados\"].json[\"body\"][\"Já reservou um valor para aproveitar a Black Tributária?\"] }}",
+                "type": "string"
+              },
+              {
+                "id": "90ea93b8-ef53-4800-a1d3-7e187eaebad1",
+                "name": "O que mais te impediria de investir no Tributarista em Ação Vitalício?",
+                "value": "={{ $item(\"0\").$node[\"formata_dados\"].json[\"body\"][\"O que mais te impediria de investir no Tributarista em Ação Vitalício?\"] }}",
+                "type": "string"
+              },
+              {
+                "id": "6c45ba4f-737d-45f5-a1d7-4fa3449a0c7b",
+                "name": "E-mail",
+                "value": "={{ $item(\"0\").$node[\"formata_dados\"].json[\"body\"][\"E-mail\"] }}",
+                "type": "string"
+              },
+              {
+                "id": "6b94c43a-9dc7-4308-bc77-bd711252d268",
+                "name": "WhatsApp",
+                "value": "={{ $item(\"0\").$node[\"formata_dados\"].json[\"body\"][\"WhatsApp\"] }}",
+                "type": "string"
+              },
+              {
+                "id": "97373297-68f5-4393-9454-6dfc30b67aa1",
+                "name": "Evento",
+                "value": "[TRA_NOV_2025] [PESQUISA]",
+                "type": "string"
+              },
+              {
+                "id": "674adb7b-9388-4651-9c7f-b77bfa8082f4",
+                "name": "Qual tipo de bônus te faria decidir na hora?",
+                "value": "={{ $item(\"0\").$node[\"formata_dados\"].json[\"body\"][\"Qual tipo de bônus te faria decidir na hora?\"] }}",
+                "type": "string"
+              },
+              {
+                "id": "c4a81ec4-9aa3-4bb4-a541-487381941fd5",
+                "name": "Nome",
+                "value": "={{ $item(\"0\").$node[\"formata_dados\"].json[\"body\"][\"Nome\"] }}",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "6bf8db6a-8700-4c82-930f-5334a969d1a6",
+        "name": "dados",
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.3,
+        "position": [
+          464,
+          -16
+        ]
+      },
+      {
+        "parameters": {
+          "jsCode": "const body = $json.body || {};\nlet telefone = body[\"WhatsApp\"] || \"\";\n\n// Remove espaços, traços e parênteses\ntelefone = telefone.replace(/\\D/g, \"\");\n\n// Se não começa com \"55\", adiciona\nif (!telefone.startsWith(\"55\")) {\n  telefone = \"55\" + telefone;\n}\nbody[\"WhatsApp\"] = telefone;\n\n// Verifica e ajusta o campo \"No momento você é ?\"\nif ((body[\"No momento você é ?\"] || \"\").trim() === \"Outro\") {\n  const outraResposta = body[\"Outra (escreva aqui)\"] || \"\";\n  body[\"No momento você é ?\"] = outraResposta;\n}\n\n// Retorna o objeto ajustado\nreturn {\n  json: {\n    ...$json,\n    body\n  }\n};"
+        },
+        "id": "18b64b18-c899-4cef-a704-4c2f150b2a76",
+        "name": "formata_dados",
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          240,
+          -16
+        ]
+      },
+      {
+        "parameters": {
+          "content": "# PESQUISA DO ELEMENTOR",
+          "height": 720,
+          "width": 1215
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "typeVersion": 1,
+        "position": [
+          -128,
+          -144
+        ],
+        "id": "dd9c6041-3262-4348-a07f-694cbc22d6b6",
+        "name": "Sticky Note"
+      },
+      {
+        "parameters": {
+          "operation": "getAll",
+          "tableId": "users",
+          "limit": 1,
+          "matchType": "allFilters",
+          "filters": {
+            "conditions": [
+              {
+                "keyName": "telefone",
+                "condition": "eq",
+                "keyValue": "={{ $item(\"0\").$node[\"dados\"].json[\"WhatsApp\"] }}"
+              },
+              {
+                "keyName": "email",
+                "condition": "eq",
+                "keyValue": "={{ $item(\"0\").$node[\"dados\"].json[\"E-mail\"] }}"
+              }
+            ]
+          }
+        },
+        "id": "9e65c797-87ad-47f9-96f8-1de14c220aea",
+        "name": "pesquisa_user",
+        "type": "n8n-nodes-base.supabase",
+        "typeVersion": 1,
+        "position": [
+          672,
+          -16
+        ],
+        "alwaysOutputData": true,
+        "credentials": {
+          "supabaseApi": {
+            "id": "06funpVK0RasJnc4",
+            "name": "Supabase - Fabiana Tomé"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "tableId": "pesquisas",
+          "fieldsUi": {
+            "fieldValues": [
+              {
+                "fieldId": "id_user",
+                "fieldValue": "={{ $item(\"0\").$node[\"pesquisa_user\"].json[\"id\"] }}"
+              },
+              {
+                "fieldId": "nome",
+                "fieldValue": "={{ $item(\"0\").$node[\"pesquisa_cadastro\"].json[\"nome\"] }}"
+              },
+              {
+                "fieldId": "sobrenome",
+                "fieldValue": "={{ $item(\"0\").$node[\"pesquisa_cadastro\"].json[\"sobrenome\"] }}"
+              },
+              {
+                "fieldId": "email",
+                "fieldValue": "={{ $item(\"0\").$node[\"pesquisa_cadastro\"].json[\"email\"] }}"
+              },
+              {
+                "fieldId": "telefone",
+                "fieldValue": "={{ $item(\"0\").$node[\"pesquisa_cadastro\"].json[\"telefone\"] }}"
+              },
+              {
+                "fieldId": "utm_source",
+                "fieldValue": "={{ $item(\"0\").$node[\"pesquisa_cadastro\"].json[\"utm_source\"] }}"
+              },
+              {
+                "fieldId": "utm_campaign",
+                "fieldValue": "={{ $item(\"0\").$node[\"pesquisa_cadastro\"].json[\"utm_campaign\"] }}"
+              },
+              {
+                "fieldId": "utm_term",
+                "fieldValue": "={{ $item(\"0\").$node[\"pesquisa_cadastro\"].json[\"utm_term\"] }}"
+              },
+              {
+                "fieldId": "utm_medium",
+                "fieldValue": "={{ $item(\"0\").$node[\"pesquisa_cadastro\"].json[\"utm_medium\"] }}"
+              },
+              {
+                "fieldId": "utm_content",
+                "fieldValue": "={{ $item(\"0\").$node[\"pesquisa_cadastro\"].json[\"utm_content\"] }}"
+              },
+              {
+                "fieldId": "evento",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"Evento\"] }}"
+              },
+              {
+                "fieldId": "pergunta1",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"Responda onde você melhor se encaixa\"] }}"
+              },
+              {
+                "fieldId": "pergunta2",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"No momento você é\"] }}"
+              },
+              {
+                "fieldId": "pergunta3",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"Qual a sua experiência no Direito?\"] }}"
+              },
+              {
+                "fieldId": "pergunta4",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"Qual a sua experiência no Direito?\"] }}"
+              },
+              {
+                "fieldId": "pergunta5",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"O que mais te motiva a participar da Black Tributária Vitalício?\"] }}"
+              },
+              {
+                "fieldId": "pergunta6",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"Se na live do dia 03/11 a Professora Fabiana liberar o acesso vitalício com bônus exclusivos, qual seria sua decisão?\"] }}"
+              },
+              {
+                "fieldId": "pergunta7",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"Qual forma de pagamento você prefere usar na Black Tributária?\"] }}"
+              },
+              {
+                "fieldId": "pergunta8",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"Já reservou um valor para aproveitar a Black Tributária?\"] }}"
+              },
+              {
+                "fieldId": "page",
+                "fieldValue": "={{ $item(\"0\").$node[\"pesquisa_cadastro\"].json[\"pagina\"] }}"
+              },
+              {
+                "fieldId": "data_pesquisa",
+                "fieldValue": "={{ new Date(new Date().toLocaleString(\"en-US\", { timeZone: \"America/Sao_Paulo\" })).toISOString().replace('T', ' ').substring(0, 19) }}"
+              },
+              {
+                "fieldId": "pergunta9",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"O que mais te impediria de investir no Tributarista em Ação Vitalício?\"] }}"
+              },
+              {
+                "fieldId": "pergunta10",
+                "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"Qual tipo de bônus te faria decidir na hora?\"] }}"
+              }
+            ]
+          }
+        },
+        "id": "3f505c0d-9c07-434b-b763-70799aad6904",
+        "name": "insere_cadastro",
+        "type": "n8n-nodes-base.supabase",
+        "typeVersion": 1,
+        "position": [
+          880,
+          368
+        ],
+        "credentials": {
+          "supabaseApi": {
+            "id": "06funpVK0RasJnc4",
+            "name": "Supabase - Fabiana Tomé"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "getAll",
+          "tableId": "pesquisas",
+          "limit": 1,
+          "matchType": "allFilters",
+          "filters": {
+            "conditions": [
+              {
+                "keyName": "id_user",
+                "condition": "eq",
+                "keyValue": "={{ $item(\"0\").$node[\"pesquisa_user\"].json[\"id\"] }}"
+              },
+              {
+                "keyName": "evento",
+                "condition": "eq",
+                "keyValue": "={{ $item(\"0\").$node[\"dados\"].json[\"Evento\"] }}"
+              }
+            ]
+          }
+        },
+        "id": "73fa0a1e-4ccd-4fde-9db9-42a6f17ec2b6",
+        "name": "pesquisa_pesquisa",
+        "type": "n8n-nodes-base.supabase",
+        "typeVersion": 1,
+        "position": [
+          464,
+          272
+        ],
+        "executeOnce": false,
+        "alwaysOutputData": true,
+        "credentials": {
+          "supabaseApi": {
+            "id": "06funpVK0RasJnc4",
+            "name": "Supabase - Fabiana Tomé"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "f7c5f42f-d024-4e8a-8208-cf79ae590492",
+                "leftValue": "={{ $item(\"0\").$node[\"pesquisa_pesquisa\"].json[\"id\"] }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "number",
+                  "operation": "exists",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "id": "a0c3ad85-888f-4c14-bad8-52980b992258",
+        "name": "If",
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          688,
+          272
+        ]
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "e071ee3a-1fe1-4308-91a8-e1a2f6010cfe",
+                "leftValue": "={{ $item(\"0\").$node[\"pesquisa_user\"].json[\"id\"] }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "number",
+                  "operation": "exists",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          880,
+          -16
+        ],
+        "id": "8b4671d7-732d-4241-ab8d-a9844fe4b5ac",
+        "name": "If1"
+      },
+      {
+        "parameters": {
+          "operation": "getAll",
+          "tableId": "cadastros",
+          "limit": 1,
+          "matchType": "allFilters",
+          "filters": {
+            "conditions": [
+              {
+                "keyName": "email",
+                "condition": "eq",
+                "keyValue": "={{ $json[\"email\"] }}"
+              },
+              {
+                "keyName": "evento",
+                "condition": "eq",
+                "keyValue": "[TRA_NOV_2025] - [CAPTAÇÃO]"
+              }
+            ]
+          }
+        },
+        "id": "57f6b0bd-38a1-48cf-a779-0560582a8f46",
+        "name": "pesquisa_cadastro",
+        "type": "n8n-nodes-base.supabase",
+        "typeVersion": 1,
+        "position": [
+          -16,
+          288
+        ],
+        "executeOnce": false,
+        "alwaysOutputData": true,
+        "credentials": {
+          "supabaseApi": {
+            "id": "06funpVK0RasJnc4",
+            "name": "Supabase - Fabiana Tomé"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "f7c5f42f-d024-4e8a-8208-cf79ae590492",
+                "leftValue": "={{ $item(\"0\").$node[\"pesquisa_cadastro\"].json[\"id\"] }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "number",
+                  "operation": "exists",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "id": "1d4a4e41-b013-4eeb-83c5-b4694ecfbac6",
+        "name": "If2",
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          192,
+          288
+        ]
+      },
+      {
+        "parameters": {
+          "tableId": "users",
+          "fieldsUi": {
+            "fieldValues": [
+              {
+                "fieldId": "email",
+                "fieldValue": "={{ $node[\"dados\"].json[\"E-mail\"] }}"
+              },
+              {
+                "fieldId": "telefone",
+                "fieldValue": "={{ $node[\"dados\"].json[\"WhatsApp\"] }}"
+              }
+            ]
+          }
+        },
+        "type": "n8n-nodes-base.supabase",
+        "typeVersion": 1,
+        "position": [
+          1216,
+          0
+        ],
+        "id": "a40d684d-2bc7-46d0-a9a8-365b7463f2de",
+        "name": "Create a row",
+        "credentials": {
+          "supabaseApi": {
+            "id": "06funpVK0RasJnc4",
+            "name": "Supabase - Fabiana Tomé"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "amount": 1
+        },
+        "type": "n8n-nodes-base.wait",
+        "typeVersion": 1.1,
+        "position": [
+          1424,
+          0
+        ],
+        "id": "b7bd91cd-eeda-4b0e-80a3-bbd054431805",
+        "name": "Wait",
+        "webhookId": "63c8ae4d-ce68-41b8-9be8-38acfa397a3f"
+      },
+      {
+        "parameters": {
+          "url": "https://fabianatome.api-us1.com/api/3/contacts",
+          "sendQuery": true,
+          "queryParameters": {
+            "parameters": [
+              {
+                "name": "email",
+                "value": "={{ $node[\"pesquisa_user\"].json[\"email\"] }}"
+              }
+            ]
+          },
+          "sendHeaders": true,
+          "headerParameters": {
+            "parameters": [
+              {
+                "name": "Api-Token",
+                "value": "633f6e21dac84c73a548cdb3c300de08d58c0c61fd6e675b7a8bc93dc05cd831ac0d53c6"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "ca0a41f8-fed7-4a70-a23e-01948ec59d03",
+        "name": "HTTP Request1",
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [
+          1152,
+          304
+        ]
+      },
+      {
+        "parameters": {
+          "errorMessage": "An error ocurred!"
+        },
+        "id": "12e2b883-4f2c-4204-a902-ea9cbaaec853",
+        "name": "Stop and Error3",
+        "type": "n8n-nodes-base.stopAndError",
+        "typeVersion": 1,
+        "position": [
+          1952,
+          480
+        ]
+      },
+      {
+        "parameters": {
+          "errorMessage": "An error ocurred!"
+        },
+        "id": "97511dd0-9c42-4048-b6e6-1970ba30f525",
+        "name": "Stop and Error2",
+        "type": "n8n-nodes-base.stopAndError",
+        "typeVersion": 1,
+        "position": [
+          1952,
+          128
+        ]
+      },
+      {
+        "parameters": {
+          "operation": "update",
+          "contactId": "={{ $json[\"contacts\"][\"0\"][\"id\"] }}",
+          "updateFields": {
+            "email": "={{ $node[\"pesquisa_user\"].json[\"email\"] }}",
+            "firstName": "={{ $node[\"pesquisa_user\"].json[\"nome\"] }}",
+            "lastName": "={{ $node[\"pesquisa_user\"].json[\"sobrenome\"] }}",
+            "phone": "={{ $node[\"pesquisa_user\"].json[\"telefone\"] }}"
+          }
+        },
+        "id": "e0c7bbab-39f0-4843-9bba-d44e683e32e0",
+        "name": "atualiza_contato_no_ac2",
+        "type": "n8n-nodes-base.activeCampaign",
+        "typeVersion": 1,
+        "position": [
+          1632,
+          160
+        ],
+        "credentials": {
+          "activeCampaignApi": {
+            "id": "4EetjSxVIE3QPLxy",
+            "name": "ActiveCampaign - fabianatome"
+          }
+        },
+        "onError": "continueErrorOutput"
+      },
+      {
+        "parameters": {
+          "email": "={{ $node[\"pesquisa_user\"].json[\"email\"] }}",
+          "updateIfExists": true,
+          "additionalFields": {
+            "firstName": "={{ $node[\"pesquisa_user\"].json[\"nome\"] }}",
+            "lastName": "={{ $node[\"pesquisa_user\"].json[\"sobrenome\"] }}",
+            "phone": "={{ $node[\"pesquisa_user\"].json[\"telefone\"] }}"
+          }
+        },
+        "id": "6fe9da59-135f-487c-9a91-198496eee4a1",
+        "name": "cria_contato_no_ac2",
+        "type": "n8n-nodes-base.activeCampaign",
+        "typeVersion": 1,
+        "position": [
+          1632,
+          448
+        ],
+        "credentials": {
+          "activeCampaignApi": {
+            "id": "4EetjSxVIE3QPLxy",
+            "name": "ActiveCampaign - fabianatome"
+          }
+        },
+        "onError": "continueErrorOutput"
+      },
+      {
+        "parameters": {
+          "resource": "contactTag",
+          "tagId": "734",
+          "contactId": "={{ $json[\"id\"] }}"
+        },
+        "id": "57f689cd-9c9d-44cd-a8e5-9a71e5e4fbb4",
+        "name": "tag_compra_aprovada12",
+        "type": "n8n-nodes-base.activeCampaign",
+        "typeVersion": 1,
+        "position": [
+          1952,
+          304
+        ],
+        "credentials": {
+          "activeCampaignApi": {
+            "id": "4EetjSxVIE3QPLxy",
+            "name": "ActiveCampaign - fabianatome"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict"
+            },
+            "conditions": [
+              {
+                "id": "2130aa22-e19a-4662-8a2e-b43d36facf6d",
+                "leftValue": "={{ $json[\"contacts\"][\"0\"][\"id\"] }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "string",
+                  "operation": "exists",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "id": "2fb419d9-c148-425d-83b2-b17176733142",
+        "name": "If3",
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2,
+        "position": [
+          1392,
+          304
+        ]
+      }
+    ],
+    "connections": {
+      "dados": {
+        "main": [
+          [
+            {
+              "node": "pesquisa_user",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "formata_dados": {
+        "main": [
+          [
+            {
+              "node": "dados",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "pesquisa_user": {
+        "main": [
+          [
+            {
+              "node": "If1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "pesquisa_pesquisa": {
+        "main": [
+          [
+            {
+              "node": "If",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If": {
+        "main": [
+          [],
+          [
+            {
+              "node": "insere_cadastro",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Webhook": {
+        "main": [
+          [
+            {
+              "node": "formata_dados",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If1": {
+        "main": [
+          [
+            {
+              "node": "pesquisa_cadastro",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Create a row",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "pesquisa_cadastro": {
+        "main": [
+          [
+            {
+              "node": "If2",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If2": {
+        "main": [
+          [
+            {
+              "node": "pesquisa_pesquisa",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "insere_cadastro": {
+        "main": [
+          [
+            {
+              "node": "HTTP Request1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Create a row": {
+        "main": [
+          [
+            {
+              "node": "Wait",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Wait": {
+        "main": [
+          [
+            {
+              "node": "pesquisa_user",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "HTTP Request1": {
+        "main": [
+          [
+            {
+              "node": "If3",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "atualiza_contato_no_ac2": {
+        "main": [
+          [
+            {
+              "node": "tag_compra_aprovada12",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Stop and Error2",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "cria_contato_no_ac2": {
+        "main": [
+          [
+            {
+              "node": "tag_compra_aprovada12",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Stop and Error3",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If3": {
+        "main": [
+          [
+            {
+              "node": "atualiza_contato_no_ac2",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "cria_contato_no_ac2",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "system migration",
+    "name": null,
+    "description": null,
+    "autosaved": false
+  },
+  "activeVersionId": "4534b472-b4ed-454c-bd1e-d8d341e6581d",
+  "connections": {
+    "dados": {
+      "main": [
+        [
+          {
+            "node": "pesquisa_user",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "formata_dados": {
+      "main": [
+        [
+          {
+            "node": "dados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "pesquisa_user": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "pesquisa_pesquisa": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [],
+        [
+          {
+            "node": "insere_cadastro",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "formata_dados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "pesquisa_cadastro",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Create a row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "pesquisa_cadastro": {
+      "main": [
+        [
+          {
+            "node": "If2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If2": {
+      "main": [
+        [
+          {
+            "node": "pesquisa_pesquisa",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "insere_cadastro": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a row": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "pesquisa_user",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "If3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "atualiza_contato_no_ac2": {
+      "main": [
+        [
+          {
+            "node": "tag_compra_aprovada12",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Stop and Error2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "cria_contato_no_ac2": {
+      "main": [
+        [
+          {
+            "node": "tag_compra_aprovada12",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Stop and Error3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If3": {
+      "main": [
+        [
+          {
+            "node": "atualiza_contato_no_ac2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "cria_contato_no_ac2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-10-16T02:26:08.950Z",
+  "id": "HuDRm022czE1CfCW",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "[TRA_NOV_2025] - [PESQUISA]",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "tra_nov_2025_pesquisa",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -16,
+        -16
+      ],
+      "id": "7f99d20d-d599-4e27-9983-c02c4c2a65ce",
+      "name": "Webhook",
+      "webhookId": "c2bf7f10-e2ab-4e28-bdf5-513c7d244931"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "bb839055-124b-4671-99e9-d13293daa8c7",
+              "name": "Responda onde você melhor se encaixa",
+              "value": "={{ $item(\"0\").$node[\"formata_dados\"].json[\"body\"][\"Responda onde você melhor se encaixa:\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "b5b5da8a-46c5-44bd-acb3-3f246b420a53",
+              "name": "No momento você é",
+              "value": "={{ $item(\"0\").$node[\"formata_dados\"].json[\"body\"][\"No momento você é \"] }}{{ $item(\"0\").$node[\"formata_dados\"].json[\"body\"][\"Outra (escreva aqui)\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "7b8ac769-0ee5-410d-849d-34385009029b",
+              "name": "Qual a sua experiência no Direito?",
+              "value": "={{ $item(\"0\").$node[\"formata_dados\"].json[\"body\"][\"Qual a sua experiência no Direito?\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "406c5c3d-be5c-4dfa-a517-5854195431be",
+              "name": "O que mais te motiva a participar da Black Tributária Vitalício?",
+              "value": "={{ $item(\"0\").$node[\"formata_dados\"].json[\"body\"][\"O que mais te motiva a participar da Black Tributária Vitalício?\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "1d0c0949-f472-4662-816b-e0eaf511f1b0",
+              "name": "Se na live do dia 03/11 a Professora Fabiana liberar o acesso vitalício com bônus exclusivos, qual seria sua decisão?",
+              "value": "={{ $node[\"Webhook\"].json[\"body\"][\"Qual a faixa de renda familiar (somando todas as pessoas que vivem com você)?\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "39ac2ebc-5c00-4c88-80b4-862fb3df3a1b",
+              "name": "Qual forma de pagamento você prefere usar na Black Tributária?",
+              "value": "={{ $item(\"0\").$node[\"formata_dados\"].json[\"body\"][\"Qual forma de pagamento você prefere usar na Black Tributária?\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "f329b60d-6c7f-4c54-9c56-c41fb2dacd6f",
+              "name": "Já reservou um valor para aproveitar a Black Tributária?",
+              "value": "={{ $item(\"0\").$node[\"formata_dados\"].json[\"body\"][\"Já reservou um valor para aproveitar a Black Tributária?\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "90ea93b8-ef53-4800-a1d3-7e187eaebad1",
+              "name": "O que mais te impediria de investir no Tributarista em Ação Vitalício?",
+              "value": "={{ $item(\"0\").$node[\"formata_dados\"].json[\"body\"][\"O que mais te impediria de investir no Tributarista em Ação Vitalício?\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "6c45ba4f-737d-45f5-a1d7-4fa3449a0c7b",
+              "name": "E-mail",
+              "value": "={{ $item(\"0\").$node[\"formata_dados\"].json[\"body\"][\"E-mail\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "6b94c43a-9dc7-4308-bc77-bd711252d268",
+              "name": "WhatsApp",
+              "value": "={{ $item(\"0\").$node[\"formata_dados\"].json[\"body\"][\"WhatsApp\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "97373297-68f5-4393-9454-6dfc30b67aa1",
+              "name": "Evento",
+              "value": "[TRA_NOV_2025] [PESQUISA]",
+              "type": "string"
+            },
+            {
+              "id": "674adb7b-9388-4651-9c7f-b77bfa8082f4",
+              "name": "Qual tipo de bônus te faria decidir na hora?",
+              "value": "={{ $item(\"0\").$node[\"formata_dados\"].json[\"body\"][\"Qual tipo de bônus te faria decidir na hora?\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "c4a81ec4-9aa3-4bb4-a541-487381941fd5",
+              "name": "Nome",
+              "value": "={{ $item(\"0\").$node[\"formata_dados\"].json[\"body\"][\"Nome\"] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "6bf8db6a-8700-4c82-930f-5334a969d1a6",
+      "name": "dados",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [
+        464,
+        -16
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const body = $json.body || {};\nlet telefone = body[\"WhatsApp\"] || \"\";\n\n// Remove espaços, traços e parênteses\ntelefone = telefone.replace(/\\D/g, \"\");\n\n// Se não começa com \"55\", adiciona\nif (!telefone.startsWith(\"55\")) {\n  telefone = \"55\" + telefone;\n}\nbody[\"WhatsApp\"] = telefone;\n\n// Verifica e ajusta o campo \"No momento você é ?\"\nif ((body[\"No momento você é ?\"] || \"\").trim() === \"Outro\") {\n  const outraResposta = body[\"Outra (escreva aqui)\"] || \"\";\n  body[\"No momento você é ?\"] = outraResposta;\n}\n\n// Retorna o objeto ajustado\nreturn {\n  json: {\n    ...$json,\n    body\n  }\n};"
+      },
+      "id": "18b64b18-c899-4cef-a704-4c2f150b2a76",
+      "name": "formata_dados",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        240,
+        -16
+      ]
+    },
+    {
+      "parameters": {
+        "content": "# PESQUISA DO ELEMENTOR",
+        "height": 720,
+        "width": 1215
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -128,
+        -144
+      ],
+      "id": "dd9c6041-3262-4348-a07f-694cbc22d6b6",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "users",
+        "limit": 1,
+        "matchType": "allFilters",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "telefone",
+              "condition": "eq",
+              "keyValue": "={{ $item(\"0\").$node[\"dados\"].json[\"WhatsApp\"] }}"
+            },
+            {
+              "keyName": "email",
+              "condition": "eq",
+              "keyValue": "={{ $item(\"0\").$node[\"dados\"].json[\"E-mail\"] }}"
+            }
+          ]
+        }
+      },
+      "id": "9e65c797-87ad-47f9-96f8-1de14c220aea",
+      "name": "pesquisa_user",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        672,
+        -16
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "supabaseApi": {
+          "id": "06funpVK0RasJnc4",
+          "name": "Supabase - Fabiana Tomé"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "tableId": "pesquisas",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "id_user",
+              "fieldValue": "={{ $item(\"0\").$node[\"pesquisa_user\"].json[\"id\"] }}"
+            },
+            {
+              "fieldId": "nome",
+              "fieldValue": "={{ $item(\"0\").$node[\"pesquisa_cadastro\"].json[\"nome\"] }}"
+            },
+            {
+              "fieldId": "sobrenome",
+              "fieldValue": "={{ $item(\"0\").$node[\"pesquisa_cadastro\"].json[\"sobrenome\"] }}"
+            },
+            {
+              "fieldId": "email",
+              "fieldValue": "={{ $item(\"0\").$node[\"pesquisa_cadastro\"].json[\"email\"] }}"
+            },
+            {
+              "fieldId": "telefone",
+              "fieldValue": "={{ $item(\"0\").$node[\"pesquisa_cadastro\"].json[\"telefone\"] }}"
+            },
+            {
+              "fieldId": "utm_source",
+              "fieldValue": "={{ $item(\"0\").$node[\"pesquisa_cadastro\"].json[\"utm_source\"] }}"
+            },
+            {
+              "fieldId": "utm_campaign",
+              "fieldValue": "={{ $item(\"0\").$node[\"pesquisa_cadastro\"].json[\"utm_campaign\"] }}"
+            },
+            {
+              "fieldId": "utm_term",
+              "fieldValue": "={{ $item(\"0\").$node[\"pesquisa_cadastro\"].json[\"utm_term\"] }}"
+            },
+            {
+              "fieldId": "utm_medium",
+              "fieldValue": "={{ $item(\"0\").$node[\"pesquisa_cadastro\"].json[\"utm_medium\"] }}"
+            },
+            {
+              "fieldId": "utm_content",
+              "fieldValue": "={{ $item(\"0\").$node[\"pesquisa_cadastro\"].json[\"utm_content\"] }}"
+            },
+            {
+              "fieldId": "evento",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"Evento\"] }}"
+            },
+            {
+              "fieldId": "pergunta1",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"Responda onde você melhor se encaixa\"] }}"
+            },
+            {
+              "fieldId": "pergunta2",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"No momento você é\"] }}"
+            },
+            {
+              "fieldId": "pergunta3",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"Qual a sua experiência no Direito?\"] }}"
+            },
+            {
+              "fieldId": "pergunta4",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"Qual a sua experiência no Direito?\"] }}"
+            },
+            {
+              "fieldId": "pergunta5",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"O que mais te motiva a participar da Black Tributária Vitalício?\"] }}"
+            },
+            {
+              "fieldId": "pergunta6",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"Se na live do dia 03/11 a Professora Fabiana liberar o acesso vitalício com bônus exclusivos, qual seria sua decisão?\"] }}"
+            },
+            {
+              "fieldId": "pergunta7",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"Qual forma de pagamento você prefere usar na Black Tributária?\"] }}"
+            },
+            {
+              "fieldId": "pergunta8",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"Já reservou um valor para aproveitar a Black Tributária?\"] }}"
+            },
+            {
+              "fieldId": "page",
+              "fieldValue": "={{ $item(\"0\").$node[\"pesquisa_cadastro\"].json[\"pagina\"] }}"
+            },
+            {
+              "fieldId": "data_pesquisa",
+              "fieldValue": "={{ new Date(new Date().toLocaleString(\"en-US\", { timeZone: \"America/Sao_Paulo\" })).toISOString().replace('T', ' ').substring(0, 19) }}"
+            },
+            {
+              "fieldId": "pergunta9",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"O que mais te impediria de investir no Tributarista em Ação Vitalício?\"] }}"
+            },
+            {
+              "fieldId": "pergunta10",
+              "fieldValue": "={{ $item(\"0\").$node[\"dados\"].json[\"Qual tipo de bônus te faria decidir na hora?\"] }}"
+            }
+          ]
+        }
+      },
+      "id": "3f505c0d-9c07-434b-b763-70799aad6904",
+      "name": "insere_cadastro",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        880,
+        368
+      ],
+      "credentials": {
+        "supabaseApi": {
+          "id": "06funpVK0RasJnc4",
+          "name": "Supabase - Fabiana Tomé"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "pesquisas",
+        "limit": 1,
+        "matchType": "allFilters",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "id_user",
+              "condition": "eq",
+              "keyValue": "={{ $item(\"0\").$node[\"pesquisa_user\"].json[\"id\"] }}"
+            },
+            {
+              "keyName": "evento",
+              "condition": "eq",
+              "keyValue": "={{ $item(\"0\").$node[\"dados\"].json[\"Evento\"] }}"
+            }
+          ]
+        }
+      },
+      "id": "73fa0a1e-4ccd-4fde-9db9-42a6f17ec2b6",
+      "name": "pesquisa_pesquisa",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        464,
+        272
+      ],
+      "executeOnce": false,
+      "alwaysOutputData": true,
+      "credentials": {
+        "supabaseApi": {
+          "id": "06funpVK0RasJnc4",
+          "name": "Supabase - Fabiana Tomé"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "f7c5f42f-d024-4e8a-8208-cf79ae590492",
+              "leftValue": "={{ $item(\"0\").$node[\"pesquisa_pesquisa\"].json[\"id\"] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "number",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "a0c3ad85-888f-4c14-bad8-52980b992258",
+      "name": "If",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        688,
+        272
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "e071ee3a-1fe1-4308-91a8-e1a2f6010cfe",
+              "leftValue": "={{ $item(\"0\").$node[\"pesquisa_user\"].json[\"id\"] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "number",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        880,
+        -16
+      ],
+      "id": "8b4671d7-732d-4241-ab8d-a9844fe4b5ac",
+      "name": "If1"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "cadastros",
+        "limit": 1,
+        "matchType": "allFilters",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "email",
+              "condition": "eq",
+              "keyValue": "={{ $json[\"email\"] }}"
+            },
+            {
+              "keyName": "evento",
+              "condition": "eq",
+              "keyValue": "[TRA_NOV_2025] - [CAPTAÇÃO]"
+            }
+          ]
+        }
+      },
+      "id": "57f6b0bd-38a1-48cf-a779-0560582a8f46",
+      "name": "pesquisa_cadastro",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        -16,
+        288
+      ],
+      "executeOnce": false,
+      "alwaysOutputData": true,
+      "credentials": {
+        "supabaseApi": {
+          "id": "06funpVK0RasJnc4",
+          "name": "Supabase - Fabiana Tomé"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "f7c5f42f-d024-4e8a-8208-cf79ae590492",
+              "leftValue": "={{ $item(\"0\").$node[\"pesquisa_cadastro\"].json[\"id\"] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "number",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "1d4a4e41-b013-4eeb-83c5-b4694ecfbac6",
+      "name": "If2",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        192,
+        288
+      ]
+    },
+    {
+      "parameters": {
+        "tableId": "users",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "email",
+              "fieldValue": "={{ $node[\"dados\"].json[\"E-mail\"] }}"
+            },
+            {
+              "fieldId": "telefone",
+              "fieldValue": "={{ $node[\"dados\"].json[\"WhatsApp\"] }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        1216,
+        0
+      ],
+      "id": "a40d684d-2bc7-46d0-a9a8-365b7463f2de",
+      "name": "Create a row",
+      "credentials": {
+        "supabaseApi": {
+          "id": "06funpVK0RasJnc4",
+          "name": "Supabase - Fabiana Tomé"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 1
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1424,
+        0
+      ],
+      "id": "b7bd91cd-eeda-4b0e-80a3-bbd054431805",
+      "name": "Wait",
+      "webhookId": "63c8ae4d-ce68-41b8-9be8-38acfa397a3f"
+    },
+    {
+      "parameters": {
+        "url": "https://fabianatome.api-us1.com/api/3/contacts",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "email",
+              "value": "={{ $node[\"pesquisa_user\"].json[\"email\"] }}"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Api-Token",
+              "value": "633f6e21dac84c73a548cdb3c300de08d58c0c61fd6e675b7a8bc93dc05cd831ac0d53c6"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "ca0a41f8-fed7-4a70-a23e-01948ec59d03",
+      "name": "HTTP Request1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1152,
+        304
+      ]
+    },
+    {
+      "parameters": {
+        "errorMessage": "An error ocurred!"
+      },
+      "id": "12e2b883-4f2c-4204-a902-ea9cbaaec853",
+      "name": "Stop and Error3",
+      "type": "n8n-nodes-base.stopAndError",
+      "typeVersion": 1,
+      "position": [
+        1952,
+        480
+      ]
+    },
+    {
+      "parameters": {
+        "errorMessage": "An error ocurred!"
+      },
+      "id": "97511dd0-9c42-4048-b6e6-1970ba30f525",
+      "name": "Stop and Error2",
+      "type": "n8n-nodes-base.stopAndError",
+      "typeVersion": 1,
+      "position": [
+        1952,
+        128
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "contactId": "={{ $json[\"contacts\"][\"0\"][\"id\"] }}",
+        "updateFields": {
+          "email": "={{ $node[\"pesquisa_user\"].json[\"email\"] }}",
+          "firstName": "={{ $node[\"pesquisa_user\"].json[\"nome\"] }}",
+          "lastName": "={{ $node[\"pesquisa_user\"].json[\"sobrenome\"] }}",
+          "phone": "={{ $node[\"pesquisa_user\"].json[\"telefone\"] }}"
+        }
+      },
+      "id": "e0c7bbab-39f0-4843-9bba-d44e683e32e0",
+      "name": "atualiza_contato_no_ac2",
+      "type": "n8n-nodes-base.activeCampaign",
+      "typeVersion": 1,
+      "position": [
+        1632,
+        160
+      ],
+      "credentials": {
+        "activeCampaignApi": {
+          "id": "4EetjSxVIE3QPLxy",
+          "name": "ActiveCampaign - fabianatome"
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "email": "={{ $node[\"pesquisa_user\"].json[\"email\"] }}",
+        "updateIfExists": true,
+        "additionalFields": {
+          "firstName": "={{ $node[\"pesquisa_user\"].json[\"nome\"] }}",
+          "lastName": "={{ $node[\"pesquisa_user\"].json[\"sobrenome\"] }}",
+          "phone": "={{ $node[\"pesquisa_user\"].json[\"telefone\"] }}"
+        }
+      },
+      "id": "6fe9da59-135f-487c-9a91-198496eee4a1",
+      "name": "cria_contato_no_ac2",
+      "type": "n8n-nodes-base.activeCampaign",
+      "typeVersion": 1,
+      "position": [
+        1632,
+        448
+      ],
+      "credentials": {
+        "activeCampaignApi": {
+          "id": "4EetjSxVIE3QPLxy",
+          "name": "ActiveCampaign - fabianatome"
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "resource": "contactTag",
+        "tagId": "734",
+        "contactId": "={{ $json[\"id\"] }}"
+      },
+      "id": "57f689cd-9c9d-44cd-a8e5-9a71e5e4fbb4",
+      "name": "tag_compra_aprovada12",
+      "type": "n8n-nodes-base.activeCampaign",
+      "typeVersion": 1,
+      "position": [
+        1952,
+        304
+      ],
+      "credentials": {
+        "activeCampaignApi": {
+          "id": "4EetjSxVIE3QPLxy",
+          "name": "ActiveCampaign - fabianatome"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "2130aa22-e19a-4662-8a2e-b43d36facf6d",
+              "leftValue": "={{ $json[\"contacts\"][\"0\"][\"id\"] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "2fb419d9-c148-425d-83b2-b17176733142",
+      "name": "If3",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        1392,
+        304
+      ]
+    }
+  ],
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "webhook.fabianatome.com.br",
+            "user-agent": "WordPress/6.8.3; https://bf.fabianatome.com.br",
+            "content-length": "1360",
+            "accept": "*/*",
+            "accept-encoding": "deflate, gzip, br",
+            "content-type": "application/x-www-form-urlencoded",
+            "x-forwarded-for": "186.209.113.102",
+            "x-forwarded-host": "webhook.fabianatome.com.br",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "3e4b5a65d457",
+            "x-real-ip": "186.209.113.102"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "ETAPA01": "",
+            "Responda onde você melhor se encaixa:": "Sou aluno ativo (Tributarista em Ação, Você Tributarista, Você Tributarista no Agro ou renovação)",
+            "ETAPA02": "",
+            "No momento você é ": "Bacharel (sem OAB)",
+            "Outra (escreva aqui)": "",
+            "ETAPA03": "",
+            "Qual a sua experiência no Direito?": "Entre 3 e 5 anos",
+            "ETAPA04": "",
+            "Qual a faixa de renda familiar (somando todas as pessoas que vivem com você)?": "Entre R$ 6.001 a R$ 10.000",
+            "ETAPA05": "",
+            "O que mais te motiva a participar da Black Tributária Vitalício?": "Participar das novas aulas da Reforma Tributária",
+            "ETAPA06": "",
+            "Se na live do dia 03/11 a Professora Fabiana liberar o acesso vitalício com bônus exclusivos, qual seria sua decisão?": "Quero avaliar os bônus antes de decidir",
+            "ETAPA07": "",
+            "Qual forma de pagamento você prefere usar na Black Tributária?": "Boleto bancário",
+            "ETAPA08": "",
+            "Já reservou um valor para aproveitar a Black Tributária?": "Não",
+            "ETAPA09": "",
+            "O que mais te impediria de investir no Tributarista em Ação Vitalício?": "Dúvida se o curso é para meu perfil",
+            "ETAPA10": "",
+            "Qual tipo de bônus te faria decidir na hora?": "nunhem",
+            "ETAPA 11": "",
+            "E-mail": "marcosvlogs12@gmail.com",
+            "WhatsApp": "27998210071",
+            "Nome": "Marcos Vinicius Da Rocha Santana",
+            "form_id": "aaf4102",
+            "form_name": "BV_FORM_PESQUISA_SET25"
+          },
+          "webhookUrl": "https://webhook.fabianatome.com.br/webhook/tra_nov_2025_pesquisa",
+          "executionMode": "production"
+        }
+      }
+    ]
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-10-16T02:26:08.950Z",
+      "createdAt": "2025-10-16T02:26:08.950Z",
+      "role": "workflow:owner",
+      "workflowId": "HuDRm022czE1CfCW",
+      "projectId": "tP5lcLj6t4StcK5B"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2025-10-16T02:39:01.811Z",
+  "versionId": "4534b472-b4ed-454c-bd1e-d8d341e6581d"
+}
